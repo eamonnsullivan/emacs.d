@@ -8,7 +8,7 @@
     (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
  '(package-selected-packages
    (quote
-    (company-anaconda anaconda-mode js3-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (sql-upcase groovy-mode company-anaconda anaconda-mode js3-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)

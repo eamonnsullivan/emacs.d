@@ -179,3 +179,26 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 
 ;; feature-mode
 (setq feature-step-search-path "src/test/scala/steps/**/*Steps.scala")
+
+;; Try to find the step defining the current feature
+(defun select-current-line ()
+  (interactive)
+  (move-beginning-of-line nil)
+  (set-mark-command nil)
+  (move-end-of-line nil)
+  (setq deactivate-mark nil))
+
+(defun get-selected-text (beg end)
+  "message region or \"empty string\" if none highlighted"
+  (interactive (if (use-region-p)
+                   (list (region-beginning) (region-end))
+                 (list nil nil)))
+  (message "%s" (if (and beg end)
+                    (buffer-substring-no-properties beg end)
+                  "empty string")))
+
+;; sql mode stuff
+(when (require 'sql-upcase nil :noerror)
+   (add-hook 'sql-mode-hook 'sql-upcase-mode)
+   (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode))
+
