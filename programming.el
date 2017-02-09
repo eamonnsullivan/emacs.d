@@ -94,10 +94,7 @@
                                             "GList" "GSList" "GFunc" "GString"))))
 
 ;; javascript mode
-(autoload 'js3-mode "js3" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js3-mode))
-(add-hook 'js3-mode-hook (lambda () (local-set-key (kbd "RET")
-                                                   'newline-and-indent)))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (use-package editorconfig
   :ensure t
