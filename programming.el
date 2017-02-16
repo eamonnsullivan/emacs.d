@@ -1,9 +1,3 @@
-;; ensime
-(use-package ensime
-  :ensure t
-  :config
-  (setq ensime-use-helm t))
-
 ;; anaconda
 (use-package anaconda-mode
   :ensure t
@@ -20,26 +14,22 @@
   sp-restrict-to-pairs-interactive
   sp-local-pair
   :init
-  (setq sp-interactive-dwim t)
+  (add-hook 'scala-mode-hook 'smartparens-mode)
+  (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
+  (add-hook 'python-mode-hook 'smartparens-mode)
+  (add-hook 'java-mode-hook 'smartparens-mode)
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
-
   (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
   (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
   (sp-pair "{" "}" :wrap "C-{")
-
   ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
   (bind-key "C-<left>" nil smartparens-mode-map)
   (bind-key "C-<right>" nil smartparens-mode-map)
-
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
   (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 
-(add-hook 'scala-mode-hook 'smartparens-mode)
-(add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
-(add-hook 'python-mode-hook 'smartparens-mode)
-(add-hook 'java-mode-hook 'smartparens-mode)
 
 ;; documentation at point
 (use-package eldoc
@@ -53,10 +43,6 @@
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 (add-hook 'python-mode-hook 'company-mode)
-
-;; auto indent in programming modes
-(add-hook 'python-mode-hook (lambda () (local-set-key (kbd "RET")
-                                                      'newline-and-indent)))
 
 ;; company mode
 (use-package company
@@ -101,8 +87,12 @@
                                             "GList" "GSList" "GFunc" "GString"))))
 
 ;; javascript mode
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
+(use-package js2-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+  :config
+  (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2))))
 
 (use-package editorconfig
   :ensure t
@@ -129,6 +119,11 @@
   (setq eclimd-autostart-with-default-workspace t)
   (setq eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd"))
 
+;; ensime
+(use-package ensime
+  :ensure t
+  :config
+  (setq ensime-use-helm t))
 
 ;; customize ensime's implementation/test goto configuration for the
 ;; BBC's slightly non-standard layout in some older projects. Going
@@ -173,22 +168,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
             :is-test-dir-fn #'bbc-goto-test--is-test-dir
             :test-template-fn (lambda () bbc-test-template)))
 
-;; ctags stuff
-(setq path-to-ctags "/usr/local/bin/ctags")
-(defun create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (progn
-      (message (format "Running ctags on directory: %s" dir-name))
-      (message
-       (format "Result: %s"
-               (shell-command-to-string
-                (format "%s -f %s/TAGS -e -R %s"
-                        path-to-ctags
-                        (directory-file-name dir-name)
-                        (directory-file-name dir-name)))))))
-
-;; Trying projectile
+;; projectile
 (use-package projectile
   :demand
   :init   (setq projectile-use-git-grep t)
@@ -229,13 +209,8 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
-;; flymake
-(require 'flycheck)
-
-;; turn on flychecking globally
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; disable jshint since we prefer eslint checking
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
+;; flycheck
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))

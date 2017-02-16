@@ -9,3 +9,4 @@
 ;; use ibuffer instead of the older list-buffers
 (defalias 'list-buffers 'ibuffer)
 
+;;; global_behaviour_settings.el ends here
