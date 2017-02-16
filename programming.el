@@ -14,7 +14,6 @@
 
 ;; smartparens-mode
 (use-package smartparens
-  :diminish smartparens-mode
   :commands
   smartparens-strict-mode
   smartparens-mode
@@ -35,10 +34,12 @@
   (bind-key "C-<right>" nil smartparens-mode-map)
 
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
-  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map)
-  (add-hook 'scala-mode-hook #'smartparens-mode)
-  (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-  (add-hook 'python-mode-hook #'smartparens-mode))
+  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
+
+(add-hook 'scala-mode-hook 'smartparens-mode)
+(add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
+(add-hook 'python-mode-hook 'smartparens-mode)
+(add-hook 'java-mode-hook 'smartparens-mode)
 
 ;; documentation at point
 (use-package eldoc
@@ -101,6 +102,7 @@
 
 ;; javascript mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
 
 (use-package editorconfig
   :ensure t
@@ -224,3 +226,16 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
    (add-hook 'sql-mode-hook 'sql-upcase-mode)
    (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode))
 
+;; use web-mode for .jsx files
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+
+;; flymake
+(require 'flycheck)
+
+;; turn on flychecking globally
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
