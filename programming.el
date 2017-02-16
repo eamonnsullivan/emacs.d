@@ -54,8 +54,9 @@
                                                       'newline-and-indent)))
 
 ;; company mode
+(require 'company)
 (eval-after-load "company"
- '(add-to-list 'company-backends 'company-anaconda))
+  '(add-to-list 'company-backends 'company-anaconda))
 
 ;; show-paren-mode
 ;; show a subtle blinking of the matching paren (the defaults are ugly)
@@ -101,6 +102,23 @@
   :init
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
+
+;; java
+(use-package company-emacs-eclim
+  :ensure t
+  :config
+  (company-emacs-eclim-setup))
+(use-package eclim
+  :ensure t
+  :commands start-eclimd
+  :init
+  (add-hook 'java-mode-hook 'eclim-mode)
+  (add-hook 'java-mode-hook 'company-mode)
+  (setq help-at-pt-display-when-idle t)
+  (setq help-at-pt-timer-delay 0.1)
+  (help-at-pt-set-timer)
+  (setq eclimd-autostart t)
+  (global-eclim-mode))
 
 
 ;; customize ensime's implementation/test goto configuration for the
