@@ -117,7 +117,10 @@
   (setq help-at-pt-display-when-idle t)
   (setq help-at-pt-timer-delay 0.1)
   (help-at-pt-set-timer)
+  :config
   (setq eclimd-autostart t)
+  (setq eclimd-autostart-with-default-workspace t)
+  (setq eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd")
   (global-eclim-mode))
 
 

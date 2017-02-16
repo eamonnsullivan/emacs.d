@@ -6,9 +6,6 @@
  '(describe-char-unidata-list
    (quote
     (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
- '(eclimd-autostart t)
- '(eclimd-autostart-with-default-workspace t)
- '(eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd")
  '(ispell-program-name "/usr/local/bin/aspell")
  '(package-selected-packages
    (quote
