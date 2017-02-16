@@ -1,12 +1,16 @@
 ;; ensime
-(require 'ensime)
-(setq ensime-use-helm t)
+(use-package ensime
+  :ensure t
+  :config
+  (setq ensime-use-helm t))
 
 ;; anaconda
-(require 'anaconda-mode)
-;; bug with anaconda-mode and company-mode
-(remove-hook 'anaconda-mode-response-read-fail-hook
-             'anaconda-mode-show-unreadable-response)
+(use-package anaconda-mode
+  :ensure t
+  :config
+  ;; bug with anaconda-mode and company-mode
+  (remove-hook 'anaconda-mode-response-read-fail-hook
+               'anaconda-mode-show-unreadable-response))
 
 ;; smartparens-mode
 (use-package smartparens
@@ -31,18 +35,18 @@
   (bind-key "C-<right>" nil smartparens-mode-map)
 
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
-  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
-
-(add-hook 'scala-mode-hook #'smartparens-mode)
-(add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-(add-hook 'python-mode-hook #'smartparens-mode)
+  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map)
+  (add-hook 'scala-mode-hook #'smartparens-mode)
+  (add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+  (add-hook 'python-mode-hook #'smartparens-mode))
 
 ;; documentation at point
 (use-package eldoc
-  :ensure nil
+  :ensure t
   :diminish eldoc-mode
-  :commands eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  :commands eldoc-mode
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
 
 ;; python
 (add-hook 'python-mode-hook 'anaconda-mode)
@@ -54,9 +58,10 @@
                                                       'newline-and-indent)))
 
 ;; company mode
-(require 'company)
-(eval-after-load "company"
-  '(add-to-list 'company-backends 'company-anaconda))
+(use-package company
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-anaconda))
 
 ;; show-paren-mode
 ;; show a subtle blinking of the matching paren (the defaults are ugly)
@@ -120,8 +125,7 @@
   :config
   (setq eclimd-autostart t)
   (setq eclimd-autostart-with-default-workspace t)
-  (setq eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd")
-  (global-eclim-mode))
+  (setq eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd"))
 
 
 ;; customize ensime's implementation/test goto configuration for the

@@ -29,12 +29,12 @@
 (add-to-list 'package-archives
 	     '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
-;; some useful macros
-(defmacro require-maybe (feature &optional file)
-  "*Try to require FEATURE, but don't signal an error if `require' fails."
-  `(require ,feature ,file 'noerror)) 
-
+;; useful global macros
 (defmacro when-available (func foo)
   "*Do something if FUNCTION is available."
   `(when (fboundp ,func) ,foo)) 
