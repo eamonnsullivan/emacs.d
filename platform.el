@@ -18,5 +18,12 @@
 ;; use local bin, if available
 (if (file-directory-p "/usr/local/bin")
     (add-to-list 'exec-path "/usr/local/bin"))
+(if (file-directory-p "/usr/local/bin")
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
+
+(require 'exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (message "Initializing path from shell on Mac OS")
+  (exec-path-from-shell-initialize))
 
 
