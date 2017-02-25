@@ -21,9 +21,11 @@
 (if (file-directory-p "/usr/local/bin")
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
 
-(require 'exec-path-from-shell)
 (when (memq window-system '(mac ns))
-  (message "Initializing path from shell on Mac OS")
-  (exec-path-from-shell-initialize))
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (message "Initializing path from shell on Mac OS")
+    (exec-path-from-shell-initialize)))
 
 
