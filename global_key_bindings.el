@@ -38,3 +38,4 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cr" 'helm-do-grep-ag)

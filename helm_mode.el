@@ -42,3 +42,9 @@
 
 (helm-mode 1)
 
+;; helm-ag stuff
+(use-package helm-ag
+  :ensure t
+  :config
+  (setq helm-ag-base-command "ag --ignore-case"))
+
