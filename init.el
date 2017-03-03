@@ -66,3 +66,4 @@
 (load-user-file "ansi_term.el")
 (load-user-file "org.el")
 (load-user-file "flycheck.el")
+(load-user-file "multiple-cursors.el")
