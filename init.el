@@ -10,7 +10,7 @@
  '(org-agenda-files (quote ("~/git/org/notes.org")))
  '(package-selected-packages
    (quote
-    (helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)

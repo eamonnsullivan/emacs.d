@@ -56,26 +56,27 @@
 (when-available 'show-paren-mode
   (progn
     (show-paren-mode t)
-    (setq show-paren-style 'parenthesis)
+    (defvar show-paren-style 'parenthesis)
     (set-face-background 'show-paren-match-face "#666666")
     (set-face-attribute 'show-paren-match-face nil
                         :weight 'normal :underline nil :overline nil :slant 'normal)))
 
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
+  (defvar c-mode-base-map)
   (define-key c-mode-base-map "\C-m" 'c-context-line-break))
 (add-hook 'c-initialization-hook 'my-make-CR-do-indent)
 (add-hook 'c++-initialization-hook 'my-make-CR-do-indent)
 
 (add-hook 'c-mode-common-hook (lambda ()
                                 (c-set-style "bsd")
-                                (setq c-basic-offset 4)
+                                (defvar c-basic-offset 4)
                                 (setq indent-tabs-mode nil)
                                 (font-lock-add-keywords nil
                                                         '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
                                 (auto-fill-mode 1)
                                 (modify-syntax-entry ?_ "w")
-                                (setq c-font-lock-extra-types
+                                (defvar c-font-lock-extra-types
                                       (list "gboolean"
                                             "gsize" "gssize"
                                             "gchar" "guchar"
@@ -112,7 +113,7 @@
   (add-hook 'java-mode-hook 'eclim-mode)
   (add-hook 'java-mode-hook 'company-mode)
   (setq help-at-pt-display-when-idle t)
-  (setq help-at-pt-timer-delay 0.1)
+  (defvar help-at-pt-timer-delay 0.1)
   (help-at-pt-set-timer)
   :config
   (setq eclimd-autostart t)
@@ -182,7 +183,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 (setq projectile-switch-project-action 'helm-projectile-find-file)
 
 ;; feature-mode
-(setq feature-step-search-path "src/test/scala/steps/**/*Steps.scala")
+(defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala")
 
 ;; Try to find the step defining the current feature
 (defun select-current-line ()

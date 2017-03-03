@@ -1,18 +1,18 @@
 ;; Internet proxy stuff
-(setq no-proxy-hosts (mapconcat 'identity '("*.core.bbc.co.uk"
-                                            "*.gateway.bbc.co.uk"
-                                            "*.sandbox.dev.bbc.co.uk"
-                                            "*.saucelabs.com"
-                                            "*.local"
-                                            "169.254.*"
-                                            "localhost"
-                                            "127.0.0.1"
-                                            "0.0.0.0"
-                                            "192.168.192.*") "\\|"))
+(defvar no-proxy-hosts (mapconcat 'identity '("*.core.bbc.co.uk"
+                                              "*.gateway.bbc.co.uk"
+                                              "*.sandbox.dev.bbc.co.uk"
+                                              "*.saucelabs.com"
+                                              "*.local"
+                                              "169.254.*"
+                                              "localhost"
+                                              "127.0.0.1"
+                                              "0.0.0.0"
+                                              "192.168.192.*") "\\|"))
 (setq *long-proxy* "http://www-cache.reith.bbc.co.uk:80"
-      *short-proxy* "www-cache.reith.bbc.co.uk:80"
-      *proxy-host* "www-cache.reith.bbc.co.uk"
-      *no-proxy* (concat "\\(" no-proxy-hosts "\\)"))     
+  *short-proxy* "www-cache.reith.bbc.co.uk:80"
+  *proxy-host* "www-cache.reith.bbc.co.uk"
+  *no-proxy* (concat "\\(" no-proxy-hosts "\\)"))     
 
 (defun turn-proxy-on ()
   "Turn the proxy on."

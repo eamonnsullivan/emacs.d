@@ -13,11 +13,6 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-;; bind F9 and F10 to bookmark commands and save bookmarks
-;; automatically. 
-(define-key global-map [f9] 'list-bookmarks)
-(define-key global-map [f10] 'bookmark-set)
-(setq bookmark-save-flag 1)  ; how many mods between saves.
 
 (defun move-line-up ()
   (interactive)

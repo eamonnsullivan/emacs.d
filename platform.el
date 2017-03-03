@@ -1,6 +1,7 @@
-;; Handle emacs server interactions on the Mac correctly.
+;; Platform-specific customizations
 (when (featurep 'ns)
   (message "Running mac-specific initialization.")
+  ;; Handle emacs server interactions on the Mac correctly.
   (defun ns-raise-emacs ()
     "Raise Emacs."
     (ns-do-applescript "tell application \"Emacs\" to activate"))
@@ -16,6 +17,7 @@
   (when (display-graphic-p)
     (ns-raise-emacs))
 
+  ;; Seems to be needed for path to work on the mac
   (use-package exec-path-from-shell
     :ensure t
     :config
