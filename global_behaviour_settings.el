@@ -9,3 +9,6 @@
 ;; use ibuffer instead of the older list-buffers
 (defalias 'list-buffers 'ibuffer)
 
+;; delete trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+

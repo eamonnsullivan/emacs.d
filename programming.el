@@ -3,11 +3,13 @@
   :ensure t
   :config
   ;; bug with anaconda-mode and company-mode
+  (require 'anaconda-mode)
   (remove-hook 'anaconda-mode-response-read-fail-hook
                'anaconda-mode-show-unreadable-response))
 
 ;; smartparens-mode
 (use-package smartparens
+  :ensure t
   :commands
   smartparens-strict-mode
   smartparens-mode
@@ -18,6 +20,7 @@
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'python-mode-hook 'smartparens-mode)
   (add-hook 'java-mode-hook 'smartparens-mode)
+  (add-hook 'js2-mode-hook 'smartparens-mode)
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
@@ -209,3 +212,12 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+
+
+;; enable colour in compile mode
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)

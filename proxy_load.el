@@ -18,7 +18,9 @@
   "Turn the proxy on."
   (interactive)
   (progn
-    (setenv "http_proxy" *long-proxy*)
+    (setenv "http_proxy"  *long-proxy*)
+    (setenv "HTTP_PROXY"  *long-proxy*)
+    (setenv "HTTPS_PROXY" *long-proxy*)
     (setenv "ftp_proxy" *long-proxy*)
     (setq url-proxy-services
           `(("no_proxy" . ,*no-proxy*)
