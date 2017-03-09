@@ -3,7 +3,7 @@
 (use-package multiple-cursors
   :ensure t
   :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-s-c C-s-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-.") 'mc/unmark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
