@@ -10,7 +10,7 @@
  '(org-agenda-files (quote ("~/git/org/notes.org")))
  '(package-selected-packages
    (quote
-    (mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)
@@ -22,7 +22,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; common lisp 
+;; common lisp
 (require 'cl)
 
 ;; packages
@@ -38,7 +38,7 @@
 ;; useful global macros
 (defmacro when-available (func foo)
   "*Do something if FUNCTION is available."
-  `(when (fboundp ,func) ,foo)) 
+  `(when (fboundp ,func) ,foo))
 
 ;; The rest of my init file, broken up into modules
 (defconst user-init-dir
@@ -54,6 +54,7 @@
   "Load a file in current user's configuration directory"
   (load-file (expand-file-name file user-init-dir)))
 
+(load-user-file "general_utils.el")
 (load-user-file "proxy_load.el")
 (load-user-file "set_environment.el")
 (load-user-file "platform.el")

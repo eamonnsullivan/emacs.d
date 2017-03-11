@@ -8,4 +8,4 @@
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline (concat org-directory "/notes.org") "Tasks"))
         ("i" "Ideas" entry (file+headline (concat org-directory "/notes.org") "Ideas"))
-        ("n" "Notes" entry (file+headline (contact org-directory "/notes.org") "General Notes"))))
+        ("n" "Notes" entry (file+headline (concat org-directory "/notes.org") "General Notes"))))
