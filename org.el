@@ -7,7 +7,7 @@
 (defvar org-mobile-inbox-for-pull)
 (defvar org-mobile-files)
 
-(setq org-directory "~/Desktop/org")
+(setq org-directory "~/Dropbox/org")
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline (concat org-directory "/tasks.org") "Tasks"))
