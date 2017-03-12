@@ -53,17 +53,6 @@
   :config
   (add-to-list 'company-backends 'company-anaconda))
 
-;; show-paren-mode
-;; show a subtle blinking of the matching paren (the defaults are ugly)
-;; http://www.emacswiki.org/cgi-bin/wiki/ShowParenMode
-(when-available 'show-paren-mode
-  (progn
-    (show-paren-mode t)
-    (defvar show-paren-style 'parenthesis)
-    (set-face-background 'show-paren-match-face "#666666")
-    (set-face-attribute 'show-paren-match-face nil
-                        :weight 'normal :underline nil :overline nil :slant 'normal)))
-
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
   (defvar c-mode-base-map)
