@@ -9,7 +9,7 @@
  '(ispell-program-name "/usr/local/bin/aspell")
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/notes.org" "~/Dropbox/org/ideas.org" "~/Dropbox/org/tasks.org")))
+    ("~/Dropbox/org/tasks.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/ideas.org")))
  '(package-selected-packages
    (quote
     (org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
