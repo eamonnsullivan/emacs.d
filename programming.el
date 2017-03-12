@@ -118,8 +118,17 @@
 ;; ensime
 (use-package ensime
   :ensure t
+  :pin melpa
   :config
-  (setq ensime-use-helm t))
+  (setq ensime-use-helm t)
+  (setq ensime-startup-notification nil)
+  (setq ensime-startup-snapshot-notification nil))
+
+(use-package sbt-mode
+  :pin melpa)
+
+(use-package scala-mode
+  :pin melpa)
 
 ;; customize ensime's implementation/test goto configuration for the
 ;; BBC's slightly non-standard layout in some older projects. Going
