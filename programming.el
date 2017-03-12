@@ -33,6 +33,9 @@
   (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
   (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 
+;; show parens
+(when-available 'show-paren-mode
+                (show-paren-mode t))
 
 ;; documentation at point
 (use-package eldoc
