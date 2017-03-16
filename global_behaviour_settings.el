@@ -12,6 +12,7 @@
 ;; delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; undo-tree everywhere
 (use-package undo-tree
   :ensure t
   :config
