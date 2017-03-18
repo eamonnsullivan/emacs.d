@@ -3,7 +3,7 @@
 
 (setq gnus-select-method
       '(nnimap "gmail"
-	       (nnimap-address "imap.gmail.com")  ; it could also be imap.googlemail.com if that's your server.
+	       (nnimap-address "imap.gmail.com")
 	       (nnimap-server-port "imaps")
 	       (nnimap-stream ssl)))
 
@@ -15,3 +15,7 @@
   (setq fill-column 72)
   (turn-on-auto-fill))
 (add-hook 'message-mode-hook 'my-message-mode-setup)
+
+(setq gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject)
+(setq gnus-thread-hide-subtree t)
+(setq gnus-thread-ignore-subject t)
