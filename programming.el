@@ -215,10 +215,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
 
-;; enable colour in compile mode
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region compilation-filter-start (point))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; enable colour in compile and sbt modes
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
