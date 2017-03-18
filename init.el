@@ -13,14 +13,10 @@
  '(package-selected-packages
    (quote
     (s org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
- '(sbt:ansi-support (quote filter))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)
- '(scala-indent:indent-value-expression t)
- '(send-mail-function (quote smtpmail-send-it))
- '(smtpmail-smtp-server "localhost" t)
- '(smtpmail-smtp-service 1025 t))
+ '(scala-indent:indent-value-expression t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
