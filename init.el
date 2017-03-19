@@ -30,7 +30,7 @@
 ;; packages
 (require 'package)
 (setq
- package-archives '(("gnu" . "http://elpa.gnu.org/packages")
+ package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                     ("org" . "http://orgmode.org/elpa/")
                     ("melpa" . "http://melpa.org/packages/"))
  package-archive-priorities '(("melpa" . 1)))
