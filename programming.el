@@ -96,25 +96,6 @@
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
 
-;; java
-(use-package company-emacs-eclim
-  :ensure t
-  :config
-  (company-emacs-eclim-setup))
-(use-package eclim
-  :ensure t
-  :commands start-eclimd
-  :init
-  (add-hook 'java-mode-hook 'eclim-mode)
-  (add-hook 'java-mode-hook 'company-mode)
-  (setq help-at-pt-display-when-idle t)
-  (defvar help-at-pt-timer-delay 0.1)
-  (help-at-pt-set-timer)
-  :config
-  (setq eclimd-autostart t)
-  (setq eclimd-autostart-with-default-workspace t)
-  (setq eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd"))
-
 ;; ensime
 (use-package ensime
   :ensure t

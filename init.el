@@ -12,7 +12,7 @@
     ("~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org")))
  '(package-selected-packages
    (quote
-    (s org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd company-emacs-eclim eclim json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (s org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)
