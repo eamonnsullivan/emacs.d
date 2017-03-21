@@ -1,6 +1,7 @@
+;;; -*- lexical-binding: t -*-
 ;; turn on syntax highlighting and highlighting of
 ;; marked text. Turn off menu bar, toolbar, scrollbars and
-;; startup screen.
+;; startup screen. Set a pretty typeface.
 
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.

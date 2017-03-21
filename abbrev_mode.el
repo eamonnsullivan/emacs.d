@@ -1,9 +1,11 @@
+;;; -*- lexical-binding: t -*-
+
 ;; turn on abbrev mode (uses the skeletons below)
 (setq default-abbrev-mode t)
 
 ;; skeletons -- these are loaded via abbrev mode. My abbrev_defs file
 ;; as entries like this:
-;; 
+;;
 ;; (define-abbrev-table 'c++-mode-abbrev-table '(
 ;;    ("bbt" "BREG_BOOLEAN_TRUE" nil 0)
 ;;    ("ifx" "" eds-if-expansion)
@@ -137,4 +139,3 @@
 
 ;; preserve case when using dabbrev
 (setq dabbrev-case-replace nil)
-

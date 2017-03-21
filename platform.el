@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; Platform-specific customizations
 (when (featurep 'ns)
   (message "Running mac-specific initialization.")
@@ -29,4 +30,3 @@
     (add-to-list 'exec-path "/usr/local/bin"))
 (if (file-directory-p "/usr/local/bin")
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
-

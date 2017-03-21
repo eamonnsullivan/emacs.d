@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; anaconda
 (use-package anaconda-mode
   :ensure t

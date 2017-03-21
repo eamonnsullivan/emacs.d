@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; place for general utility functions.
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file

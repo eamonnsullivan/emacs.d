@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; flycheck
 (use-package flycheck
   :ensure t
@@ -19,4 +21,3 @@
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(emacs-lisp-checkdoc))))
-

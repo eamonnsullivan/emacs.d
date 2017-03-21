@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; stuff related to multiple-cursors
 
 (use-package multiple-cursors

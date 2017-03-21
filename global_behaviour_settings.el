@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; never use tabs
 (setq-default indent-tabs-mode nil)
 

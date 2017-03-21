@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; Customize ansi-term
 ;; visit-ansi-term from http://www.enigmacurry.com/2008/12/26/emacs-ansi-term-tricks/
 ;;

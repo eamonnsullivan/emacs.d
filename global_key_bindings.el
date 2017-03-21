@@ -1,6 +1,7 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; -*- lexical-binding: t -*-
+
+
 ;; global key bindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key "\C-z" nil)
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)

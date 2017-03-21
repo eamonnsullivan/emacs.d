@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 ;; helm
 (use-package helm
   :ensure t
@@ -53,4 +55,3 @@
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
   (setq helm-ag-command-option "--all-text")
   (setq helm-ag-insert-at-point 'symbols))
-
