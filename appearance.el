@@ -53,10 +53,6 @@ for variable-pitch face."
                     (size-indication-mode t)) ; show file size (emacs 22+)
     (display-time-mode t)
     (when (window-system)
-      (message "setting foreground and background colours")
-      (set-background-color "White")
-      (set-foreground-color "Black"))
-    (when (window-system)
       (message "setting default-frame-alist")
       (setq default-frame-alist
             '((vertical-scroll-bars)
@@ -64,9 +60,7 @@ for variable-pitch face."
               (menu-bar-lines . 0)
               (menu-bar-mode . -1)
               (tool-bar-mode . -1)
-              (toggle-scroll-bar . -1)
-              (background-color . "White")
-              (foreground-color . "Black"))))
+              (toggle-scroll-bar . -1))))
 
     ;; set some font options, if the fonts are available
     (if (and (find-font (font-spec :name "Hack"))
