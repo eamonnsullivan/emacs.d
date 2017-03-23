@@ -24,6 +24,7 @@
 ;; python
 (use-package elpy
   :ensure t
+  :defer t
   :after python
   :config
   (elpy-enable))
@@ -32,11 +33,13 @@
 ;; smartparens-mode
 (use-package smartparens
   :ensure t
+  :defer t
   :commands
   smartparens-strict-mode
   smartparens-mode
   sp-restrict-to-pairs-interactive
   sp-local-pair
+  :diminish smartparens-mode
   :init
   (add-hook 'scala-mode-hook 'smartparens-mode)
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
@@ -62,6 +65,7 @@
 ;; documentation at point
 (use-package eldoc
   :ensure t
+  :defer t
   :diminish eldoc-mode
   :commands eldoc-mode
   :config
@@ -100,6 +104,7 @@
 ;; javascript mode
 (use-package js2-mode
   :ensure t
+  :defer t
   :init
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   :config
@@ -107,6 +112,8 @@
 
 (use-package editorconfig
   :ensure t
+  :defer t
+  :diminish editorconfig-mode
   :init
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
@@ -115,16 +122,19 @@
 (use-package ensime
   :ensure t
   :pin melpa
+  :defer t
   :config
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil))
 
 (use-package sbt-mode
-  :pin melpa)
+  :pin melpa
+  :defer t)
 
 (use-package scala-mode
-  :pin melpa)
+  :pin melpa
+  :defer t)
 
 ;; customize ensime's implementation/test goto configuration for the
 ;; BBC's slightly non-standard layout in some older projects. Going

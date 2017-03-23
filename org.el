@@ -21,30 +21,44 @@
 
 ;;; Code:
 
-(defvar org-directory)
-(defvar org-default-notes-file)
-(defvar org-capture-templates)
 
-(setq org-directory "~/Dropbox/org")
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (concat org-directory "/tasks.org") "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("i" "Ideas" entry (file+headline (concat org-directory "/ideas.org") "Ideas"))
-        ("n" "Notes" entry (file+headline (concat org-directory "/notes.org") "General Notes"))))
+(use-package org
+  :init
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  :diminish visual-line-mode
+  :diminish org-indent-mode
+  :bind (("\C-c a" . org-agenda)
+         ("\C-c c" . org-capture)
+         ("\C-c l" . org-store-link)
+         ("\C-c b" . org-iswitchb))
+  :config
+  (defvar org-directory)
+  (defvar org-default-notes-file)
+  (defvar org-capture-templates)
 
-;; mobile org
-(defvar org-mobile-directory)
-(defvar org-mobile-inbox-for-pull)
-(defvar org-mobile-files)
-(require 'org-mobile)
-(setq org-mobile-files (list (concat org-directory "/notes.org")
-                             (concat org-directory "/tasks.org")
-                             (concat org-directory "/ideas.org")
-                             (concat org-directory "/recipes.org")
-                             (concat org-directory "/svp.org")
-                             (concat org-directory "/weight_history.org")))
-(setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
-(setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+  (setq org-directory "~/Dropbox/org")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline (concat org-directory "/tasks.org") "Tasks")
+           "* TODO %?\n  %i\n  %a")
+          ("i" "Ideas" entry (file+headline (concat org-directory "/ideas.org") "Ideas"))
+          ("n" "Notes" entry (file+headline (concat org-directory "/notes.org") "General Notes"))))
+
+
+  ;; mobile org
+  (defvar org-mobile-directory)
+  (defvar org-mobile-inbox-for-pull)
+  (defvar org-mobile-files)
+  (require 'org-mobile)
+  (setq org-mobile-files (list (concat org-directory "/notes.org")
+                               (concat org-directory "/tasks.org")
+                               (concat org-directory "/ideas.org")
+                               (concat org-directory "/recipes.org")
+                               (concat org-directory "/svp.org")
+                               (concat org-directory "/weight_history.org")))
+  (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
+  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg"))
 
 ;;; org.el ends here

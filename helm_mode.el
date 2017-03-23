@@ -72,6 +72,7 @@
 ;; helm-ag stuff
 (use-package helm-ag
   :ensure t
+  :bind (("\C-c r" . 'helm-do-grep-ag))
   :config
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
   (setq helm-ag-command-option "--all-text")
