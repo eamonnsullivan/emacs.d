@@ -122,7 +122,6 @@
 (use-package ensime
   :ensure t
   :pin melpa
-  :defer t
   :config
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
