@@ -27,6 +27,7 @@
   :after python
   :config
   (elpy-enable))
+(add-hook 'python-mode-hook 'elpy-enable)
 
 ;; smartparens-mode
 (use-package smartparens
