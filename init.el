@@ -1,40 +1,35 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(describe-char-unidata-list
-   (quote
-    (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
- '(ispell-program-name "/usr/local/bin/aspell")
- '(org-agenda-files
-   (quote
-    ("~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org")))
- '(package-selected-packages
-   (quote
-    (s org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode company-anaconda anaconda-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
- '(scala-indent:align-forms nil)
- '(scala-indent:align-parameters t)
- '(scala-indent:default-run-on-strategy 2)
- '(scala-indent:indent-value-expression t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;;; init.el --- Initialization code for emacs
 
-;; common lisp
-(require 'cl)
+;; Copyright (c) 2017 Eamonn Sullivan
+
+;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Created 23 March 2017
+
+;; Homepage: https://github.com/eamonnsullivan/emacs.d
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;;; Code:
 
 ;; packages
 (require 'package)
 (setq
  package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                     ("org" . "http://orgmode.org/elpa/")
-                    ("melpa" . "http://melpa.org/packages/"))
+                    ("melpa" . "http://melpa.org/packages/")
+                    ("elpy" . "http://jorgenschaefer.github.io/packages/"))
  package-archive-priorities '(("melpa" . 1)))
 (package-initialize)
+
 (when (not package-archive-contents)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -76,3 +71,31 @@
 (load-user-file "org.el")
 (load-user-file "flycheck.el")
 (load-user-file "multiple-cursors.el")
+
+;;; init.el ends here
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(describe-char-unidata-list
+   (quote
+    (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
+ '(ispell-program-name "/usr/local/bin/aspell")
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org")))
+ '(package-selected-packages
+   (quote
+    (elpy s org-plus-contrib undo-tree mc-extras multiple-cursors helm-ag org org-projectile exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+ '(scala-indent:align-forms nil)
+ '(scala-indent:align-parameters t)
+ '(scala-indent:default-run-on-strategy 2)
+ '(scala-indent:indent-value-expression t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

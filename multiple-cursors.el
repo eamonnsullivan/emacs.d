@@ -1,4 +1,25 @@
 ;;; -*- lexical-binding: t -*-
+;;; multiple-cursors.el --- setting some convenience keys for multiple-cursor mode
+
+;; Copyright (c) 2017 Eamonn Sullivan
+
+;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Created 23 March 2017
+
+;; Homepage: https://github.com/eamonnsullivan/emacs.d
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;;; Code:
 
 ;; stuff related to multiple-cursors
 
@@ -10,3 +31,5 @@
   (global-set-key (kbd "C-.") 'mc/unmark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+
+;;; multiple-cursors.el ends here

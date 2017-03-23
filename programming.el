@@ -1,13 +1,32 @@
 ;;; -*- lexical-binding: t -*-
+;;; programming.el --- stuff related to coding
 
-;; anaconda
-(use-package anaconda-mode
+;; Copyright (c) 2017 Eamonn Sullivan
+
+;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Created 23 March 2017
+
+;; Homepage: https://github.com/eamonnsullivan/emacs.d
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;;; Code:
+
+;; python
+(use-package elpy
   :ensure t
+  :after python
   :config
-  ;; bug with anaconda-mode and company-mode
-  (require 'anaconda-mode)
-  (remove-hook 'anaconda-mode-response-read-fail-hook
-               'anaconda-mode-show-unreadable-response))
+  (elpy-enable))
 
 ;; smartparens-mode
 (use-package smartparens
@@ -47,16 +66,9 @@
   :config
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
 
-;; python
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-(add-hook 'python-mode-hook 'company-mode)
-
 ;; company mode
 (use-package company
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-anaconda))
+  :ensure t)
 
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
@@ -197,8 +209,9 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
-
-;; enable colour in compile and sbt modes
+;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+;;; programming.el ends here

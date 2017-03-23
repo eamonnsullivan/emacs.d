@@ -1,5 +1,26 @@
 ;;; -*- lexical-binding: t -*-
-;; Platform-specific customizations
+;; platform.el --- Platform-specific customizations
+
+;; Copyright (c) 2017 Eamonn Sullivan
+
+;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Created 23 March 2017
+
+;; Homepage: https://github.com/eamonnsullivan/emacs.d
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;;; Code:
+
 (when (featurep 'ns)
   (message "Running mac-specific initialization.")
   ;; Handle emacs server interactions on the Mac correctly.
@@ -30,3 +51,5 @@
     (add-to-list 'exec-path "/usr/local/bin"))
 (if (file-directory-p "/usr/local/bin")
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
+
+;;; platform.el ends here

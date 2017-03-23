@@ -1,7 +1,25 @@
 ;;; -*- lexical-binding: t -*-
-;; turn on syntax highlighting and highlighting of
-;; marked text. Turn off menu bar, toolbar, scrollbars and
-;; startup screen. Set a pretty typeface.
+;;; appearance.el --- Code related to the look of emacs
+
+;; Copyright (c) 2017 Eamonn Sullivan
+
+;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
+;; Created 23 March 2017
+
+;; Homepage: https://github.com/eamonnsullivan/emacs.d
+
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation; either version 2 of
+;; the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+;; PURPOSE.  See the GNU General Public License for more details.
+
+;;; Code:
 
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
@@ -68,3 +86,5 @@ for variable-pitch face."
   (my-appearance-settings))
 (ad-activate 'server-create-window-system-frame)
 (add-hook 'after-make-frame-functions 'my-appearance-settings t)
+
+;;; appearance.el ends here
