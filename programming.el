@@ -11,7 +11,7 @@
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 2 of
+;; published by the Free Software Foundation; either version 3 of
 ;; the License, or (at your option) any later version.
 ;;
 ;; This program is distributed in the hope that it will be
@@ -73,7 +73,8 @@
 
 ;; company mode
 (use-package company
-  :ensure t)
+  :ensure t
+  :diminish company-mode)
 
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
@@ -177,19 +178,6 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
             :impl-to-test-dir-fn #'ensime-goto-test--impl-to-test-dir
             :is-test-dir-fn #'bbc-goto-test--is-test-dir
             :test-template-fn (lambda () bbc-test-template)))
-
-;; projectile
-(use-package projectile
-  :demand
-  :init   (setq projectile-use-git-grep t)
-  :config (projectile-global-mode t)
-  :bind   (("s-f" . projectile-find-file)
-           ("s-F" . projectile-grep)))
-
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(setq projectile-switch-project-action 'helm-projectile-find-file)
 
 ;; feature-mode
 (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala")

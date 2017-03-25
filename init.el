@@ -10,7 +10,7 @@
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 2 of
+;; published by the Free Software Foundation; either version 3 of
 ;; the License, or (at your option) any later version.
 ;;
 ;; This program is distributed in the hope that it will be
@@ -71,6 +71,8 @@
 (load-user-file "org.el")
 (load-user-file "flycheck.el")
 (load-user-file "multiple-cursors.el")
+(load-user-file "lastpass.el")
+(load-user-file "projectile.el")
 
 ;;; init.el ends here
 

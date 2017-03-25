@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; multiple-cursors.el --- setting some convenience keys for multiple-cursor mode
+;;; projectile.el --- stuff related to projectile project management
 
 ;; Copyright (c) 2017 Eamonn Sullivan
 
@@ -21,15 +21,18 @@
 
 ;;; Code:
 
-;; stuff related to multiple-cursors
+;; projectile
+(use-package projectile
+  :demand
+  :diminish projectile-mode
+  :init   (setq projectile-use-git-grep t)
+  :config (projectile-global-mode t)
+  :bind   (("s-f" . projectile-find-file)
+           ("s-F" . projectile-grep)))
 
-(use-package multiple-cursors
-  :ensure t
-  :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-.") 'mc/unmark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq projectile-switch-project-action 'helm-projectile-find-file)
 
-;;; multiple-cursors.el ends here
+;;; projectile.el ends here

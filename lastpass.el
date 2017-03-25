@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; multiple-cursors.el --- setting some convenience keys for multiple-cursor mode
+;;; lastpass.el --- stuff related to lastpass command-line utility
 
 ;; Copyright (c) 2017 Eamonn Sullivan
 
@@ -21,15 +21,9 @@
 
 ;;; Code:
 
-;; stuff related to multiple-cursors
-
-(use-package multiple-cursors
-  :ensure t
+(use-package lastpass
   :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-.") 'mc/unmark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+  ;; Set lastpass user
+  (setq lastpass-user "eamonn.sullivan@gmail.com"))
 
-;;; multiple-cursors.el ends here
+;;; lastpass.el ends here
