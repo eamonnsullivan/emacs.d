@@ -179,20 +179,6 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
             :is-test-dir-fn #'bbc-goto-test--is-test-dir
             :test-template-fn (lambda () bbc-test-template)))
 
-;; projectile
-(use-package projectile
-  :demand
-  :diminish projectile-mode
-  :init   (setq projectile-use-git-grep t)
-  :config (projectile-global-mode t)
-  :bind   (("s-f" . projectile-find-file)
-           ("s-F" . projectile-grep)))
-
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(setq projectile-switch-project-action 'helm-projectile-find-file)
-
 ;; feature-mode
 (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala")
 
