@@ -24,6 +24,7 @@
 ;; helm
 (use-package helm
   :ensure t
+  :diminish helm-mode
   :config
   (require 'helm-config)
   (defvar helm-google-suggest-use-curl-p)

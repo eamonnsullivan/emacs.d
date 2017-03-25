@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; global_behavior_settings.el --- Things I always want, no matter the mode
+;;; lastpass.el --- stuff related to lastpass command-line utility
 
 ;; Copyright (c) 2017 Eamonn Sullivan
 
@@ -21,25 +21,9 @@
 
 ;;; Code:
 
-;; never use tabs
-(setq-default indent-tabs-mode nil)
-
-;; Turn off the annoying default backup behaviour
-(if (file-directory-p "~/.emacs.d/backups")
-    (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (message "Directory does not exist: ~/.emacs.d/backups"))
-
-;; use ibuffer instead of the older list-buffers
-(defalias 'list-buffers 'ibuffer)
-
-;; delete trailing whitespace
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; undo-tree everywhere
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
+(use-package lastpass
   :config
-  (global-undo-tree-mode))
+  ;; Set lastpass user
+  (setq lastpass-user "eamonn.sullivan@gmail.com"))
 
-;;; global_behaviour_settings.el ends here
+;;; lastpass.el ends here

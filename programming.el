@@ -73,7 +73,8 @@
 
 ;; company mode
 (use-package company
-  :ensure t)
+  :ensure t
+  :diminish company-mode)
 
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
@@ -181,6 +182,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 ;; projectile
 (use-package projectile
   :demand
+  :diminish projectile-mode
   :init   (setq projectile-use-git-grep t)
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
