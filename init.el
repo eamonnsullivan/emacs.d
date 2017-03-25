@@ -71,7 +71,6 @@
 (load-user-file "org.el")
 (load-user-file "flycheck.el")
 (load-user-file "multiple-cursors.el")
-(load-user-file "lastpass.el")
 (load-user-file "projectile.el")
 
 ;;; init.el ends here
