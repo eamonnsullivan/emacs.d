@@ -1,11 +1,10 @@
-;;; -*- lexical-binding: t -*-
-;;; set_environment.el --- set some env variables, for building and testing.
+;;; init.el --- Initialization code for emacs
 
 ;; Copyright (c) 2017 Eamonn Sullivan
 
 ;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
 ;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
-;; Created 23 March 2017
+;; Created 28 March 2017
 
 ;; Homepage: https://github.com/eamonnsullivan/emacs.d
 
@@ -21,8 +20,10 @@
 
 ;;; Code:
 
-(setenv "SERVER_ENV" "dev")
-;; for ensime-server development
-(setenv "AKKA_TEST_TIMEFACTOR" "5")
+(use-package lastpass
+  :config
+  (setq lastpass-user "eamonn.sullivan@gmail.com")
+  (setq lastpass-multifactor-use-passcode t)
+  (setq lastpass-list-all-delimiter "§"))
 
-;;; set_environment.el ends here
+;;; lastpass.el ends here
