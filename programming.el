@@ -212,4 +212,12 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 (add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 
+(use-package git-timemachine
+  :ensure t
+  :bind (("C-z g" . git-timemachine)))
+
+(use-package project-explorer
+  :ensure t
+  :bind (("C-z p" . project-explorer-open)))
+
 ;;; programming.el ends here
