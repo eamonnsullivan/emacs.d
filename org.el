@@ -57,7 +57,8 @@
                                (concat org-directory "/ideas.org")
                                (concat org-directory "/recipes.org")
                                (concat org-directory "/svp.org")
-                               (concat org-directory "/weight_history.org")))
+                               (concat org-directory "/weight_history.org")
+                               (concat org-directory "/personal.org")))
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
   (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg"))
 
