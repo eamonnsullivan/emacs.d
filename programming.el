@@ -126,7 +126,9 @@
   :config
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
-  (setq ensime-startup-snapshot-notification nil))
+  (setq ensime-startup-snapshot-notification nil)
+  (add-hook 'java-mode-hook 'ensime-mode)
+  (add-hook 'scala-mode-hook 'ensime-mode))
 
 (use-package sbt-mode
   :pin melpa
