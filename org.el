@@ -61,7 +61,8 @@
                                (concat org-directory "/svp.org")
                                (concat org-directory "/weight_history.org")
                                (concat org-directory "/personal.org")
-                               (concat org-directory "/travel.org")))
+                               (concat org-directory "/travel.org")
+                               (concat org-directory "/spending.org")))
   (setq org-mobile-inbox-for-pull (concat org-directory "/inbox.org"))
   (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg"))
 
