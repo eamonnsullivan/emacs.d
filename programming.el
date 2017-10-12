@@ -21,6 +21,7 @@
 
 ;;; Code:
 
+(defvar imenu-auto-rescan t)
 ;; python
 (use-package elpy
   :ensure t
@@ -122,7 +123,7 @@
 ;; ensime
 (use-package ensime
   :ensure t
-  :pin melpa
+  :pin melpa-stable
   :config
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
@@ -131,11 +132,11 @@
   (add-hook 'scala-mode-hook 'ensime-mode))
 
 (use-package sbt-mode
-  :pin melpa
+  :pin melpa-stable
   :defer t)
 
 (use-package scala-mode
-  :pin melpa
+  :pin melpa-stable
   :defer t)
 
 ;; customize ensime's implementation/test goto configuration for the
@@ -227,4 +228,5 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
                             (setq c-basic-offset 4
                                   tab-width 4
                                   indent-tabs-mode nil)))
+
 ;;; programming.el ends here
