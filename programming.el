@@ -77,6 +77,9 @@
   :ensure t
   :diminish company-mode)
 
+(use-package company-tern
+  :ensure t)
+
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
   (defvar c-mode-base-map)
@@ -104,13 +107,28 @@
                                             "GList" "GSList" "GFunc" "GString"))))
 
 ;; javascript mode
+(use-package js2-refactor
+  :ensure t)
 (use-package js2-mode
   :ensure t
   :defer t
   :init
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+  (add-to-list 'company-backends 'company-tern)
   :config
-  (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2))))
+  (add-hook 'js2-mode-hook (lambda ()
+                             (setq js2-basic-offset 2)
+                             (tern-mode)
+                             (company-mode)
+                             (js2-imenu-extras-mode)
+                             (js2-refactor-mode)
+                             (js2r-add-keybindings-with-prefix "C-c C-r"))))
+(use-package indium
+  :ensure t)
+
+(defun delete-tern-process()
+  (interactive)
+  (delete-process "Tern"))
 
 (use-package editorconfig
   :ensure t
