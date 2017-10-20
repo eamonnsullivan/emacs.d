@@ -153,6 +153,7 @@
   :ensure t
   :pin melpa-stable
   :config
+  (setq ensime-search-interface 'helm)
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
