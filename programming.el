@@ -133,9 +133,6 @@
                              (js2-imenu-extras-mode)
                              (js2-refactor-mode)
                              (js2r-add-keybindings-with-prefix "C-c C-r"))))
-(use-package indium
-  :ensure t)
-
 (defun delete-tern-process()
   (interactive)
   (delete-process "Tern"))
@@ -258,4 +255,17 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
                                   tab-width 4
                                   indent-tabs-mode nil)))
 
+;; go
+(use-package go-mode
+  :ensure t)
+(use-package go-eldoc
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
+(use-package company-go
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook (lambda ()
+                            (set (make-local-variable 'company-backends) '(company-go))
+                            (company-mode))))
 ;;; programming.el ends here

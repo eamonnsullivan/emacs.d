@@ -44,7 +44,8 @@
     :ensure t
     :config
     (message "Initializing path from shell on Mac OS")
-    (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "GOPATH")))
 
 ;; use local bin, if available
 (if (file-directory-p "/usr/local/bin")
