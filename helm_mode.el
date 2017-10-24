@@ -74,9 +74,14 @@
 (use-package helm-ag
   :ensure t
   :bind (("\C-c r" . helm-do-grep-ag))
-  :config
-  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+  :init
+  (add-to-list 'grep-find-ignored-directories "target")
+  (add-to-list 'grep-find-ignored-directories "swagger")
+  (setq helm-ag-use-grep-ignore-list t)
+  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case --ignore-dir=target --ignore-dir=swagger")
   (setq helm-ag-command-option "--all-text")
-  (setq helm-ag-insert-at-point 'symbols))
+  (setq helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'"))
+  (setq helm-ag-insert-at-point 'symbol))
+
 
 ;;; helm_mode.el ends here

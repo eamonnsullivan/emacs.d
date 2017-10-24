@@ -25,7 +25,9 @@
 (use-package projectile
   :demand
   :diminish projectile-mode
-  :init   (setq projectile-use-git-grep t)
+  :init
+  (setq projectile-use-git-grep t)
+  (add-to-list 'projectile-globally-ignored-directories "target")
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
