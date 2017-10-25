@@ -30,7 +30,7 @@
   (message "Directory does not exist: ~/.emacs.d/backups"))
 
 ;; use ibuffer instead of the older list-buffers
-(defalias 'list-buffers 'ibuffer)
+; (defalias 'list-buffers 'ibuffer)
 
 ;; delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
