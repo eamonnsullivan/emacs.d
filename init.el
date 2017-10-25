@@ -154,6 +154,9 @@
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".ensime_cache" ".eunit" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "target")))
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)
