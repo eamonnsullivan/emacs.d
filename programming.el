@@ -154,7 +154,6 @@
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
-  (add-hook 'java-mode-hook 'ensime-mode)
   (add-hook 'scala-mode-hook 'ensime-mode))
 
 (use-package sbt-mode
@@ -250,10 +249,27 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   :bind (("C-z p" . project-explorer-open)))
 
 ;; java
+(use-package eclim
+  :ensure t
+  :init
+  (setq eclimd-autostart t)
+  (add-hook 'java-mode-hook 'eclim-mode)
+  (require 'eclimd)
+  :config
+  (setq help-at-pt-display-when-idle t)
+  (setq help-at-pt-timer-delay 0.1)
+  (help-at-pt-set-timer))
+
 (add-hook 'java-mode-hook (lambda()
                             (setq c-basic-offset 4
                                   tab-width 4
                                   indent-tabs-mode nil)))
+
+(use-package company-emacs-eclim
+  :ensure t
+  :init
+  (company-emacs-eclim-setup)
+  (global-company-mode t))
 
 ;; go
 (use-package go-mode
