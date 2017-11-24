@@ -41,7 +41,6 @@
   (global-set-key (kbd "M-y") 'helm-show-kill-ring)
   (global-set-key (kbd "C-h i") 'helm-info)
   (global-set-key (kbd "<f1>") 'helm-resume)
-  (global-set-key (kbd "C-s")  'helm-occur)
   (global-unset-key (kbd "C-x C-b"))
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (global-set-key (kbd "C-x b") 'helm-mini)

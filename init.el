@@ -76,11 +76,6 @@
 (load-user-file "lastpass.el")
 (load-user-file "elfeed.el")
 
-;; temporary code for security vulnerability
-  (eval-after-load "enriched"
-    '(defun enriched-decode-display-prop (start end &optional param)
-       (list start end)))
-
 ;;; init.el ends here
 
 (custom-set-variables
@@ -100,7 +95,7 @@
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "a0dc0c1805398db495ecda1994c744ad1a91a9455f2a17b59b716f72d3585dde" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "d9129a8d924c4254607b5ded46350d68cc00b6e38c39fc137c3cfb7506702c12" default)))
+    ("2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "a0dc0c1805398db495ecda1994c744ad1a91a9455f2a17b59b716f72d3585dde" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "f5512c02e0a6887e987a816918b7a684d558716262ac7ee2dd0437ab913eaec6" "d9129a8d924c4254607b5ded46350d68cc00b6e38c39fc137c3cfb7506702c12" default)))
  '(describe-char-unidata-list
    (quote
     (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
@@ -150,7 +145,7 @@
     ("~/Dropbox/org/travel.org" "~/Dropbox/org/accounts.org" "~/Dropbox/org/personal.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org" "~/Dropbox/org/spending.org")))
  '(package-selected-packages
    (quote
-    (company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (slack company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")

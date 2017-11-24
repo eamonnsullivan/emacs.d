@@ -48,7 +48,6 @@
           ("p" "Personal Todo" entry (file+headline (concat org-directory "/personal.org") "Personal Tasks")
            "* TODO %?\n  %i\n  %a")))
 
-
   ;; mobile org
   (defvar org-mobile-directory)
   (defvar org-mobile-inbox-for-pull)
