@@ -47,4 +47,12 @@
 (global-set-key (kbd "M-<up>") 'move-line-up)
 (global-set-key (kbd "M-<down>") 'move-line-down)
 
+(defun kill-all-buffers ()
+  "Kill all buffers"
+  (interactive)
+  (mapc 'kill-buffer
+        (delq (current-buffer) (buffer-list))))
+
+(global-set-key (kbd "C-z C-d") 'kill-all-buffers)
+
 ;;; global_key_bindings.el ends here
