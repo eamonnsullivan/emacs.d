@@ -50,6 +50,7 @@
 (defun kill-all-buffers ()
   "Kill all buffers"
   (interactive)
+  (switch-to-buffer "*scratch*")
   (mapc 'kill-buffer
         (delq (current-buffer) (buffer-list))))
 
