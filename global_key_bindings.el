@@ -51,6 +51,7 @@
   "Kill all buffers"
   (interactive)
   (switch-to-buffer "*scratch*")
+  (save-some-buffers t)
   (mapc 'kill-buffer
         (delq (current-buffer) (buffer-list))))
 
