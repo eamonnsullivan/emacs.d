@@ -27,13 +27,17 @@
   :diminish projectile-mode
   :init
   (setq projectile-use-git-grep t)
-  :config (projectile-global-mode t)
+  :config
+  (projectile-global-mode t)
+  (helm-projectile-on)
+  (setq projectile-completion-system 'helm)
+  (setq projectile-switch-project-action 'helm-projectile-find-file)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
 
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(setq projectile-switch-project-action 'helm-projectile-find-file)
+
+
+
+
 
 ;;; projectile.el ends here
