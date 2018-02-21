@@ -99,6 +99,8 @@
    (quote
     (name old-name general-category canonical-combining-class bidi-class decomposition decimal-digit-value digit-value numeric-value iso-10646-comment)))
  '(display-time-24hr-format t)
+ '(eclimd-executable
+   "/Users/sullie09/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclimd")
  '(fci-rule-color "#383838")
  '(grep-find-ignored-directories
    (quote
@@ -144,7 +146,7 @@
     ("~/Dropbox/org/travel.org" "~/Dropbox/org/accounts.org" "~/Dropbox/org/personal.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org" "~/Dropbox/org/spending.org")))
  '(package-selected-packages
    (quote
-    (geben-helm-projectile diminish slack company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (nvm rjsx-mode geben-helm-projectile diminish slack company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -154,7 +156,7 @@
  '(scala-indent:align-forms nil)
  '(scala-indent:align-parameters t)
  '(scala-indent:default-run-on-strategy 2)
- '(scala-indent:indent-value-expression t)
+ '(scala-indent:indent-value-expression nil)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")

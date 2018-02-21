@@ -107,6 +107,19 @@
                                             "GList" "GSList" "GFunc" "GString"))))
 
 ;; javascript mode
+(use-package nvm
+  :commands (nvm-use nvm-use-for nvm--installed-versions))
+
+(use-package rjsx-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.jsx$" . rjsx-mode))
+  :config
+  (add-hook 'rjsx-mode-hook
+            (lambda()
+              (setq indent-tabs-mode nil)
+              (setq js-indent-level 2)
+              (setq js2-strict-missing-semi-warning nil))))
+
 (use-package js-comint
   :ensure t
   :config
@@ -117,6 +130,7 @@
               (local-set-key (kbd "C-c b") 'js-send-buffer)
               (local-set-key (kbd "C-c C-b") 'js-send-buffer-and-go)
               (local-set-key (kbd "C-c l") 'js-load-file-and-go))))
+
 (use-package js2-refactor
   :ensure t)
 (use-package js2-mode
@@ -133,6 +147,7 @@
                              (js2-imenu-extras-mode)
                              (js2-refactor-mode)
                              (js2r-add-keybindings-with-prefix "C-c C-r"))))
+
 (defun delete-tern-process()
   (interactive)
   (delete-process "Tern"))
@@ -233,7 +248,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
    (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode))
 
 ;; use web-mode for .jsx files
-(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+; (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
 
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)

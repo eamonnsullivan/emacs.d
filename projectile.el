@@ -27,6 +27,7 @@
   :diminish projectile-mode
   :init
   (setq projectile-use-git-grep t)
+  (setq projectile-indexing-method 'native)
   :config
   (projectile-global-mode t)
   (helm-projectile-on)
