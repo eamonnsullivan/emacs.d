@@ -44,6 +44,33 @@
   "*Do something if FUNCTION is available."
   `(when (fboundp ,func) ,foo))
 
+(defun eds-stop-emacs-1 ()
+  (if (daemonp)
+      (save-buffers-kill-emacs)
+    (save-buffers-kill-terminal)))
+
+(defun eds-stop-emacs (arg)
+  "Close emacs, with a prefix arg restart it."
+  (interactive "P")
+  (let ((confirm-kill-emacs (unless arg 'y-or-n-p))
+        (kill-emacs-query-functions
+         (if arg
+             (append (list
+                      (lambda ()
+                        (when (y-or-n-p (format "Really restart %s? "
+                                                (capitalize (invocation-name))))
+                          (add-hook 'kill-emacs-hook
+                                    (lambda ()
+                                      (call-process-shell-command
+                                       (format "(%s &)"
+                                               (or (executable-find "emacs")
+                                                   (executable-find "remacs")))))
+                                    t))))
+                     kill-emacs-query-functions)
+           kill-emacs-query-functions)))
+    (eds-stop-emacs-1)))
+
+
 ;; The rest of my init file, broken up into modules
 (defconst user-init-dir
   (cond ((boundp 'user-emacs-directory)
@@ -75,6 +102,13 @@
              "lastpass.el"
              "elfeed.el"))
   (load-user-file i))
+
+;; server
+(require 'server)
+(add-hook 'after-init-hook (lambda ()
+                             (unless (or (daemonp) (server-running-p))
+                               (server-start)
+                               (setq server-raise-frame t))))
 
 ;;; init.el ends here
 
