@@ -40,5 +40,7 @@
   :ensure t
   :diminish undo-tree-mode
   :config
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t))
 ;;; global_behaviour_settings.el ends here

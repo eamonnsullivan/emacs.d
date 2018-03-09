@@ -44,20 +44,42 @@
   :init
   (add-hook 'scala-mode-hook 'smartparens-mode)
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
+  (add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode)
   (add-hook 'python-mode-hook 'smartparens-mode)
   (add-hook 'java-mode-hook 'smartparens-mode)
   (add-hook 'js2-mode-hook 'smartparens-mode)
   :config
-  (require 'smartparens-config)
-  (sp-use-smartparens-bindings)
-  (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
-  (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
-  (sp-pair "{" "}" :wrap "C-{")
-  ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
-  (bind-key "C-<left>" nil smartparens-mode-map)
-  (bind-key "C-<right>" nil smartparens-mode-map)
-  (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
-  (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
+    (progn
+      (require 'smartparens-config)
+      ;; pair management
+
+      (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+      (sp-local-pair 'web-mode "<" nil :when '(my/sp-web-mode-is-code-context))
+
+      ;;; markdown-mode
+      (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+        (sp-local-pair "*" "*" :bind "C-*")
+        (sp-local-tag "2" "**" "**")
+        (sp-local-tag "s" "```scheme" "```")
+        (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+
+      ;;; html-mode
+      (sp-with-modes '(html-mode sgml-mode web-mode)
+        (sp-local-pair "<" ">"))
+
+       ;;; lisp modes
+      (sp-with-modes sp--lisp-modes
+        (sp-local-pair "(" nil :bind "C-("))
+      (sp-use-smartparens-bindings)
+      (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
+      (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
+      (sp-pair "{" "}" :wrap "C-{")
+
+    ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
+      (bind-key "C-<left>" nil smartparens-mode-map)
+      (bind-key "C-<right>" nil smartparens-mode-map)
+      (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
+      (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map)))
 
 ;; show parens
 (when-available 'show-paren-mode
@@ -248,7 +270,26 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
    (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode))
 
 ;; use web-mode for .jsx files
-; (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(defun my/web-mode-hook ()
+  (setq web-mode-enable-auto-pairing nil))
+
+(defun my/sp-web-mode-is-code-context (id action context)
+  (when (and (eq action 'insert)
+             (not (or (get-text-property (point) 'part-side)
+                      (get-text-property (point) 'block-side))))
+    t))
+
+(use-package web-mode
+  :mode "\\.html?\\'"
+  :config
+  (progn
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-code-indent-offset 2)
+    (setq web-mode-enable-current-element-highlight t)
+    (setq web-mode-ac-sources-alist
+          '(("css" . (ac-source-css-property))
+            ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
+          )))
 
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)

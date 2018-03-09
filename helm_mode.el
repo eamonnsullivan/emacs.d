@@ -27,9 +27,6 @@
   :diminish helm-mode
   :config
   (require 'helm-config)
-  (defvar helm-google-suggest-use-curl-p)
-  (defvar helm-ff-search-library-in-sexp)
-  (defvar helm-ff-file-name-history-use-recentf)
   ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
   ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
   ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
@@ -56,7 +53,11 @@
         helm-scroll-amount                    8
         helm-ff-file-name-history-use-recentf t
         helm-echo-input-in-header-line        t
-        helm-split-window-inside-p            t)
+        helm-split-window-inside-p            t
+        helm-ff-skip-boring-files             t
+        helm-idle-delay                     0.0
+        helm-input-idle-delay              0.01
+        helm-yas-display-key-on-candidate     t)
 
   (defun helm-hide-minibuffer-maybe ()
     "Hide minibuffer in Helm session if we use the header line as input field."

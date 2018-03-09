@@ -33,6 +33,7 @@
   (helm-projectile-on)
   (setq projectile-completion-system 'helm)
   (setq projectile-switch-project-action 'helm-projectile-find-file)
+  (add-to-list 'projectile-globally-ignored-files "node-modules")
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
 

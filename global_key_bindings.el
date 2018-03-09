@@ -56,5 +56,5 @@
         (delq (current-buffer) (buffer-list))))
 
 (global-set-key (kbd "C-z C-d") 'kill-all-buffers)
-
+(global-set-key (kbd "RET") 'newline-and-indent)
 ;;; global_key_bindings.el ends here
