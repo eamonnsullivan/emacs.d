@@ -100,7 +100,8 @@
              "multiple-cursors.el"
              "projectile.el"
              "lastpass.el"
-             "elfeed.el"))
+             "elfeed.el"
+             "markdown.el"))
   (load-user-file i))
 
 ;; server
@@ -181,7 +182,7 @@
     ("~/Dropbox/org/travel.org" "~/Dropbox/org/accounts.org" "~/Dropbox/org/personal.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org" "~/Dropbox/org/spending.org")))
  '(package-selected-packages
    (quote
-    (nvm rjsx-mode geben-helm-projectile diminish slack company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
+    (markdown-mode nvm rjsx-mode geben-helm-projectile diminish slack company-emacs-eclim eclim helm-descbinds company-go go-eldoc go-mode js-comint js2-refactor nodejs-repl tern-auto-complete company-tern elfeed-web elfeed-org elfeed-goodies elfeed git-timemachine project-explorer solarized-theme lastpass zenburn-theme dracula-theme elpy s undo-tree mc-extras multiple-cursors helm-ag exec-path-from-shell web-mode flycheck eclimd json-mode sql-upcase groovy-mode helm-projectile projectile eldoc-eval smartparens helm-ls-git use-package editorconfig js2-mode feature-mode package+ magit helm ensime)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
