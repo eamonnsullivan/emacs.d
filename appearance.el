@@ -35,6 +35,8 @@ for variable-pitch face."
                       :weight 'regular))
 
 (defun my-appearance-settings (&rest frame)
+  "Apply my preferences on graphical appearance."
+  (interactive "P")
   (progn
     (message "my-appearance-settings running.")
     (global-font-lock-mode 1)
@@ -80,5 +82,4 @@ for variable-pitch face."
   (my-appearance-settings))
 (ad-activate 'server-create-window-system-frame)
 (add-hook 'after-make-frame-functions 'my-appearance-settings t)
-
 ;;; appearance.el ends here

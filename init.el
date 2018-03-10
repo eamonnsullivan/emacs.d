@@ -108,9 +108,10 @@
 (require 'server)
 (add-hook 'after-init-hook (lambda ()
                              (unless (or (daemonp) (server-running-p))
-                               (server-start)
+                               (progn
+                                 (server-start)
+                                 (my-appearance-settings t))
                                (setq server-raise-frame t))))
-
 ;;; init.el ends here
 
 (custom-set-variables
