@@ -57,4 +57,7 @@
 
 (global-set-key (kbd "C-z C-d") 'kill-all-buffers)
 (global-set-key (kbd "RET") 'newline-and-indent)
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR." t)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 ;;; global_key_bindings.el ends here
