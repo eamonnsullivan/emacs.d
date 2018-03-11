@@ -340,4 +340,12 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'company-backends) '(company-go))
                             (company-mode))))
+;; comint
+(require 'comint)
+(setq ansi-color-for-comint-mode t)
+(defun eds/init-comint ()
+  ;; Don't jump around when output in a buffer happens
+  (set (make-local-variable 'scroll-conservatively) 1000))
+(add-hook 'comint-mode-hook 'eds/init-comint)
+
 ;;; programming.el ends here

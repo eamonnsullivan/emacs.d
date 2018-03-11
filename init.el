@@ -39,7 +39,9 @@
 (require 'bind-key)
 (setq use-package-always-ensure t)
 
-;; useful global macros
+;; useful global macros and functions
+(setq load-prefer-newer t) ;; load newest of byte-compiled/text
+
 (defmacro when-available (func foo)
   "*Do something if FUNCTION is available."
   `(when (fboundp ,func) ,foo))
