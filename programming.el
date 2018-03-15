@@ -97,7 +97,19 @@
 ;; company mode
 (use-package company
   :ensure t
-  :diminish company-mode)
+  :diminish company-mode
+  :commands company-mode
+  :init
+  (setq
+   company-dabbrev-ignore-case nil
+   company-dabbrev-code-ignore-case nil
+   company-dabbrev-downcase nil
+   company-idle-delay 0
+   company-minimum-prefix-length 4)
+  :config
+  ;; disables TAB in company-mode, freeing it for yasnippet
+  (define-key company-active-map [tab] nil)
+  (define-key company-active-map (kbd "TAB") nil))
 
 (use-package company-tern
   :ensure t)
@@ -162,6 +174,7 @@
   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (add-to-list 'company-backends 'company-tern)
   :config
+  (setq-default js2-ignored-warnings '("msg.extra.trailing.comma"))
   (add-hook 'js2-mode-hook (lambda ()
                              (setq js2-basic-offset 2)
                              (tern-mode)
@@ -181,6 +194,17 @@
   :init
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
+
+(use-package prettier-js
+  :ensure t
+  :config
+  (setq prettier-js-args '(
+                           "--trailing-comma" "es5"
+                           "--single-quote" "true"
+                           "--print-width" "100"
+                           ))
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
 
 ;; ensime
 (use-package ensime
@@ -245,7 +269,10 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
             :test-template-fn (lambda () bbc-test-template)))
 
 ;; feature-mode
-(defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala")
+(use-package feature-mode
+  :ensure t
+  :config
+  (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala"))
 
 ;; Try to find the step defining the current feature
 (defun select-current-line ()
@@ -259,7 +286,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   "message region or \"empty string\" if none highlighted"
   (interactive (if (use-region-p)
                    (list (region-beginning) (region-end))
-                 (list nil nil)))
+                 (List nil nil)))
   (message "%s" (if (and beg end)
                     (buffer-substring-no-properties beg end)
                   "empty string")))
@@ -269,7 +296,6 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
    (add-hook 'sql-mode-hook 'sql-upcase-mode)
    (add-hook 'sql-interactive-mode-hook 'sql-upcase-mode))
 
-;; use web-mode for .jsx files
 (defun my/web-mode-hook ()
   (setq web-mode-enable-auto-pairing nil))
 
@@ -299,6 +325,12 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 (use-package git-timemachine
   :ensure t
   :bind (("C-z g" . git-timemachine)))
+
+(use-package git-gutter
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode 't))
 
 (use-package project-explorer
   :ensure t
@@ -347,5 +379,17 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   ;; Don't jump around when output in a buffer happens
   (set (make-local-variable 'scroll-conservatively) 1000))
 (add-hook 'comint-mode-hook 'eds/init-comint)
+
+
+;; dumb-jump
+  (use-package dumb-jump
+    :ensure t
+    :diminish dumb-jump-mode
+    :chords ((".." . dumb-jump-go)
+             (",," . dumb-jump-back)))
+
+;; restclient
+(use-package restclient
+  :ensure t)
 
 ;;; programming.el ends here

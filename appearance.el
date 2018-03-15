@@ -21,6 +21,11 @@
 
 ;;; Code:
 
+(use-package zenburn-theme
+  :ensure t
+  :config
+  (load-theme 'zenburn t))
+
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
 Use DEFAULT-HEIGHT for default face and VARIABLE-PITCH-HEIGHT
