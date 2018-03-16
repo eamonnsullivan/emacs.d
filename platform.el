@@ -53,4 +53,10 @@
 (if (file-directory-p "/usr/local/bin")
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
 
+;; garbage collection tweaks
+(let ((normal-gc-cons-threshold (* 20 1024 1024))
+      (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'after-init-hook
+            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 ;;; platform.el ends here

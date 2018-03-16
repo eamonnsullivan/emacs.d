@@ -1,10 +1,11 @@
 ;;; init.el --- Initialization code for emacs
 
-;; Copyright (c) 2017 Eamonn Sullivan
+;; Copyright (c) 2018 Eamonn Sullivan
 
 ;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
 ;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
 ;; Created 23 March 2017
+;; Updated pretty much constantly
 
 ;; Homepage: https://github.com/eamonnsullivan/emacs.d
 
@@ -29,7 +30,6 @@
                     ("melpa-stable" . "http://stable.melpa.org/packages/")
                     ("elpy" . "http://jorgenschaefer.github.io/packages/"))
  package-archive-priorities '(("melpa" . 1)))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -46,33 +46,6 @@
 (defmacro when-available (func foo)
   "*Do something if FUNCTION is available."
   `(when (fboundp ,func) ,foo))
-
-(defun eds-stop-emacs-1 ()
-  (if (daemonp)
-      (save-buffers-kill-emacs)
-    (save-buffers-kill-terminal)))
-
-(defun eds-stop-emacs (arg)
-  "Close emacs, with a prefix arg restart it."
-  (interactive "P")
-  (let ((confirm-kill-emacs (unless arg 'y-or-n-p))
-        (kill-emacs-query-functions
-         (if arg
-             (append (list
-                      (lambda ()
-                        (when (y-or-n-p (format "Really restart %s? "
-                                                (capitalize (invocation-name))))
-                          (add-hook 'kill-emacs-hook
-                                    (lambda ()
-                                      (call-process-shell-command
-                                       (format "(%s &)"
-                                               (or (executable-find "emacs")
-                                                   (executable-find "remacs")))))
-                                    t))))
-                     kill-emacs-query-functions)
-           kill-emacs-query-functions)))
-    (eds-stop-emacs-1)))
-
 
 ;; The rest of my init file, broken up into modules
 (defconst user-init-dir
@@ -104,15 +77,8 @@
              "projectile.el"
              "lastpass.el"
              "elfeed.el"
-             "markdown.el"))
+             "markdown.el"
+             "server.el"))
   (load-user-file i))
 
-;; server
-(require 'server)
-(add-hook 'after-init-hook (lambda ()
-                             (unless (or (daemonp) (server-running-p))
-                               (progn
-                                 (server-start)
-                                 (my-appearance-settings t))
-                               (setq server-raise-frame t))))
 ;;; init.el ends here

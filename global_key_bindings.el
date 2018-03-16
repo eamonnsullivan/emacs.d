@@ -58,7 +58,7 @@
 (defun stop-and-restart-emacs ()
   "Restarts emacs"
   (interactive)
-  (eds-stop-emacs t))
+  (eds/restart-emacs t))
 
 (global-set-key (kbd "C-z C-d") 'kill-all-buffers)
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -67,4 +67,7 @@
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "C-z C-r") 'stop-and-restart-emacs)
 
+(use-package expand-region :ensure t
+  :bind (("C-=" . er/expand-region)
+         ("C--" . er/contract-region)))
 ;;; global_key_bindings.el ends here
