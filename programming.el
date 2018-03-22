@@ -197,12 +197,12 @@
 
 (use-package prettier-js
   :ensure t
+  :diminish prettier-js-mode
   :config
   (setq prettier-js-args '(
                            "--trailing-comma" "es5"
                            "--single-quote" "true"
-                           "--print-width" "100"
-                           ))
+                           "--print-width" "100"))
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'rjsx-mode-hook 'prettier-js-mode))
 

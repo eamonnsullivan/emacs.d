@@ -34,6 +34,7 @@
                         '(javascript-jshint)))
   ;; use eslint with js2-mode for js files
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   ;; customize flycheck temp file prefix
   (setq-default flycheck-temp-prefix ".flycheck")
   ;; disable json-jsonlist checking for json files
