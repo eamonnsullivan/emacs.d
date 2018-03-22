@@ -29,9 +29,9 @@
   (setq projectile-use-git-grep t)
   :config
   (projectile-global-mode t)
-  (helm-projectile-on)
-  (setq projectile-completion-system 'helm)
-  (setq projectile-switch-project-action 'helm-projectile-find-file)
+;;  (helm-projectile-on)
+;;  (setq projectile-completion-system 'helm)
+;;  (setq projectile-switch-project-action 'helm-projectile-find-file)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
   (add-to-list 'projectile-globally-ignored-files "node-modules")
   :bind   (("s-f" . projectile-find-file)
