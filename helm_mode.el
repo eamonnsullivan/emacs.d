@@ -54,7 +54,6 @@
         helm-ff-file-name-history-use-recentf t
         helm-echo-input-in-header-line        t
         helm-split-window-inside-p            t
-        helm-ff-skip-boring-files             t
         helm-idle-delay                     0.0
         helm-input-idle-delay              0.01
         helm-yas-display-key-on-candidate     t)
