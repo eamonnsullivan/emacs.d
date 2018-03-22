@@ -52,6 +52,7 @@ for variable-pitch face."
     (when-available 'size-indication-mode
                     (size-indication-mode t)) ; show file size (emacs 22+)
     (display-time-mode t)
+    (setq display-time-24hr-format t)
     (when (window-system)
       (message "setting default-frame-alist")
       (setq default-frame-alist

@@ -46,6 +46,8 @@
           ("n" "Notes" entry (file+headline (concat org-directory "/notes.org") "General Notes"))
           ("p" "Personal Todo" entry (file+headline (concat org-directory "/personal.org") "Personal Tasks")
            "* TODO %?\n  %i\n  %a")))
+  (setq org-agenda-files (quote
+                          ("~/Dropbox/org/travel.org" "~/Dropbox/org/accounts.org" "~/Dropbox/org/personal.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/svp.org" "~/Dropbox/org/recipes.org" "~/Dropbox/org/tasks.org" "~/Dropbox/org/ideas.org" "~/Dropbox/org/spending.org")))
 
   ;; mobile org
   (defvar org-mobile-directory)

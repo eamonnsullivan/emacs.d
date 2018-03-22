@@ -341,6 +341,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   :ensure t
   :init
   (setq eclimd-autostart t)
+  (setq eclimd-executable "/Users/sullie09/eclipse/java-oxygen/Eclipse.app/Contents/Eclipse/eclimd")
   (add-hook 'java-mode-hook 'eclim-mode)
   (require 'eclimd)
   :config
