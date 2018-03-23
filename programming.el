@@ -195,17 +195,23 @@
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
 
-(use-package prettier-js
+(use-package add-node-modules-path
   :ensure t
-  :diminish prettier-js-mode
   :config
-  (setq prettier-js-args '(
-                           "--trailing-comma" "es5"
-                           "--single-quote" "true"
-                           "--print-width" "100"))
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
+  (add-hook 'js2-mode-hook #'add-node-modules-path)
+  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
 
+(use-package eslint-fix
+  :ensure t
+  :config
+  (eval-after-load 'js2-mode
+    '(add-hook 'js2-mode-hook
+               (lambda()
+                 (add-hook 'after-save-hook 'eslint-fix nil t))))
+  (eval-after-load 'rjsx-mode
+    '(add-hook 'rjsx-mode-hook
+               (lambda()
+                 (add-hook 'after-save-hook 'eslint-fix nil t)))))
 ;; ensime
 (use-package ensime
   :ensure t
