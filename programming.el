@@ -201,6 +201,18 @@
   (add-hook 'js2-mode-hook #'add-node-modules-path)
   (add-hook 'rjsx-mode-hook #'add-node-modules-path))
 
+(use-package prettier-js
+  :ensure t
+  :diminish prettier-js-mode
+  :config
+  (setq prettier-js-args '(
+                           "--trailing-comma" "es5"
+                           "--print-width" "100"
+                           "--arrow-parens" "always"
+                           "--require-pragma"))
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
+
 (use-package eslint-fix
   :ensure t
   :config
