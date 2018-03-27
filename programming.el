@@ -152,7 +152,10 @@
             (lambda()
               (setq indent-tabs-mode nil)
               (setq js-indent-level 2)
-              (setq js2-strict-missing-semi-warning nil))))
+              (setq js2-strict-missing-semi-warning nil)
+              (js2-imenu-extras-mode)
+              (js2-refactor-mode)
+              (js2r-add-keybindings-with-prefix "C-c C-r"))))
 
 (use-package js-comint
   :ensure t
@@ -195,11 +198,11 @@
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
   (add-hook 'text-mode-hook (editorconfig-mode 1)))
 
-(use-package add-node-modules-path
-  :ensure t
-  :config
-  (add-hook 'js2-mode-hook #'add-node-modules-path)
-  (add-hook 'rjsx-mode-hook #'add-node-modules-path))
+ (use-package add-node-modules-path
+   :ensure t
+   :config
+   (add-hook 'js2-mode-hook 'add-node-modules-path)
+   (add-hook 'rjsx-mode-hook 'add-node-modules-path))
 
 (use-package prettier-js
   :ensure t
