@@ -46,6 +46,13 @@ for variable-pitch face."
     (message "my-appearance-settings running.")
     (global-font-lock-mode 1)
     (transient-mark-mode t)
+    (menu-bar-mode -1)
+    (when (window-system)
+      (message "toggling tool bar off")
+      (tool-bar-mode -1))
+    (when (window-system)
+      (message "toggling scroll bar off")
+      (toggle-scroll-bar -1))
     (setq inhibit-startup-message t)
     (line-number-mode t)                      ; show line numbers
     (column-number-mode t)                    ; show column numbers
@@ -81,4 +88,6 @@ for variable-pitch face."
   (my-appearance-settings))
 (ad-activate 'server-create-window-system-frame)
 (add-hook 'after-make-frame-functions 'my-appearance-settings t)
+(unless (version< emacs-version "27.0")
+  (add-hook 'server-after-make-frame-hook 'my-appearance-settings t))
 ;;; appearance.el ends here

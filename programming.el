@@ -412,8 +412,4 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
     :chords ((".." . dumb-jump-go)
              (",," . dumb-jump-back)))
 
-;; restclient
-(use-package restclient
-  :ensure t)
-
 ;;; programming.el ends here
