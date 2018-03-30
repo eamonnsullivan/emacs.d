@@ -22,6 +22,14 @@
 ;;; Code:
 
 (defvar imenu-auto-rescan t)
+;; general, all languages
+(use-package editorconfig
+  :ensure t
+  :defer t
+  :diminish editorconfig-mode
+  :init
+  (add-hook 'prog-mode-hook (editorconfig-mode 1))
+  (add-hook 'text-mode-hook (editorconfig-mode 1)))
 ;; python
 (use-package elpy
   :ensure t
@@ -186,33 +194,26 @@
                              (js2-refactor-mode)
                              (js2r-add-keybindings-with-prefix "C-c C-r"))))
 
-(defun delete-tern-process()
-  (interactive)
-  (delete-process "Tern"))
-
-(use-package editorconfig
-  :ensure t
-  :defer t
-  :diminish editorconfig-mode
-  :init
-  (add-hook 'prog-mode-hook (editorconfig-mode 1))
-  (add-hook 'text-mode-hook (editorconfig-mode 1)))
-
- (use-package add-node-modules-path
+(use-package add-node-modules-path
    :ensure t
    :config
    (add-hook 'js2-mode-hook 'add-node-modules-path)
    (add-hook 'rjsx-mode-hook 'add-node-modules-path))
+
+(defun delete-tern-process()
+  (interactive)
+  (delete-process "Tern"))
 
 (use-package prettier-js
   :ensure t
   :diminish prettier-js-mode
   :config
   (setq prettier-js-args '(
-                           "--trailing-comma" "es5"
                            "--print-width" "100"
                            "--arrow-parens" "always"
-                           "--require-pragma"))
+                           "--tab-width" "2"
+                           "--use-tabs" "false"
+                           "--trailing-comma" "all"))
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'rjsx-mode-hook 'prettier-js-mode))
 
@@ -227,6 +228,7 @@
     '(add-hook 'rjsx-mode-hook
                (lambda()
                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
+
 ;; ensime
 (use-package ensime
   :ensure t
