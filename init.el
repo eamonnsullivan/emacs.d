@@ -30,7 +30,8 @@
                     ("melpa-stable" . "http://stable.melpa.org/packages/")
                     ("elpy" . "http://jorgenschaefer.github.io/packages/"))
  package-archive-priorities '(("melpa" . 1)))
-(package-initialize)
+(if (version< emacs-version "27.0")
+    (package-initialize))
 
 (when (not package-archive-contents)
   (package-refresh-contents)
