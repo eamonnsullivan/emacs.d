@@ -65,14 +65,25 @@
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "println(s\"EAMONN DEBUG: " _ "\")")
 
+(define-skeleton eds-edeb-expansion-javascript
+  "Insert a skeleton for a debugging console log statement. Leave point in the dumping statement."
+  > "console.log(`EAMONN DEBUG: ${JSON.stringify(" _ ")}`);")
+
 (define-skeleton eds-edeb-expansion-java
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "System.out.println(\"EAMONN DEBUG: " _ "\")")
 
 (define-skeleton eds-short-documentation-block-scala
-"Insert a documenation comment block."
+"Insert a documentation comment block."
 >"/**"\n
 "* " _ " "\n
+"*"\n
+"*/")
+
+(define-skeleton eds-short-documentation-block-javascript
+  "Insert a documentation comment block."
+>"/**"\n
+-2 "* " _ " "\n
 "*"\n
 "*/")
 
