@@ -163,7 +163,8 @@
               (setq js2-strict-missing-semi-warning nil)
               (js2-imenu-extras-mode)
               (js2-refactor-mode)
-              (js2r-add-keybindings-with-prefix "C-c C-r"))))
+              (js2r-add-keybindings-with-prefix "C-c C-r")
+              (auto-revert-mode))))
 
 (use-package js-comint
   :ensure t
@@ -192,7 +193,8 @@
                              (company-mode)
                              (js2-imenu-extras-mode)
                              (js2-refactor-mode)
-                             (js2r-add-keybindings-with-prefix "C-c C-r"))))
+                             (js2r-add-keybindings-with-prefix "C-c C-r")
+                             (auto-revert-mode))))
 
 (use-package add-node-modules-path
    :ensure t
