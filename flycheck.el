@@ -32,7 +32,7 @@
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(javascript-jshint)))
-  ;; use eslint with js2-mode for js files
+  ;; use eslint with js2-mode for js and JSX files
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   ;; customize flycheck temp file prefix
@@ -43,6 +43,7 @@
                         '(json-jsonlist)))
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
-                        '(emacs-lisp-checkdoc))))
+                        '(emacs-lisp-checkdoc)))
+  )
 
 ;;; flycheck.el ends here

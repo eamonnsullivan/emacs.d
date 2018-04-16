@@ -164,7 +164,8 @@
               (js2-imenu-extras-mode)
               (js2-refactor-mode)
               (js2r-add-keybindings-with-prefix "C-c C-r")
-              (auto-revert-mode))))
+              (auto-revert-mode)
+              (flycheck-mode 1))))
 
 (use-package js-comint
   :ensure t
@@ -194,7 +195,8 @@
                              (js2-imenu-extras-mode)
                              (js2-refactor-mode)
                              (js2r-add-keybindings-with-prefix "C-c C-r")
-                             (auto-revert-mode))))
+                             (auto-revert-mode)
+                             (flycheck-mode 1))))
 
 (use-package add-node-modules-path
    :ensure t
