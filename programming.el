@@ -154,13 +154,18 @@
 
 (use-package rjsx-mode
   :init
-  (add-to-list 'auto-mode-alist '("\\.jsx$" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.js?" . rjsx-mode))
+  (add-to-list 'company-backends 'company-tern)
   :config
   (add-hook 'rjsx-mode-hook
             (lambda()
-              (setq indent-tabs-mode nil)
-              (setq js-indent-level 2)
-              (setq js2-strict-missing-semi-warning nil)
+              (setq js2-basic-offset 2
+                    js2-highlight-level 3
+                    js2-bounce-indent-p t
+                    indent-tabs-mode nil
+                    js-indent-level 2
+                    js2-strict-missing-semi-warning nil)
+              (tern-mode)
               (js2-imenu-extras-mode)
               (js2-refactor-mode)
               (js2r-add-keybindings-with-prefix "C-c C-r")
@@ -184,19 +189,23 @@
   :ensure t
   :defer t
   :init
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
   (add-to-list 'company-backends 'company-tern)
   :config
   (setq-default js2-ignored-warnings '("msg.extra.trailing.comma"))
-  (add-hook 'js2-mode-hook (lambda ()
-                             (setq js2-basic-offset 2)
-                             (tern-mode)
-                             (company-mode)
-                             (js2-imenu-extras-mode)
-                             (js2-refactor-mode)
-                             (js2r-add-keybindings-with-prefix "C-c C-r")
-                             (auto-revert-mode)
-                             (flycheck-mode 1))))
+  (add-hook 'js2-mode-hook
+            (lambda()
+              (setq js2-basic-offset 2
+                    js2-highlight-level 3
+                    js2-bounce-indent-p t
+                    indent-tabs-mode nil
+                    js-indent-level 2
+                    js2-strict-missing-semi-warning nil)
+              (tern-mode)
+              (js2-imenu-extras-mode)
+              (js2-refactor-mode)
+              (js2r-add-keybindings-with-prefix "C-c C-r")
+              (auto-revert-mode)
+              (flycheck-mode 1))))
 
 (use-package add-node-modules-path
    :ensure t
