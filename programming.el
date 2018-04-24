@@ -222,13 +222,10 @@
   :diminish prettier-js-mode
   :config
   (setq prettier-js-args '(
-                           "--print-width" "100"
                            "--arrow-parens" "always"
                            "--tab-width" "2"
                            "--use-tabs" "false"
-                           "--trailing-comma" "all"))
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
+                           "--trailing-comma" "all")))
 
 (use-package eslint-fix
   :ensure t
