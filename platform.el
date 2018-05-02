@@ -42,10 +42,14 @@
   ;; Seems to be needed for path to work on the mac
   (use-package exec-path-from-shell
     :ensure t
+    :if (and (eq system-type 'darwin) (display-graphic-p))
     :config
     (message "Initializing path from shell on Mac OS")
-    (exec-path-from-shell-initialize)
-    (exec-path-from-shell-copy-env "GOPATH")))
+    (dolist (var '("GOPATH"
+                   "SERVER_ENV"
+                   ))
+      (add-to-list 'exec-path-from-shell-variables var))
+    (exec-path-from-shell-initialize)))
 
 ;; use local bin, if available
 (if (file-directory-p "/usr/local/bin")

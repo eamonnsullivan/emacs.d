@@ -21,6 +21,9 @@
 
 ;;; Code:
 
+(prefer-coding-system 'utf-8-unix)
+(set-language-environment "UTF-8")
+
 ;; packages
 (setq custom-file (make-temp-file "emacs-custom")) ;; try this
 (require 'package)
@@ -62,6 +65,7 @@
   (load-file (expand-file-name file user-init-dir)))
 
 (dolist (i '("org.el"
+             "company.el"
              "general_utils.el"
              "proxy_load.el"
              "set_environment.el"

@@ -102,26 +102,6 @@
   :config
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
 
-;; company mode
-(use-package company
-  :ensure t
-  :diminish company-mode
-  :commands company-mode
-  :init
-  (setq
-   company-dabbrev-ignore-case nil
-   company-dabbrev-code-ignore-case nil
-   company-dabbrev-downcase nil
-   company-idle-delay 0
-   company-minimum-prefix-length 4)
-  :config
-  ;; disables TAB in company-mode, freeing it for yasnippet
-  (define-key company-active-map [tab] nil)
-  (define-key company-active-map (kbd "TAB") nil))
-
-(use-package company-tern
-  :ensure t)
-
 ;; cc-mode customizations.
 (defun my-make-CR-do-indent ()
   (defvar c-mode-base-map)
@@ -155,7 +135,6 @@
 (use-package rjsx-mode
   :init
   (add-to-list 'auto-mode-alist '("\\.js?" . rjsx-mode))
-  (add-to-list 'company-backends 'company-tern)
   :config
   (add-hook 'rjsx-mode-hook
             (lambda()
@@ -188,8 +167,6 @@
 (use-package js2-mode
   :ensure t
   :defer t
-  :init
-  (add-to-list 'company-backends 'company-tern)
   :config
   (setq-default js2-ignored-warnings '("msg.extra.trailing.comma"))
   (add-hook 'js2-mode-hook
@@ -400,12 +377,7 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
   :ensure t
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
-(use-package company-go
-  :ensure t
-  :config
-  (add-hook 'go-mode-hook (lambda ()
-                            (set (make-local-variable 'company-backends) '(company-go))
-                            (company-mode))))
+
 ;; comint
 (require 'comint)
 (setq ansi-color-for-comint-mode t)
