@@ -74,4 +74,8 @@
     (setq auto-revert-use-notify nil))
   :diminish (auto-revert-mode . " Ⓐ"))
 
+(use-package swiper
+  :ensure t
+  :bind ("C-S-s" . swiper))
+
 (provide 'init-global-behaviour)

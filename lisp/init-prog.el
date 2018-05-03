@@ -84,11 +84,12 @@
 
 
 ;; dumb-jump
-  (use-package dumb-jump
+(use-package dumb-jump
     :ensure t
     :diminish dumb-jump-mode
-    :chords ((".." . dumb-jump-go)
-             (",," . dumb-jump-back)))
+    :chords ((" j" . dumb-jump-go)
+             (" k" . dumb-jump-back)
+             (" h" . dumb-jump-quick-look)))
 
 ;; general refactoring menu
 (use-package emr
