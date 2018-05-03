@@ -47,6 +47,6 @@
     :config
     (bind-keys :map company-active-map
                ("C-\\" . company-try-hard)))
-  :diminish company-mode)
+  :diminish (company-mode . "CMP"))
 
 (provide 'init-company)

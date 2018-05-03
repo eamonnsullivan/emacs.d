@@ -20,7 +20,9 @@
 
 ;;; Code:
 
-;; useful global macros and functions
+(if (version< emacs-version "27.0")
+    (package-initialize))
+
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 
 (defmacro when-available (func foo)
@@ -31,15 +33,14 @@
 (set-language-environment "UTF-8")
 
 (setq custom-file (make-temp-file "emacs-custom")) ;; Disable the auto-generated customize section.
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;; The rest of my init file, broken up into libraries
+;; The rest of my init file, broken up into libraries in the lisp directory
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-elpa)
 (require 'init-org)
 (require 'init-company)
 (require 'init-utils)
 (require 'init-proxy)
-(require 'init-env)
 (require 'init-platform)
 (require 'init-appearance)
 (require 'init-global-bindings)

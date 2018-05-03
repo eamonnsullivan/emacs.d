@@ -30,8 +30,6 @@
                     ("melpa-stable" . "http://stable.melpa.org/packages/")
                     ("elpy" . "http://jorgenschaefer.github.io/packages/"))
  package-archive-priorities '(("melpa" . 1)))
-(if (version< emacs-version "27.0")
-    (package-initialize))
 
 (when (not package-archive-contents)
   (package-refresh-contents)
@@ -39,6 +37,7 @@
 (eval-when-compile
   (require 'use-package))
 (require 'bind-key)
+(require 'diminish)
 (setq use-package-always-ensure t)
 
 

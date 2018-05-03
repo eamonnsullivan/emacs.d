@@ -1,24 +1,35 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-scala.el --- stuff related to coding in scala
 
+(use-package scala-mode
+  :pin melpa-stable
+  :defer t
+  :config
+  (setq scala-indent:default-run-on-strategy
+        scala-indent:operator-strategy))
+
 ;; ensime
 (use-package ensime
   :ensure t
   :pin melpa-stable
+  :after (scala-mode)
+  :bind (:map ensime-mode-map
+              ("C-c m E" . ensime-reload))
   :config
   (setq ensime-search-interface 'helm)
   (setq ensime-use-helm t)
   (setq ensime-startup-notification nil)
   (setq ensime-startup-snapshot-notification nil)
-  (add-hook 'scala-mode-hook 'ensime-mode))
+  (add-hook 'scala-mode-hook #'ensime-mode)
+
+  (use-package ensime-expand-region
+    :ensure ensime
+    :after (ensime)))
 
 (use-package sbt-mode
   :pin melpa-stable
   :defer t)
 
-(use-package scala-mode
-  :pin melpa-stable
-  :defer t)
 
 ;; customize ensime's implementation/test goto configuration for the
 ;; BBC's slightly non-standard layout in some older projects. Going

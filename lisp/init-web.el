@@ -22,4 +22,10 @@
             ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
           )))
 
+(use-package rainbow-mode
+  :ensure t
+  :config
+  (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
+                (add-hook hook 'rainbow-mode)))
+
 (provide 'init-web)
