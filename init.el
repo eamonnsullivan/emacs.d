@@ -4,7 +4,6 @@
 
 ;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
 ;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
-;; Created 23 March 2017
 ;; Updated pretty much constantly
 
 ;; Homepage: https://github.com/eamonnsullivan/emacs.d
@@ -21,29 +20,6 @@
 
 ;;; Code:
 
-(prefer-coding-system 'utf-8-unix)
-(set-language-environment "UTF-8")
-
-;; packages
-(setq custom-file (make-temp-file "emacs-custom")) ;; try this
-(require 'package)
-(setq
- package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                    ("melpa" . "http://melpa.org/packages/")
-                    ("melpa-stable" . "http://stable.melpa.org/packages/")
-                    ("elpy" . "http://jorgenschaefer.github.io/packages/"))
- package-archive-priorities '(("melpa" . 1)))
-(if (version< emacs-version "27.0")
-    (package-initialize))
-
-(when (not package-archive-contents)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
-(require 'bind-key)
-(setq use-package-always-ensure t)
-
 ;; useful global macros and functions
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 
@@ -51,39 +27,41 @@
   "*Do something if FUNCTION is available."
   `(when (fboundp ,func) ,foo))
 
-;; The rest of my init file, broken up into modules
-(defconst user-init-dir
-  (cond ((boundp 'user-emacs-directory)
-         user-emacs-directory)
-        ((boundp 'user-init-directory)
-         user-init-directory)
-        (t "~/.emacs.d/")))
+(prefer-coding-system 'utf-8-unix)
+(set-language-environment "UTF-8")
 
-(defun load-user-file (file)
-  (interactive "f")
-  "Load a file in current user's configuration directory"
-  (load-file (expand-file-name file user-init-dir)))
+(setq custom-file (make-temp-file "emacs-custom")) ;; Disable the auto-generated customize section.
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-(dolist (i '("org.el"
-             "company.el"
-             "general_utils.el"
-             "proxy_load.el"
-             "set_environment.el"
-             "platform.el"
-             "appearance.el"
-             "global_key_bindings.el"
-             "global_behaviour_settings.el"
-             "helm_mode.el"
-             "programming.el"
-             "abbrev_mode.el"
-             "ansi_term.el"
-             "flycheck.el"
-             "multiple-cursors.el"
-             "projectile.el"
-             "lastpass.el"
-             "elfeed.el"
-             "markdown.el"
-             "server.el"))
-  (load-user-file i))
+;; The rest of my init file, broken up into libraries
+(require 'init-elpa)
+(require 'init-org)
+(require 'init-company)
+(require 'init-utils)
+(require 'init-proxy)
+(require 'init-env)
+(require 'init-platform)
+(require 'init-appearance)
+(require 'init-global-bindings)
+(require 'init-global-behaviour)
+(require 'init-helm)
+(require 'init-prog)
+(require 'init-python)
+(require 'init-cc)
+(require 'init-js)
+(require 'init-scala)
+(require 'init-web)
+(require 'init-git)
+(require 'init-java)
+(require 'init-go)
+(require 'init-abbrev)
+(require 'init-term)
+(require 'init-flycheck)
+(require 'init-mc)
+(require 'init-projectile)
+(require 'init-elfeed)
+(require 'init-markdown)
+(require 'init-server)
 
+(provide 'init)
 ;;; init.el ends here
