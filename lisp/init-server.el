@@ -1,25 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; server.el -- starting/stopping the emacs server
-
-;; Copyright (c) 2018 Eamonn Sullivan
-
-;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
-;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
-;; Created 16 March 2018
-
-;; Homepage: https://github.com/eamonnsullivan/emacs.d
-
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 3 of
-;; the License, or (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be
-;; useful, but WITHOUT ANY WARRANTY; without even the implied
-;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-;; PURPOSE.  See the GNU General Public License for more details.
-
-;;; Code:
+;;; init-server.el -- starting/stopping the emacs server
 
 (defun eds/kill-emacs ()
   (if (daemonp)
@@ -57,6 +37,4 @@
                                  (my-appearance-settings t))
                                (setq server-raise-frame t))))
 
-
-
-;;; server.el ends here
+(provide 'init-server)
