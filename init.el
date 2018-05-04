@@ -63,6 +63,7 @@
 (require 'init-elfeed)
 (require 'init-markdown)
 (require 'init-server)
+(require 'init-lsp)
 
 (provide 'init)
 ;;; init.el ends here
