@@ -4,7 +4,7 @@
 ;; never use tabs
 (setq-default indent-tabs-mode nil)
 (setq delete-by-moving-to-trash t) ;; move to trash folder
-
+(setq require-final-newline t) ;; unix world works better with a final newline.
 ;; Turn off the annoying default backup behaviour
 (if (file-directory-p "~/.emacs.d/backups")
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
