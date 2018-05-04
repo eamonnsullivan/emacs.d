@@ -3,6 +3,7 @@
 
 ;; never use tabs
 (setq-default indent-tabs-mode nil)
+(setq delete-by-moving-to-trash t) ;; move to trash folder
 
 ;; Turn off the annoying default backup behaviour
 (if (file-directory-p "~/.emacs.d/backups")
@@ -15,11 +16,15 @@
           )
   (message "Directory does not exist: ~/.emacs.d/backups"))
 
-;; use ibuffer instead of the older list-buffers
-; (defalias 'list-buffers 'ibuffer)
-
 ;; delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(setq-default major-mode 'text-mode)
+(add-hook 'text-mode-hook
+          (lambda ()
+            (turn-on-auto-fill)
+            (diminish 'auto-fill-function)))
+(setq sentence-end-double-space nil)
 
 (use-package use-package-chords
     :ensure t
@@ -77,5 +82,25 @@
 (use-package swiper
   :ensure t
   :bind ("C-S-s" . swiper))
+
+;; Jump to things in Emacs tree-style
+(use-package avy
+  :bind (("C-:" . avy-goto-char)
+         ("C-'" . avy-goto-char-2)
+         ("M-g f" . avy-goto-line)
+         ("M-g w" . avy-goto-word-1)
+         ("M-g e" . avy-goto-word-0))
+  :init (add-hook 'after-init-hook #'avy-setup-default)
+  :config (setq avy-background t))
+
+;; Display available keybindings in popup
+(use-package which-key
+  :diminish which-key-mode
+  :bind (:map help-map ("C-h" . which-key-C-h-dispatch))
+  :init (add-hook 'after-init-hook #'which-key-mode))
+
+(use-package discover-my-major
+  :bind (("C-h M-m" . discover-my-major)
+         ("C-h M-M" . discover-my-mode)))
 
 (provide 'init-global-behaviour)

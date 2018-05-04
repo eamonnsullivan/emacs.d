@@ -1,6 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-proxy.el --- Set up the internet proxy, if necessary.
 
+(defvar *long-proxy*)
+(defvar *short-proxy*)
+(defvar *proxy-host*)
+(defvar *no-proxy*)
 (defvar no-proxy-hosts (mapconcat 'identity '("*.core.bbc.co.uk"
                                               "*.gateway.bbc.co.uk"
                                               "*.sandbox.dev.bbc.co.uk"
@@ -46,5 +50,12 @@
         (turn-proxy-off)
       (turn-proxy-on)))
 (proxy-check)
+
+(defun show-current-proxy ()
+  "Show whether we have a proxy set."
+  (interactive)
+  (if url-proxy-services
+      (message "Current proxy is \"%s\"" *proxy-host*)
+    (message "No proxy")))
 
 (provide 'init-proxy)

@@ -30,7 +30,8 @@
                      (save-excursion
                        (goto-char (point-min))
                        (let ((buff (current-buffer)))
-                         (if (search-forward "React." nil t 1)
+                         (if (or (search-forward "React." nil t 1)
+                                 (search-forward "import React" nil t 1))
                              (rjsx-mode)
                            (js2-mode))))))))
   :config
