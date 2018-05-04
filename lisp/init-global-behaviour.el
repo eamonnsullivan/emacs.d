@@ -103,4 +103,15 @@
   :bind (("C-h M-m" . discover-my-major)
          ("C-h M-M" . discover-my-mode)))
 
+(use-package crux
+  :ensure t
+  :bind (("C-k"                          . crux-smart-kill-line)
+         ([(control shift return)]       . crux-smart-open-line-above)
+         ([(shift return)]               . crux-smart-open-line)
+         ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+         ("s-r"                          . crux-recentf-find-file)
+         ("C-c D"                        . crux-delete-file-and-buffer)
+         ("C-c r"                        . crux-rename-file-and-buffer)
+         ("C-c k"                        . crux-kill-other-buffers)))
+
 (provide 'init-global-behaviour)
