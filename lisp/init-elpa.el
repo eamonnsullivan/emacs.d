@@ -41,5 +41,12 @@
   :ensure t)
 (setq use-package-always-ensure t)
 
+(use-package paradox
+  :init (defalias 'upgrade-packages 'paradox-upgrade-packages)
+  :config
+  (setq paradox-github-token t)
+  (setq paradox-execute-asynchronously t)
+  (setq paradox-automatically-star nil)
+  (setq paradox-display-star-count nil))
 
 (provide 'init-elpa)

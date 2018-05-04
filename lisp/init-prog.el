@@ -4,12 +4,8 @@
 (defvar imenu-auto-rescan t)
 ;; general, all languages
 (use-package editorconfig
-  :ensure t
-  :defer t
   :diminish editorconfig-mode
-  :init
-  (add-hook 'prog-mode-hook (editorconfig-mode 1))
-  (add-hook 'text-mode-hook (editorconfig-mode 1)))
+  :init (add-hook 'after-init-hook #'editorconfig-mode))
 
 ;; smartparens-mode
 (use-package smartparens

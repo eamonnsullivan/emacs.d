@@ -46,6 +46,7 @@
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "C-z C-r") 'stop-and-restart-emacs)
+(global-set-key (kbd "C-z C-u") 'upgrade-packages)
 
 (use-package expand-region :ensure t
   :bind (("C-=" . er/expand-region)
