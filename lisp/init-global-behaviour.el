@@ -114,4 +114,8 @@
          ("C-c r"                        . crux-rename-file-and-buffer)
          ("C-c k"                        . crux-kill-other-buffers)))
 
+;; font scaling
+(use-package default-text-scale
+  :ensure t)
+
 (provide 'init-global-behaviour)

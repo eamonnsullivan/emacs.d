@@ -64,6 +64,6 @@
 (require 'init-markdown)
 (require 'init-server)
 (require 'init-lsp)
-
+(require 'init-hydra)
 (provide 'init)
 ;;; init.el ends here
