@@ -12,7 +12,6 @@
   :ensure t
   :defer t
   :commands
-  smartparens-strict-mode
   smartparens-mode
   sp-restrict-to-pairs-interactive
   sp-local-pair
@@ -24,6 +23,8 @@
   (add-hook 'python-mode-hook 'smartparens-mode)
   (add-hook 'java-mode-hook 'smartparens-mode)
   (add-hook 'js2-mode-hook 'smartparens-mode)
+  (add-hook 'markdown-mode 'smartparens-mode)
+  (add-hook 'html-mode-hook 'smartparens-mode)
   :config
     (progn
       (require 'smartparens-config)
@@ -52,8 +53,6 @@
       (sp-pair "{" "}" :wrap "C-{")
 
     ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
-      (bind-key "C-<left>" nil smartparens-mode-map)
-      (bind-key "C-<right>" nil smartparens-mode-map)
       (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
       (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map)))
 

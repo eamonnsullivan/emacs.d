@@ -27,9 +27,11 @@
 (setq sentence-end-double-space nil)
 
 (use-package use-package-chords
-    :ensure t
-    :config
-    (key-chord-mode 1))
+  :ensure t
+  :init
+  (setq key-chord-two-keys-delay 0.05)
+  :config
+  (key-chord-mode 1))
 
 (defun eds/switch-to-previous-buffer ()
     "Switch to previously open buffer.
@@ -117,5 +119,12 @@
 ;; font scaling
 (use-package default-text-scale
   :ensure t)
+
+(use-package dashboard
+  :init
+  (setq dashboard-items '((recents . 5)
+                          (projects . 5)))
+  :config
+  (dashboard-setup-startup-hook))
 
 (provide 'init-global-behaviour)

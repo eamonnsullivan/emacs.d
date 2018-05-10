@@ -65,5 +65,6 @@
 (require 'init-server)
 (require 'init-lsp)
 (require 'init-hydra)
+(require 'init-ts)
 (provide 'init)
 ;;; init.el ends here
