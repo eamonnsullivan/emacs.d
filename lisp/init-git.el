@@ -2,13 +2,8 @@
 ;;; init-git.el --- stuff related to git
 
 (use-package magit
-  :ensure t
   :chords (" m" . magit-status)
   :commands (magit-status))
-
-(use-package git-timemachine
-  :ensure t
-  :bind (("C-z g" . git-timemachine)))
 
 (use-package git-gutter
   :ensure t

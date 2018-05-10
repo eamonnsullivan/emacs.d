@@ -4,12 +4,9 @@
 (use-package nvm
   :commands (nvm-use nvm-use-for nvm--installed-versions))
 
-(use-package rjsx-mode
-  :defer t
-  :ensure t)
+(use-package rjsx-mode)
 
 (use-package js-comint
-  :ensure t
   :config
   (add-hook 'js2-mode-hook
             (lambda ()
@@ -20,8 +17,6 @@
               (local-set-key (kbd "C-c l") 'js-load-file-and-go))))
 
 (use-package js2-mode
-  :ensure t
-  :defer t
   :init
   (progn
     (add-to-list
@@ -51,7 +46,6 @@
               (flycheck-mode 1))))
 
 (use-package add-node-modules-path
-   :ensure t
    :config
    (add-hook 'js2-mode-hook 'add-node-modules-path)
    (add-hook 'rjsx-mode-hook 'add-node-modules-path))
@@ -61,7 +55,6 @@
   (delete-process "Tern"))
 
 (use-package prettier-js
-  :ensure t
   :diminish prettier-js-mode
   :config
   (setq prettier-js-args '(
@@ -71,7 +64,6 @@
                            "--trailing-comma" "all")))
 
 (use-package eslint-fix
-  :ensure t
   :config
   (eval-after-load 'js2-mode
     '(add-hook 'js2-mode-hook
@@ -79,7 +71,6 @@
                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
 
 (use-package js2-refactor
-  :ensure t
   :defer t
   :commands (js2r-add-keybindings-with-prefix)
   :init

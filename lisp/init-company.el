@@ -28,7 +28,6 @@
     (company-quickhelp-mode 1))
 
   (use-package company-tern
-    :ensure t
     :init (add-to-list 'company-backends 'company-tern))
 
   (use-package company-go

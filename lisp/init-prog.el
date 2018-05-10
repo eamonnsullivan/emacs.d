@@ -9,22 +9,19 @@
 
 ;; smartparens-mode
 (use-package smartparens
-  :ensure t
-  :defer t
   :commands
   smartparens-mode
   sp-restrict-to-pairs-interactive
   sp-local-pair
   :diminish smartparens-mode
-  :init
-  (add-hook 'scala-mode-hook 'smartparens-mode)
-  (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
-  (add-hook 'emacs-lisp-mode-hook 'show-smartparens-mode)
-  (add-hook 'python-mode-hook 'smartparens-mode)
-  (add-hook 'java-mode-hook 'smartparens-mode)
-  (add-hook 'js2-mode-hook 'smartparens-mode)
-  (add-hook 'markdown-mode 'smartparens-mode)
-  (add-hook 'html-mode-hook 'smartparens-mode)
+  :hook ((scala-mode . smartparens-mode)
+         (emacs-lisp-mode . smartparens-mode)
+         (emacs-lisp-mode . show-smartparens-mode)
+         (python-mode . smartparens-mode)
+         (java-mode . smartparens-mode)
+         (js2-mode . smartparens-mode)
+         (markdown-mode . smartparens-mode)
+         (html-mode . smartparens-mode))
   :config
     (progn
       (require 'smartparens-config)
@@ -62,12 +59,9 @@
 
 ;; documentation at point
 (use-package eldoc
-  :ensure t
-  :defer t
-  :diminish eldoc-mode
   :commands eldoc-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode))
+  :diminish eldoc-mode
+  :hook ((emacs-lisp-mode . turn-on-eldoc-mode)))
 
 ;; comint
 (require 'comint)
@@ -80,7 +74,6 @@
 
 ;; dumb-jump
 (use-package dumb-jump
-    :ensure t
     :diminish dumb-jump-mode
     :chords ((" j" . dumb-jump-go)
              (" k" . dumb-jump-back)

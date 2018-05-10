@@ -82,7 +82,6 @@
   :diminish (auto-revert-mode . " Ⓐ"))
 
 (use-package swiper
-  :ensure t
   :bind ("C-S-s" . swiper))
 
 ;; Jump to things in Emacs tree-style

@@ -10,7 +10,6 @@
 
 ;; ensime
 (use-package ensime
-  :ensure t
   :pin melpa-stable
   :after (scala-mode)
   :bind (:map ensime-mode-map
@@ -77,7 +76,6 @@ class %TESTCLASS% extends FlatSpec with MustMatchers {
 
 ;; feature-mode
 (use-package feature-mode
-  :ensure t
   :config
   (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala"))
 

@@ -2,7 +2,6 @@
 ;;; init-helm.el --- stuff related to helm-mode
 
 (use-package helm
-  :ensure t
   :diminish helm-mode
   :config
   (require 'helm-config)
@@ -62,7 +61,6 @@
 
 ;; describe key bindings for current mode, with searching
 (use-package helm-descbinds
-  :ensure t
   :bind (("C-h b" . helm-descbinds))
   :config
   (helm-descbinds-mode))
@@ -70,7 +68,6 @@
 
 ;; helm-ag stuff
 (use-package helm-ag
-  :ensure t
   :bind (("\C-c r" . helm-do-grep-ag))
   :init
   (setq helm-ag-use-grep-ignore-list t)

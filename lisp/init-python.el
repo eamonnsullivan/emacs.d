@@ -2,11 +2,10 @@
 ;;; init-python.el --- stuff related to python
 
 (use-package elpy
-  :ensure t
   :defer t
   :after python
+  :hook ((python-mode . elpy-enable))
   :config
   (elpy-enable))
-(add-hook 'python-mode-hook 'elpy-enable)
 
 (provide 'init-python)

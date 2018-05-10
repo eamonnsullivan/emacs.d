@@ -1,29 +1,5 @@
 (require 'package)
 
-;; mostly from https://github.com/purcell/emacs.d, but not concerning
-;; myself with minimum versions and whether to refresh contents.
-
-(defun require-package (package)
-  "Install the given package."
-  (if (package-installed-p package)
-      t
-    (if (assoc package package-archive-contents)
-        (if (boundp 'package-selected-packages)
-            (package-install package nil)
-          (package-install package))
-      (progn
-        (package-refresh-contents)
-        (require-package package)))))
-
-(defun maybe-require-package (package)
-  "Try to install PACKAGE, and return non-nil if successful or
-  nil on failure."
-  (condition-case err
-      (require-package package)
-    (error
-     (message "Couldn't install optional package `%s': %S" package err)
-     nil)))
-
 (setq
  package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                     ("melpa" . "http://melpa.org/packages/")
