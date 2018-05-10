@@ -66,5 +66,6 @@
 (require 'init-lsp)
 (require 'init-hydra)
 (require 'init-ts)
+(require 'init-json)
 (provide 'init)
 ;;; init.el ends here
