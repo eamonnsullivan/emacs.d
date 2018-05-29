@@ -5,6 +5,9 @@
   :demand
   :diminish projectile-mode
   :init
+  (use-package helm-projectile
+    :config
+    (helm-projectile-on))
   (setq projectile-use-git-grep t)
   :config
   (projectile-global-mode t)
