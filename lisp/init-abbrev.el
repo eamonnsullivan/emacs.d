@@ -2,7 +2,7 @@
 ;;; init-abbrev.el --- stuff related to abbrev-mode
 
 ;; turn on abbrev mode (uses the skeletons below)
-(setq default-abbrev-mode t)
+(setq-default abbrev-mode t)
 (add-hook 'abbrev-mode-hook (lambda () (diminish 'abbrev-mode)))
 
 ;; skeletons -- these are loaded via abbrev mode. My abbrev_defs file
