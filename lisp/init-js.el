@@ -92,7 +92,7 @@
   (goto-char (point-min))
   (insert "import React from 'react';\n")
   (insert "import { shallow } from 'enzyme';\n")
-  (insert (format "import %s from '%s'\n\n" export module-name))
+  (insert (format "import %s from '%s';\n\n" export module-name))
   (insert "test('', async () => {\n\n});\n"))
 
 (defun eds/find-default-export ()
@@ -118,11 +118,10 @@
                (module-name (file-name-nondirectory basename)))
           (if (file-exists-p test-file)
               (find-file test-file)
-            (progn
-              (let ((default-export (eds/find-default-export)))
-                (find-file test-file)
-                (rjsx-mode)
-                (eds/insert-skeleton-test-file default-export module-name))))))
+            (let ((default-export (eds/find-default-export)))
+              (find-file test-file)
+              (rjsx-mode)
+              (eds/insert-skeleton-test-file default-export module-name)))))
   (message "Only javascript files are supported at the moment.")))
 
 (require 'init-hydra)
