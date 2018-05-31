@@ -107,22 +107,36 @@
               default-export))
         "{ NoDefaultExportFound }"))))
 
-(defun eds/open-or-create-enzyme-test-file ()
+(defun eds/is-buffer-javascript-file ()
+  "Are we viewing a javascript file in the current buffer."
+  (and buffer-file-name (equal (downcase (file-name-extension buffer-file-name)) "js")))
+
+(defun eds/is-buffer-javascript-test-file ()
+  "Are we viewing a javascript test file in the current buffer"
+  (string-match ".test.js$" buffer-file-name))
+
+(defun eds/create-or-open-enzyme-test-file (basename test-file)
+  "Open the current buffer's test file or create one if none is found."
+  (if (file-exists-p test-file)
+      (find-file test-file)
+    (let* ((module-name (file-name-nondirectory basename))
+           (default-export (eds/find-default-export)))
+      (find-file test-file)
+      (rjsx-mode)
+      (eds/insert-skeleton-test-file default-export module-name))))
+
+(defun eds/toggle-between-test-and-implementation ()
   "Open the current buffer's test file or create one if none is found."
   (interactive)
-  (if (and buffer-file-name (equal (downcase (file-name-extension buffer-file-name)) "js"))
-      (if (string-match ".test.js$" buffer-file-name)
-          (message "This is already a test file. Exiting")
+  (if (eds/is-buffer-javascript-file)
+      (if (eds/is-buffer-javascript-test-file)
+          (let* ((basename (substring buffer-file-name 0 (string-match ".test.js$" buffer-file-name)))
+                 (implementation-file (concat basename ".js")))
+            (find-file implementation-file))
         (let* ((basename (substring buffer-file-name 0 (string-match ".js$" buffer-file-name)))
-               (test-file (concat basename ".test.js"))
-               (module-name (file-name-nondirectory basename)))
-          (if (file-exists-p test-file)
-              (find-file test-file)
-            (let ((default-export (eds/find-default-export)))
-              (find-file test-file)
-              (rjsx-mode)
-              (eds/insert-skeleton-test-file default-export module-name)))))
-  (message "Only javascript files are supported at the moment.")))
+               (test-file (concat basename ".test.js")))
+          (eds/create-or-open-enzyme-test-file basename test-file)))
+    (message "Only javascript files are supported at the moment.")))
 
 (require 'init-hydra)
 
@@ -130,7 +144,7 @@
   (defhydra "hydra-my-javascript-macros" (:color blue)
     ("a" (eds/insert-enzyme-test-case nil) "Insert a test case")
     ("s" (eds/insert-enzyme-test-case 't) "Insert a synchronous test case")
-    ("t" (eds/open-or-create-enzyme-test-file) "Open the test file for this module")
+    ("t" (eds/toggle-between-test-and-implementation) "Toggle between test and implementation file")
     ("q" nil "quit")))
 
 (eval-after-load 'js2-mode
