@@ -77,4 +77,22 @@
   (js2r-add-keybindings-with-prefix "C-c C-r")
   (add-hook 'js2-mode-hook 'js2-refactor-mode))
 
+
+;; my own shortcuts
+(defun eds/insert-enzyme-test-case ()
+  (interactive)
+  (move-beginning-of-line 1)
+  (insert (format "test('%s', async () => {\n\n});" (read-string "Test description: "))))
+
+(require 'init-hydra)
+
+(defvar eds/javascript-macros
+  (defhydra "hydra-my-javascript-macros" (:color blue)
+      ("t" eds/insert-enzyme-test-case "Insert an enzyme test case")
+      ("q" nil "quit")))
+
+(eval-after-load 'js2-mode
+  '(key-chord-define js2-mode-map "MM" eds/javascript-macros))
+
+
 (provide 'init-js)
