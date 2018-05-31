@@ -85,7 +85,9 @@
   (move-beginning-of-line 1)
   (let ((description (read-string "Test description: "))
         (function-signature (if arg "()" "async ()")))
-        (insert (format "test('%s', %s => {\n\n});" description function-signature))))
+    (insert (format "test('%s', %s => {\n\n});" description function-signature))
+    (previous-line)
+    (indent-for-tab-command)))
 
 (defun eds/insert-skeleton-test-file (export module-name)
   "Insert a basic skeleton for a test file."
@@ -142,8 +144,7 @@
 
 (defvar eds/javascript-macros
   (defhydra "hydra-my-javascript-macros" (:color blue)
-    ("a" (eds/insert-enzyme-test-case nil) "Insert a test case")
-    ("s" (eds/insert-enzyme-test-case 't) "Insert a synchronous test case")
+    ("c" (eds/insert-enzyme-test-case nil) "Insert a test case")
     ("t" (eds/toggle-between-test-and-implementation) "Toggle between test and implementation file")
     ("q" nil "quit")))
 
