@@ -2,6 +2,7 @@
 ;;; init-hydra.el --- hydra modes
 
 (require 'init-global-behaviour)
+(require 'init-kbd-macros)
 
 (use-package hydra
   :ensure t)
@@ -17,5 +18,13 @@
    ("u" upgrade-packages "upgrade all packages")
    ("q" nil "quit")))
 (hydra-set-property 'hydra-global-menu :verbosity 1)
+
+(defvar eds/javascript-macros
+  (defhydra "hydra-my-javascript-macros" (:color blue)
+      ("t" (execute-kbd-macro (symbol-function 'insert-enzyme-test-case)) "Insert an enzyme test case")
+      ("q" nil "quit")))
+
+(eval-after-load 'js2-mode
+  '(key-chord-define js2-mode-map "MM" eds/javascript-macros))
 
 (provide 'init-hydra)

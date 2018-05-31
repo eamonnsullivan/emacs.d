@@ -67,5 +67,6 @@
 (require 'init-hydra)
 (require 'init-ts)
 (require 'init-json)
+(require 'init-kbd-macros)
 (provide 'init)
 ;;; init.el ends here
