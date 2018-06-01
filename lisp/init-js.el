@@ -121,11 +121,6 @@
       (rjsx-mode)
       (eds/insert-skeleton-test-file default-export module-name))))
 
-;; non-macro version
-(defun eds/is-buffer-javascript-file (fn)
-  "Are we viewing a javascript file in the current buffer."
-  (and fn (equal (downcase (file-name-extension fn)) "js")))
-
 (defun eds/is-buffer-javascript-test-file (fn)
   "Are we viewing a javascript test file in the current buffer"
   (if (string-match ".test.js$" fn) 1 nil))
@@ -138,18 +133,6 @@
     (let ((basename (substring fn 0 (string-match ".js" fn))))
       (concat basename ".test.js"))))
 
-(defun eds/toggle-between-test-and-implementation ()
-  "Toggle between the test and implementation file of a javascript JSX module.
-When trying to open the test file, create a new test file if we can't find an existing one."
-  (interactive)
-  (when (eds/is-buffer-javascript-file buffer-file-name)
-    (if (eds/is-buffer-javascript-test-file buffer-file-name)
-        (let ((implementation-file (eds/get-other-js-filename buffer-file-name)))
-          (find-file implementation-file))
-      (let ((test-file (eds/get-other-js-filename buffer-file-name)))
-        (eds/create-or-open-enzyme-test-file test-file)))))
-
-;; macro version
 (defmacro when-js (fn foo)
   "*Do something if filename is javascript."
   `(if (and ,fn (equal (downcase (file-name-extension ,fn)) "js")) ,foo))
@@ -158,7 +141,7 @@ When trying to open the test file, create a new test file if we can't find an ex
   "*Do something if filename is a javascript test file or something else if it isn't."
   `(when-js ,fn (if (string-match ".test.js$" ,fn) ,then ,else)))
 
-(defun eds/toggle-test-implementation-macros ()
+(defun eds/toggle-test-implementation ()
   "Toggle between the test and implementation file of a javascript JSX module.
 When trying to open the test file, create a new test file if we can't find an existing one."
   (interactive)
@@ -175,8 +158,7 @@ When trying to open the test file, create a new test file if we can't find an ex
 (defvar eds/javascript-macros
   (defhydra "hydra-my-javascript-macros" (:color blue)
     ("c" (eds/insert-enzyme-test-case nil) "Insert a test case")
-    ("t" (eds/toggle-test-implementation-macros) "Toggle between test and implementation file (Macro version)")
-    ("T" (eds/toggle-between-test-and-implementation) "Toggle between test and implementation file (functional version)")
+    ("t" (eds/toggle-test-implementation) "Toggle between test and implementation file")
     ("q" nil "quit")))
 
 (eval-after-load 'js2-mode
