@@ -128,7 +128,7 @@
 
 (defun eds/is-buffer-javascript-test-file (fn)
   "Are we viewing a javascript test file in the current buffer"
-  (string-match ".test.js$" fn))
+  (if (string-match ".test.js$" fn) 1 nil))
 
 (defun eds/get-other-js-filename (fn)
   "Get the test or implementation filename"
@@ -144,9 +144,9 @@ When trying to open the test file, create a new test file if we can't find an ex
   (interactive)
   (when (eds/is-buffer-javascript-file buffer-file-name)
     (if (eds/is-buffer-javascript-test-file buffer-file-name)
-        (let (implementation-file (eds/get-other-js-filename buffer-file-name))
+        (let ((implementation-file (eds/get-other-js-filename buffer-file-name)))
           (find-file implementation-file))
-      (let (test-file (eds/get-other-js-filename buffer-file-name))
+      (let ((test-file (eds/get-other-js-filename buffer-file-name)))
         (eds/create-or-open-enzyme-test-file test-file)))))
 
 ;; macro version
@@ -163,9 +163,11 @@ When trying to open the test file, create a new test file if we can't find an ex
 When trying to open the test file, create a new test file if we can't find an existing one."
   (interactive)
   (if-js-test (buffer-file-name)
-              (let (implementation-file (eds/get-other-js-filename buffer-file-name))
+              (let ((implementation-file (eds/get-other-js-filename buffer-file-name)))
+                (message (format "trying to open implementation file: %s" implementation-file))
                 (find-file implementation-file))
-              (let (test-file (eds/get-other-js-filename buffer-file-name))
+              (let ((test-file (eds/get-other-js-filename buffer-file-name)))
+                (message (format "trying to open test file: %s" test-file))
                 (eds/create-or-open-enzyme-test-file test-file))))
 
 (require 'init-hydra)
