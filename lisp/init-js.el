@@ -86,7 +86,7 @@
   (let ((description (read-string "Test description: "))
         (function-signature (if arg "()" "async ()")))
     (insert (format "test('%s', %s => {\n\n});" description function-signature))
-    (previous-line)
+    (forward-line -1)
     (indent-for-tab-command)))
 
 (defun eds/insert-skeleton-test-file (export module-name)
@@ -95,7 +95,9 @@
   (insert "import React from 'react';\n")
   (insert "import { shallow } from 'enzyme';\n")
   (insert (format "import %s from '%s';\n\n" export module-name))
-  (insert "test('', async () => {\n\n});\n"))
+  (insert "test('', async () => {\n\n});\n")
+  (forward-line -2)
+  (indent-for-tab-command))
 
 (defun eds/find-default-export ()
   "Try to find the default export for the current module."
@@ -109,43 +111,70 @@
               default-export))
         "{ NoDefaultExportFound }"))))
 
-(defun eds/is-buffer-javascript-file ()
-  "Are we viewing a javascript file in the current buffer."
-  (and buffer-file-name (equal (downcase (file-name-extension buffer-file-name)) "js")))
-
-(defun eds/is-buffer-javascript-test-file ()
-  "Are we viewing a javascript test file in the current buffer"
-  (string-match ".test.js$" buffer-file-name))
-
-(defun eds/create-or-open-enzyme-test-file (basename test-file)
+(defun eds/create-or-open-enzyme-test-file (test-file)
   "Open the current buffer's test file or create one if none is found."
   (if (file-exists-p test-file)
       (find-file test-file)
-    (let* ((module-name (file-name-nondirectory basename))
+    (let* ((module-name (file-name-nondirectory (substring test-file 0 (string-match ".test.js" test-file))))
            (default-export (eds/find-default-export)))
       (find-file test-file)
       (rjsx-mode)
       (eds/insert-skeleton-test-file default-export module-name))))
 
+;; non-macro version
+(defun eds/is-buffer-javascript-file (fn)
+  "Are we viewing a javascript file in the current buffer."
+  (and fn (equal (downcase (file-name-extension fn)) "js")))
+
+(defun eds/is-buffer-javascript-test-file (fn)
+  "Are we viewing a javascript test file in the current buffer"
+  (string-match ".test.js$" fn))
+
+(defun eds/get-other-js-filename (fn)
+  "Get the test or implementation filename"
+  (if (eds/is-buffer-javascript-test-file fn)
+      (let ((basename (substring fn 0 (string-match ".test.js" fn))))
+        (concat basename ".js"))
+    (let ((basename (substring fn 0 (string-match ".js" fn))))
+      (concat basename ".test.js"))))
+
 (defun eds/toggle-between-test-and-implementation ()
-  "Open the current buffer's test file or create one if none is found."
+  "Toggle between the test and implementation file of a javascript JSX module.
+When trying to open the test file, create a new test file if we can't find an existing one."
   (interactive)
-  (if (eds/is-buffer-javascript-file)
-      (if (eds/is-buffer-javascript-test-file)
-          (let* ((basename (substring buffer-file-name 0 (string-match ".test.js$" buffer-file-name)))
-                 (implementation-file (concat basename ".js")))
-            (find-file implementation-file))
-        (let* ((basename (substring buffer-file-name 0 (string-match ".js$" buffer-file-name)))
-               (test-file (concat basename ".test.js")))
-          (eds/create-or-open-enzyme-test-file basename test-file)))
-    (message "Only javascript files are supported at the moment.")))
+  (when (eds/is-buffer-javascript-file buffer-file-name)
+    (if (eds/is-buffer-javascript-test-file buffer-file-name)
+        (let (implementation-file (eds/get-other-js-filename buffer-file-name))
+          (find-file implementation-file))
+      (let (test-file (eds/get-other-js-filename buffer-file-name))
+        (eds/create-or-open-enzyme-test-file test-file)))))
+
+;; macro version
+(defmacro when-js (fn foo)
+  "*Do something if filename is javascript."
+  `(if (and ,fn (equal (downcase (file-name-extension ,fn)) "js")) ,foo))
+
+(defmacro if-js-test (fn then else)
+  "*Do something if filename is a javascript test file or something else if it isn't."
+  `(when-js ,fn (if (string-match ".test.js$" ,fn) ,then ,else)))
+
+(defun eds/toggle-test-implementation-macros ()
+  "Toggle between the test and implementation file of a javascript JSX module.
+When trying to open the test file, create a new test file if we can't find an existing one."
+  (interactive)
+  (if-js-test (buffer-file-name)
+              (let (implementation-file (eds/get-other-js-filename buffer-file-name))
+                (find-file implementation-file))
+              (let (test-file (eds/get-other-js-filename buffer-file-name))
+                (eds/create-or-open-enzyme-test-file test-file))))
 
 (require 'init-hydra)
 
 (defvar eds/javascript-macros
   (defhydra "hydra-my-javascript-macros" (:color blue)
     ("c" (eds/insert-enzyme-test-case nil) "Insert a test case")
-    ("t" (eds/toggle-between-test-and-implementation) "Toggle between test and implementation file")
+    ("t" (eds/toggle-test-implementation-macros) "Toggle between test and implementation file (Macro version)")
+    ("T" (eds/toggle-between-test-and-implementation) "Toggle between test and implementation file (functional version)")
     ("q" nil "quit")))
 
 (eval-after-load 'js2-mode
