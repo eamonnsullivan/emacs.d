@@ -78,7 +78,6 @@
   (add-hook 'js2-mode-hook 'js2-refactor-mode))
 
 
-;; my own shortcuts
 (defun eds/insert-enzyme-test-case (arg)
   "Insert a skeleton test case at point. If a prefix is used, make it synchronous."
   (interactive "P")
@@ -121,37 +120,30 @@
       (rjsx-mode)
       (eds/insert-skeleton-test-file default-export module-name))))
 
-(defun eds/is-buffer-javascript-test-file (fn)
-  "Are we viewing a javascript test file in the current buffer"
-  (if (string-match ".test.js$" fn) 1 nil))
-
-(defun eds/get-other-js-filename (fn)
-  "Get the test or implementation filename"
-  (if (eds/is-buffer-javascript-test-file fn)
-      (let ((basename (substring fn 0 (string-match ".test.js" fn))))
-        (concat basename ".js"))
-    (let ((basename (substring fn 0 (string-match ".js" fn))))
-      (concat basename ".test.js"))))
-
-(defmacro when-js (fn foo)
-  "*Do something if filename is javascript."
+(defmacro eds/when-file-is-js (fn foo)
+  "Do something if filename is javascript."
   `(if (and ,fn (equal (downcase (file-name-extension ,fn)) "js")) ,foo))
 
-(defmacro if-js-test (fn then else)
-  "*Do something if filename is a javascript test file or something else if it isn't."
-  `(when-js ,fn (if (string-match ".test.js$" ,fn) ,then ,else)))
+(defmacro eds/if-js-test (fn then else)
+  "Do something if filename is a javascript test file or something else if it isn't."
+  (declare (indent 2))
+  `(eds/when-file-is-js ,fn (if (string-match ".test.js$" ,fn) ,then ,else)))
+
+(defun eds/get-test-or-impl (fn)
+  "Get this file's corresponding test or implementation filename."
+  (let* ((basename (substring fn 0 (string-match (eds/if-js-test fn ".test.js" ".js") fn)))
+         (ext-to-add (eds/if-js-test fn ".js" ".test.js")))
+    (concat basename ext-to-add)))
 
 (defun eds/toggle-test-implementation ()
   "Toggle between the test and implementation file of a javascript JSX module.
 When trying to open the test file, create a new test file if we can't find an existing one."
   (interactive)
-  (if-js-test (buffer-file-name)
-              (let ((implementation-file (eds/get-other-js-filename buffer-file-name)))
-                (message (format "trying to open implementation file: %s" implementation-file))
-                (find-file implementation-file))
-              (let ((test-file (eds/get-other-js-filename buffer-file-name)))
-                (message (format "trying to open test file: %s" test-file))
-                (eds/create-or-open-enzyme-test-file test-file))))
+  (eds/if-js-test (buffer-file-name)
+      (let ((implementation-file (eds/get-test-or-impl buffer-file-name)))
+        (find-file implementation-file))
+    (let ((test-file (eds/get-test-or-impl buffer-file-name)))
+      (eds/create-or-open-enzyme-test-file test-file))))
 
 (require 'init-hydra)
 
