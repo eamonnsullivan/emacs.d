@@ -12,18 +12,14 @@
          ("\C-c l" . org-store-link)
          ("\C-c b" . org-iswitchb))
   :config
-  (defvar org-directory)
-  (defvar org-default-notes-file)
-  (defvar org-capture-templates)
-
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline (concat org-directory "/tasks.org") "Tasks")
+        `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
            "* TODO %?\n  %i\n  %a")
-          ("i" "Ideas" entry (file+headline (concat org-directory "/ideas.org") "Ideas"))
-          ("n" "Notes" entry (file+headline (concat org-directory "/notes.org") "General Notes"))
-          ("p" "Personal Todo" entry (file+headline (concat org-directory "/personal.org") "Personal Tasks")
+          ("i" "Ideas" entry (file+headline ,(concat org-directory "/ideas.org") "Ideas"))
+          ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
+          ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
            "* TODO %?\n  %i\n  %a")))
   (setq org-agenda-files (quote
                           ("~/Dropbox/org/personal.org"

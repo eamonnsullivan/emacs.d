@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; eds-test.el --- unit tests for my tweaks for various packages
 
-(ert-deftest eds/test-test-or-impl ()
+(ert-deftest eds/test-get-test-or-impl ()
   "Test the output of eds/get-test-or-impl."
   (should (equal (eds/get-test-or-impl "/dir/somewhere/something.test.js") "/dir/somewhere/something.js"))
   (should (equal (eds/get-test-or-impl "/dir.test/somewhere.test.js/something.test.js") "/dir.test/somewhere.test.js/something.js"))
