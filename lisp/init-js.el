@@ -120,6 +120,10 @@
       (rjsx-mode)
       (eds/insert-skeleton-test-file default-export module-name))))
 
+(defun eds/is-js (fn)
+  "Is the file javascript?"
+  (and fn (equal (downcase (file-name-extension fn)) "js")))
+
 (defmacro eds/when-file-is-js (fn foo)
   "Do something if filename is javascript."
   `(if (and ,fn (equal (downcase (file-name-extension ,fn)) "js")) ,foo))
@@ -131,9 +135,17 @@
 
 (defun eds/get-test-or-impl (fn)
   "Get this file's corresponding test or implementation filename."
-  (let* ((basename (substring fn 0 (string-match (eds/if-js-test fn ".test.js" ".js") fn)))
-         (ext-to-add (eds/if-js-test fn ".js" ".test.js")))
-    (concat basename ext-to-add)))
+  (if (eds/is-js fn)
+      (let* ((basename (substring fn 0 (string-match (eds/if-js-test fn ".test.js$" ".js$") fn)))
+             (ext-to-add (eds/if-js-test fn ".js" ".test.js")))
+        (concat basename ext-to-add))
+    fn))
+
+(ert-deftest eds/test-test-or-impl ()
+  "Test the output of eds/get-test-or-impl."
+  (should (equal (eds/get-test-or-impl "/dir/somewhere/something.test.js") "/dir/somewhere/something.js"))
+  (should (equal (eds/get-test-or-impl "/dir.test/somewhere.test.js/something.test.js") "/dir.test/somewhere.test.js/something.js"))
+  (should (equal (eds/get-test-or-impl "unexpected.doc") "unexpected.doc")))
 
 (defun eds/toggle-test-implementation ()
   "Toggle between the test and implementation file of a javascript JSX module.
