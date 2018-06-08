@@ -29,10 +29,15 @@
 ;;
 ;; Install:
 ;; wget http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
-;; tar jdt-language-server-latest.tar.gz -C ~/.emacs.d/eclipse.jdt.ls/server/
+;; tar xvf jdt-language-server-latest.tar.gz -C ~/.emacs.d/eclipse.jdt.ls/server/
 ;; I'm not overly impressed at first glance, but giving it a shot.
 (use-package lsp-java
   :commands lsp-java-enable
-  :init (add-hook 'java-mode-hook #'lsp-java-enable))
+  :config
+  (setq lsp-java-save-action-organize-imports nil)
+  (setq lsp-java-organize-imports nil)
+  :init
+  (add-hook 'java-mode-hook #'lsp-java-enable)
+  (setq lsp-java--workspace-folders (list "~/git/cps-breaking-news")))
 
 (provide 'init-lsp)
