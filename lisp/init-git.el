@@ -2,6 +2,7 @@
 ;;; init-git.el --- stuff related to git
 
 (use-package magit
+  :ensure t
   :chords (" m" . magit-status)
   :commands (magit-status))
 

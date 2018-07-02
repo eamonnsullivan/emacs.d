@@ -74,10 +74,12 @@
 
 ;; dumb-jump
 (use-package dumb-jump
-    :diminish dumb-jump-mode
-    :chords ((" j" . dumb-jump-go)
-             (" k" . dumb-jump-back)
-             (" h" . dumb-jump-quick-look)))
+  :init
+  (add-hook 'prog-mode-hook 'dumb-jump-mode)
+  :diminish dumb-jump-mode
+  :chords ((" j" . dumb-jump-go)
+           (" k" . dumb-jump-back)
+           (" h" . dumb-jump-quick-look)))
 
 ;; general refactoring menu
 (use-package emr

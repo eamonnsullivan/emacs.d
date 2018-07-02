@@ -23,6 +23,8 @@
 (use-package lsp-javascript-typescript
   :commands lsp-javascript-typescript-enable
   :init
+  ;; (add-hook 'js2-mode-hook #'lsp-javascript-typescript-enable)
+  ;; (add-hook 'rjsx-mode-hook #'lsp-javascript-typescript-enable)
   (add-hook 'typescript-mode-hook #'lsp-javascript-typescript-enable))
 
 ;; Java support for lsp-mode using the Eclipse JDT Language Server.
