@@ -7,7 +7,9 @@
   :init
   (use-package helm-projectile
     :config
-    (helm-projectile-on))
+    (helm-projectile-on)
+    :bind (("C-c p p" . helm-projectile-switch-project)
+           ("C-c p h" . helm-projectile)))
   (setq projectile-use-git-grep t)
   :config
   (projectile-mode t)
