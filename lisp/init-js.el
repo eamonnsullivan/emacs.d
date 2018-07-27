@@ -13,8 +13,7 @@
               (local-set-key (kbd "C-x C-e") 'js-send-last-sexp)
               (local-set-key (kbd "C-M-x") 'js-send-last-sexp-and-go)
               (local-set-key (kbd "C-c b") 'js-send-buffer)
-              (local-set-key (kbd "C-c C-b") 'js-send-buffer-and-go)
-              (local-set-key (kbd "C-c l") 'js-load-file-and-go))))
+              (local-set-key (kbd "C-c C-b") 'js-send-buffer-and-go))))
 
 (use-package js2-mode
   :init
@@ -82,7 +81,7 @@
 
 (defvar eds/javascript-macros
   (defhydra "hydra-my-javascript-macros" (:color blue)
-    ("c" (eds/insert-enzyme-test-case nil) "Insert a test case")
+    ("c" (eds/insert-enzyme-test-case t) "Insert a test case")
     ("t" (eds/toggle-test-implementation) "Toggle between test and implementation file")
     ("q" nil "quit")))
 

@@ -9,7 +9,7 @@
   (move-beginning-of-line 1)
   (let ((description (read-string "Test description: "))
         (function-signature (if arg "()" "async ()")))
-    (insert (format "test('%s', %s => {\n\n});" description function-signature))
+    (insert (format "test(\"%s\", %s => {\n\n});" description function-signature))
     (forward-line -1)
     (indent-for-tab-command)))
 
@@ -18,7 +18,7 @@
   (goto-char (point-min))
   (insert "import React from 'react';\n")
   (insert "import { shallow } from 'enzyme';\n")
-  (insert (format "import %s from '%s';\n\n" export module-name))
+  (insert (format "import %s from './%s';\n\n" export module-name))
   (insert "test('', async () => {\n\n});\n")
   (forward-line -2)
   (indent-for-tab-command))

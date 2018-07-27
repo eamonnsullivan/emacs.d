@@ -10,7 +10,7 @@
     (helm-projectile-on))
   (setq projectile-use-git-grep t)
   :config
-  (projectile-global-mode t)
+  (projectile-mode t)
   (setq projectile-completion-system 'helm)
   (setq projectile-switch-project-action 'projectile-find-file)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
