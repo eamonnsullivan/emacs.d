@@ -44,9 +44,12 @@
 
 (defun proxy-check ()
   "Turn proxy on if we can see the proxy server."
-  (if (string-match "Unknown host"
+  (if (or (string-match "Name or service not known"
                     (shell-command-to-string
                      (format "ping -c 1 %s" *proxy-host*)))
+          (string-match "Unknown host"
+                    (shell-command-to-string
+                     (format "ping -c 1 %s" *proxy-host*))))
         (turn-proxy-off)
       (turn-proxy-on)))
 (proxy-check)
