@@ -135,6 +135,7 @@
   '(
     ("edeb" "" eds-edeb-expansion-javascript 0)
     ("edump" "" eds-edump-expansion-javascript 0)
+    ("eobj" "" eds-eobj-expansion-javascript 0)
     ("edocs" "" eds-short-documentation-block-javascript 0)
    ))
 
@@ -142,6 +143,7 @@
   '(
     ("edeb" "" eds-edeb-expansion-javascript 0)
     ("edump" "" eds-edump-expansion-javascript 0)
+    ("eobj" "" eds-eobj-expansion-javascript 0)
     ("edocs" "" eds-short-documentation-block-javascript 0)
    ))
 
