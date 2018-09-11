@@ -76,4 +76,15 @@ When trying to open the test file, create a new test file if we can't find an ex
     (let ((test-file (eds/get-test-or-impl buffer-file-name)))
       (eds/create-or-open-enzyme-test-file test-file))))
 
+(defun eds/extract-jira-ticket (input)
+  (if (string-match "[A-Za-z]+-[0-9]+" input)
+      (upcase (match-string 0 input))
+    "NO-TICKET"))
+
+(defun eds/insert-git-branch-name (branch)
+  "Insert the current git branch name at point, surrounded by square brackets.
+We use this to make the jira tickets easy to spot in the commit messages."
+  (interactive)
+  (insert "[" (eds/extract-jira-ticket branch) "] "))
+
 (provide 'eds)
