@@ -47,11 +47,7 @@
       (sp-use-smartparens-bindings)
       (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
       (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
-      (sp-pair "{" "}" :wrap "C-{")
-
-    ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
-      (bind-key "s-<delete>" 'sp-kill-sexp smartparens-mode-map)
-      (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map)))
+      (sp-pair "{" "}" :wrap "C-{")))
 
 ;; show parens
 (when-available 'show-paren-mode
@@ -92,5 +88,16 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+;; Highlight Comment Annotations
+;; from: https://gitlab.com/psachin/emacs.d/blob/master/custom_functions.org
+(defun font-lock-comment-annotations ()
+  "Highlight a bunch of well known comment annotations.
+This functions should be added to the hooks of major modes for
+programming."
+  (font-lock-add-keywords
+   nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
+          1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook 'font-lock-comment-annotations)
 
 (provide 'init-prog)
