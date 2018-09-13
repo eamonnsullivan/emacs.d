@@ -47,7 +47,10 @@
       (sp-use-smartparens-bindings)
       (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
       (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
-      (sp-pair "{" "}" :wrap "C-{")))
+      (sp-pair "{" "}" :wrap "C-{")
+
+      ;; I use this for something else
+      (unbind-key "M-<backspace>" smartparens-mode-map)))
 
 ;; show parens
 (when-available 'show-paren-mode
@@ -83,6 +86,11 @@
   (add-hook 'prog-mode-hook 'emr-initialize)
   ;; Just hit M-RET to access your refactoring tools in any supported mode.
   (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
+
+(use-package highlight-symbol
+  :bind (("M-n" . highlight-symbol-next)
+         ("M-p" . highlight-symbol-prev))
+  :chords (("SS" . highlight-symbol)))
 
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)

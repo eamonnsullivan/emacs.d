@@ -8,6 +8,10 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (key-chord-define-global " m" 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+;; backward-kill-word
+(require 'eds)
+(global-unset-key (kbd "M-<backspace>"))
+(global-set-key (kbd "M-<backspace>") 'eds/backward-kill-word)
 
 (defun move-line-up ()
   (interactive)

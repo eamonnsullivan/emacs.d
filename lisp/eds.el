@@ -87,4 +87,18 @@ We use this to make the jira tickets easy to spot in the commit messages."
   (interactive)
   (insert "[" (eds/extract-jira-ticket branch) "] "))
 
+(defun eds/kill-word (arg)
+  "Delete characters forward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (if (use-region-p)
+      (delete-region (region-beginning) (region-end))
+    (delete-region (point) (progn (forward-word arg) (point)))))
+
+(defun eds/backward-kill-word (arg)
+  "Delete characters backward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (eds/kill-word (- arg)))
+
 (provide 'eds)
