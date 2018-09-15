@@ -6,7 +6,6 @@
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key (kbd "C-x g") 'magit-status)
-(key-chord-define-global " m" 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; backward-kill-word
 (require 'eds)

@@ -31,15 +31,9 @@
   :init
   (setq key-chord-two-keys-delay 0.05)
   :config
-  (key-chord-mode 1))
-
-(defun eds/switch-to-previous-buffer ()
-    "Switch to previously open buffer.
-  Repeated invocations toggle between the two most recently open buffers."
-    (interactive)
-    (switch-to-buffer (other-buffer (current-buffer) 1)))
-
-(key-chord-define-global "JJ" 'eds/switch-to-previous-buffer)
+  (key-chord-mode 1)
+  (require 'eds)
+  (key-chord-define-global "JJ" 'eds/switch-to-previous-buffer))
 
 ;; undo-tree everywhere
 (use-package undo-tree
