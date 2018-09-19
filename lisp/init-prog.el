@@ -92,6 +92,8 @@
          ("M-p" . highlight-symbol-prev))
   :chords (("SS" . highlight-symbol)))
 
+(use-package groovy-mode)
+
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
