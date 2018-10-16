@@ -2,6 +2,7 @@
 ;;; init-hydra.el --- hydra modes
 
 (require 'init-global-behaviour)
+(require 'eds)
 
 (use-package hydra
   :ensure t)
@@ -15,6 +16,7 @@
    ("d" kill-all-buffers "kill all buffers")
    ("r" stop-and-restart-emacs "stop and restart emacs")
    ("u" upgrade-packages "upgrade all packages")
+   ("o" eds/open-buffer-on-desktop "open the current buffer in finder/nautilus")
    ("q" nil "quit")))
 (hydra-set-property 'hydra-global-menu :verbosity 1)
 
