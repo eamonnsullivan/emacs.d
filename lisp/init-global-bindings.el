@@ -48,4 +48,8 @@
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
 
+(set-register ?n '(file . "~/Dropbox/org/notes.org"))
+(set-register ?t '(file . "~/Dropbox/org/tasks.org"))
+(set-register ?p '(file . "~/Dropbox/org/personal.org"))
+
 (provide 'init-global-bindings)

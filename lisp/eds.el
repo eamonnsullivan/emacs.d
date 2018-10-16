@@ -107,4 +107,15 @@ With argument, do this that many times."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 
+(defun eds/open-buffer-in-finder ()
+  "Open the current directory in Mac OS X finder"
+  (interactive)
+  (if (eq system-type 'darwin)
+      (let ((file (buffer-file-name)))
+        (if file
+            (shell-command
+             (format "%s %s" (executable-find "open") (file-name-directory file)))
+          (error "Buffer is not attached to any file!")))
+    (error "Function defined for Mac OS X only for now!")))
+
 (provide 'eds)

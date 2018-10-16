@@ -11,6 +11,7 @@
 (use-package json-reformat
   :ensure t
   :after json-mode
-  :bind (("C-c r" . json-reformat-region)))
+  :bind (("C-c r" . json-reformat-region)
+         ("C-c C-f" . json-pretty-print)))
 
 (provide 'init-json)
