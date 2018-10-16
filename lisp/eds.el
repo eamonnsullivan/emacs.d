@@ -108,15 +108,16 @@ With argument, do this that many times."
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun eds/open-buffer-on-desktop()
-  "Open the current directory in Mac OS X finder or Nautilus"
+  "Open the current directory in Mac OS X finder, Nautilus or Explorer"
   (interactive)
   (let ((file (buffer-file-name))
         (cmd (cond ((eq system-type 'darwin) "open")
                    ((eq system-type 'gnu/linux) "nautilus")
+                   ((eq system-type 'windows-nt) "explorer") ;; haven't tested this
                    (t nil))))
     (if (and file cmd)
         (shell-command
          (format "%s %s" (executable-find cmd) (file-name-directory file)))
-      (error "Buffer not attached to any file or unknown system!"))))
+      (display-warning :error "Buffer not attached to any file or unknown system!"))))
 
 (provide 'eds)
