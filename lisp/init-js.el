@@ -79,22 +79,56 @@
 (require 'eds)
 (require 'init-hydra)
 
-(defvar eds/javascript-macros
-  (defhydra "hydra-my-javascript-macros" (:color blue :hint nil)
+(defvar hydra-stack nil)
+
+(defun hydra-push (expr)
+  (push `(lambda () ,expr) hydra-stack))
+
+(defun hydra-pop ()
+  (interactive)
+  (let ((x (pop hydra-stack)))
+    (when x
+      (funcall x))))
+
+(defhydra hydra-expose-js-refactoring (:color red :hint nil)
+  "
+^Functions/Methods^             ^Variables^                ^Debug^
+^^^^^^^^^^^^^^^^^^^----------------------------------------------------------
+_x_: extract function           _l_: extract to const      _d_: debug this
+_m_: extract method             _i_: inline variable
+_e_: expand node at point
+_c_: contract node at point
+_a_: args to object
     "
-^Action^
-^^^^^^^^----------------------------------------
-_c_: insert a test case
-_t_: toggle between test and implementation file
+  ("x" (js2r-extract-function))
+  ("m" (js2r-extract-method))
+  ("e" (js2r-expand-node-at-point))
+  ("c" (js2r-contract-node-at-point))
+  ("a" (js2r-arguments-to-object))
+  ("t" (js2r-toggle-arrow-function-and-expression))
+  ("l" (js2r-extract-let))
+  ("l" (js2r-extract-const))
+  ("i" (js2r-inline-var))
+  ("d" (js2r-debug-this))
+  ("q" nil))
+
+(defhydra hydra-my-javascript-macros (:color blue :hint nil)
+    "
+^Testing^                        ^Refactoring^
+^^^^^^^^----------------------------------------------
+_c_: insert a test case          _r_: refactoring menu
+_t_: go to test/implementation
 
 _q_: quit this menu
     "
     ("c" (eds/insert-enzyme-test-case t))
     ("t" (eds/toggle-test-implementation))
-    ("q" nil)))
+    ("r" (hydra-expose-js-refactoring/body))
+    ("q" nil))
+
 
 (eval-after-load 'js2-mode
-  '(key-chord-define js2-mode-map "MM" eds/javascript-macros))
+  '(key-chord-define js2-mode-map "MM" 'hydra-my-javascript-macros/body))
 
 
 (provide 'init-js)
