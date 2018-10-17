@@ -80,10 +80,18 @@
 (require 'init-hydra)
 
 (defvar eds/javascript-macros
-  (defhydra "hydra-my-javascript-macros" (:color blue)
-    ("c" (eds/insert-enzyme-test-case t) "Insert a test case")
-    ("t" (eds/toggle-test-implementation) "Toggle between test and implementation file")
-    ("q" nil "quit")))
+  (defhydra "hydra-my-javascript-macros" (:color blue :hint nil)
+    "
+^Action^
+^^^^^^^^----------------------------------------
+_c_: insert a test case
+_t_: toggle between test and implementation file
+
+_q_: quit this menu
+    "
+    ("c" (eds/insert-enzyme-test-case t))
+    ("t" (eds/toggle-test-implementation))
+    ("q" nil)))
 
 (eval-after-load 'js2-mode
   '(key-chord-define js2-mode-map "MM" eds/javascript-macros))
