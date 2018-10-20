@@ -15,8 +15,6 @@
   sp-local-pair
   :diminish smartparens-mode
   :hook ((scala-mode . smartparens-mode)
-         (emacs-lisp-mode . smartparens-mode)
-         (emacs-lisp-mode . show-smartparens-mode)
          (python-mode . smartparens-mode)
          (java-mode . smartparens-mode)
          (js2-mode . smartparens-mode)
@@ -41,9 +39,6 @@
       (sp-with-modes '(html-mode sgml-mode web-mode)
         (sp-local-pair "<" ">"))
 
-       ;;; lisp modes
-      (sp-with-modes sp--lisp-modes
-        (sp-local-pair "(" nil :bind "C-("))
       (sp-use-smartparens-bindings)
       (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
       (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
@@ -55,12 +50,6 @@
 ;; show parens
 (when-available 'show-paren-mode
                 (show-paren-mode t))
-
-;; documentation at point
-(use-package eldoc
-  :commands eldoc-mode
-  :diminish eldoc-mode
-  :hook ((emacs-lisp-mode . turn-on-eldoc-mode)))
 
 ;; comint
 (require 'comint)

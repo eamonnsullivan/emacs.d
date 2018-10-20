@@ -47,6 +47,7 @@
 (require 'init-global-behaviour)
 (require 'init-helm)
 (require 'init-prog)
+(require 'init-lisp)
 (require 'init-python)
 (require 'init-cc)
 (require 'init-js)

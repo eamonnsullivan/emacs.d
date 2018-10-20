@@ -107,7 +107,7 @@ With argument, do this that many times."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(defun eds/open-buffer-on-desktop()
+(defun eds/open-buffer-on-desktop ()
   "Open the current directory in Mac OS X finder, Nautilus or Explorer"
   (interactive)
   (let ((file (buffer-file-name))
