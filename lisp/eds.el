@@ -125,14 +125,20 @@
   "Toggle between the test and implementation file of a javascript JSX module.
 When trying to open the test file, create a new test file if we can't find an existing one."
   (interactive)
-  (eds/if-js-test (buffer-file-name)
-      (let ((implementation-file (eds/get-test-or-impl buffer-file-name)))
+  (eds/if-js-test
+      (buffer-file-name)
+      (let ((implementation-file (eds/get-test-or-impl
+                                  buffer-file-name)))
         (find-file implementation-file))
-    (let ((test-file (eds/get-test-or-impl buffer-file-name)))
-      (eds/create-or-open-enzyme-test-file test-file))))
+    (let ((test-file (eds/get-test-or-impl
+                      buffer-file-name)))
+      (eds/create-or-open-enzyme-test-file
+       test-file))))
 
 (defun eds/extract-jira-ticket (input)
-  (if (string-match "[A-Za-z]+-[0-9]+" input)
+  (if (string-match
+       "[A-Za-z]+-[0-9]+"
+       input)
       (upcase (match-string 0 input))
     "NO-TICKET"))
 
