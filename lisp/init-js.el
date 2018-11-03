@@ -20,7 +20,7 @@
   (progn
     (add-to-list
      'auto-mode-alist
-     (cons "\.js$" (defun choose-js-type-mode ()
+     (cons "\\.js$" (defun choose-js-type-mode ()
                      (save-excursion
                        (goto-char (point-min))
                        (let ((buff (current-buffer)))
