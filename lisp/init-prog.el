@@ -19,33 +19,34 @@
          (java-mode . smartparens-mode)
          (js2-mode . smartparens-mode)
          (markdown-mode . smartparens-mode)
-         (html-mode . smartparens-mode))
+         (html-mode . smartparens-mode)
+         (clojure-mode . smartparens-mode))
   :config
-    (progn
-      (require 'smartparens-config)
-      ;; pair management
+  (progn
+    (require 'smartparens-config)
+    ;; pair management
 
-      (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-      (sp-local-pair 'web-mode "<" nil :when '(my/sp-web-mode-is-code-context))
+    (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+    (sp-local-pair 'web-mode "<" nil :when '(my/sp-web-mode-is-code-context))
 
-      ;;; markdown-mode
-      (sp-with-modes '(markdown-mode gfm-mode rst-mode)
-        (sp-local-pair "*" "*" :bind "C-*")
-        (sp-local-tag "2" "**" "**")
-        (sp-local-tag "s" "```scheme" "```")
-        (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+    ;;; markdown-mode
+    (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+      (sp-local-pair "*" "*" :bind "C-*")
+      (sp-local-tag "2" "**" "**")
+      (sp-local-tag "s" "```scheme" "```")
+      (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
 
-      ;;; html-mode
-      (sp-with-modes '(html-mode sgml-mode web-mode)
-        (sp-local-pair "<" ">"))
+    ;;; html-mode
+    (sp-with-modes '(html-mode sgml-mode web-mode)
+      (sp-local-pair "<" ">"))
 
-      (sp-use-smartparens-bindings)
-      (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
-      (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
-      (sp-pair "{" "}" :wrap "C-{")
+    (sp-use-smartparens-bindings)
+    (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
+    (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
+    (sp-pair "{" "}" :wrap "C-{")
 
-      ;; I use this for something else
-      (unbind-key "M-<backspace>" smartparens-mode-map)))
+    ;; I use this for something else
+    (unbind-key "M-<backspace>" smartparens-mode-map)))
 
 ;; show parens
 (when-available 'show-paren-mode
