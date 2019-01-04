@@ -28,15 +28,26 @@
 
     (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
     (sp-local-pair 'web-mode "<" nil :when '(my/sp-web-mode-is-code-context))
+    (sp-local-pair 'scala-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair 'scala-mode "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC")))
 
-    ;;; markdown-mode
+    (defun sp-restrict-c (sym)
+      "Smartparens restriction on `SYM' for C-derived parenthesis."
+      (sp-restrict-to-pairs-interactive "{([" sym))
+
+    (bind-key "s-<delete>" (sp-restrict-c 'sp-kill-sexp) scala-mode-map)
+    (bind-key "s-<backspace>" (sp-restrict-c 'sp-backward-kill-sexp) scala-mode-map)
+    (bind-key "s-<home>" (sp-restrict-c 'sp-beginning-of-sexp) scala-mode-map)
+    (bind-key "s-<end>" (sp-restrict-c 'sp-end-of-sexp) scala-mode-map)
+
+;;; markdown-mode
     (sp-with-modes '(markdown-mode gfm-mode rst-mode)
       (sp-local-pair "*" "*" :bind "C-*")
       (sp-local-tag "2" "**" "**")
       (sp-local-tag "s" "```scheme" "```")
       (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
 
-    ;;; html-mode
+;;; html-mode
     (sp-with-modes '(html-mode sgml-mode web-mode)
       (sp-local-pair "<" ">"))
 
@@ -99,5 +110,7 @@ programming."
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+
+(use-package floobits)
 
 (provide 'init-prog)
