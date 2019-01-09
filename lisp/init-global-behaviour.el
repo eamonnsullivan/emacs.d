@@ -44,7 +44,7 @@
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
   :bind ("s-/" . undo-tree-visualize)
-  :chords (("zz" . undo-tree-visualize)))
+  :chords (("ZZ" . undo-tree-visualize)))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)

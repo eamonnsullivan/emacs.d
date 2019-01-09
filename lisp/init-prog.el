@@ -91,7 +91,7 @@
 (use-package highlight-symbol
   :bind (("M-n" . highlight-symbol-next)
          ("M-p" . highlight-symbol-prev))
-  :chords (("SS" . highlight-symbol)))
+  :chords (("XX" . highlight-symbol)))
 
 (use-package groovy-mode)
 
