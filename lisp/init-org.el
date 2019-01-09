@@ -12,6 +12,7 @@
          ("\C-c l" . org-store-link)
          ("\C-c b" . org-iswitchb))
   :config
+  (require 'ox-latex)
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-capture-templates
@@ -26,6 +27,6 @@
                            "~/Dropbox/org/notes.org"
                            "~/Dropbox/org/tasks.org"))))
 
-(provide 'init-org)
+  (provide 'init-org)
 
 ;;; org.el ends here
