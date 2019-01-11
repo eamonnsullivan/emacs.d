@@ -2,8 +2,8 @@
 ;;; init-scala.el --- stuff related to coding in scala
 
 (use-package scala-mode
+  :ensure t
   :pin melpa-stable
-  :defer t
   :config
   (setq scala-indent:default-run-on-strategy
         scala-indent:operator-strategy))

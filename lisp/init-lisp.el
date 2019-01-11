@@ -8,12 +8,6 @@
   :hook ((emacs-lisp-mode . turn-on-eldoc-mode)))
 
 (use-package
-  lispy
-  :config (add-hook
-           'emacs-lisp-mode-hook
-           (lambda () (lispy-mode 1))))
-
-(use-package
   cider
   :ensure t
   :hook ((clojure-mode . turn-on-eldoc-mode))

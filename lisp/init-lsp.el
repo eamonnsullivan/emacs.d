@@ -1,8 +1,8 @@
+
 ;;; -*- lexical-binding: t -*-
 ;;; init-lsp.el --- stuff related to the language server protocol
 
 (use-package lsp-mode
-  :diminish lsp-mode
   :config
   (use-package lsp-ui
     :commands (lsp-ui-mode lsp-ui-peek-find-definitions lsp-ui-peek-find-references)
@@ -34,12 +34,12 @@
 ;; tar xvf jdt-language-server-latest.tar.gz -C ~/.emacs.d/eclipse.jdt.ls/server/
 ;; I'm not overly impressed at first glance, but giving it a shot.
 (use-package lsp-java
-  :commands lsp-java-enable
+  :ensure t
   :config
   (setq lsp-java-save-action-organize-imports nil)
   (setq lsp-java-organize-imports nil)
   :init
-  (add-hook 'java-mode-hook #'lsp-java-enable)
+  (add-hook 'java-mode-hook 'lsp)
   (setq lsp-java--workspace-folders (list "~/git/cps-breaking-news")))
 
 (provide 'init-lsp)
