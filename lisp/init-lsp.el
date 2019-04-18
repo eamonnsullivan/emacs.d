@@ -3,16 +3,18 @@
 ;;; init-lsp.el --- stuff related to the language server protocol
 
 (use-package lsp-mode
-  :config
-  (use-package lsp-ui
-    :commands (lsp-ui-mode lsp-ui-peek-find-definitions lsp-ui-peek-find-references)
-    :bind (:map lsp-ui-mode-map
-                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-                ([remap xref-find-references] . lsp-ui-peek-find-references))
-    :init (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  :init
+  (setq lsp-prefer-flymake nil))
 
-  (use-package company-lsp
-    :init (add-to-list 'company-backends 'company-lsp)))
+(use-package lsp-ui
+  :commands (lsp-ui-mode lsp-ui-peek-find-definitions lsp-ui-peek-find-references)
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :init (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package company-lsp
+  :init (add-to-list 'company-backends 'company-lsp))
 
 ;; Javascript, Typescript and Flow support for lsp-mode
 ;;

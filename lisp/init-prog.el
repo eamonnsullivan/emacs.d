@@ -20,7 +20,8 @@
          (js2-mode . smartparens-mode)
          (markdown-mode . smartparens-mode)
          (html-mode . smartparens-mode)
-         (clojure-mode . smartparens-mode))
+         (clojure-mode . smartparens-mode)
+         (emacs-lisp-mode . smartparens-mode))
   :config
   (progn
     (require 'smartparens-config)
