@@ -8,6 +8,7 @@
 
 (use-package sbt-mode
   :commands sbt-start sbt-command
+  :bind ("C-c C-b" . sbt-hydra)
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
   ;; allows using SPACE when in the minibuffer

@@ -69,5 +69,6 @@
 (require 'init-ts)
 (require 'init-json)
 (require 'init-kbd-macros)
+(require 'init-slack)
 (provide 'init)
 ;;; init.el ends here

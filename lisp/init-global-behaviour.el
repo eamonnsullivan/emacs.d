@@ -1,10 +1,19 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-global-behavior.el --- Things I always want, no matter the mode
 
-;; never use tabs
-(setq-default indent-tabs-mode nil)
-(setq delete-by-moving-to-trash t) ;; move to trash folder
-(setq require-final-newline t) ;; unix world works better with a final newline.
+(use-package emacs
+  :init
+  (put 'narrow-to-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  :custom
+  (inhibit-startup-screen t "Don't show splash screen")
+  (use-dialog-box nil "Disabled non-accessible dialog boxes")
+  (indent-tabs-mode nil "Use spaces, always")
+  (delete-by-moving-to-trash t "Move to trash folder")
+  (require-final-newline t)
+  :hook
+  (before-save . delete-trailing-whitespace))
+
 ;; Turn off the annoying default backup behaviour
 (if (file-directory-p "~/.emacs.d/backups")
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -16,14 +25,11 @@
           )
   (message "Directory does not exist: ~/.emacs.d/backups"))
 
-;; delete trailing whitespace
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook
           (lambda ()
-            (turn-on-auto-fill)
-            (diminish 'auto-fill-function)))
+            (visual-line-mode)
+            (flyspell-mode)))
 (setq sentence-end-double-space nil)
 
 (use-package use-package-chords
