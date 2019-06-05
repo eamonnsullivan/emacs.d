@@ -14,7 +14,9 @@
   :init (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package company-lsp
-  :init (add-to-list 'company-backends 'company-lsp))
+  :config
+  (with-eval-after-load 'company-mode
+    (add-to-list 'company-backends '(company-lsp))))
 
 ;; Javascript, Typescript and Flow support for lsp-mode
 ;;
