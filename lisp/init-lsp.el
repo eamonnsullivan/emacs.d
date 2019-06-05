@@ -44,4 +44,7 @@
   (add-hook 'java-mode-hook 'lsp)
   (setq lsp-java--workspace-folders (list "~/git/cps-breaking-news")))
 
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
 (provide 'init-lsp)

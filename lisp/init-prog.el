@@ -56,6 +56,7 @@
     (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
     (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
     (sp-pair "{" "}" :wrap "C-{")
+    (sp-pair "\"" "\"" :wrap "C-\"")
 
     ;; I use this for something else
     (unbind-key "M-<backspace>" smartparens-mode-map)))

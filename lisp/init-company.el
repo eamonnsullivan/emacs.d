@@ -29,23 +29,6 @@
 
   (use-package company-tern
     :init (add-to-list 'company-backends 'company-tern))
-
-  (use-package company-go
-    :ensure t
-    :config
-    (add-hook 'go-mode-hook (lambda ()
-                              (set (make-local-variable 'company-backends) '(company-go))
-                              (company-mode))))
-  ;; Add a completion source for emoji. 😸
-  (use-package company-emoji
-    :config
-    (company-emoji-init))
-  (use-package company-try-hard
-    :commands company-try-hard
-    :bind ("C-\\" . company-try-hard)
-    :config
-    (bind-keys :map company-active-map
-               ("C-\\" . company-try-hard)))
   :diminish (company-mode . "CMP"))
 
 (provide 'init-company)

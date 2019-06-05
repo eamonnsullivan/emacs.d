@@ -70,5 +70,6 @@
 (require 'init-json)
 (require 'init-kbd-macros)
 (require 'init-slack)
+(require 'init-yasnippet)
 (provide 'init)
 ;;; init.el ends here
