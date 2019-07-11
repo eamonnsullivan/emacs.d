@@ -38,7 +38,7 @@
                     indent-tabs-mode nil
                     js-indent-level 2
                     js2-strict-missing-semi-warning nil)
-              (tern-mode)
+              ;; (tern-mode)
               (js2-imenu-extras-mode)
               (js2-refactor-mode)
               (auto-revert-mode)

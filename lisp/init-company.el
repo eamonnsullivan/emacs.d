@@ -19,16 +19,12 @@
   (define-key company-active-map (kbd "TAB") nil)
   ;; Sort completion candidates that already occur in the current
   ;; buffer at the top of the candidate list.
-  (setq company-transformers '(company-sort-by-occurrence))
+  ;; (setq company-transformers '(company-sort-by-occurrence))
   ;; Show documentation where available for selected completion
   ;; after a short delay.
   (use-package company-quickhelp
     :config
     (setq company-quickhelp-delay 1)
-    (company-quickhelp-mode 1))
-
-  (use-package company-tern
-    :init (add-to-list 'company-backends 'company-tern))
-  :diminish (company-mode . "CMP"))
+    (company-quickhelp-mode 1)))
 
 (provide 'init-company)

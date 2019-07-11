@@ -22,11 +22,4 @@
   :config
   (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala"))
 
-(require 'init-lsp)
-
-(use-package lsp-scala
-  :after scala-mode
-  :demand t
-  :hook (scala-mode . lsp))
-
 (provide 'init-scala)
