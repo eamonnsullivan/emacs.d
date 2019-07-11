@@ -20,6 +20,7 @@
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x C-d") 'helm-browse-project)
+  (global-set-key (kbd "M-\"") 'helm-lsp-global-workspace-symbol)
   (define-key global-map (kbd "M-g a") 'helm-do-grep-ag)
 
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action

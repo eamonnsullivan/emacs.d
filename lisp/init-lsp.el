@@ -4,11 +4,14 @@
 
 (use-package lsp-mode
   :hook
+  ;; npm i -g typescript-language-server; npm i -g typescript
   (typescript-mode . lsp)
   (js2-mode . lsp)
   (rjsx-mode . lsp)
   (java-mode . lsp)
   (scala-mode . lsp)
+  ;; npm install -g vscode-css-languageserver-bin
+  (css-mode . lsp)
   :commands lsp
   :init
   (setq lsp-prefer-flymake nil)
