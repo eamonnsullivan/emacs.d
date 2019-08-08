@@ -2,6 +2,7 @@
 ;;; eds.el --- Library for my own tweaks to various packages
 
 (require 'eds-test)
+(require 'lsp-mode)
 
 (defun eds/insert-enzyme-test-case (arg)
   "Insert a skeleton test case at point. If a prefix is used, make it synchronous."
@@ -202,5 +203,42 @@ With argument, do this that many times."
            :error "Unknown system type"))
       (display-warning
        :error "Buffer not attached to any file"))))
+
+(defun eds/trim-lsp-hover-markdown (markdown)
+  "Strip out the markdown from an lsp hover string"
+  (let* ((strip-quotes (replace-regexp-in-string "```" "" markdown))
+         (strip-lang (string-trim (replace-regexp-in-string (lsp-buffer-language) "" strip-quotes))))
+    strip-lang))
+
+(defun eds/make-hover-request (doc line character)
+  (lsp--make-request
+   "textDocument/hover"
+   (list :textDocument doc
+         :position (lsp--position line character))))
+
+(defun eds/split-hover-string (hover)
+  "Return just the type part of the hover string, the bit after the last colon."
+  (let* ((last-colon (- (length hover) (string-match "\:" (reverse hover))))
+         (symbol (string-trim (substring hover 0 (1- last-colon))))
+         (type (string-trim (substring hover last-colon))))
+    (list symbol type)))
+
+(defun eds/get-type-of-symbol-at-point ()
+  "Using lsp, if available, find the type of the symbol (def, val or var) at point."
+  (interactive)
+  (when (and buffer-file-name (lsp--capability "hoverProvider"))
+    (let* ((line-widen (save-restriction (widen) (line-number-at-pos)))
+           (bol (line-beginning-position))
+           (doc-id (lsp--text-document-identifier))
+           (response (lsp--send-request
+                      (eds/make-hover-request doc-id (1- line-widen) (- (point) bol)))))
+      (when response
+        (let* ((content (thread-first (gethash "contents" response)))
+               (value (gethash "value" content)))
+          (when content
+            (let* ((trimmed (eds/trim-lsp-hover-markdown value))
+                   (split (eds/split-hover-string trimmed))
+                   (type (car (cdr split))))
+              type)))))))
 
 (provide 'eds)
