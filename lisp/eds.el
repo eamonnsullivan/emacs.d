@@ -224,7 +224,7 @@ With argument, do this that many times."
     (list symbol type)))
 
 (defun eds/get-type-of-symbol-at-point ()
-  "Using lsp, if available, find the type of the symbol (def, val or var) at point."
+  "Using lsp, if available, find the type of the symbol at point."
   (interactive)
   (when (and buffer-file-name (lsp--capability "hoverProvider"))
     (let* ((line-widen (save-restriction (widen) (line-number-at-pos)))
@@ -240,5 +240,23 @@ With argument, do this that many times."
                    (split (eds/split-hover-string trimmed))
                    (type (car (cdr split))))
               type)))))))
+
+(defun eds/annotate-scala-symbol-with-type ()
+  "Using lsp, if available, append the type of the scala symbol (def, val or var) at point"
+  (interactive)
+  (when (equal (lsp-buffer-language) "scala")
+    (let ((sym (thing-at-point 'symbol))
+          (type (eds/get-type-of-symbol-at-point))
+          (line (string-trim (thing-at-point 'line t))))
+      (if (and (string-suffix-p "=" line)
+               (or (string-prefix-p "def" line)
+                   (string-prefix-p "val" line)
+                   (string-prefix-p "var" line)))
+          (let* ((line-without-equal (string-trim (substring line 0 (1- (length line)))))
+                 (line-with-type (format "%s: %s =" line-without-equal type)))
+            (save-excursion
+              (goto-char (point-min))
+              (while (search-forward line nil t)
+                (replace-match line-with-type))))))))
 
 (provide 'eds)
