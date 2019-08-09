@@ -223,7 +223,7 @@ With argument, do this that many times."
          (type (string-trim (substring hover last-colon))))
     (list symbol type)))
 
-(defun eds/get-type-of-symbol-at-point ()
+(defun eds/get-symbol-and-type-of-thing-at-point ()
   "Using lsp, if available, find the type of the symbol at point."
   (interactive)
   (when (and buffer-file-name (lsp--capability "hoverProvider"))
@@ -235,28 +235,33 @@ With argument, do this that many times."
       (when response
         (let* ((content (thread-first (gethash "contents" response)))
                (value (gethash "value" content)))
+          (message (format "value: %s" value))
           (when content
             (let* ((trimmed (eds/trim-lsp-hover-markdown value))
                    (split (eds/split-hover-string trimmed))
-                   (type (car (cdr split))))
-              type)))))))
+                   (type (car (cdr split)))
+                   (symbol (car split)))
+              (list symbol type))))))))
+
+(defun eds/is-assignment-thing-p (line)
+  "Returns t if a line appears to be a def, val or var assignment. Nil otherwise"
+  (and (string-match-p "=" line) (or (string-match-p "def " line)
+                                     (string-match-p "val " line)
+                                     (string-match-p "var " line))))
 
 (defun eds/annotate-scala-symbol-with-type ()
   "Using lsp, if available, append the type of the scala symbol (def, val or var) at point"
   (interactive)
   (when (equal (lsp-buffer-language) "scala")
-    (let ((sym (thing-at-point 'symbol))
-          (type (eds/get-type-of-symbol-at-point))
+    (let* ((sym-type (eds/get-symbol-and-type-of-thing-at-point))
+          (sym (car sym-type))
+          (type (car (cdr sym-type)))
           (line (string-trim (thing-at-point 'line t))))
-      (if (and (string-suffix-p "=" line)
-               (or (string-prefix-p "def" line)
-                   (string-prefix-p "val" line)
-                   (string-prefix-p "var" line)))
-          (let* ((line-without-equal (string-trim (substring line 0 (1- (length line)))))
-                 (line-with-type (format "%s: %s =" line-without-equal type)))
+      (if (eds/is-assignment-thing-p line)
+          (let ((sym-with-type (format "%s: %s" sym type)))
             (save-excursion
               (goto-char (point-min))
-              (while (search-forward line nil t)
-                (replace-match line-with-type))))))))
+              (while (search-forward sym nil t)
+                (replace-match sym-with-type))))))))
 
 (provide 'eds)
