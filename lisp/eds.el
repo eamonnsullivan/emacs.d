@@ -235,7 +235,6 @@ With argument, do this that many times."
       (when response
         (let* ((content (thread-first (gethash "contents" response)))
                (value (gethash "value" content)))
-          (message (format "value: %s" value))
           (when content
             (let* ((trimmed (eds/trim-lsp-hover-markdown value))
                    (split (eds/split-hover-string trimmed))
@@ -249,6 +248,10 @@ With argument, do this that many times."
                                      (string-match-p "val " line)
                                      (string-match-p "var " line))))
 
+(defun eds/has-annotation-p (line)
+  "Returns t if the line appears to already have a type annotation"
+  (string-match-p "\:[^)]+\=" line))
+
 (defun eds/annotate-scala-symbol-with-type ()
   "Using lsp, if available, append the type of the scala symbol (def, val or var) at point"
   (interactive)
@@ -257,7 +260,7 @@ With argument, do this that many times."
           (sym (car sym-type))
           (type (car (cdr sym-type)))
           (line (string-trim (thing-at-point 'line t))))
-      (if (eds/is-assignment-thing-p line)
+      (if (and (eds/is-assignment-thing-p line) (not (eds/has-annotation-p line)))
           (let ((sym-with-type (format "%s: %s" sym type)))
             (save-excursion
               (goto-char (point-min))
