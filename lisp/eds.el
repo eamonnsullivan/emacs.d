@@ -242,33 +242,4 @@ With argument, do this that many times."
                    (symbol (car split)))
               (list symbol type))))))))
 
-(defun eds/is-assignment-thing-p (line)
-  "Returns t if a line appears to be a def, val or var assignment. Nil otherwise."
-  (and (string-match-p "=" line) (or (string-match-p "def " line)
-                                     (string-match-p "val " line)
-                                     (string-match-p "var " line))))
-
-(defun eds/has-annotation-p (line)
-  "Returns t if the line appears to already have a type annotation. Nil otherwise."
-  (string-match-p "\:[^)]+\=" line))
-
-(defun eds/annotate-scala-symbol-with-type ()
-  "Using lsp, if available, append the type of the scala symbol (def, val or var) at point"
-  (interactive)
-  (when (equal (lsp-buffer-language) "scala")
-    (let* ((sym-type (eds/get-symbol-and-type-of-thing-at-point))
-          (sym (car sym-type))
-          (type (car (cdr sym-type)))
-          (line (string-trim (thing-at-point 'line t))))
-      (if (and (eds/is-assignment-thing-p line) (not (eds/has-annotation-p line)))
-          (let ((sym-with-type (format "%s: %s" sym type)))
-            (save-excursion
-              (save-restriction
-                (let ((start (line-beginning-position))
-                      (end (line-end-position)))
-                  (narrow-to-region start end)
-                  (goto-char (point-min))
-                  (while (search-forward sym nil t)
-                    (replace-match sym-with-type))))))))))
-
 (provide 'eds)
