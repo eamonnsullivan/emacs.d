@@ -226,7 +226,6 @@ With argument, do this that many times."
 
 (defun eds/get-symbol-and-type-of-thing-at-point ()
   "Using lsp, if available, find the whole symbol name and the type of the thing at point."
-  (interactive)
   (when (and buffer-file-name (lsp--capability "hoverProvider"))
     (let* ((line-widen (save-restriction (widen) (line-number-at-pos)))
            (bol (line-beginning-position))
@@ -264,8 +263,12 @@ With argument, do this that many times."
       (if (and (eds/is-assignment-thing-p line) (not (eds/has-annotation-p line)))
           (let ((sym-with-type (format "%s: %s" sym type)))
             (save-excursion
-              (goto-char (point-min))
-              (while (search-forward sym nil t)
-                (replace-match sym-with-type))))))))
+              (save-restriction
+                (let ((start (line-beginning-position))
+                      (end (line-end-position)))
+                  (narrow-to-region start end)
+                  (goto-char (point-min))
+                  (while (search-forward sym nil t)
+                    (replace-match sym-with-type))))))))))
 
 (provide 'eds)
