@@ -211,20 +211,21 @@ With argument, do this that many times."
     strip-lang))
 
 (defun eds/make-hover-request (doc line character)
+  "Make a request to the LSP server for the hover string for this file and location."
   (lsp--make-request
    "textDocument/hover"
    (list :textDocument doc
          :position (lsp--position line character))))
 
 (defun eds/split-hover-string (hover)
-  "Return just the type part of the hover string, the bit after the last colon."
+  "Split the hover string we get back into the symbol part and the type part."
   (let* ((last-colon (- (length hover) (string-match "\:" (reverse hover))))
          (symbol (string-trim (substring hover 0 (1- last-colon))))
          (type (string-trim (substring hover last-colon))))
     (list symbol type)))
 
 (defun eds/get-symbol-and-type-of-thing-at-point ()
-  "Using lsp, if available, find the type of the symbol at point."
+  "Using lsp, if available, find the whole symbol name and the type of the thing at point."
   (interactive)
   (when (and buffer-file-name (lsp--capability "hoverProvider"))
     (let* ((line-widen (save-restriction (widen) (line-number-at-pos)))
@@ -243,13 +244,13 @@ With argument, do this that many times."
               (list symbol type))))))))
 
 (defun eds/is-assignment-thing-p (line)
-  "Returns t if a line appears to be a def, val or var assignment. Nil otherwise"
+  "Returns t if a line appears to be a def, val or var assignment. Nil otherwise."
   (and (string-match-p "=" line) (or (string-match-p "def " line)
                                      (string-match-p "val " line)
                                      (string-match-p "var " line))))
 
 (defun eds/has-annotation-p (line)
-  "Returns t if the line appears to already have a type annotation"
+  "Returns t if the line appears to already have a type annotation. Nil otherwise."
   (string-match-p "\:[^)]+\=" line))
 
 (defun eds/annotate-scala-symbol-with-type ()
