@@ -165,7 +165,9 @@ With argument, do this that many times."
      (point)
      (progn
        (forward-word arg)
-       (point)))))(defun eds/backward-kill-word (arg)
+       (point)))))
+
+(defun eds/backward-kill-word (arg)
   "Delete characters backward until encountering the end of a word.
 With argument, do this that many times."
   (interactive "p")

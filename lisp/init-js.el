@@ -49,19 +49,6 @@
    (add-hook 'js2-mode-hook 'add-node-modules-path)
    (add-hook 'rjsx-mode-hook 'add-node-modules-path))
 
-(defun delete-tern-process()
-  (interactive)
-  (delete-process "Tern"))
-
-(use-package prettier-js
-  :diminish prettier-js-mode
-  :config
-  (setq prettier-js-args '(
-                           "--arrow-parens" "always"
-                           "--tab-width" "2"
-                           "--use-tabs" "false"
-                           "--trailing-comma" "all")))
-
 (use-package eslint-fix
   :config
   (eval-after-load 'js2-mode

@@ -83,13 +83,6 @@
            (" k" . dumb-jump-back)
            (" h" . dumb-jump-quick-look)))
 
-;; general refactoring menu
-(use-package emr
-  :config
-  (add-hook 'prog-mode-hook 'emr-initialize)
-  ;; Just hit M-RET to access your refactoring tools in any supported mode.
-  (define-key prog-mode-map (kbd "M-RET") 'emr-show-refactor-menu))
-
 (use-package highlight-symbol
   :bind (("M-n" . highlight-symbol-next)
          ("M-p" . highlight-symbol-prev))
@@ -112,7 +105,5 @@ programming."
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
-
-(use-package floobits)
 
 (provide 'init-prog)

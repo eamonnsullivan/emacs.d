@@ -61,7 +61,6 @@
 (require 'init-flycheck)
 (require 'init-mc)
 (require 'init-projectile)
-(require 'init-elfeed)
 (require 'init-markdown)
 (require 'init-server)
 (require 'init-lsp)
