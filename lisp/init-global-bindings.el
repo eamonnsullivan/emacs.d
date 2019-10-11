@@ -44,13 +44,15 @@
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
-(use-package expand-region :ensure t
+(use-package expand-region
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
 
 (set-register ?n '(file . "~/Dropbox/org/notes.org"))
 (set-register ?t '(file . "~/Dropbox/org/tasks.org"))
 (set-register ?p '(file . "~/Dropbox/org/personal.org"))
+
+(straight-use-package 'hydra)
 
 (defhydra hydra-goto-line (goto-map ""
                                     :pre (display-line-numbers-mode 1)

@@ -2,7 +2,6 @@
 ;;; init-mc.el --- setting some convenience keys for multiple-cursor mode
 
 (use-package multiple-cursors
-  :ensure t
   :config
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "<s-down>") 'mc/mark-next-like-this)

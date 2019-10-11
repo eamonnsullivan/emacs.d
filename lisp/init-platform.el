@@ -22,7 +22,6 @@
   ;; Seems to be needed for path to work on the mac
   (use-package exec-path-from-shell
     :if (and (eq system-type 'darwin) (display-graphic-p))
-    :ensure t
     :config
     (message "Initializing path from shell on Mac OS")
     (dolist (var '("GOPATH"

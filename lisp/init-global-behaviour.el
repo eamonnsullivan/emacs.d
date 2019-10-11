@@ -33,7 +33,6 @@
 (setq sentence-end-double-space nil)
 
 (use-package use-package-chords
-  :ensure t
   :init
   (setq key-chord-two-keys-delay 0.05)
   :config
@@ -43,7 +42,6 @@
 
 ;; undo-tree everywhere
 (use-package undo-tree
-  :ensure t
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
@@ -105,7 +103,6 @@
          ("C-h M-M" . discover-my-mode)))
 
 (use-package crux
-  :ensure t
   :bind (("C-k"                          . crux-smart-kill-line)
          ([(control shift return)]       . crux-smart-open-line-above)
          ([(shift return)]               . crux-smart-open-line)
@@ -116,8 +113,7 @@
          ("C-c k"                        . crux-kill-other-buffers)))
 
 ;; font scaling
-(use-package default-text-scale
-  :ensure t)
+(use-package default-text-scale)
 
 (use-package dashboard
   :init

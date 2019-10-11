@@ -2,7 +2,6 @@
 ;;; init-appearance.el --- Code related to the look of emacs
 
 (use-package zenburn-theme
-  :ensure t
   :config
   (load-theme 'zenburn t))
 

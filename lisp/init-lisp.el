@@ -9,7 +9,6 @@
 
 (use-package
   cider
-  :ensure t
   :hook ((clojure-mode . turn-on-eldoc-mode))
   :config
   (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode)))

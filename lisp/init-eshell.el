@@ -3,7 +3,6 @@
 
 ;; From https://github.com/seagle0128/.emacs.d
 (use-package eshell
-  :ensure nil
   :config
   ;; Eshell prompt for git users
   (use-package eshell-git-prompt

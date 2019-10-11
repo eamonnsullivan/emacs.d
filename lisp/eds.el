@@ -2,6 +2,7 @@
 ;;; eds.el --- Library for my own tweaks to various packages
 
 (require 'eds-test)
+(straight-use-package 'lsp-mode)
 (require 'lsp-mode)
 
 (defun eds/insert-enzyme-test-case (arg)

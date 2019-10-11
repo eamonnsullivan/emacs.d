@@ -2,6 +2,8 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-lsp.el --- stuff related to the language server protocol
 
+(straight-use-package 'lsp-mode)
+
 (use-package lsp-mode
   :hook
   ;; npm i -g typescript-language-server; npm i -g typescript
@@ -21,7 +23,7 @@
 
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :config (setq lsp-ui-doc-enable nil) ;; workaround for https://github.com/emacs-lsp/lsp-ui/issues/299
+  ;; :config (setq lsp-ui-doc-enable nil) ;; workaround for https://github.com/emacs-lsp/lsp-ui/issues/299
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references)))
@@ -34,7 +36,6 @@
 ;; wget http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
 ;; tar xvf jdt-language-server-latest.tar.gz -C ~/.emacs.d/eclipse.jdt.ls/server/
 (use-package lsp-java
-  :ensure t
   :config
   (setq lsp-java-save-action-organize-imports nil)
   (setq lsp-java-organize-imports nil)

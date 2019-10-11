@@ -2,7 +2,6 @@
 ;;; init-flycheck.el --- flycheck, setting various preferred checkers
 
 (use-package flycheck
-  :ensure t
   :diminish flycheck-mode
   :defer t
   :config

@@ -36,10 +36,10 @@
       "Smartparens restriction on `SYM' for C-derived parenthesis."
       (sp-restrict-to-pairs-interactive "{([" sym))
 
-    (bind-key "s-<delete>" (sp-restrict-c 'sp-kill-sexp) scala-mode-map)
-    (bind-key "s-<backspace>" (sp-restrict-c 'sp-backward-kill-sexp) scala-mode-map)
-    (bind-key "s-<home>" (sp-restrict-c 'sp-beginning-of-sexp) scala-mode-map)
-    (bind-key "s-<end>" (sp-restrict-c 'sp-end-of-sexp) scala-mode-map)
+    ;; (bind-key "s-<delete>" (sp-restrict-c 'sp-kill-sexp) scala-mode-map)
+    ;; (bind-key "s-<backspace>" (sp-restrict-c 'sp-backward-kill-sexp) scala-mode-map)
+    ;; (bind-key "s-<home>" (sp-restrict-c 'sp-beginning-of-sexp) scala-mode-map)
+    ;; (bind-key "s-<end>" (sp-restrict-c 'sp-end-of-sexp) scala-mode-map)
 
 ;;; markdown-mode
     (sp-with-modes '(markdown-mode gfm-mode rst-mode)

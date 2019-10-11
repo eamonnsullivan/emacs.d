@@ -1,11 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-hydra.el --- hydra modes
 
+(straight-use-package 'hydra)
+
 (require 'init-global-behaviour)
 (require 'eds)
-
-(use-package hydra
-  :ensure t)
 
 (global-set-key
  (kbd "C-z")
@@ -23,7 +22,7 @@ _q_: quit this menu
    ("s" default-text-scale-decrease)
    ("d" kill-all-buffers)
    ("r" stop-and-restart-emacs)
-   ("u" upgrade-packages)
+   ("u" straight-pull-all)
    ("o" eds/open-buffer-on-desktop)
    ("q" nil)))
 (hydra-set-property 'hydra-global-menu :verbosity 1)
