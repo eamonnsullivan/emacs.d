@@ -66,17 +66,6 @@
 (require 'eds)
 (require 'init-hydra)
 
-(defvar hydra-stack nil)
-
-(defun hydra-push (expr)
-  (push `(lambda () ,expr) hydra-stack))
-
-(defun hydra-pop ()
-  (interactive)
-  (let ((x (pop hydra-stack)))
-    (when x
-      (funcall x))))
-
 (defhydra hydra-expose-js-refactoring (:color red :hint nil)
   "
 ^Variables^

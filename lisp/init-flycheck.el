@@ -3,7 +3,6 @@
 
 (use-package flycheck
   :diminish flycheck-mode
-  :defer t
   :config
   (global-flycheck-mode)
   ;; disable jshint since we prefer eslint checking

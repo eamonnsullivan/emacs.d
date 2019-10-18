@@ -9,6 +9,7 @@
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; backward-kill-word, restart-emacs
 (require 'eds)
+(require 'init-hydra)
 (global-unset-key (kbd "M-<backspace>"))
 (global-set-key (kbd "M-<backspace>") 'eds/backward-kill-word)
 
@@ -51,8 +52,6 @@
 (set-register ?n '(file . "~/Dropbox/org/notes.org"))
 (set-register ?t '(file . "~/Dropbox/org/tasks.org"))
 (set-register ?p '(file . "~/Dropbox/org/personal.org"))
-
-(straight-use-package 'hydra)
 
 (defhydra hydra-goto-line (goto-map ""
                                     :pre (display-line-numbers-mode 1)

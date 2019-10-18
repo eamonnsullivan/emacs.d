@@ -1,6 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-org.el --- org mode stuff
 
+(straight-use-package 'org)
+(straight-use-package 'org-plus-contrib)
+
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
