@@ -20,4 +20,6 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
+(use-package powershell)
+
 (provide 'init-utils)

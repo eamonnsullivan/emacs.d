@@ -32,11 +32,11 @@
   (setq-default js2-ignored-warnings '("msg.extra.trailing.comma"))
   (add-hook 'js2-mode-hook
             (lambda()
-              (setq js2-basic-offset 2
-                    js2-highlight-level 3
+              ;; js-indent-level 2
+              ;; js2-basic-offset 2
+              (setq js2-highlight-level 3
                     js2-bounce-indent-p t
                     indent-tabs-mode nil
-                    js-indent-level 2
                     js2-strict-missing-semi-warning nil)
               ;; (tern-mode)
               (js2-imenu-extras-mode)

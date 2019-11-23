@@ -17,6 +17,19 @@
     (when x
       (funcall x))))
 
+
+;; from https://manuel-uberti.github.io//emacs/2019/11/02/thirty-straight-days/
+(defun eds-straight-pull-or-prune (&optional prune)
+  "Update all available packages via `straight'.
+With PRUNE, prune the build cache and the build directory."
+  (interactive "P")
+  (if prune
+      (when (y-or-n-p "Prune build cache and build directory?")
+        (straight-prune-build-cache)
+        (straight-prune-build-directory))
+    (when (y-or-n-p "Update all available packages?")
+      (straight-pull-all))))
+
 ;; (eval-after-load 'js2-mode
 ;;   '(key-chord-define js2-mode-map "MM" 'hydra-my-javascript-macros/body))
 
@@ -57,8 +70,8 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |prun_e_
    "
 ^Display^        ^Buffers^                    ^Actions^
 ^^^^^^^^^-----------------------------------------------------
-_g_: zoom-in     _d_: close all buffers       _r_: restart emacs
-_s_: zoom-out    _o_: open buffer on desktop
+_g_: zoom-in     _d_: close all buffers       _u_: update all packages
+_s_: zoom-out    _o_: open buffer on desktop  _r_: restart emacs
 
 _q_: quit this menu
 "
@@ -66,6 +79,7 @@ _q_: quit this menu
    ("s" default-text-scale-decrease)
    ("d" kill-all-buffers)
    ("r" stop-and-restart-emacs)
+   ("u" eds-straight-pull-or-prune)
    ("o" eds/open-buffer-on-desktop)
    ("q" nil)))
 (hydra-set-property 'hydra-global-menu :verbosity 1)

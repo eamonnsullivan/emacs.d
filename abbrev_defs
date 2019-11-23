@@ -32,6 +32,10 @@
 
 (define-abbrev-table 'c-mode-abbrev-table '())
 
+(define-abbrev-table 'clojure-mode-abbrev-table '(
+  ("edeb" "" eds-edeb-expansion-clojure 1)
+))
+
 (define-abbrev-table 'comint-mode-abbrev-table '())
 
 (define-abbrev-table 'completion-list-mode-abbrev-table '())

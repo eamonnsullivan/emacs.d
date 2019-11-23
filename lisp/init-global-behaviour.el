@@ -17,20 +17,68 @@
 ;; Turn off the annoying default backup behaviour
 (if (file-directory-p "~/.emacs.d/backups")
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-          backup-by-copying t    ; Don't delink hardlinks
-          version-control t      ; Use version numbers on backups
-          delete-old-versions t  ; Automatically delete excess backups
-          kept-new-versions 20   ; how many of the newest versions to keep
-          kept-old-versions 5    ; and how many of the old
+          backup-by-copying t         ; Don't delink hardlinks
+          version-control t           ; Use version numbers on backups
+          delete-old-versions t       ; Automatically delete excess backups
+          kept-new-versions 20        ; how many of the newest versions to keep
+          kept-old-versions 5         ; and how many of the old
+          delete-by-moving-to-trash t
           )
   (message "Directory does not exist: ~/.emacs.d/backups"))
 
-(setq-default major-mode 'text-mode)
-(add-hook 'text-mode-hook
-          (lambda ()
-            (visual-line-mode)
-            (flyspell-mode)))
-(setq sentence-end-double-space nil)
+;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
+(use-package flyspell
+  :config
+
+  ;; Set programms
+  (setq-default ispell-program-name "aspell")
+  (setq-default ispell-list-command "--list")
+
+  ;; Refresh flyspell after directory change
+  (defun flyspell-buffer-after-pdict-save (&rest _)
+    (flyspell-buffer))
+  (advice-add 'ispell-pdict-save :after #'flyspell-buffer-after-pdict-save)
+
+  ;; Popup
+  (defun flyspell-emacs-popup-textual (event poss word)
+    "A textual flyspell popup menu."
+    (require 'popup)
+    (let* ((corrects (if flyspell-sort-corrections
+                         (sort (car (cdr (cdr poss))) 'string<)
+                       (car (cdr (cdr poss)))))
+           (cor-menu (if (consp corrects)
+                         (mapcar (lambda (correct)
+                                   (list correct correct))
+                                 corrects)
+                       '()))
+           (affix (car (cdr (cdr (cdr poss)))))
+           show-affix-info
+           (base-menu  (let ((save (if (and (consp affix) show-affix-info)
+                                       (list
+                                        (list (concat "Save affix: " (car affix))
+                                              'save)
+                                        '("Accept (session)" session)
+                                        '("Accept (buffer)" buffer))
+                                     '(("Save word" save)
+                                       ("Accept (session)" session)
+                                       ("Accept (buffer)" buffer)))))
+                         (if (consp cor-menu)
+                             (append cor-menu (cons "" save))
+                           save)))
+           (menu (mapcar
+                  (lambda (arg) (if (consp arg) (car arg) arg))
+                  base-menu)))
+      (cadr (assoc (popup-menu* menu :scroll-bar t) base-menu))))
+
+
+  (defun flyspell-emacs-popup-choose (org-fun event poss word)
+    (if (window-system)
+        (funcall org-fun event poss word)
+      (flyspell-emacs-popup-textual event poss word)))
+
+  (eval-after-load "flyspell"
+    '(progn
+       (advice-add 'flyspell-emacs-popup :around #'flyspell-emacs-popup-choose))))
 
 (use-package use-package-chords
   :init

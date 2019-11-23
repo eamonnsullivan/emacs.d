@@ -4,8 +4,7 @@
 (defvar imenu-auto-rescan t)
 ;; general, all languages
 (use-package editorconfig
-  :diminish editorconfig-mode
-  :init (add-hook 'after-init-hook #'editorconfig-mode))
+  :config (editorconfig-mode 1))
 
 ;; smartparens-mode
 (use-package smartparens
@@ -88,7 +87,15 @@
          ("M-p" . highlight-symbol-prev))
   :chords (("XX" . highlight-symbol)))
 
-(use-package groovy-mode)
+(use-package groovy-mode
+  :mode (("\.groovy$" . groovy-mode))
+  :hook
+  (groovy-mode . (lambda() (inf-groovy-keys)))
+  :config
+  (setq groovysh "/usr/local/bin/groovysh")
+  (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy process")
+  (autoload 'inf-groovy-keys "inf-groovy" "Set local key defs for inf-groovy in groovy-mode"))
+(use-package groovy-imports)
 
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -105,5 +112,13 @@ programming."
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+
+(use-package plantuml-mode
+  :mode (("\\.puml\\'" . plantuml-mode)
+         ("\\.plantuml\\'" . plantuml-mode))
+  :config
+  (setq plantuml-jar-path "/usr/local/bin/plantuml"
+        plantuml-default-exec-mode 'executable))
+  ;; (add-to-list 'org-src-lang-modes '("plantuml" . plantuml)))
 
 (provide 'init-prog)
