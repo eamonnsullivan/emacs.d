@@ -4,6 +4,7 @@
 (defvar imenu-auto-rescan t)
 ;; general, all languages
 (use-package editorconfig
+  :diminish editorconfig-mode
   :config (editorconfig-mode 1))
 
 ;; smartparens-mode
@@ -119,6 +120,5 @@ programming."
   :config
   (setq plantuml-jar-path "/usr/local/bin/plantuml"
         plantuml-default-exec-mode 'executable))
-  ;; (add-to-list 'org-src-lang-modes '("plantuml" . plantuml)))
 
 (provide 'init-prog)

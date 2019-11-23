@@ -8,6 +8,8 @@
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
   :bind (("\C-c a" . org-agenda)
