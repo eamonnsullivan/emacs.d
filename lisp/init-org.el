@@ -18,6 +18,7 @@
          ("\C-c b" . org-iswitchb))
   :config
   (require 'ox-latex)
+  (require 'ob-clojure)
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-capture-templates

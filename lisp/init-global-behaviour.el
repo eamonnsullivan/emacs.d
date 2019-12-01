@@ -31,6 +31,7 @@
   :config
 
   ;; Set programms
+  (add-hook 'text-mode-hook 'flyspell-mode)
   (setq-default ispell-program-name "aspell")
   (setq-default ispell-list-command "--list")
 

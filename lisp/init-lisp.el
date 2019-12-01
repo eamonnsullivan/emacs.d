@@ -14,6 +14,8 @@
   :hook ((clojure-mode . turn-on-eldoc-mode)
          (clojure-mode . cider-mode))
   :config
+  (require 'init-org)
+  (setq org-babel-clojure-backend 'cider)
   (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode)))
 
 (use-package
