@@ -35,30 +35,16 @@
   ;; :config (setq lsp-ui-doc-enable nil) ;; workaround for https://github.com/emacs-lsp/lsp-ui/issues/299
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references)))
+              ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :hook
+  (lsp-mode . lsp-ui-mode))
+
 (use-package company-lsp :commands company-lsp)
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 
 ;; Java support for lsp-mode using the Eclipse JDT Language Server.
 (use-package lsp-java
   :after lsp)
-(use-package dap-mode
-  :after lsp-mode
-  :config
-  (dap-mode t)
-  (dap-ui-mode t))
-  ;; :config
-  ;; (setq lsp-java-save-action-organize-imports nil)
-  ;; (setq lsp-java-organize-imports nil))
 
-
-(use-package lsp-pwsh
-  :straight (lsp-pwsh
-             :host github
-             :repo "kiennq/lsp-powershell")
-  :hook (powershell-mode . (lambda () (require 'lsp-pwsh) (lsp)))
-  :defer t)
-
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (provide 'init-lsp)
