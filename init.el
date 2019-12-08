@@ -38,6 +38,7 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 (setq straight-check-for-modifications '(watch-files find-when-checking))
+(setq straight-find-executable "/usr/local/opt/findutils/libexec/gnubin/find")
 
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 

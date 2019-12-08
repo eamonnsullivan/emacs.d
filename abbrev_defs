@@ -120,7 +120,10 @@
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
 
-(define-abbrev-table 'python-mode-abbrev-table '())
+(define-abbrev-table 'python-mode-abbrev-table
+  '(
+    ("edeb" "" eds-edeb-expansion-python 0)
+   ))
 
 (define-abbrev-table 'sbt-mode-abbrev-table '())
 
