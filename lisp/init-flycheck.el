@@ -1,6 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-flycheck.el --- flycheck, setting various preferred checkers
 
+(use-package flycheck-pos-tip
+  :after flycheck)
+
 (use-package flycheck
   :diminish flycheck-mode
   :config
@@ -21,6 +24,18 @@
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
                         '(emacs-lisp-checkdoc)))
-  )
+  (eval-after-load 'flycheck
+  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+(use-package flycheck-clojure
+  :commands (flycheck-clojure-setup)
+  :config
+  (eval-after-load 'flycheck
+    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package flycheck-clj-kondo)
+
+(use-package flycheck-joker)
 
 (provide 'init-flycheck)

@@ -9,22 +9,35 @@
 
 (use-package package-lint)
 
+(require 'init-flycheck)
+
 (use-package
   cider
   :hook ((clojure-mode . turn-on-eldoc-mode)
          (clojure-mode . cider-mode))
   :config
+  (require 'flycheck-clj-kondo)
   (require 'init-org)
   (setq org-babel-clojure-backend 'cider)
-  (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode)))
+  (setq
+   cider-repl-history-file ".cider-repl-history"
+   nrepl-log-messages t)
+  (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode))
+  (flycheck-clojure-setup))
 
-(use-package
-  clj-refactor
+(use-package clj-refactor
+  :hook ((clojure-mode . clj-refactor-mode)
+         (clojure-mode . yas-minor-mode))
   :config
-  (defun eds-clojure-mode-hook ()
-    (clj-refactor-mode 1)
-    (yas-minor-mode 1)
-    (cljr-add-keybindings-with-prefix "C-c C-m"))
-  (add-hook 'clojure-mode-hook #'eds-clojure-mode-hook))
+  (cljr-add-keybindings-with-prefix "C-c r"))
+
+(use-package helm-cider
+  :hook ((cider-mode . helm-cider-mode)))
+
+(use-package cider-hydra
+  :hook ((cider-mode . cider-hydra-mode))
+  :bind ("C-c e" . cider-hydra-eval/body))
+
+(use-package kibit-helper)
 
 (provide 'init-lisp)
