@@ -78,4 +78,7 @@
   (setq helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'"))
   (setq helm-ag-insert-at-point 'symbol))
 
+(use-package helm-ls-git
+  :bind (("C-c p h" . helm-browse-project)))
+
 (provide 'init-helm)
