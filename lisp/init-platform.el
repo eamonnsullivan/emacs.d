@@ -35,6 +35,10 @@
     (add-to-list 'exec-path "/usr/local/bin"))
 (if (file-directory-p "/usr/local/bin")
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
+(if (file-directory-p "~/bin")
+    (setenv "PATH" (concat (getenv "PATH") ":~/bin")))
+(if (file-directory-p "~/bin")
+    (add-to-list 'exec-path "~/bin"))
 
 ;; garbage collection tweaks
 (let ((normal-gc-cons-threshold (* 20 1024 1024))

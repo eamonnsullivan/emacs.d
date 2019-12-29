@@ -49,7 +49,10 @@
                      (format "ping -c 1 %s" *proxy-host*)))
           (string-match "Unknown host"
                     (shell-command-to-string
-                     (format "ping -c 1 %s" *proxy-host*))))
+                     (format "ping -c 1 %s" *proxy-host*)))
+	  (string-match "Temporary failure"
+			(shell-command-to-string
+			 (format "ping -c 1 %s" *proxy-host*))))
         (turn-proxy-off)
       (turn-proxy-on)))
 (proxy-check)
