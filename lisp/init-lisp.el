@@ -22,6 +22,7 @@
   (setq cider-prompt-for-symbol nil)
   (setq cider-save-file-on-load t)
   (setq cider-font-lock-dynamically '(macro core function var))
+  (setq cider-repl-pop-to-buffer-on-connect 'display-only)
   (setq
    cider-repl-history-file ".cider-repl-history"
    nrepl-log-messages t)
