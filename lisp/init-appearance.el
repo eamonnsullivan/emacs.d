@@ -55,7 +55,7 @@ for variable-pitch face."
         (when window-system
           (if (> (x-display-pixel-width) 1800)
               (my-setup-main-fonts 160 170)
-            (my-setup-main-fonts 150 160)))
+            (my-setup-main-fonts 130 140)))
       (set-face-attribute 'default nil :height 140))))
 
 

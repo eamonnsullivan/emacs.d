@@ -19,6 +19,9 @@
   (require 'flycheck-clj-kondo)
   (require 'init-org)
   (setq org-babel-clojure-backend 'cider)
+  (setq cider-prompt-for-symbol nil)
+  (setq cider-save-file-on-load t)
+  (setq cider-font-lock-dynamically '(macro core function var))
   (setq
    cider-repl-history-file ".cider-repl-history"
    nrepl-log-messages t)

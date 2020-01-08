@@ -15,7 +15,7 @@
   (before-save . delete-trailing-whitespace))
 
 ;; Turn off the annoying default backup behaviour
-(if (file-directory-p "~/.emacs.d/backups")
+(if (file-directory-p "~/.emacs.d/backup")
     (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
           backup-by-copying t         ; Don't delink hardlinks
           version-control t           ; Use version numbers on backups
@@ -24,7 +24,7 @@
           kept-old-versions 5         ; and how many of the old
           delete-by-moving-to-trash t
           )
-  (message "Directory does not exist: ~/.emacs.d/backups"))
+  (message "Directory does not exist: ~/.emacs.d/backup"))
 
 ;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
 (use-package flyspell
