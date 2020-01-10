@@ -18,14 +18,14 @@
   :config
   (require 'flycheck-clj-kondo)
   (require 'init-org)
-  (setq org-babel-clojure-backend 'cider)
-  (setq cider-prompt-for-symbol nil)
-  (setq cider-save-file-on-load t)
-  (setq cider-font-lock-dynamically '(macro core function var))
-  (setq cider-repl-pop-to-buffer-on-connect 'display-only)
-  (setq
-   cider-repl-history-file ".cider-repl-history"
-   nrepl-log-messages t)
+  (setq org-babel-clojure-backend 'cider
+        cider-prompt-for-symbol nil
+        cider-save-file-on-load t
+        cider-font-lock-dynamically '(macro core function var)
+        cider-repl-pop-to-buffer-on-connect 'display-only
+        cider-overlays-use-font-lock t
+        nrepl-hide-special-buffers t
+        cider-repl-history-file ".cider-repl-history")
   (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode))
   (flycheck-clojure-setup))
 
