@@ -33,7 +33,8 @@
   :hook ((clojure-mode . clj-refactor-mode)
          (clojure-mode . yas-minor-mode))
   :config
-  (cljr-add-keybindings-with-prefix "C-c r"))
+  (cljr-add-keybindings-with-prefix "C-c r")
+  (setq cljr-warn-on-eval nil))
 
 (use-package helm-cider
   :hook ((cider-mode . helm-cider-mode)))
