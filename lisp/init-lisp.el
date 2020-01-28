@@ -17,6 +17,8 @@
          (clojure-mode . cider-mode))
   :config
   (require 'flycheck-clj-kondo)
+  (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
+    (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
   (require 'init-org)
   (setq org-babel-clojure-backend 'cider
         cider-prompt-for-symbol nil

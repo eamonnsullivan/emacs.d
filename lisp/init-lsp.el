@@ -28,7 +28,8 @@
   (setq lsp-auto-configure t)
   (setq lsp-enable-xref t)
   (setq lsp-enable-indentation nil)
-  (setq lsp-enable-on-type-formatting nil))
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-log-io t))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
