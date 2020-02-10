@@ -23,8 +23,9 @@
   (css-mode . lsp)
   :commands lsp
   :init
-  (when (eq system-type 'gnu/linux)
-    (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt"))))
+  (if (eq system-type 'gnu/linux)
+      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
+    (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt"))))
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
   (setq lsp-auto-configure t)
