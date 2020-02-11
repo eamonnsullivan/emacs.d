@@ -4,9 +4,15 @@
 
 (straight-use-package 'lsp-mode)
 
+(defun eds/setup-sbt-lsp ()
+  (if (eq system-type 'gnu/linux)
+      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
+    (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))))
+
 (use-package lsp-mode
   :config
   (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure-mode"))
+  (eds/setup-sbt-lsp)
   :hook
   ;; npm i -g typescript-language-server; npm i -g typescript
   (typescript-mode . lsp)
@@ -23,9 +29,6 @@
   (css-mode . lsp)
   :commands lsp
   :init
-  (if (eq system-type 'gnu/linux)
-      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
-    (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt"))))
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
   (setq lsp-auto-configure t)
