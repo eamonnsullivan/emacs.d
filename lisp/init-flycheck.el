@@ -27,15 +27,6 @@
   (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-(use-package flycheck-clojure
-  :commands (flycheck-clojure-setup)
-  :config
-  (eval-after-load 'flycheck
-    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
 (use-package flycheck-clj-kondo)
-
-(use-package flycheck-joker)
 
 (provide 'init-flycheck)
