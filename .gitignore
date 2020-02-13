@@ -6,3 +6,5 @@
 
 authinfo
 /.DS_Store
+
+.cider-repl-history

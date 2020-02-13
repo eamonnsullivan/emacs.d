@@ -28,8 +28,7 @@
         cider-overlays-use-font-lock t
         nrepl-hide-special-buffers t
         cider-repl-history-file ".cider-repl-history")
-  (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode))
-  (flycheck-clojure-setup))
+  (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode)))
 
 (use-package clj-refactor
   :hook ((clojure-mode . clj-refactor-mode)
