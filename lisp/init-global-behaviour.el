@@ -2,6 +2,8 @@
 ;;; init-global-behavior.el --- Things I always want, no matter the mode
 
 (use-package emacs
+  :config
+  (add-hook 'text-mode-hook 'visual-line-mode)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
