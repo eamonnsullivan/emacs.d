@@ -5,6 +5,7 @@
 (straight-use-package 'lsp-mode)
 
 (defun eds/setup-sbt-lsp ()
+  (message "Configuring LSP")
   (if (eq system-type 'gnu/linux)
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
     (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))))
