@@ -4,8 +4,6 @@
 (straight-use-package 'org)
 (straight-use-package 'org-plus-contrib)
 
-(use-package ob-graphql)
-
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
@@ -21,7 +19,6 @@
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
-  (require 'ob-graphql)
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (setq org-capture-templates
