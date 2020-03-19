@@ -1,4 +1,3 @@
-
 ;;; -*- lexical-binding: t -*-
 ;;; init-lsp.el --- stuff related to the language server protocol
 
@@ -36,7 +35,7 @@
   (setq lsp-enable-xref t)
   (setq lsp-enable-indentation nil)
   (setq lsp-enable-on-type-formatting nil)
-  (setq lsp-log-io t))
+  (setq lsp-log-io nil))
 
 (use-package lsp-ui
   :commands lsp-ui-mode
