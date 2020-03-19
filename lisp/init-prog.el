@@ -121,4 +121,9 @@ programming."
   (setq plantuml-jar-path "/usr/local/bin/plantuml"
         plantuml-default-exec-mode 'executable))
 
+(use-package yaml-mode
+  :mode ("\\.yml\\'" . yaml-mode)
+  :hook
+  (yaml-mode . (lambda () (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+
 (provide 'init-prog)
