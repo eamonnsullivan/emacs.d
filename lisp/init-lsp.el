@@ -3,6 +3,8 @@
 
 (straight-use-package 'lsp-mode)
 
+;; Check that this applied with (lsp-configuration-section "metals")
+;; Check also that you are using Java 8. Things break in Java 11.
 (defun eds/setup-sbt-lsp ()
   (message "Configuring LSP")
   (if (eq system-type 'gnu/linux)
