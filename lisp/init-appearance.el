@@ -105,9 +105,9 @@ for variable-pitch face."
              (find-font (font-spec :name "Fira Sans")))
         (when window-system
           (if (> (x-display-pixel-width) 1800)
-              (my-setup-main-fonts 160 170)
-            (my-setup-main-fonts 130 140)))
-      (set-face-attribute 'default nil :height 140))))
+              (my-setup-main-fonts 130 140)
+            (my-setup-main-fonts 110 120)))
+      (set-face-attribute 'default nil :height 120))))
 
 
 (require 'server)
