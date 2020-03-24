@@ -173,4 +173,8 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package eldoc-eval
+  :config
+  (eldoc-in-minibuffer-mode 1))
+
 (provide 'init-global-behaviour)
