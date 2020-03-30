@@ -177,4 +177,9 @@
   :config
   (eldoc-in-minibuffer-mode 1))
 
+(straight-use-package
+ '(pomodoro :type git :host github :repo "tkhoa2711/pomodoro.el"))
+
+(require 'pomodoro)
+
 (provide 'init-global-behaviour)
