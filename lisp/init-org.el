@@ -4,6 +4,8 @@
 (straight-use-package 'org)
 (straight-use-package 'org-plus-contrib)
 
+(use-package org-pomodoro)
+
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
