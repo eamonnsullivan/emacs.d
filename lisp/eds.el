@@ -245,4 +245,22 @@ With argument, do this that many times."
                    (symbol (car split)))
               (list symbol type))))))))
 
+
+(defun eds/insert-skeleton-blog-post ()
+  "Insert a basic skeleton for a blog post."
+  (goto-char (point-min))
+  (insert
+   "{:title \"new post\"\n :layout :post\n :tags []}\n\n"))
+
+(require 'init-git)
+(defun eds/start-blog-post ()
+  "Create a new post with today's date and a new branch"
+  (interactive)
+  (let* ((branch (format-time-string "%Y-%m-%d"))
+         (filename (concat "~/git/eamonnsullivan.co.uk/content/md/posts/" branch "-new-post.md")))
+    (find-file filename)
+    (eds/insert-skeleton-blog-post)
+    (magit-branch-create branch "master")
+    (magit-checkout branch)))
+
 (provide 'eds)
