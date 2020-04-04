@@ -3,6 +3,33 @@
 
 (use-package zenburn-theme)
 
+(use-package modus-vivendi-theme
+  :config
+  ;; Choose to render more code constructs in slanted text (italics).  The
+  ;; default, shown below, is to not use italics, unless it is absolutely
+  ;; necessary.
+  (setq modus-vivendi-theme-slanted-constructs nil)
+
+  ;; Opt to display some additional code constructs in bold.  The default,
+  ;; shown below, is to use bold weight only where necessary.
+  (setq modus-vivendi-theme-bold-constructs nil)
+
+  ;; Use proportionately-spaced fonts (variable-pitch) for headings.  The
+  ;; default is to use whatever font the user has selected, typically a
+  ;; monospaced typeface.
+  (setq modus-vivendi-theme-proportional-fonts nil)
+
+  ;; Whether headings should be scaled or have the same height as body
+  ;; text.  The default is to keep everything the same as the base size.
+  (setq modus-vivendi-theme-scale-headings nil)
+
+  ;; Font scale that should apply to headings.  These are the default values.
+  (setq modus-vivendi-theme-scale-1 1.05)
+  (setq modus-vivendi-theme-scale-2 1.1)
+  (setq modus-vivendi-theme-scale-3 1.15)
+  (setq modus-vivendi-theme-scale-4 1.2))
+
+
 (use-package modus-operandi-theme
   :config
   ;; Choose to render more code constructs in slanted text (italics).  The
@@ -29,32 +56,6 @@
   (setq modus-operandi-theme-scale-3 1.15)
   (setq modus-operandi-theme-scale-4 1.2)
   (load-theme 'modus-operandi t))
-
-(use-package modus-vivendi-theme
-  :config
-  ;; Choose to render more code constructs in slanted text (italics).  The
-  ;; default, shown below, is to not use italics, unless it is absolutely
-  ;; necessary.
-  (setq modus-vivendi-theme-slanted-constructs nil)
-
-  ;; Opt to display some additional code constructs in bold.  The default,
-  ;; shown below, is to use bold weight only where necessary.
-  (setq modus-vivendi-theme-bold-constructs nil)
-
-  ;; Use proportionately-spaced fonts (variable-pitch) for headings.  The
-  ;; default is to use whatever font the user has selected, typically a
-  ;; monospaced typeface.
-  (setq modus-vivendi-theme-proportional-fonts nil)
-
-  ;; Whether headings should be scaled or have the same height as body
-  ;; text.  The default is to keep everything the same as the base size.
-  (setq modus-vivendi-theme-scale-headings nil)
-
-  ;; Font scale that should apply to headings.  These are the default values.
-  (setq modus-vivendi-theme-scale-1 1.05)
-  (setq modus-vivendi-theme-scale-2 1.1)
-  (setq modus-vivendi-theme-scale-3 1.15)
-  (setq modus-vivendi-theme-scale-4 1.2))
 
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
