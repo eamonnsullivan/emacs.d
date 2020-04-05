@@ -252,7 +252,7 @@ With argument, do this that many times."
   (insert
    "{:title \"new post\"\n :layout :post\n :tags []}\n\n"))
 
-(require 'init-git)
+;; (require 'magit)
 (defun eds/start-blog-post ()
   "Create a new post with today's date and a new branch"
   (interactive)
