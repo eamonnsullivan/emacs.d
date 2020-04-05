@@ -84,4 +84,14 @@ _q_: quit this menu
    ("q" nil)))
 (hydra-set-property 'hydra-global-menu :verbosity 1)
 
+(global-set-key
+ (kbd "<f5>")
+ (defhydra hydra-web-work (:hint nil)
+   "
+_c_reate new personal blog post | _C_reate new SVP blog post | _q_uit |
+"
+   ("c" eds/start-personal-blog-post)
+   ("C" eds/start-svp-blog-post)
+   ("q" nil)))
+
 (provide 'init-hydra)

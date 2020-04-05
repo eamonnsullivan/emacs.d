@@ -252,15 +252,22 @@ With argument, do this that many times."
   (insert
    "{:title \"new post\"\n :layout :post\n :tags []}\n\n"))
 
-;; (require 'magit)
-(defun eds/start-blog-post ()
+(defun eds/start-blog-post (project)
   "Create a new post with today's date and a new branch"
   (interactive)
   (let* ((branch (format-time-string "%Y-%m-%d"))
-         (filename (concat "~/git/eamonnsullivan.co.uk/content/md/posts/" branch "-new-post.md")))
+         (filename (concat project "/content/md/posts/" branch "-new-post.md")))
     (find-file filename)
     (eds/insert-skeleton-blog-post)
     (magit-branch-create branch "master")
     (magit-checkout branch)))
+
+(defun eds/start-personal-blog-post ()
+  "Create a new post on my personal blog."
+  (eds/start-blog-post "~/git/eamonnsullivan.co.uk"))
+
+(defun eds/start-svp-blog-post ()
+  "Create a new post on the svp blog."
+  (eds/start-blog-post "~/git/svpsouthruislip.org.uk"))
 
 (provide 'eds)
