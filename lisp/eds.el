@@ -259,6 +259,7 @@ With argument, do this that many times."
          (filename (concat project "/content/md/posts/" branch "-new-post.md")))
     (find-file filename)
     (eds/insert-skeleton-blog-post)
+    (save-buffer)
     (magit-branch-create branch "master")
     (magit-checkout branch)))
 
