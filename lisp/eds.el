@@ -246,29 +246,34 @@ With argument, do this that many times."
               (list symbol type))))))))
 
 
-(defun eds/insert-skeleton-blog-post ()
+(defun eds/insert-skeleton-blog-post (title)
   "Insert a basic skeleton for a blog post."
   (goto-char (point-min))
-  (insert
-   "{:title \"new post\"\n :layout :post\n :tags []}\n\n"))
+  (insert (format "{:title \"%s\"\n :layout :post\n :tags []}\n\n" title)))
 
-(defun eds/start-blog-post (project)
+(defun eds/process-title (title)
+  "Downcase and hyphenate a title case string"
+  (mapconcat 'identity (split-string (downcase title)) "-"))
+
+(defun eds/start-blog-post (project title)
   "Create a new post with today's date and a new branch"
-  (interactive)
-  (let* ((branch (format-time-string "%Y-%m-%d"))
-         (filename (concat project "/content/md/posts/" branch "-new-post.md")))
+  (let* ((title-name (eds/process-title title))
+         (branch (concat (format-time-string "%Y-%m-%d") "-" title-name))
+         (filename (concat project "/content/md/posts/" branch ".md")))
     (find-file filename)
-    (eds/insert-skeleton-blog-post)
+    (eds/insert-skeleton-blog-post title)
     (save-buffer)
     (magit-branch-create branch "master")
     (magit-checkout branch)))
 
-(defun eds/start-personal-blog-post ()
+(defun eds/start-personal-blog-post (title)
   "Create a new post on my personal blog."
-  (eds/start-blog-post "~/git/eamonnsullivan.co.uk"))
+  (interactive "sTitle: ")
+  (eds/start-blog-post "~/git/eamonnsullivan.co.uk" title))
 
-(defun eds/start-svp-blog-post ()
+(defun eds/start-svp-blog-post (title)
   "Create a new post on the svp blog."
-  (eds/start-blog-post "~/git/svpsouthruislip.org.uk"))
+  (interactive "sTitle: ")
+  (eds/start-blog-post "~/git/svpsouthruislip.org.uk" title))
 
 (provide 'eds)

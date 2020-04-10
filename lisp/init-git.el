@@ -4,7 +4,7 @@
 (require 'eds)
 
 (use-package magit
-  :chords (" m" . magit-status)
+  :bind ("<f7>" . magit-status)
   :commands (magit-status)
   :config
   (add-hook 'git-commit-setup-hook
