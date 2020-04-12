@@ -86,7 +86,7 @@ _q_: quit this menu
 
 (global-set-key
  (kbd "<f5>")
- (defhydra hydra-web-work (:hint nil)
+ (defhydra hydra-web-work (:color blue :hint nil)
    "
 _c_reate new personal blog post | _C_reate new SVP blog post | _q_uit |
 "
