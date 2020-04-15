@@ -71,13 +71,14 @@ _R_ebuild package |_P_ull package  |_V_ersions thaw  |_W_atcher quit    |prun_e_
 ^Display^        ^Buffers^                    ^Actions^
 ^^^^^^^^^-----------------------------------------------------
 _g_: zoom-in     _d_: close all buffers       _u_: update all packages
-_s_: zoom-out    _o_: open buffer on desktop  _r_: restart emacs
+_s_: zoom-out    _o_: open buffer on desktop  _l_: display line numbers
 
-_q_: quit this menu
+_q_: quit this menu                         _r_: restart emacs
 "
    ("g" default-text-scale-increase)
    ("s" default-text-scale-decrease)
    ("d" kill-all-buffers)
+   ("l" global-display-line-numbers-mode)
    ("r" stop-and-restart-emacs)
    ("u" eds-straight-pull-or-prune)
    ("o" eds/open-buffer-on-desktop)
