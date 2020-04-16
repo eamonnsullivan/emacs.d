@@ -27,13 +27,20 @@
 (global-set-key (kbd "M-<up>") 'move-line-up)
 (global-set-key (kbd "M-<down>") 'move-line-down)
 
+
+(defun eds/filter-buffer-list
+    (buflist)
+  (let ((buffers-to-keep '("*scratch*" "*pomidor*" "*dashboard*")))
+    (seq-filter (lambda (buf)
+                  (not (member (buffer-name buf) buffers-to-keep)))
+                buflist)))
+
 (defun kill-all-buffers ()
   "Kill all buffers"
   (interactive)
   (switch-to-buffer "*scratch*")
   (save-some-buffers t)
-  (mapc 'kill-buffer
-        (delq (current-buffer) (buffer-list))))
+  (mapc 'kill-buffer (eds/filter-buffer-list (buffer-list))))
 
 (defun stop-and-restart-emacs ()
   "Restarts emacs"
