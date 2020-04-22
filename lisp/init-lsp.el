@@ -6,10 +6,14 @@
 ;; Check that this applied with (lsp-configuration-section "metals")
 ;; Check also that you are using Java 8. Things break in Java 11.
 (defun eds/setup-sbt-lsp ()
-  (message "Configuring LSP")
+  (message "Configuring LSP on %s" system-type)
   (if (eq system-type 'gnu/linux)
-      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
-    (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))))
+      (progn
+        (message "configured for linux")
+        (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt"))))
+    (progn
+      (message "configured for Mac")
+      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt"))))))
 
 (use-package lsp-mode
   :config
