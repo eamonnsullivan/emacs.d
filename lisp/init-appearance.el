@@ -3,6 +3,8 @@
 
 (use-package zenburn-theme)
 
+(load-theme 'leuven t)
+
 (use-package modus-vivendi-theme
   :config
   ;; Choose to render more code constructs in slanted text (italics).  The
@@ -54,8 +56,7 @@
   (setq modus-operandi-theme-scale-1 1.05)
   (setq modus-operandi-theme-scale-2 1.1)
   (setq modus-operandi-theme-scale-3 1.15)
-  (setq modus-operandi-theme-scale-4 1.2)
-  (load-theme 'modus-operandi t))
+  (setq modus-operandi-theme-scale-4 1.2))
 
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
