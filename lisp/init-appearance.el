@@ -3,7 +3,11 @@
 
 (use-package zenburn-theme)
 
-(load-theme 'leuven t)
+(use-package leuven-theme
+  :straight
+  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme")
+ :config
+ (load-theme 'leuven t))
 
 (use-package modus-vivendi-theme
   :config
