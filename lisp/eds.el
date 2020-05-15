@@ -251,9 +251,14 @@ With argument, do this that many times."
   (goto-char (point-min))
   (insert (format "{:title \"%s\"\n :layout :post\n :tags []}\n\n" title)))
 
+(defun eds/strip-invalid-chars (title)
+  "Strip characters that don't work in filenames or github branches"
+  (replace-regexp-in-string "[\\?\\>\\<\\|\\:\\&]" "" title))
+
 (defun eds/process-title (title)
-  "Downcase and hyphenate a title case string"
-  (mapconcat 'identity (split-string (downcase title)) "-"))
+  "Downcase and hyphenate a title case string. Remove characters
+that don't work in a filename."
+  (eds/strip-invalid-chars (mapconcat 'identity (split-string (downcase title)) "-")))
 
 (defun eds/start-blog-post (project title)
   "Create a new post with today's date and a new branch"

@@ -10,9 +10,9 @@
 
 (use-package slack
   :commands (slack-start)
-  :init
-  (setq slack-buffer-emojify t)
-  (setq slack-thread-also-send-to-room nil)
+  :custom
+  (slack-buffer-emojify t)
+  (slack-thread-also-send-to-room nil)
   :config
   (slack-register-team
    :name "BBC Digital Publishing"
