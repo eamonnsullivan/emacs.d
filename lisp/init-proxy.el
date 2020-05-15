@@ -42,23 +42,23 @@
     (setq url-proxy-services nil)
     (message "Proxy services disabled.")))
 
-(defun proxy-check ()
-  "Turn proxy on if we can see the proxy server, or off
-otherwise. Always turn it off on Linux (which never has a
-proxy)."
-  (if (or (eq system-type 'gnu/linux)
-          (string-match "Name or service not known"
-                        (shell-command-to-string
-                         (format "ping -c 1 %s" *proxy-host*)))
-          (string-match "Unknown host"
-                        (shell-command-to-string
-                         (format "ping -c 1 %s" *proxy-host*)))
-	  (string-match "Temporary failure"
-			(shell-command-to-string
-			 (format "ping -c 1 %s" *proxy-host*))))
-      (turn-proxy-off)
-    (turn-proxy-on)))
-(proxy-check)
+;; (defun proxy-check ()
+;;   "Turn proxy on if we can see the proxy server, or off
+;; otherwise. Always turn it off on Linux (which never has a
+;; proxy)."
+;;   (if (or (eq system-type 'gnu/linux)
+;;           (string-match "Name or service not known"
+;;                         (shell-command-to-string
+;;                          (format "ping -c 1 %s" *proxy-host*)))
+;;           (string-match "Unknown host"
+;;                         (shell-command-to-string
+;;                          (format "ping -c 1 %s" *proxy-host*)))
+;; 	  (string-match "Temporary failure"
+;; 			(shell-command-to-string
+;; 			 (format "ping -c 1 %s" *proxy-host*))))
+;;       (turn-proxy-off)
+;;     (turn-proxy-on)))
+;; (proxy-check)
 
 (defun show-current-proxy ()
   "Show whether we have a proxy set."
