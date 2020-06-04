@@ -16,9 +16,7 @@
 (use-package
   cider
   :hook ((clojure-mode . turn-on-eldoc-mode)
-         (clojure-mode . cider-mode)
-         ;; workaround for https://github.com/clojure-emacs/cider/issues/2816
-         ('eldoc-documentation-functions #'cider-eldoc nil t))
+         (clojure-mode . cider-mode))
   :config
   (require 'flycheck-clj-kondo)
   (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
