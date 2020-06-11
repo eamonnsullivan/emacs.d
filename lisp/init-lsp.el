@@ -33,6 +33,7 @@
   ;; (clojurescript-mode . lsp)
   ;; npm install -g vscode-css-languageserver-bin
   (css-mode . lsp)
+  (lsp-mode . lsp-lens-mode)
   :commands lsp
   :init
   (setq lsp-prefer-flymake nil)
@@ -42,6 +43,8 @@
   (setq lsp-enable-indentation nil)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-log-io nil))
+
+(use-package lsp-metals)
 
 (use-package lsp-ui
   :commands lsp-ui-mode
