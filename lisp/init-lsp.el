@@ -62,5 +62,9 @@
 (use-package lsp-java
   :after lsp)
 
+(use-package lsp-treemacs)
+  ;; :config
+  ;; (lsp-treemacs-sync-mode 1)
+  ;; (setq lsp-metals-treeview-show-when-views-received t))
 
 (provide 'init-lsp)
