@@ -54,9 +54,9 @@
         (switch-to-buffer (current-buffer)))
     (eds/-render-markdown-preview-current-buffer)))
 
-(add-hook 'markdown-mode-hook
-          (lambda ()
-            (add-hook 'after-save-hook #'eds/preview-markdown nil t)))
+;; (add-hook 'markdown-mode-hook
+;;           (lambda ()
+;;             (add-hook 'after-save-hook #'eds/preview-markdown nil t)))
 
 
 (provide 'init-markdown)

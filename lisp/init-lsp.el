@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-lsp.el --- stuff related to the language server protocol
 
+(require 'init-hydra)
 (straight-use-package 'lsp-mode)
 
 ;; Check that this applied with (lsp-configuration-section "metals")
@@ -15,56 +16,71 @@
       (message "configured for Mac")
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt"))))))
 
+
 (use-package lsp-mode
   :config
-  (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure-mode"))
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  (setq lsp-enable-indentation nil
+        lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
   (eds/setup-sbt-lsp)
+  (define-key lsp-mode-map (kbd "C-c l")
+    (defhydra hydra-lsp (:color red :hint nil)
+   "
+^Symbols^                ^Actions^
+^^^^^^^^^-----------------------------------------------------
+_d_: Find definition     _s_: Shutdown language server
+_u_: Find usages         _r_: open buffer on desktop
+_n_: Rename symbol
+
+_q_: quit this menu
+"
+      ("d" lsp-find-definition)
+      ("u" lsp-ui-peek-find-references)
+      ("c" lsp-treemacs-call-hierarchy)
+      ("n" lsp-rename)
+      ("s" lsp-workspace-shutdown)
+      ("r" lsp-workspace-restart)
+      ("q" nil :color blue)))
   :hook
-  ;; npm i -g typescript-language-server; npm i -g typescript
-  (typescript-mode . lsp)
-  (js2-mode . lsp)
-  (rjsx-mode . lsp)
-  (java-mode . lsp)
-  (scala-mode . lsp)
-  ;; https://github.com/snoe/clojure-lsp/releases/tag/release-20191010T151127
-  ;; https://github.com/snoe/clojure-lsp/releases/latest
-  ;; (clojure-mode . lsp)
-  ;; (clojurec-mode . lsp)
-  ;; (clojurescript-mode . lsp)
-  ;; npm install -g vscode-css-languageserver-bin
-  (css-mode . lsp)
+  (prog-mode . lsp-deferred)
   (lsp-mode . lsp-lens-mode)
+  (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp
   :init
-  (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
   (setq lsp-auto-configure t)
   (setq lsp-enable-xref t)
-  (setq lsp-enable-indentation nil)
-  (setq lsp-enable-on-type-formatting nil)
-  (setq lsp-log-io nil))
+  (setq lsp-enable-indentation t)
+  (setq lsp-enable-on-type-formatting t)
+  (setq lsp-eldoc-render-all t)
+  (setq lsp-log-io nil)
+  (setq lsp-modeline-code-actions-mode t)
+  (setq lsp-signature-auto-activate t))
 
 (use-package lsp-metals)
 
 (use-package lsp-ui
   :commands lsp-ui-mode
-  ;; :config (setq lsp-ui-doc-enable nil) ;; workaround for https://github.com/emacs-lsp/lsp-ui/issues/299
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
   :hook
   (lsp-mode . lsp-ui-mode))
 
-(use-package company-lsp :commands company-lsp)
-(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+
+(use-package helm-lsp
+  :config
+  (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
+  :commands helm-lsp-workspace-symbol)
 
 ;; Java support for lsp-mode using the Eclipse JDT Language Server.
 (use-package lsp-java
   :after lsp)
 
 (use-package lsp-treemacs)
-  ;; :config
-  ;; (lsp-treemacs-sync-mode 1)
-  ;; (setq lsp-metals-treeview-show-when-views-received t))
 
 (provide 'init-lsp)
