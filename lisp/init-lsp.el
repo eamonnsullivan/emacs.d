@@ -2,7 +2,6 @@
 ;;; init-lsp.el --- stuff related to the language server protocol
 
 (require 'init-hydra)
-(straight-use-package 'lsp-mode)
 
 ;; Check that this applied with (lsp-configuration-section "metals")
 ;; Check also that you are using Java 8. Things break in Java 11.
@@ -51,26 +50,13 @@ _q_: quit this menu
   (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp
   :init
-  (setq lsp-enable-snippet t)
-  (setq lsp-auto-configure t)
-  (setq lsp-enable-xref t)
-  (setq lsp-enable-indentation t)
-  (setq lsp-enable-on-type-formatting t)
-  (setq lsp-eldoc-render-all t)
-  (setq lsp-log-io nil)
-  (setq lsp-modeline-code-actions-mode t)
-  (setq lsp-signature-auto-activate t))
+  (setq lsp-log-io nil))
 
 (use-package lsp-metals)
 
 (use-package lsp-ui
-  :commands lsp-ui-mode
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references))
   :hook
   (lsp-mode . lsp-ui-mode))
-
 
 (use-package helm-lsp
   :config
