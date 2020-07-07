@@ -10,6 +10,7 @@
   (setq company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
-        company-tooltip-align-annotations t))
+        company-tooltip-align-annotations t)
+  (add-to-list 'company-backends 'company-capf))
 
 (provide 'init-company)
