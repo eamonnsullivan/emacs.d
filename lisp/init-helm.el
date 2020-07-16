@@ -1,6 +1,8 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-helm.el --- stuff related to helm-mode
 
+(require 'tramp)
+
 (use-package helm
   :diminish helm-mode
   :config

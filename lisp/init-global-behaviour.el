@@ -17,16 +17,18 @@
   (before-save . delete-trailing-whitespace))
 
 ;; Turn off the annoying default backup behaviour
-(if (file-directory-p "~/.emacs.d/backup")
-    (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-          backup-by-copying t         ; Don't delink hardlinks
-          version-control t           ; Use version numbers on backups
-          delete-old-versions t       ; Automatically delete excess backups
-          kept-new-versions 20        ; how many of the newest versions to keep
-          kept-old-versions 5         ; and how many of the old
-          delete-by-moving-to-trash t
-          )
-  (message "Directory does not exist: ~/.emacs.d/backup"))
+(let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
+  (if (file-directory-p backup-dir)
+      (setq backup-directory-alist `(("." . ,backup-dir))
+            backup-by-copying t         ; Don't delink hardlinks
+            version-control t           ; Use version numbers on backups
+            delete-old-versions t       ; Automatically delete excess backups
+            kept-new-versions 20        ; how many of the newest versions to keep
+            kept-old-versions 5         ; and how many of the old
+            delete-by-moving-to-trash t
+            create-lockfiles nil        ; don't create lockfiles
+            )
+    (message (format "Directory does not exist: %s" backup-dir))))
 
 ;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
 (use-package flyspell
