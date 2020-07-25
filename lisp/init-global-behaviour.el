@@ -13,6 +13,7 @@
   (indent-tabs-mode nil "Use spaces, always")
   (delete-by-moving-to-trash t "Move to trash folder")
   (require-final-newline t)
+  (confirm-kill-processes nil "Don't require confirmation to kill background processes")
   :hook
   (before-save . delete-trailing-whitespace))
 
