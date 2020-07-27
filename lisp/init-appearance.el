@@ -1,6 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
+(use-package doom-themes)
+  ;; :config
+  ;; (load-theme 'doom-one-light t))
+
 (use-package zenburn-theme)
 
 (use-package leuven-theme
