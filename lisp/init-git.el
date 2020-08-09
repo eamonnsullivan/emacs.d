@@ -13,6 +13,10 @@
 
 (use-package git-gutter
   :diminish git-gutter-mode
+  :init
+  (setq git-gutter:deleted-sign "▁")
+  (setq git-gutter:added-sign "▌")
+  (setq git-gutter:modified-sign "▌")
   :config
   (global-git-gutter-mode 't))
 

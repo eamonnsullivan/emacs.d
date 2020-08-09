@@ -4,8 +4,6 @@
 (straight-use-package 'org)
 (straight-use-package 'org-plus-contrib)
 
-(use-package org-pomodoro)
-
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
@@ -21,20 +19,21 @@
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
-  (setq org-directory "~/Dropbox/org")
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (setq org-capture-templates
+  (setq org-directory "~/Dropbox/org"
+        org-default-notes-file (concat org-directory "/notes.org")
+        org-capture-templates
         `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
            "* TODO %?\n  %i\n  %a")
           ("i" "Ideas" entry (file+headline ,(concat org-directory "/ideas.org") "Ideas"))
           ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
           ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
-           "* TODO %?\n  %i\n  %a")))
-  (setq org-agenda-files (quote
+           "* TODO %?\n  %i\n  %a"))
+        org-agenda-files (quote
                           ("~/Dropbox/org/personal.org"
                            "~/Dropbox/org/notes.org"
-                           "~/Dropbox/org/tasks.org"))))
+                           "~/Dropbox/org/tasks.org"))
+        org-src-fontify-natively t))
 
-  (provide 'init-org)
+(provide 'init-org)
 
 ;;; org.el ends here

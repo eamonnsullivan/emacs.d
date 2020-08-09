@@ -1,6 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
+(use-package poet-theme
+  :init
+  (add-hook 'text-mode-hook
+           (lambda ()
+             (variable-pitch-mode 1)))
+  :config
+  (load-theme 'poet t))
+
 (use-package doom-themes)
   ;; :config
   ;; (load-theme 'doom-one-light t))
@@ -9,9 +17,9 @@
 
 (use-package leuven-theme
   :straight
-  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme")
- :config
- (load-theme 'leuven t))
+  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme"))
+ ;; :config
+ ;; (load-theme 'leuven t))
 
 (use-package modus-vivendi-theme
   :config
@@ -85,6 +93,7 @@ for variable-pitch face."
   (progn
     (message "my-appearance-settings running.")
     (global-font-lock-mode 1)
+    (setq font-lock-maximum-decoration t)
     (transient-mark-mode t)
     (menu-bar-mode -1)
     (when (window-system)

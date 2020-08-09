@@ -9,6 +9,7 @@
   (put 'downcase-region 'disabled nil)
   :custom
   (inhibit-startup-screen t "Don't show splash screen")
+  (inhibit-startup-message t "Don't show the message, either")
   (use-dialog-box nil "Disabled non-accessible dialog boxes")
   (indent-tabs-mode nil "Use spaces, always")
   (delete-by-moving-to-trash t "Move to trash folder")
@@ -16,6 +17,19 @@
   (confirm-kill-processes nil "Don't require confirmation to kill background processes")
   :hook
   (before-save . delete-trailing-whitespace))
+
+;; me
+(setq user-full-name "Eamonn Sullivan")
+(cond
+ ((string= user-login-name "eamonn")
+  (setq user-mail-address "eamonn.sullivan@gmail.com"))
+ ((string= user-login-name "sullie09")
+  (setq user-mail-address "eamonn.sullivan@bbc.co.uk")))
+
+;; my location
+(setq calendar-latitude 51.5)
+(setq calendar-longitude -0.12)
+(setq calendar-location-name "London, England")
 
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
@@ -164,7 +178,12 @@
          ("s-r"                          . crux-recentf-find-file)
          ("C-c D"                        . crux-delete-file-and-buffer)
          ("C-c r"                        . crux-rename-file-and-buffer)
-         ("C-c k"                        . crux-kill-other-buffers)))
+         ("C-c k"                        . crux-kill-other-buffers))
+  :config
+  (crux-with-region-or-buffer indent-region)
+  (crux-with-region-or-buffer untabify)
+  (crux-with-region-or-point-to-eol kill-ring-save)
+  (defalias 'rename-file-and-buffer #'crux-rename-file-and-buffer))
 
 ;; font scaling
 (use-package default-text-scale)

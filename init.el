@@ -36,9 +36,15 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-(setq straight-check-for-modifications '(watch-files find-when-checking))
-(setq straight-find-executable "/usr/local/opt/findutils/libexec/gnubin/find")
+(setq straight-use-package-by-default t
+      straight-check-for-modifications '(watch-files find-when-checking)
+      straight-vc-git-default-protocol 'ssh)
+(cond
+ ((eq system-type 'gnu/linux)
+  (setq straight-find-executable "/usr/bin/find"))
+ ((eq system-type 'darwin)
+  (setq straight-find-executable "/usr/local/opt/findutils/libexec/gnubin/find")))
+
 
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 
