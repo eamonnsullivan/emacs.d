@@ -31,6 +31,9 @@
 (setq calendar-longitude -0.12)
 (setq calendar-location-name "London, England")
 
+(global-subword-mode)
+(delete-selection-mode)
+
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
   (if (file-directory-p backup-dir)
