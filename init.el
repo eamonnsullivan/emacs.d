@@ -37,8 +37,8 @@
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t
-      straight-check-for-modifications '(watch-files find-when-checking)
-      straight-vc-git-default-protocol 'ssh)
+      straight-check-for-modifications '(watch-files find-when-checking))
+
 (cond
  ((eq system-type 'gnu/linux)
   (setq straight-find-executable "/usr/bin/find"))
