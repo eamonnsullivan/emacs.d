@@ -9,14 +9,17 @@
   (message "Configuring LSP on %s" system-type)
   (if (eq system-type 'gnu/linux)
       (progn
-        (message "configured for linux")
-        (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt"))))
+        (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
+        (message "configured for linux:"))
     (progn
-      (message "configured for Mac")
-      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt"))))))
+      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
+      (message "configured for Mac:")))
+  (message (format "%s" (lsp-configuration-section "metals"))))
 
 
 (use-package lsp-mode
+  :init
+  (setq lsp-log-io nil)
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
@@ -25,7 +28,6 @@
      (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   (setq lsp-enable-indentation nil
         lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
-  (eds/setup-sbt-lsp)
   (define-key lsp-mode-map (kbd "C-c l")
     (defhydra hydra-lsp (:color red :hint nil)
    "
@@ -45,12 +47,10 @@ _q_: quit this menu
       ("r" lsp-workspace-restart)
       ("q" nil :color blue)))
   :hook
-  (prog-mode . lsp-deferred)
+  (prog-mode . lsp)
   (lsp-mode . lsp-lens-mode)
   (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp
-  :init
-  (setq lsp-log-io nil))
+  :commands lsp)
 
 (use-package lsp-metals)
 
@@ -72,5 +72,7 @@ _q_: quit this menu
   :after lsp)
 
 (use-package lsp-treemacs)
+
+(eds/setup-sbt-lsp)
 
 (provide 'init-lsp)
