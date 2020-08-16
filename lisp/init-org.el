@@ -9,6 +9,7 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
@@ -32,7 +33,8 @@
                           ("~/Dropbox/org/personal.org"
                            "~/Dropbox/org/notes.org"
                            "~/Dropbox/org/tasks.org"))
-        org-src-fontify-natively t))
+        org-src-fontify-natively t
+        org-hide-emphasis-markers t))
 
 (provide 'init-org)
 

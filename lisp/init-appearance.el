@@ -1,83 +1,50 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
-(use-package material-theme)
-;;  :config (load-theme 'material-light t))
-
-(use-package parchment-theme)
-  ;; :ensure t
-  ;; :config (load-theme 'parchment t))
-
-(use-package poet-theme)
-  ;; :init
-  ;; (add-hook 'text-mode-hook
-  ;;          (lambda ()
-  ;;            (variable-pitch-mode 1)))
-  ;; :config
-  ;; (load-theme 'poet t))
-
-(use-package doom-themes)
-  ;; :config
-  ;; (load-theme 'doom-one-light t))
-
-(use-package zenburn-theme)
-  ;; :config
-  ;; (load-theme 'zenburn t))
+;; current faves
+(use-package poet-theme
+  :straight
+  (poet-them :type git :host github :repo "kunalb/poet")
+  :demand t
+  :config
+  (set-face-attribute 'default nil :family "Hack" :height 110)
+  (set-face-attribute 'fixed-pitch nil :family "Hack")
+  (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 120 :weight 'regular)
+  (load-theme 'poet t))
 
 (use-package leuven-theme
+  :demand t
   :straight
-  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme")
- :config
- (load-theme 'leuven t))
+  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme"))
 
+;; others I've tried
+(use-package material-theme
+  :demand t)
+(use-package parchment-theme
+  :demand t)
+(use-package doom-themes
+  :demand t)
+(use-package zenburn-theme
+  :demand t)
 (use-package modus-vivendi-theme
+  :demand t
   :config
-  ;; Choose to render more code constructs in slanted text (italics).  The
-  ;; default, shown below, is to not use italics, unless it is absolutely
-  ;; necessary.
   (setq modus-vivendi-theme-slanted-constructs nil)
-
-  ;; Opt to display some additional code constructs in bold.  The default,
-  ;; shown below, is to use bold weight only where necessary.
   (setq modus-vivendi-theme-bold-constructs nil)
-
-  ;; Use proportionately-spaced fonts (variable-pitch) for headings.  The
-  ;; default is to use whatever font the user has selected, typically a
-  ;; monospaced typeface.
   (setq modus-vivendi-theme-proportional-fonts nil)
-
-  ;; Whether headings should be scaled or have the same height as body
-  ;; text.  The default is to keep everything the same as the base size.
   (setq modus-vivendi-theme-scale-headings nil)
-
-  ;; Font scale that should apply to headings.  These are the default values.
   (setq modus-vivendi-theme-scale-1 1.05)
   (setq modus-vivendi-theme-scale-2 1.1)
   (setq modus-vivendi-theme-scale-3 1.15)
   (setq modus-vivendi-theme-scale-4 1.2))
 
-
 (use-package modus-operandi-theme
+  :demand t
   :config
-  ;; Choose to render more code constructs in slanted text (italics).  The
-  ;; default, shown below, is to not use italics, unless it is absolutely
-  ;; necessary.
   (setq modus-operandi-theme-slanted-constructs nil)
-
-  ;; Opt to display some additional code constructs in bold.  The default,
-  ;; shown below, is to use bold weight only where necessary.
   (setq modus-operandi-theme-bold-constructs nil)
-
-  ;; Use proportionately-spaced fonts (variable-pitch) for headings.  The
-  ;; default is to use whatever font the user has selected, typically a
-  ;; monospaced typeface.
   (setq modus-operandi-theme-proportional-fonts nil)
-
-  ;; Whether headings should be scaled or have the same height as body
-  ;; text.  The default is to keep everything the same as the base size.
   (setq modus-operandi-theme-scale-headings nil)
-
-  ;; Font scale that should apply to headings.  These are the default values.
   (setq modus-operandi-theme-scale-1 1.05)
   (setq modus-operandi-theme-scale-2 1.1)
   (setq modus-operandi-theme-scale-3 1.15)
