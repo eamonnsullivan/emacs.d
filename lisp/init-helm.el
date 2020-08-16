@@ -71,7 +71,6 @@
 
 ;; helm-ag stuff
 (use-package helm-ag
-  :bind (("\C-c r" . helm-do-grep-ag))
   :init
   (setq helm-ag-use-grep-ignore-list t)
   (setq helm-ag-use-agignore t)

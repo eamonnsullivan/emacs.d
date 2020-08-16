@@ -13,8 +13,8 @@
         (message "configured for linux:"))
     (progn
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
-      (message "configured for Mac:")))
-  (message (format "%s" (lsp-configuration-section "metals"))))
+      (message "configured for Mac:"))))
+  ;; (message (format "%s" (lsp-configuration-section "metals"))))
 
 
 (use-package lsp-mode

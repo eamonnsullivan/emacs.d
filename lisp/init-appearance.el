@@ -1,6 +1,13 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
+(use-package material-theme)
+;;  :config (load-theme 'material-light t))
+
+(use-package parchment-theme)
+  ;; :ensure t
+  ;; :config (load-theme 'parchment t))
+
 (use-package poet-theme)
   ;; :init
   ;; (add-hook 'text-mode-hook
@@ -14,6 +21,8 @@
   ;; (load-theme 'doom-one-light t))
 
 (use-package zenburn-theme)
+  ;; :config
+  ;; (load-theme 'zenburn t))
 
 (use-package leuven-theme
   :straight

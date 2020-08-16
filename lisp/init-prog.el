@@ -74,15 +74,6 @@
 (add-hook 'comint-mode-hook 'eds/init-comint)
 
 
-;; dumb-jump
-(use-package dumb-jump
-  :init
-  (add-hook 'prog-mode-hook 'dumb-jump-mode)
-  :diminish dumb-jump-mode
-  :chords ((" j" . dumb-jump-go)
-           (" k" . dumb-jump-back)
-           (" h" . dumb-jump-quick-look)))
-
 (use-package highlight-symbol
   :bind (("M-n" . highlight-symbol-next)
          ("M-p" . highlight-symbol-prev))
