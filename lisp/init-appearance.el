@@ -4,7 +4,7 @@
 ;; current faves
 (use-package poet-theme
   :straight
-  (poet-them :type git :host github :repo "kunalb/poet")
+  (poet-theme :type git :host github :repo "kunalb/poet")
   :demand t
   :config
   (set-face-attribute 'default nil :family "Hack" :height 110)
