@@ -4,6 +4,12 @@
 (use-package emacs
   :config
   (add-hook 'text-mode-hook 'visual-line-mode)
+  (global-font-lock-mode)
+  (size-indication-mode)
+  (global-prettify-symbols-mode)
+  (column-number-mode)
+  (electric-pair-mode)
+  (minibuffer-electric-default-mode)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -15,6 +21,23 @@
   (delete-by-moving-to-trash t "Move to trash folder")
   (require-final-newline t)
   (confirm-kill-processes nil "Don't require confirmation to kill background processes")
+  (echo-keystrokes 0.02)
+  (show-paren-delay 0)
+  (show-paren-style 'expression)
+  (indicate-buffer-boundaries 'left)
+  (show-paren-mode t)
+  (prettify-symbols-unprettify-at-point 'right-edge)
+  (column-number-indicator-zero-based nil)
+  (save-interprogram-paste-before-kill t)
+  (make-pointer-invisible t)
+  (mouse-drag-copy-region t)
+  (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  (mouse-wheel-progressive-speed nil)
+  (mouse-wheel-follow-mouse t)
+  (ring-bell-function 'ignore)
+  (track-eol t)
+  (line-move-visual nil)
+  (visible-bell t)
   :hook
   (before-save . delete-trailing-whitespace))
 

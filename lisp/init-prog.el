@@ -61,10 +61,6 @@
     ;; I use this for something else
     (unbind-key "M-<backspace>" smartparens-mode-map)))
 
-;; show parens
-(when-available 'show-paren-mode
-                (show-paren-mode t))
-
 ;; comint
 (require 'comint)
 (setq ansi-color-for-comint-mode t)
