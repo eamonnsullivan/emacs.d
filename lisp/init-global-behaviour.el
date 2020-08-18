@@ -6,7 +6,6 @@
   (add-hook 'text-mode-hook 'visual-line-mode)
   (global-font-lock-mode)
   (size-indication-mode)
-  (global-prettify-symbols-mode)
   (column-number-mode)
   (electric-pair-mode)
   (minibuffer-electric-default-mode)
