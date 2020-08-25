@@ -8,7 +8,8 @@
   :config (setq-default js-indent-level 2)
   (add-hook 'json-mode-hook
             (lambda()
-              (local-unset-key (kbd "C-c C-f")))))
+              (local-unset-key (kbd "C-c C-f"))
+              (smartparens-mode t))))
 
 (use-package json-reformat
   :after json-mode

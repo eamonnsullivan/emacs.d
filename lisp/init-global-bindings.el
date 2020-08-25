@@ -5,8 +5,6 @@
 (global-set-key "\C-z" nil)
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; backward-kill-word, restart-emacs
 (require 'eds)
 (require 'init-hydra)
@@ -67,19 +65,6 @@
   ("g" goto-line "go")
   ("m" set-mark-command "mark" :bind nil)
   ("q" nil "quit"))
-
-(global-set-key (kbd "C-c m")
-                (defhydra hydra-transpose (:color red)
-                  "Transpose"
-                  ("c" transpose-chars "characters")
-                  ("w" transpose-words "words")
-                  ("o" org-transpose-words "Org mode words")
-                  ("l" transpose-lines "lines")
-                  ("s" transpose-sentences "sentences")
-                  ("e" org-transpose-elements "Org mode elements")
-                  ("p" transpose-paragraphs "paragraphs")
-                  ("t" org-table-transpose-table-at-point "Org mode table")
-                  ("q" nil "cancel" :color blue)))
 
 (global-set-key (kbd "C-c @")
                 (defhydra hydra-hs (:idle 1.0

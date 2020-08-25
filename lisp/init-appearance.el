@@ -12,12 +12,11 @@
   (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 120 :weight 'regular)
   (load-theme 'poet t))
 
+;; others I've tried
 (use-package leuven-theme
   :demand t
   :straight
   (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme"))
-
-;; others I've tried
 (use-package material-theme
   :demand t)
 (use-package parchment-theme
@@ -37,7 +36,6 @@
   (setq modus-vivendi-theme-scale-2 1.1)
   (setq modus-vivendi-theme-scale-3 1.15)
   (setq modus-vivendi-theme-scale-4 1.2))
-
 (use-package modus-operandi-theme
   :demand t
   :config
@@ -68,8 +66,6 @@ for variable-pitch face."
   (interactive "P")
   (progn
     (message "my-appearance-settings running.")
-    (global-font-lock-mode 1)
-    (setq font-lock-maximum-decoration t)
     (transient-mark-mode t)
     (menu-bar-mode -1)
     (when (window-system)
@@ -78,11 +74,7 @@ for variable-pitch face."
     (when (window-system)
       (message "toggling scroll bar off")
       (toggle-scroll-bar -1))
-    (setq inhibit-startup-message t)
     (line-number-mode t)                      ; show line numbers
-    (column-number-mode t)                    ; show column numbers
-    (when-available 'size-indication-mode
-                    (size-indication-mode t)) ; show file size (emacs 22+)
     (display-time-mode t)
     (setq display-time-24hr-format t)
     (when (window-system)

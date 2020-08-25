@@ -63,7 +63,6 @@
 (require 'init-org)
 (require 'init-company)
 (require 'init-utils)
-(require 'init-proxy)
 (require 'init-platform)
 (require 'init-appearance)
 (require 'init-global-bindings)

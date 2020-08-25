@@ -8,6 +8,7 @@
   (size-indication-mode)
   (column-number-mode)
   (minibuffer-electric-default-mode)
+  (setq font-lock-maximum-decoration t)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
