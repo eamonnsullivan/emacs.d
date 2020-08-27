@@ -27,6 +27,9 @@
   (eval-after-load 'flycheck
   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-(use-package flycheck-clj-kondo)
+(use-package flycheck-clj-kondo
+  :if (executable-find "clj-kondo")
+  :after clojure-mode
+  :hook (clojure-mode . (lambda () (require 'flycheck-clj-kondo))))
 
 (provide 'init-flycheck)

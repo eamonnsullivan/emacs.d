@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; init_utils.el --- General utility code
+;;; init_utils.el --- General utility code. Stuff I didn't know where else to put.
 
 (use-package esup
   :defer t)

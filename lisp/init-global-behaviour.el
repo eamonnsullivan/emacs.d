@@ -16,7 +16,6 @@
   (inhibit-startup-screen t "Don't show splash screen")
   (inhibit-startup-message t "Don't show the message, either")
   (use-dialog-box nil "Disabled non-accessible dialog boxes")
-  (indent-tabs-mode nil "Use spaces, always")
   (delete-by-moving-to-trash t "Move to trash folder")
   (require-final-newline t)
   (confirm-kill-processes nil "Don't require confirmation to kill background processes")
@@ -24,6 +23,7 @@
   (show-paren-mode t)
   (show-paren-delay 0)
   (show-paren-style 'mixed)
+  (electric-pair-mode t)
   (indicate-buffer-boundaries 'left)
   (prettify-symbols-unprettify-at-point 'right-edge)
   (column-number-indicator-zero-based nil)
@@ -36,9 +36,7 @@
   (ring-bell-function 'ignore)
   (track-eol t)
   (line-move-visual nil)
-  (visible-bell t)
-  :hook
-  (before-save . delete-trailing-whitespace))
+  (visible-bell))
 
 ;; me
 (setq user-full-name "Eamonn Sullivan")

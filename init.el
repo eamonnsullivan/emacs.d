@@ -92,5 +92,6 @@
 (require 'init-kbd-macros)
 (require 'init-slack)
 (require 'init-yasnippet)
+(require 'init-codestyle)
 (provide 'init)
 ;;; init.el ends here

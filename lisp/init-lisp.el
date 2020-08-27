@@ -39,6 +39,9 @@
   (cljr-add-keybindings-with-prefix "C-c r")
   (setq cljr-warn-on-eval nil))
 
+(use-package cljr-helm
+  :after clojure-mode)
+
 (use-package helm-cider
   :hook ((cider-mode . helm-cider-mode)))
 
