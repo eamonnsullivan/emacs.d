@@ -8,11 +8,17 @@
   (size-indication-mode)
   (column-number-mode)
   (minibuffer-electric-default-mode)
-  (setq font-lock-maximum-decoration t)
+  (show-paren-mode)
+  (electric-pair-mode)
+  (global-subword-mode)
+  (delete-selection-mode)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   :custom
+  (show-paren-delay 0)
+  (show-paren-style 'mixed)
+  (font-lock-maximum-decoration t)
   (inhibit-startup-screen t "Don't show splash screen")
   (inhibit-startup-message t "Don't show the message, either")
   (use-dialog-box nil "Disabled non-accessible dialog boxes")
@@ -20,10 +26,6 @@
   (require-final-newline t)
   (confirm-kill-processes nil "Don't require confirmation to kill background processes")
   (echo-keystrokes 0.02)
-  (show-paren-mode t)
-  (show-paren-delay 0)
-  (show-paren-style 'mixed)
-  (electric-pair-mode t)
   (indicate-buffer-boundaries 'left)
   (prettify-symbols-unprettify-at-point 'right-edge)
   (column-number-indicator-zero-based nil)
@@ -50,9 +52,6 @@
 (setq calendar-latitude 51.5)
 (setq calendar-longitude -0.12)
 (setq calendar-location-name "London, England")
-
-(global-subword-mode)
-(delete-selection-mode)
 
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))

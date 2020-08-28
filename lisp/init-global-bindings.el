@@ -11,19 +11,9 @@
 (global-unset-key (kbd "M-<backspace>"))
 (global-set-key (kbd "M-<backspace>") 'eds/backward-kill-word)
 
-(defun move-line-up ()
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2))
-
-(defun move-line-down ()
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1))
-
-(global-set-key (kbd "M-<up>") 'move-line-up)
-(global-set-key (kbd "M-<down>") 'move-line-down)
+(require 'init-utils)
+(global-set-key (kbd "M-<up>") 'move-text-up)
+(global-set-key (kbd "M-<down>") 'move-text-down)
 
 
 (defun eds/filter-buffer-list

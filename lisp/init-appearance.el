@@ -1,6 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
+(defun disable-all-themes ()
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
 ;; current faves
 (use-package poet-theme
   :straight

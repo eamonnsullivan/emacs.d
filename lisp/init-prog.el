@@ -2,8 +2,6 @@
 ;;; init-prog.el --- stuff related to programming, in general
 
 (defvar imenu-auto-rescan t)
-;; general, all languages
-
 
 ;; comint
 (require 'comint)
