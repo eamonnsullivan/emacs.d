@@ -3,6 +3,8 @@
 
 (defvar imenu-auto-rescan t)
 
+(add-to-list 'auto-mode-alist '("\\.service\\'" . conf-unix-mode))
+
 ;; comint
 (require 'comint)
 (setq ansi-color-for-comint-mode t)

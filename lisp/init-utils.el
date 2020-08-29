@@ -48,5 +48,7 @@
   (interactive "*p")
   (move-text-internal (- arg)))
 
+(use-package writeroom-mode
+  :commands (writeroom-mode))
 
 (provide 'init-utils)

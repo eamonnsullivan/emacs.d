@@ -6,6 +6,10 @@
   (mapc #'disable-theme custom-enabled-themes))
 
 ;; current faves
+(use-package zenburn-theme
+  :demand t
+  :config
+  (load-theme 'zenburn t))
 (use-package poet-theme
   :straight
   (poet-theme :type git :host github :repo "kunalb/poet")
@@ -13,8 +17,7 @@
   :config
   (set-face-attribute 'default nil :family "Hack" :height 110)
   (set-face-attribute 'fixed-pitch nil :family "Hack")
-  (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 120 :weight 'regular)
-  (load-theme 'poet t))
+  (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 120 :weight 'regular))
 
 ;; others I've tried
 (use-package leuven-theme
@@ -26,8 +29,6 @@
 (use-package parchment-theme
   :demand t)
 (use-package doom-themes
-  :demand t)
-(use-package zenburn-theme
   :demand t)
 (use-package modus-vivendi-theme
   :demand t

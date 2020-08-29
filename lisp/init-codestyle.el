@@ -53,18 +53,6 @@
     ;; I use this for something else
     (unbind-key "M-<backspace>" smartparens-mode-map)))
 
-(use-package ethan-wspace
-  :demand t
-  :commands global-ethan-wspace-mode
-  :config
-  (global-ethan-wspace-mode 1)
-  :bind ("C-c <backspace>" . ethan-wspace-clean-all)
-  :diminish ethan-wspace-mode)
-
 (set-default 'indent-tabs-mode nil)
-
-;; Required by ethan-wspace
-(setq mode-require-final-newline nil)
-(setq require-final-newline nil)
 
 (provide 'init-codestyle)

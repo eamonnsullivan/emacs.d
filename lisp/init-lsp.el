@@ -14,8 +14,6 @@
     (progn
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
       (message "configured for Mac:"))))
-  ;; (message (format "%s" (lsp-configuration-section "metals"))))
-
 
 (use-package lsp-mode
   :init
@@ -47,7 +45,7 @@ _q_: quit this menu
       ("r" lsp-workspace-restart)
       ("q" nil :color blue)))
   :hook
-  (prog-mode . lsp)
+  (prog-mode . lsp-deferred)
   (lsp-mode . lsp-lens-mode)
   (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp)
@@ -59,6 +57,39 @@ _q_: quit this menu
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
+  :init (setq lsp-ui-doc-enable t
+	      lsp-ui-doc-use-webkit nil
+	      lsp-ui-doc-header nil
+	      lsp-ui-doc-delay 0.2
+	      lsp-ui-doc-include-signature t
+	      lsp-ui-doc-alignment 'at-point
+	      lsp-ui-doc-use-childframe nil
+	      lsp-ui-doc-border (face-foreground 'default)
+	      lsp-ui-peek-enable t
+	      lsp-ui-peek-show-directory t
+	      lsp-ui-sideline-delay 3
+	      lsp-ui-sideline-update-mode 'point
+	      lsp-ui-sideline-enable t
+	      lsp-ui-sideline-show-code-actions t
+	      lsp-ui-sideline-show-hover t
+	      lsp-ui-sideline-ignore-duplicate t
+	      lsp-gopls-use-placeholders nil)
+  :config
+  (setq lsp-completion-provider :capf)
+  (setq lsp-idle-delay 0.500)
+  (setq lsp-print-performance t)
+
+  (add-to-list 'lsp-ui-doc-frame-parameters '(right-fringe . 8))
+
+  ;; `C-g'to close doc
+  (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide)
+
+  ;; Reset `lsp-ui-doc-background' after loading theme
+  (add-hook 'after-load-theme-hook
+	    (lambda ()
+	      (setq lsp-ui-doc-border (face-foreground 'default))
+	      (set-face-background 'lsp-ui-doc-background
+				   (face-background 'tooltip))))
   :hook
   (lsp-mode . lsp-ui-mode))
 
@@ -71,7 +102,15 @@ _q_: quit this menu
 (use-package lsp-java
   :after lsp)
 
-(use-package lsp-treemacs)
+(use-package lsp-treemacs
+  :after (lsp-mode treemacs)
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+
+(use-package treemacs
+  :ensure t
+  :commands (treemacs)
+  :after (lsp-mode))
 
 (eds/setup-sbt-lsp)
 
