@@ -28,9 +28,9 @@
            modus-%1$s-theme-mode-line '3d ; {nil,'3d,'moody}
            modus-%1$s-theme-faint-syntax t
            modus-%1$s-theme-intense-hl-line nil
-           modus-%1$s-theme-intense-paren-match t
-           modus-%1$s-theme-prompts nil ; {nil,'subtle,'intense}
-           modus-%1$s-theme-completions 'opinionated ; {nil,'moderate,'opinionated}
+           modus-%1$s-theme-intense-paren-match nil
+           modus-%1$s-theme-prompts 'subtle ; {nil,'subtle,'intense}
+           modus-%1$s-theme-completions 'moderate ; {nil,'moderate,'opinionated}
            modus-%1$s-theme-diffs nil ; {nil,'desaturated,'fg-only}
            modus-%1$s-theme-org-blocks 'greyscale ; {nil,'greyscale,'rainbow}
            modus-%1$s-theme-variable-pitch-headings t
@@ -45,19 +45,30 @@
      (load-theme 'modus-%1$s t))
    theme))
 
+(defun modus-themes-toggle ()
+  "Toggle between `modus-operandi' and `modus-vivendi' themes."
+  (interactive)
+  (if (eq (car custom-enabled-themes) 'modus-operandi)
+      (progn
+        (disable-theme 'modus-operandi)
+        (modus-vivendi-theme-load))
+    (disable-theme 'modus-vivendi)
+    (modus-operandi-theme-load)))
+
 ;; Light at sunrise
+(modus-operandi-theme-load)
 (load-theme 'modus-operandi t t)
 (run-at-time (nth 1 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (enable-theme 'modus-operandi)))
+               (modus-operandi-theme-load)))
 
 ;; Dark at sunset
 (load-theme 'modus-vivendi t t)
 (run-at-time (nth 4 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (enable-theme 'modus-vivendi)))
+               (modus-vivendi-theme-load)))
 
 ;; others I've tried
 (use-package poet-theme
@@ -109,7 +120,7 @@ for variable-pitch face."
     (when (window-system)
       (message "toggling scroll bar off")
       (toggle-scroll-bar -1))
-    (line-number-mode t)                      ; show line numbers
+    (line-number-mode t)
     (display-time-mode t)
     (setq display-time-24hr-format t)
     (when (window-system)
@@ -134,7 +145,7 @@ for variable-pitch face."
 
 (require 'server)
 (defadvice server-create-window-system-frame
-  (after set-window-system-frame-colours ())
+    (after set-window-system-frame-colours ())
   "Set custom appearance settings when creating the first frame on a display"
   (message "Running after frame-initialize")
   (my-appearance-settings))
