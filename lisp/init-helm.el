@@ -23,7 +23,6 @@
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x C-d") 'helm-browse-project)
   (global-set-key (kbd "M-\"") 'helm-lsp-global-workspace-symbol)
-  (define-key global-map (kbd "M-g a") 'helm-do-grep-ag)
 
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
@@ -72,12 +71,12 @@
 ;; helm-ag stuff
 (use-package helm-ag
   :init
-  (setq helm-ag-use-grep-ignore-list t)
-  (setq helm-ag-use-agignore t)
-  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
-  (setq helm-ag-command-option "--all-text")
-  (setq helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'"))
-  (setq helm-ag-insert-at-point 'symbol))
+  (setq helm-ag-use-grep-ignore-list t
+        helm-ag-use-agignore t
+        helm-ag-base-command "ag --nocolor --nogroup --ignore-case"
+        helm-ag-command-option "--all-text"
+        helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'")
+        helm-ag-insert-at-point 'symbol))
 
 (use-package helm-ls-git
   :bind (("C-c p h" . helm-browse-project)))

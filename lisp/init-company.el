@@ -6,8 +6,8 @@
   :commands company-mode
   :config
   (global-company-mode)
-  (setq company-global-modes '(not term-mode))
-  (setq company-minimum-prefix-length 2
+  (setq company-global-modes '(not term-mode)
+        company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
         company-tooltip-align-annotations t)

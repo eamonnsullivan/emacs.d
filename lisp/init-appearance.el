@@ -5,25 +5,26 @@
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
-;; current faves
-(use-package zenburn-theme
-  :demand t
-  :config
-  (load-theme 'zenburn t))
+;; current fave
 (use-package poet-theme
   :straight
   (poet-theme :type git :host github :repo "kunalb/poet")
   :demand t
   :config
-  (set-face-attribute 'default nil :family "Hack" :height 110)
-  (set-face-attribute 'fixed-pitch nil :family "Hack")
-  (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 120 :weight 'regular))
+  (load-theme 'poet t))
 
 ;; others I've tried
 (use-package leuven-theme
   :demand t
   :straight
   (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme"))
+
+(use-package zenburn-theme
+  :demand t)
+(use-package vscode-dark-plus-theme
+  :straight
+  (vscode-dark-plus-theme :type git :host github :repo "ianpan870102/vscode-dark-plus-emacs-theme")
+  :demand t)
 (use-package material-theme
   :demand t)
 (use-package parchment-theme

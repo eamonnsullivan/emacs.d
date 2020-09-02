@@ -174,19 +174,6 @@
     (setq auto-revert-use-notify nil))
   :diminish (auto-revert-mode . " Ⓐ"))
 
-(use-package swiper
-  :bind ("C-S-s" . swiper))
-
-;; Jump to things in Emacs tree-style
-(use-package avy
-  :bind (("C-:" . avy-goto-char)
-         ("C-'" . avy-goto-char-2)
-         ("M-g f" . avy-goto-line)
-         ("M-g w" . avy-goto-word-1)
-         ("M-g e" . avy-goto-word-0))
-  :init (add-hook 'after-init-hook #'avy-setup-default)
-  :config (setq avy-background t))
-
 ;; Display available keybindings in popup
 (use-package which-key
   :diminish which-key-mode
