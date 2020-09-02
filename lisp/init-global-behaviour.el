@@ -45,19 +45,6 @@
   :hook
   (before-save . delete-trailing-whitespace))
 
-;; me
-(setq user-full-name "Eamonn Sullivan")
-(cond
- ((string= user-login-name "eamonn")
-  (setq user-mail-address "eamonn.sullivan@gmail.com"))
- ((string= user-login-name "sullie09")
-  (setq user-mail-address "eamonn.sullivan@bbc.co.uk")))
-
-;; my location
-(setq calendar-latitude 51.5)
-(setq calendar-longitude -0.12)
-(setq calendar-location-name "London, England")
-
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
   (if (file-directory-p backup-dir)

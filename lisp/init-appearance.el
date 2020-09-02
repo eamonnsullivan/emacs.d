@@ -6,14 +6,65 @@
   (mapc #'disable-theme custom-enabled-themes))
 
 ;; current fave
+(use-package modus-vivendi-theme
+  :straight
+  (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes")
+  :demand t)
+
+(use-package modus-operandi-theme
+  :straight
+  (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes")
+  :demand t)
+
+(defmacro modus-themes-format-sexp (sexp &rest objects)
+  `(eval (read (format ,(format "%S" sexp) ,@objects))))
+
+(dolist (theme '("operandi" "vivendi"))
+  (modus-themes-format-sexp
+   (defun modus-%1$s-theme-load ()
+     (setq modus-%1$s-theme-slanted-constructs nil
+           modus-%1$s-theme-bold-constructs nil
+           modus-%1$s-theme-fringes 'subtle ; {nil,'subtle,'intense}
+           modus-%1$s-theme-mode-line '3d ; {nil,'3d,'moody}
+           modus-%1$s-theme-faint-syntax t
+           modus-%1$s-theme-intense-hl-line nil
+           modus-%1$s-theme-intense-paren-match t
+           modus-%1$s-theme-prompts nil ; {nil,'subtle,'intense}
+           modus-%1$s-theme-completions 'opinionated ; {nil,'moderate,'opinionated}
+           modus-%1$s-theme-diffs nil ; {nil,'desaturated,'fg-only}
+           modus-%1$s-theme-org-blocks 'greyscale ; {nil,'greyscale,'rainbow}
+           modus-%1$s-theme-variable-pitch-headings t
+           modus-%1$s-theme-rainbow-headings t
+           modus-%1$s-theme-section-headings t
+           modus-%1$s-theme-scale-headings t
+           modus-%1$s-theme-scale-1 1.1
+           modus-%1$s-theme-scale-2 1.15
+           modus-%1$s-theme-scale-3 1.21
+           modus-%1$s-theme-scale-4 1.27
+           modus-%1$s-theme-scale-5 1.33)
+     (load-theme 'modus-%1$s t))
+   theme))
+
+;; Light at sunrise
+(load-theme 'modus-operandi t t)
+(run-at-time (nth 1 (split-string (sunrise-sunset)))
+             (* 60 60 24)
+             (lambda ()
+               (enable-theme 'modus-operandi)))
+
+;; Dark at sunset
+(load-theme 'modus-vivendi t t)
+(run-at-time (nth 4 (split-string (sunrise-sunset)))
+             (* 60 60 24)
+             (lambda ()
+               (enable-theme 'modus-vivendi)))
+
+;; others I've tried
 (use-package poet-theme
   :straight
   (poet-theme :type git :host github :repo "kunalb/poet")
-  :demand t
-  :config
-  (load-theme 'poet t))
+  :demand t)
 
-;; others I've tried
 (use-package leuven-theme
   :demand t
   :straight
@@ -31,28 +82,6 @@
   :demand t)
 (use-package doom-themes
   :demand t)
-(use-package modus-vivendi-theme
-  :demand t
-  :config
-  (setq modus-vivendi-theme-slanted-constructs nil)
-  (setq modus-vivendi-theme-bold-constructs nil)
-  (setq modus-vivendi-theme-proportional-fonts nil)
-  (setq modus-vivendi-theme-scale-headings nil)
-  (setq modus-vivendi-theme-scale-1 1.05)
-  (setq modus-vivendi-theme-scale-2 1.1)
-  (setq modus-vivendi-theme-scale-3 1.15)
-  (setq modus-vivendi-theme-scale-4 1.2))
-(use-package modus-operandi-theme
-  :demand t
-  :config
-  (setq modus-operandi-theme-slanted-constructs nil)
-  (setq modus-operandi-theme-bold-constructs nil)
-  (setq modus-operandi-theme-proportional-fonts nil)
-  (setq modus-operandi-theme-scale-headings nil)
-  (setq modus-operandi-theme-scale-1 1.05)
-  (setq modus-operandi-theme-scale-2 1.1)
-  (setq modus-operandi-theme-scale-3 1.15)
-  (setq modus-operandi-theme-scale-4 1.2))
 
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
