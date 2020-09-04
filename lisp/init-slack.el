@@ -1,6 +1,4 @@
-(use-package emojify
-  :config
-  (global-emojify-mode t))
+(use-package emojify)
 
 (use-package helm-slack
   :straight

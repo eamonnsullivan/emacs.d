@@ -29,12 +29,12 @@
            modus-%1$s-theme-faint-syntax t
            modus-%1$s-theme-intense-hl-line nil
            modus-%1$s-theme-intense-paren-match nil
-           modus-%1$s-theme-prompts 'subtle ; {nil,'subtle,'intense}
+           modus-%1$s-theme-prompts 'intense ; {nil,'subtle,'intense}
            modus-%1$s-theme-completions 'moderate ; {nil,'moderate,'opinionated}
            modus-%1$s-theme-diffs nil ; {nil,'desaturated,'fg-only}
            modus-%1$s-theme-org-blocks 'greyscale ; {nil,'greyscale,'rainbow}
            modus-%1$s-theme-variable-pitch-headings t
-           modus-%1$s-theme-rainbow-headings t
+           modus-%1$s-theme-rainbow-headings nil
            modus-%1$s-theme-section-headings t
            modus-%1$s-theme-scale-headings t
            modus-%1$s-theme-scale-1 1.1

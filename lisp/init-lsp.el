@@ -45,17 +45,8 @@ _q_: quit this menu
       ("r" lsp-workspace-restart)
       ("q" nil :color blue)))
   :hook
-  (scala-mode . lsp-deferred)
-  (javascript-mode . lsp-deferred)
-  (shell-script-mode . lsp-deferred)
-  (python-mode . lsp-deferred)
-  (groovy-mode . lsp-deferred)
-  (java-mode . lsp-deferred)
-  (clojure-mode . lsp-deffered)
-  (clojurescript-mode . lsp-deferred)
-  (lsp-mode . lsp-lens-mode)
-  (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp)
+  (prog-mode . lsp-deferred)
+  :commands (lsp lsp-deferred))
 
 (use-package lsp-metals)
 

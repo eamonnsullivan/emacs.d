@@ -45,7 +45,6 @@
  ((eq system-type 'darwin)
   (setq straight-find-executable "/usr/local/opt/findutils/libexec/gnubin/find")))
 
-
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 
 (defmacro when-available (func foo)
@@ -69,6 +68,10 @@
 (setq calendar-latitude 51.5)
 (setq calendar-longitude -0.12)
 (setq calendar-location-name "London, England")
+
+(use-package vc
+  :config
+  (setq vc-follow-symlinks t))
 
 ;; The rest of my init file, broken up into libraries in the lisp directory
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
