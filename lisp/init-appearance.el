@@ -114,7 +114,7 @@ for variable-pitch face."
     (message "my-appearance-settings running.")
     (transient-mark-mode t)
     (menu-bar-mode -1)
-    (when (window-system)
+    (when (and (window-system) (< emacs-major-version 27))
       (message "toggling tool bar off")
       (tool-bar-mode -1))
     (when (window-system)
@@ -123,7 +123,7 @@ for variable-pitch face."
     (line-number-mode t)
     (display-time-mode t)
     (setq display-time-24hr-format t)
-    (when (window-system)
+    (when (and (window-system) (< emacs-major-version 27))
       (message "setting default-frame-alist")
       (setq default-frame-alist
             '((vertical-scroll-bars)
