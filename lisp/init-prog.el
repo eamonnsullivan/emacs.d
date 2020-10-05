@@ -57,4 +57,6 @@ programming."
 
 (add-to-list 'auto-mode-alist '("\\.service\\'" . conf-unix-mode))
 
+(use-package graphql-mode)
+
 (provide 'init-prog)
