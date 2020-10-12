@@ -11,7 +11,8 @@
   ;; disable jshint since we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
-                        '(javascript-jshint)))
+                        '(javascript-jshint
+                          emacs-lisp)))
   ;; use eslint with js2-mode for js and JSX files
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)

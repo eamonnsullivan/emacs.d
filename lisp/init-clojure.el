@@ -1,5 +1,5 @@
 ;;; -*- lexical-binding: t -*-
-;;; init-lisp.el --- stuff related to lisp programming
+;;; init-clojure.el --- stuff related to clojure programming
 
 (use-package
   eldoc
@@ -29,8 +29,12 @@
         cider-repl-pop-to-buffer-on-connect 'display-only
         cider-overlays-use-font-lock t
         nrepl-hide-special-buffers t
-        cider-repl-history-file ".cider-repl-history")
+        cider-repl-history-file ".cider-repl-history"
+        cider-show-error-buffer t
+        cider-auto-select-error-buffer t)
   (add-to-list 'auto-mode-alist '("\\.cljs\\'" . clojurescript-mode)))
+
+(use-package clojure-mode-extra-font-locking)
 
 (use-package clj-refactor
   :hook ((clojure-mode . clj-refactor-mode)

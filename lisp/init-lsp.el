@@ -97,6 +97,7 @@ _q_: quit this menu
 
 ;; Java support for lsp-mode using the Eclipse JDT Language Server.
 (use-package lsp-java
+  :hook (java-mode . lsp)
   :after lsp)
 
 (use-package lsp-treemacs
