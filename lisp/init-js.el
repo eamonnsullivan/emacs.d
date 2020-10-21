@@ -57,7 +57,6 @@
                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
 
 (use-package js2-refactor
-  :ensure t
   :after (js2-mode hydra)
   :hook
   (js2-mode . js2-refactor-mode)

@@ -20,7 +20,8 @@
 
 ;;; Code:
 
-(setq straight-repository-branch "develop")
+(setq straight-repository-branch "develop"
+      straight-use-package-by-default t)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -36,8 +37,6 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t
-      straight-check-for-modifications '(watch-files find-when-checking))
 
 (cond
  ((eq system-type 'gnu/linux)

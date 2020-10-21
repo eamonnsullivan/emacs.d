@@ -65,7 +65,7 @@ _q_: quit this menu
 	      lsp-ui-doc-border (face-foreground 'default)
 	      lsp-ui-peek-enable t
 	      lsp-ui-peek-show-directory t
-	      lsp-ui-sideline-delay 3
+	      lsp-ui-sideline-delay 1
 	      lsp-ui-sideline-update-mode 'point
 	      lsp-ui-sideline-enable t
 	      lsp-ui-sideline-show-code-actions t
@@ -102,11 +102,9 @@ _q_: quit this menu
 
 (use-package lsp-treemacs
   :after (lsp-mode treemacs)
-  :ensure t
   :commands lsp-treemacs-errors-list)
 
 (use-package treemacs
-  :ensure t
   :commands (treemacs)
   :after (lsp-mode))
 
