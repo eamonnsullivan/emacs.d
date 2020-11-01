@@ -22,7 +22,8 @@
   :hook
   (groovy-mode . (lambda() (inf-groovy-keys)))
   :config
-  (setq groovysh "/usr/local/bin/groovysh")
+  (setq groovysh "/usr/local/bin/groovysh"
+        groovy-indent-offset 2)
   (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy process")
   (autoload 'inf-groovy-keys "inf-groovy" "Set local key defs for inf-groovy in groovy-mode"))
 (use-package groovy-imports)

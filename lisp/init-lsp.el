@@ -65,7 +65,7 @@ _q_: quit this menu
 	      lsp-ui-doc-border (face-foreground 'default)
 	      lsp-ui-peek-enable t
 	      lsp-ui-peek-show-directory t
-	      lsp-ui-sideline-delay 1
+	      lsp-ui-sideline-delay 2
 	      lsp-ui-sideline-update-mode 'point
 	      lsp-ui-sideline-enable t
 	      lsp-ui-sideline-show-code-actions t

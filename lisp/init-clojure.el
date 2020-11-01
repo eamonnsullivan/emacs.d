@@ -55,10 +55,12 @@
 
 (use-package kibit-helper)
 
-(use-package clomacs)
-
-;; (use-package gpr-emacs)
-;; (add-to-list 'load-path "~/git/gpr-emacs/src/elisp/")
-;; (require 'gpr-emacs)
+;; (use-package clomacs
+;;   :config
+;;   (setq clomacs-allow-other-repl t)
+;;   :straight
+;;   (clomacs :type git
+;;            :host github
+;;            :repo "clojure-emacs/clomacs"))
 
 (provide 'init-clojure)
