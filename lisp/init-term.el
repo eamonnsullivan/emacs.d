@@ -1,37 +1,32 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-term.el --- ansi terminal code
 
-;; Customize ansi-term
-;; visit-ansi-term from http://www.enigmacurry.com/2008/12/26/emacs-ansi-term-tricks/
 ;;
-(require 'term)
-(defun visit-ansi-term ()
-  "If the current buffer is:
-     1) a running ansi-term named *ansi-term*, rename it.
-     2) a stopped ansi-term, kill it and create a new one.
-     3) a non ansi-term, go to an already running ansi-term
-        or start a new one while killing a defunt one"
-  (interactive)
-  (let ((is-term (string= "term-mode" major-mode))
-        (is-running (term-check-proc (buffer-name)))
-        (term-cmd "/bin/bash")
-        (anon-term (get-buffer "*ansi-term*")))
-    (if is-term
-        (if is-running
-            (if (string= "*ansi-term*" (buffer-name))
-                (call-interactively 'rename-buffer)
-              (if anon-term
-                  (switch-to-buffer "*ansi-term*")
-                (ansi-term term-cmd)))
-          (kill-buffer (buffer-name))
-          (ansi-term term-cmd))
-      (if anon-term
-          (if (term-check-proc "*ansi-term*")
-              (switch-to-buffer "*ansi-term*")
-            (kill-buffer "*ansi-term*")
-            (ansi-term term-cmd))
-        (ansi-term term-cmd)))))
+(use-package vterm
+  :straight
+  (vterm :type git :host github :repo "akermu/emacs-libvterm"))
 
-(global-set-key (kbd "<f2>") 'visit-ansi-term)
+;; visit-term
+(defun visit-term ()
+  "If the current buffer is:
+     1) a running vterm named vterm, rename it.
+     3) a non vterm, go to an already running vterm
+        or start a new one."
+  (interactive)
+  (let ((is-term (string= "vterm-mode" major-mode))
+        (anon-term (get-buffer "vterm")))
+    (if is-term
+        (if (string= "vterm" (buffer-name))
+            (call-interactively 'rename-buffer)
+          (if anon-term
+              (switch-to-buffer "vterm")
+            (vterm)))
+      (if anon-term
+          (switch-to-buffer "vterm")
+        (vterm)))))
+
+;; (global-set-key (kbd "<f2>") 'visit-ansi-term)
+
+(global-set-key (kbd "C-<f2>") 'visit-term)
 
 (provide 'init-term)
