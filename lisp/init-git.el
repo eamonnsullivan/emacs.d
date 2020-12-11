@@ -4,7 +4,7 @@
 (require 'eds)
 
 (use-package magit
-  :bind ("<f7>" . magit-status)
+  :bind ("C-c g" . magit-file-dispatch)
   :commands (magit-status)
   :config
   (add-hook 'git-commit-setup-hook
@@ -22,7 +22,7 @@
 
 (use-package github-browse-file
   :commands (github-browse-file)
-  :bind ("C-c g h" . github-browse-file)
+  :bind ("C-c G h" . github-browse-file)
   :defer t)
 
 ;; (use-package github-pr-manager
