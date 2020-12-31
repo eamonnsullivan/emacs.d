@@ -39,6 +39,8 @@
         scala-indent:operator-strategy))
 
 (use-package sbt-mode
+  :straight
+  (sbt-mode :type git :host github :repo "hvesalai/emacs-sbt-mode")
   :commands sbt-start sbt-command
   :bind (("C-c C-b" . sbt-hydra)
          ("C-c t" . annotate-scala-symbol-with-type))
@@ -48,9 +50,7 @@
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
-   minibuffer-local-completion-map)
-  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+   minibuffer-local-completion-map))
 
 ;; feature-mode
 (use-package feature-mode
