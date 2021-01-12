@@ -34,7 +34,14 @@
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+  (unless (catch 'emacs-version-changed
+	    (load bootstrap-file nil 'nomessage))
+    (when (boundp 'comp-eln-load-path)
+      ;; remove leftovers, with confirmation just to be safe
+      (when (yes-or-no-p (format "Delete '%s'?" (car comp-eln-load-path)))
+	(delete-directory (expand-file-name (car comp-eln-load-path)) t))
+      ;; and try again
+      (load bootstrap-file nil 'nomessage))))
 
 (straight-use-package 'use-package)
 

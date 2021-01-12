@@ -17,15 +17,17 @@
 
 (use-package lsp-mode
   :init
-  (setq lsp-log-io nil)
+  (setq lsp-log-io nil
+        lsp-lens-enable nil
+        lsp-signature-auto-activate nil)
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
                clojurescript-mode
                clojurex-mode))
-     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
-  (setq lsp-enable-indentation nil
-        lsp-clojure-server-command '("bash" "-c" "clojure-lsp"))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  ;; lsp-clojure-server-command '("bash" "-c" "clojure-lsp")
+  (setq lsp-enable-indentation nil)
   (define-key lsp-mode-map (kbd "C-c l")
     (defhydra hydra-lsp (:color red :hint nil)
    "
@@ -71,6 +73,7 @@ _q_: quit this menu
 	      lsp-ui-sideline-show-code-actions t
 	      lsp-ui-sideline-show-hover t
 	      lsp-ui-sideline-ignore-duplicate t
+              lsp-ui-sideline-diagnostic-max-line-length 70
 	      lsp-gopls-use-placeholders nil)
   :config
   (setq lsp-completion-provider :capf)
