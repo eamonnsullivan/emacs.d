@@ -27,7 +27,6 @@
                clojurex-mode))
     (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   ;; lsp-clojure-server-command '("bash" "-c" "clojure-lsp")
-  (setq lsp-enable-indentation nil)
   (define-key lsp-mode-map (kbd "C-c l")
     (defhydra hydra-lsp (:color red :hint nil)
    "

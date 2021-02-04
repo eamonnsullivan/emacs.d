@@ -35,7 +35,6 @@
   (interactive)
   (eds/restart-emacs t))
 
-(global-set-key (kbd "RET") 'newline-and-indent)
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 (global-set-key (kbd "M-z") 'zap-up-to-char)

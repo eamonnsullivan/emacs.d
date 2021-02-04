@@ -48,7 +48,8 @@
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
   (if (file-directory-p backup-dir)
-      (setq backup-directory-alist `(("." . ,backup-dir))
+      (setq backup-directory-alist `((".*" . ,backup-dir))
+            auto-save-file-name-transforms `((".*" ,backup-dir t))
             backup-by-copying t         ; Don't delink hardlinks
             version-control t           ; Use version numbers on backups
             delete-old-versions t       ; Automatically delete excess backups
