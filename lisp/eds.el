@@ -268,7 +268,7 @@ that don't work in a filename."
     (find-file filename)
     (eds/insert-skeleton-blog-post title)
     (save-buffer)
-    (magit-branch-create branch "master")
+    (magit-branch-create branch "main")
     (magit-checkout branch)))
 
 (defun eds/start-personal-blog-post (title)
