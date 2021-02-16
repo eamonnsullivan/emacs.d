@@ -50,7 +50,8 @@
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
-   minibuffer-local-completion-map))
+   minibuffer-local-completion-map)
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; feature-mode
 (use-package feature-mode
