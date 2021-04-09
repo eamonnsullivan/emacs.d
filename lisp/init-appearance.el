@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-appearance.el --- Code related to the look of emacs
 
+
 (defun disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
@@ -10,27 +11,26 @@
   :straight
   (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes" :branch "main")
   :init
-  (setq modus-themes-slanted-constructs t
+  (setq modus-themes-slanted-constructs nil
         modus-themes-bold-constructs nil
-        modus-themes-fringes nil ; {nil,'subtle,'intense}
-        modus-themes-mode-line '3d ; {nil,'3d,'moody}
-        modus-themes-syntax nil ; Lots of options---continue reading the manual
-        modus-themes-intense-hl-line nil
+        modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
+        modus-themes-hl-line 'underline-only-accented
+        modus-themes-subtle-line-numbers t
         modus-themes-paren-match 'subtle-bold ; {nil,'subtle-bold,'intense,'intense-bold}
-        modus-themes-links 'neutral-underline ; Lots of options---continue reading the manual
+        modus-themes-lang-checkers nil
+        modus-themes-links nil
         modus-themes-no-mixed-fonts nil
-        modus-themes-prompts nil ; {nil,'subtle,'intense}
+        modus-themes-prompts 'intense-accented
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
-        modus-themes-region 'bg-only-no-extend ; {nil,'no-extend,'bg-only,'bg-only-no-extend}
-        modus-themes-diffs nil ; {nil,'desaturated,'fg-only,'bg-only}
-        modus-themes-org-blocks nil ; {nil,'grayscale,'rainbow}
-        modus-themes-headings ; Lots of options---continue reading the manual
-        '((1 . section)
-          (2 . section-no-bold)
-          (3 . rainbow-line)
-          (t . rainbow-line-no-bold))
-        modus-themes-variable-pitch-headings nil
-        modus-themes-scale-headings nil
+        modus-themes-region 'no-extend ; {nil,'no-extend,'bg-only,'bg-only-no-extend}
+        modus-themes-diffs 'fg-only ; {nil,'desaturated,'fg-only,'bg-only,'deuteranopia}
+        modus-themes-org-blocks 'grayscale ; {nil,'grayscale,'rainbow}
+        modus-themes-org-habit nil ; {nil,'simplified,'traffic-light}
+        modus-themes-headings ; Read the manual for this one
+        '((t . rainbow-highlight))
+        modus-themes-variable-pitch-ui t
+        modus-themes-variable-pitch-headings t
+        modus-themes-scale-headings t
         modus-themes-scale-1 1.1
         modus-themes-scale-2 1.15
         modus-themes-scale-3 1.21

@@ -6,6 +6,7 @@
   :after python
   :hook ((python-mode . elpy-enable))
   :config
+  (setq elpy-rpc-python-command "/home/linuxbrew/.linuxbrew/bin/python3")
   (elpy-enable))
 
 (provide 'init-python)

@@ -6,9 +6,12 @@
 (use-package magit
   :bind ("C-c g" . magit-file-dispatch)
   :commands (magit-status)
+  :init
+  (setq magit-clone-default-directory "~/git/")
   :config
   (add-hook 'git-commit-setup-hook
             (lambda ()
+              (message "insert git branch called")
               (eds/insert-git-branch-name (magit-get-current-branch)))))
 
 (use-package git-gutter

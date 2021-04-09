@@ -73,6 +73,11 @@
 (define-key clojurescript-mode-map (kbd "M-.") #'find-definition)
 (define-key cider-mode-map (kbd "M-.") #'find-definition)
 
+(define-key clojure-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
+(define-key clojurec-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
+(define-key clojurescript-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
+(define-key cider-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
+
 ;; (use-package clomacs
 ;;   :config
 ;;   (setq clomacs-allow-other-repl t)
