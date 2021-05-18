@@ -144,15 +144,17 @@ When trying to open the test file, create a new test file if we can't find an ex
       (upcase (match-string 0 input))
     "NO-TICKET"))
 
-(defun eds/insert-git-branch-name (branch)
+(defun eds/insert-git-branch-name ()
   "Insert the current git branch name at point, surrounded by square brackets.
 We use this to make the jira tickets easy to spot in the commit messages."
   (interactive)
-  (insert
-   "["
-   (eds/extract-jira-ticket
-    branch)
-   "] "))
+  (when eds-insert-branch-name-p
+    (setq eds-insert-branch-name-p nil)
+    (insert
+     "["
+     (eds/extract-jira-ticket
+      (magit-get-current-branch))
+     "] ")))
 
 (defun eds/kill-word (arg)
   "Delete characters forward until encountering the end of a word.

@@ -1,12 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-term.el --- ansi terminal code
 
-;;
-(use-package vterm
-  :straight
-  (vterm :type git :host github :repo "akermu/emacs-libvterm"))
-
 ;; visit-term
+;;
+;; I'm using libvterm now, which basically breaks this
+;; functionality. You can't run C-<f2> again while in a vterm window.
 (defun visit-term ()
   "If the current buffer is:
      1) a running vterm named vterm, rename it.
@@ -25,8 +23,12 @@
           (switch-to-buffer "vterm")
         (vterm)))))
 
-;; (global-set-key (kbd "<f2>") 'visit-ansi-term)
-
 (global-set-key (kbd "C-<f2>") 'visit-term)
+
+(use-package vterm
+  :straight
+  (vterm :type git :host github :repo "akermu/emacs-libvterm")
+  :bind ("C-<f2>" . visit-term))
+
 
 (provide 'init-term)

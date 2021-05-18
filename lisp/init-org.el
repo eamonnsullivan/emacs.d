@@ -1,8 +1,12 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-org.el --- org mode stuff
 
+
+(use-package ob-typescript)
+
+; (straight-use-package '(org-plus-contrib :includes org))
+
 (use-package org
-  :straight org-plus-contrib
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
@@ -17,6 +21,17 @@
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
+  (require 'ob-typescript)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (scheme . t)
+     (js . t)
+     (typescript . t)
+     (clojure . t)
+     (python . t)
+     (jupyter . t)))
   (setq org-directory "~/Dropbox/org"
         org-default-notes-file (concat org-directory "/notes.org")
         org-capture-templates

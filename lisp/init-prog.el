@@ -60,4 +60,7 @@ programming."
 
 (use-package graphql-mode)
 
+(use-package jupyter
+  :straight t)
+
 (provide 'init-prog)

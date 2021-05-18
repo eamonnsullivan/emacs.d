@@ -15,6 +15,7 @@
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
       (message "configured for Mac:"))))
 
+
 (use-package lsp-mode
   :init
   (setq lsp-log-io nil
@@ -47,8 +48,10 @@ _q_: quit this menu
       ("r" lsp-workspace-restart)
       ("q" nil :color blue)))
   :hook
-  (prog-mode . lsp-deferred)
-  :commands (lsp lsp-deferred))
+  (prog-mode . lsp)
+  :commands (lsp lsp))
+
+(define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
 
 (use-package lsp-metals)
 

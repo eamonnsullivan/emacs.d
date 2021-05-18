@@ -20,6 +20,8 @@
 
 ;;; Code:
 
+;; (defvar comp-deferred-compilation-deny-list ())
+
 (setq straight-repository-branch "develop"
       straight-use-package-by-default t)
 
