@@ -48,8 +48,8 @@ _q_: quit this menu
       ("r" lsp-workspace-restart)
       ("q" nil :color blue)))
   :hook
-  (prog-mode . lsp)
-  :commands (lsp lsp))
+  (prog-mode . lsp-deferred)
+  :commands (lsp lsp-deferred))
 
 (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
 
