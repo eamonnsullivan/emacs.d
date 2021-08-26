@@ -49,12 +49,22 @@
    (add-hook 'js2-mode-hook 'add-node-modules-path)
    (add-hook 'rjsx-mode-hook 'add-node-modules-path))
 
+(use-package prettier)
+
+(dir-locals-set-class-variables 'prettier-js
+                                '((js2-mode . ((eval . (prettier-mode t))))))
+(dir-locals-set-directory-class "~/git/portfolio/" 'prettier-js)
+
+;; :hook
+;;   (js2-mode . prettier-mode))
+
 (use-package eslint-fix
   :config
   (eval-after-load 'js2-mode
     '(add-hook 'js2-mode-hook
                (lambda()
                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
+
 
 (use-package js2-refactor
   :after (js2-mode hydra)

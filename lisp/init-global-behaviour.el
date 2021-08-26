@@ -213,4 +213,12 @@
                           ;; force fringe update
                           (set-window-buffer nil (current-buffer)))))
 
+(use-package super-save
+  :defer 1
+  :diminish super-save-mode
+  :config
+  (super-save-mode +1)
+  (setq super-save-exclude '("\\*dashboard\\*"))
+  (setq super-save-auto-save-when-idle t))
+
 (provide 'init-global-behaviour)

@@ -20,7 +20,7 @@
   :init
   (setq lsp-log-io nil
         lsp-lens-enable nil
-        lsp-signature-auto-activate nil)
+        lsp-signature-auto-activate t)
   :config
   (dolist (m '(clojure-mode
                clojurec-mode
