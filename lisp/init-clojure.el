@@ -46,8 +46,8 @@
   (cljr-add-keybindings-with-prefix "C-c r")
   (setq cljr-warn-on-eval nil))
 
-(use-package cljr-helm
-  :after clojure-mode)
+;; (use-package cljr-helm
+;;   :after clojure-mode)
 
 ;; (use-package helm-cider
 ;;   :hook ((cider-mode . helm-cider-mode)))
@@ -71,12 +71,12 @@
 (define-key clojure-mode-map (kbd "M-.") #'find-definition)
 (define-key clojurec-mode-map (kbd "M-.") #'find-definition)
 (define-key clojurescript-mode-map (kbd "M-.") #'find-definition)
-(define-key cider-mode-map (kbd "M-.") #'find-definition)
+;; (define-key cider-mode-map (kbd "M-.") #'find-definition)
 
 (define-key clojure-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
 (define-key clojurec-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
 (define-key clojurescript-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
-(define-key cider-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
+;; (define-key cider-mode-map (kbd "M-?") #'lsp-ui-peek-find-references)
 
 ;; (use-package clomacs
 ;;   :config

@@ -20,17 +20,18 @@
   :init
   (setq lsp-log-io nil
         lsp-lens-enable nil
-        lsp-signature-auto-activate t)
+        lsp-signature-auto-activate nil
+        lsp-enable-indentation nil
+        lsp-keymap-prefix "C-c l")
   :config
-  (dolist (m '(clojure-mode
-               clojurec-mode
-               clojurescript-mode
-               clojurex-mode))
-    (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
+  ;; (dolist (m '(clojure-mode
+  ;;              clojurec-mode
+  ;;              clojurescript-mode
+  ;;              clojurex-mode))
+  ;;   (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   ;; lsp-clojure-server-command '("bash" "-c" "clojure-lsp")
-  (setq lsp-enable-indentation nil)
-  (define-key lsp-mode-map (kbd "C-c l")
-    (defhydra hydra-lsp (:color red :hint nil)
+  ;; (define-key lsp-mode-map (kbd "C-c l")
+  (defhydra hydra-lsp (:color red :hint nil)
    "
 ^Symbols^                ^Actions^
 ^^^^^^^^^-----------------------------------------------------
@@ -46,21 +47,19 @@ _q_: quit this menu
       ("n" lsp-rename)
       ("s" lsp-workspace-shutdown)
       ("r" lsp-workspace-restart)
-      ("q" nil :color blue)))
+      ("q" nil :color blue))
   :hook
-  (prog-mode . lsp-deferred)
-  :commands (lsp lsp-deferred))
+  ((prog-mode . lsp)
+   (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
 
 (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
 
 (use-package lsp-metals)
 
-(use-package lsp-ui)
+(use-package lsp-ui :commands lsp-ui-mode)
 
-(use-package helm-lsp
-  :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
-  :commands helm-lsp-workspace-symbol)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
 
 ;; Java support for lsp-mode using the Eclipse JDT Language Server.
 (use-package lsp-java

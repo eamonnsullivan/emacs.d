@@ -51,10 +51,6 @@
 
 (use-package prettier)
 
-(dir-locals-set-class-variables 'prettier-js
-                                '((js2-mode . ((eval . (prettier-mode t))))))
-(dir-locals-set-directory-class "~/git/portfolio/" 'prettier-js)
-
 ;; :hook
 ;;   (js2-mode . prettier-mode))
 
