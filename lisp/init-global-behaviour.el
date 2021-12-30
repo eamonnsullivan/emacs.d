@@ -57,6 +57,7 @@
             kept-old-versions 5         ; and how many of the old
             delete-by-moving-to-trash t
             create-lockfiles nil        ; don't create lockfiles
+            view-read-only t            ; use view mode on read-only buffers.
             )
     (message (format "Directory does not exist: %s" backup-dir))))
 

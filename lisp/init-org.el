@@ -4,7 +4,7 @@
 
 (use-package ob-typescript)
 
-; (straight-use-package '(org-plus-contrib :includes org))
+;; (straight-use-package '(org-plus-contrib :includes org))
 
 (use-package org
   :init
