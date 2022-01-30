@@ -10,6 +10,7 @@
   (if (eq system-type 'gnu/linux)
       (progn
         (lsp-register-custom-settings '(("metals.sbt-script" "/usr/bin/sbt")))
+        (setq lsp-metals-java-home "/usr/lib/jvm/java-8-openjdk-amd64")
         (message "configured for linux:"))
     (progn
       (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
@@ -32,7 +33,7 @@
   ;; lsp-clojure-server-command '("bash" "-c" "clojure-lsp")
   ;; (define-key lsp-mode-map (kbd "C-c l")
   (defhydra hydra-lsp (:color red :hint nil)
-   "
+    "
 ^Symbols^                ^Actions^
 ^^^^^^^^^-----------------------------------------------------
 _d_: Find definition     _s_: Shutdown language server
@@ -41,13 +42,13 @@ _n_: Rename symbol
 
 _q_: quit this menu
 "
-      ("d" lsp-find-definition)
-      ("u" lsp-ui-peek-find-references)
-      ("c" lsp-treemacs-call-hierarchy)
-      ("n" lsp-rename)
-      ("s" lsp-workspace-shutdown)
-      ("r" lsp-workspace-restart)
-      ("q" nil :color blue))
+    ("d" lsp-find-definition)
+    ("u" lsp-ui-peek-find-references)
+    ("c" lsp-treemacs-call-hierarchy)
+    ("n" lsp-rename)
+    ("s" lsp-workspace-shutdown)
+    ("r" lsp-workspace-restart)
+    ("q" nil :color blue))
   :hook
   ((prog-mode . lsp)
    (lsp-mode . lsp-enable-which-key-integration))
