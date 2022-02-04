@@ -14,20 +14,22 @@
   (setq modus-themes-slanted-constructs nil
         modus-themes-bold-constructs nil
         modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
-        modus-themes-hl-line 'underline-only-accented
+        modus-themes-hl-line '(underline accented)
         modus-themes-subtle-line-numbers t
-        modus-themes-paren-match 'subtle-bold ; {nil,'subtle-bold,'intense,'intense-bold}
+        modus-themes-paren-match '(bold subtle)
         modus-themes-lang-checkers nil
         modus-themes-links nil
         modus-themes-no-mixed-fonts nil
-        modus-themes-prompts 'intense-accented
+        modus-themes-prompts '(intense accented)
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
-        modus-themes-region 'no-extend ; {nil,'no-extend,'bg-only,'bg-only-no-extend}
+        modus-themes-region '(bg-only no-extend)
         modus-themes-diffs 'fg-only ; {nil,'desaturated,'fg-only,'bg-only,'deuteranopia}
         modus-themes-org-blocks 'grayscale ; {nil,'grayscale,'rainbow}
         modus-themes-org-habit nil ; {nil,'simplified,'traffic-light}
-        modus-themes-headings ; Read the manual for this one
-        '((t . rainbow-highlight))
+        modus-themes-headings ; this is an alist: read the manual or its doc string
+        '((1 . (overline background variable-pitch 1.3))
+          (2 . (rainbow overline 1.1))
+          (t . (semibold)))
         modus-themes-variable-pitch-ui t
         modus-themes-variable-pitch-headings t
         modus-themes-scale-headings t
