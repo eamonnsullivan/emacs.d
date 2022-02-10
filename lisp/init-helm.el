@@ -3,6 +3,11 @@
 
 (require 'tramp)
 
+;; Pending fix for https://github.com/emacs-helm/helm/issues/2481
+(setq straight-recipe-overrides nil)
+(straight-override-recipe '(helm :files ("*.el" "emacs-helm.sh" (:exclude "helm-core.el" "helm-lib.el" "helm-source.el" "helm-multi-match.el"))))
+(straight-override-recipe '(helm-core :files ("helm-core.el" "helm-lib.el" "helm-source.el" "helm-multi-match.el")))
+
 (use-package helm
   :diminish helm-mode
   :config
