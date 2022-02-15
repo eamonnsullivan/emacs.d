@@ -112,6 +112,7 @@
 (require 'init-hydra)
 (require 'init-ts)
 (require 'init-json)
+(require 'init-cloudformation)
 (require 'init-kbd-macros)
 (require 'init-slack)
 (require 'init-yasnippet)
