@@ -21,9 +21,10 @@
   :init
   (setq lsp-log-io nil
         lsp-lens-enable nil
-        lsp-signature-auto-activate nil
+        lsp-signature-auto-activate t
         lsp-enable-indentation nil
-        lsp-keymap-prefix "C-c l")
+        lsp-keymap-prefix "C-c l"
+        lsp-restart 'auto-restart)
   :config
   ;; (dolist (m '(clojure-mode
   ;;              clojurec-mode
@@ -50,7 +51,7 @@ _q_: quit this menu
     ("r" lsp-workspace-restart)
     ("q" nil :color blue))
   :hook
-  ((prog-mode . lsp)
+  ((prog-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -58,7 +59,14 @@ _q_: quit this menu
 
 (use-package lsp-metals)
 
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-header t
+        lsp-ui-doc-include-signature t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-delay 0.05))
 
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 
