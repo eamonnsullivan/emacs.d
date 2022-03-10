@@ -146,6 +146,13 @@
     ("edocs" "" eds-short-documentation-block-javascript 0)
    ))
 
+(define-abbrev-table 'typescript-mode-abbrev-table
+`(
+    ("edeb" "" eds-edeb-expansion-javascript 0)
+    ("edump" "" eds-edump-expansion-javascript 0)
+    ("eobj" "" eds-eobj-expansion-javascript 0)
+))
+
 (define-abbrev-table 'rjsx-mode-abbrev-table
   '(
     ("edeb" "" eds-edeb-expansion-javascript 0)
