@@ -21,7 +21,7 @@
   :init
   (setq lsp-log-io nil
         lsp-lens-enable nil
-        lsp-signature-auto-activate t
+        lsp-signature-auto-activate nil
         lsp-enable-indentation nil
         lsp-keymap-prefix "C-c l"
         lsp-restart 'auto-restart)
@@ -62,9 +62,9 @@ _q_: quit this menu
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-header t
-        lsp-ui-doc-include-signature t
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-doc-header nil
+        lsp-ui-doc-include-signature nil
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-delay 0.05))
 
