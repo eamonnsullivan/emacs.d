@@ -14,14 +14,12 @@
 
 ;; Set up a mode for YAML based templates if yaml-mode is installed
 ;; Get yaml-mode here https://github.com/yoshiki/yaml-mode
-(when (featurep 'yaml-mode)
+(define-derived-mode cfn-yaml-mode yaml-mode
+  "CFN-YAML"
+  "Simple mode to edit CloudFormation template in YAML format.")
 
-  (define-derived-mode cfn-yaml-mode yaml-mode
-    "CFN-YAML"
-    "Simple mode to edit CloudFormation template in YAML format.")
-
-  (add-to-list 'magic-mode-alist
-               '("\\(---\n\\)?AWSTemplateFormatVersion:" . cfn-yaml-mode)))
+(add-to-list 'magic-mode-alist
+             '("\\(---\n\\)?AWSTemplateFormatVersion:" . cfn-yaml-mode))
 
 ;; Set up cfn-lint integration if flycheck is installed
 ;; Get flycheck here https://www.flycheck.org/

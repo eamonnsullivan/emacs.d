@@ -24,6 +24,7 @@
         lsp-signature-auto-activate nil
         lsp-enable-indentation nil
         lsp-keymap-prefix "C-c l"
+        lsp-prefer-flymake nil
         lsp-restart 'auto-restart)
   :config
   ;; (dolist (m '(clojure-mode
@@ -33,6 +34,7 @@
   ;;   (add-to-list 'lsp-language-id-configuration `(,m . "clojure")))
   ;; lsp-clojure-server-command '("bash" "-c" "clojure-lsp")
   ;; (define-key lsp-mode-map (kbd "C-c l")
+  (flycheck-add-next-checker 'scala 'scala-scalastyle)
   (defhydra hydra-lsp (:color red :hint nil)
     "
 ^Symbols^                ^Actions^
@@ -62,8 +64,8 @@ _q_: quit this menu
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-doc-enable nil
-        lsp-ui-doc-header nil
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-header t
         lsp-ui-doc-include-signature nil
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-delay 0.05))
@@ -82,6 +84,19 @@ _q_: quit this menu
 (use-package treemacs
   :commands (treemacs)
   :after (lsp-mode))
+
+(defvar-local eds/flycheck-local-cache nil)
+
+(defun eds/flycheck-checker-get (fn checker property)
+  (or (alist-get property (alist-get checker eds/flycheck-local-cache))
+      (funcall fn checker property)))
+
+(advice-add 'flycheck-checker-get :around 'eds/flycheck-checker-get)
+
+(add-hook 'lsp-managed-mode-hook
+          (lambda ()
+            (when (derived-mode-p 'scala-mode)
+              (setq eds/flycheck-local-cache '((lsp . ((next-checkers . (scala-scalastyle)))))))))
 
 (eds/setup-sbt-lsp)
 
