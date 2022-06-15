@@ -1,12 +1,15 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-python.el --- stuff related to python
 
-(use-package elpy
-  :defer t
-  :after python
-  :hook ((python-mode . elpy-enable))
-  :config
-  (setq elpy-rpc-python-command "/home/linuxbrew/.linuxbrew/bin/python3")
-  (elpy-enable))
+;; (require 'lsp)
+
+;; ;; Follow instruction here to install executable: https://emacs-lsp.github.io/lsp-python-ms/
+
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-python-ms)
+;;                           (lsp-deferred))))
 
 (provide 'init-python)
