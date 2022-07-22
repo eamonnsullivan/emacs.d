@@ -63,4 +63,7 @@ programming."
 (use-package jupyter
   :straight t)
 
+(straight-use-package 'yapfify)
+(add-hook 'python-mode-hook 'yapf-mode)
+
 (provide 'init-prog)

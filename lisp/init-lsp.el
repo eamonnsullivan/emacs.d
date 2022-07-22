@@ -25,7 +25,8 @@
         lsp-enable-indentation nil
         lsp-keymap-prefix "C-c l"
         lsp-prefer-flymake nil
-        lsp-restart 'auto-restart)
+        lsp-restart 'auto-restart
+        lsp-pylsp-plugins-yapf-enabled t)
   :config
   ;; (dolist (m '(clojure-mode
   ;;              clojurec-mode
@@ -84,19 +85,6 @@ _q_: quit this menu
 (use-package treemacs
   :commands (treemacs)
   :after (lsp-mode))
-
-;; (defvar-local eds/flycheck-local-cache nil)
-
-;; (defun eds/flycheck-checker-get (fn checker property)
-;;   (or (alist-get property (alist-get checker eds/flycheck-local-cache))
-;;       (funcall fn checker property)))
-
-;; (advice-add 'flycheck-checker-get :around 'eds/flycheck-checker-get)
-
-;; (add-hook 'lsp-managed-mode-hook
-;;           (lambda ()
-;;             (when (derived-mode-p 'scala-mode)
-;;               (setq eds/flycheck-local-cache '((lsp . ((next-checkers . (scala-scalastyle)))))))))
 
 (eds/setup-sbt-lsp)
 

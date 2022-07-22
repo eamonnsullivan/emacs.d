@@ -15,7 +15,7 @@
              (append (list
                       (lambda ()
                         (when (y-or-n-p (format "Really restart %s? "
-                                                (capitalize (invocation-name))))
+                                                (capitalize invocation-name)))
                           (add-hook 'kill-emacs-hook
                                     (lambda ()
                                       (call-process-shell-command

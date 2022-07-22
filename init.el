@@ -94,7 +94,6 @@
 (require 'init-company)
 (require 'init-prog)
 (require 'init-clojure)
-(require 'init-python)
 (require 'init-cc)
 (require 'init-js)
 (require 'init-scala)
