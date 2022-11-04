@@ -60,6 +60,13 @@ _q_: quit this menu
 
 (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
 
+(use-package treemacs
+  :commands (treemacs)
+  :after (lsp-mode))
+
+;; workaround for https://github.com/emacs-lsp/lsp-metals/issues/84
+(require 'treemacs-extensions)
+
 (use-package lsp-metals)
 
 (use-package lsp-ui
@@ -81,10 +88,6 @@ _q_: quit this menu
 (use-package lsp-treemacs
   :after (lsp-mode treemacs)
   :commands lsp-treemacs-errors-list)
-
-(use-package treemacs
-  :commands (treemacs)
-  :after (lsp-mode))
 
 (eds/setup-sbt-lsp)
 
