@@ -116,5 +116,6 @@
 (require 'init-slack)
 (require 'init-yasnippet)
 (require 'init-codestyle)
+(require 'init-haskell)
 (provide 'init)
 ;;; init.el ends here

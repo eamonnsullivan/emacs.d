@@ -89,6 +89,40 @@ _q_: quit this menu
   :after (lsp-mode treemacs)
   :commands lsp-treemacs-errors-list)
 
+(use-package lsp-haskell
+  :after lsp-mode
+  :preface
+  (defun slot/lsp-haskell-type-signature ()
+    "Add a type signature for the thing at point.
+This is very convenient, for example, when dealing with local
+functions, since those—as opposed to top-level expressions—don't
+have a code lens for \"add type signature here\" associated with
+them."
+    (interactive)
+    (let* ((value (-some->> (lsp--text-document-position-params)
+                    (lsp--make-request "textDocument/hover")
+                    lsp--send-request
+                    lsp:hover-contents
+                    (funcall (-flip #'plist-get) :value))))
+      (slot/back-to-indentation)
+      (insert (slot/lsp-get-type-signature "haskell" value))
+      (haskell-indentation-newline-and-indent)))
+
+  ;; Fixes https://github.com/emacs-lsp/lsp-haskell/issues/151
+  (cl-defmethod lsp-clients-extract-signature-on-hover
+    (contents (_server-id (eql lsp-haskell)))
+    "Display the type signature of the function under point."
+    (message "%s" "lsp-haskell")
+    (let* ((sig (slot/lsp-get-type-signature "haskell" (plist-get contents :value))))
+      (lsp--render-element (concat "```haskell\n" sig "\n```"))))
+
+  :bind (:map lsp-mode-map
+              ("C-c C-t" . slot/lsp-haskell-type-signature))
+  :config (add-hook 'lsp-lsp-haskell-after-open-hook
+                    (lambda ()
+                      (setq-local lsp-signature-render-documentation t))
+                    nil t))
+
 (eds/setup-sbt-lsp)
 
 (provide 'init-lsp)

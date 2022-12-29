@@ -66,4 +66,13 @@ programming."
 (straight-use-package 'yapfify)
 (add-hook 'python-mode-hook 'yapf-mode)
 
+(straight-use-package 'tree-sitter)
+(straight-use-package 'tree-sitter-langs)
+
+(require 'tree-sitter)
+(require 'tree-sitter-langs)
+(global-tree-sitter-mode)
+
+(use-package haskell-mode)
+
 (provide 'init-prog)

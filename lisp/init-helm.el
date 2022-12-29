@@ -8,7 +8,7 @@
 (use-package helm
   :diminish helm-mode
   :config
-  (require 'helm-config)
+  ;; (require 'helm-config)
   (define-key global-map [remap find-file] 'helm-find-files)
   (define-key global-map [remap occur] 'helm-occur)
   (define-key global-map [remap list-buffers] 'helm-buffers-list)
