@@ -39,25 +39,25 @@
         modus-themes-scale-4 1.27
         modus-themes-scale-5 1.33)
   :config
-  (modus-themes-load-operandi)
+  (modus-themes-load-theme 'modus-operandi)
   :demand t)
 
 (defun modus-themes-toggle ()
   (if (eq (car custom-enabled-themes) 'modus-operandi)
-      (modus-themes-load-vivendi)
-    (modus-themes-load-operandi)))
+      (modus-themes-load-theme 'modus-vivendi)
+    (modus-themes-load-theme 'modus-operandi)))
 
 ;; Light at sunrise
 (run-at-time (nth 1 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (modus-themes-load-operandi)))
+               (modus-themes-load-theme 'modus-operandi)))
 
 ;; Dark at sunset
 (run-at-time (nth 4 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (modus-themes-load-vivendi)))
+               (modus-themes-load-theme 'modus-vivendi)))
 
 ;; others I've tried
 (use-package poet-theme
