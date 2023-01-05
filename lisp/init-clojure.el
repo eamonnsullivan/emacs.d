@@ -7,7 +7,7 @@
   :diminish eldoc-mode
   :hook ((emacs-lisp-mode . turn-on-eldoc-mode)))
 
-(use-package edn)
+(use-package parseedn)
 
 (use-package package-lint)
 
