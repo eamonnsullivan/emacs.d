@@ -17,6 +17,9 @@
          ("M-p" . highlight-symbol-prev))
   :chords (("XX" . highlight-symbol)))
 
+(use-package typescript-mode
+  :mode (("\.ts$" . typescript-mode)))
+
 (use-package groovy-mode
   :mode (("\.groovy$" . groovy-mode))
   :hook

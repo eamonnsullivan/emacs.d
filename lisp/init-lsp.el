@@ -65,7 +65,7 @@ _q_: quit this menu
   :after (lsp-mode))
 
 ;; workaround for https://github.com/emacs-lsp/lsp-metals/issues/84
-(require 'treemacs-extensions)
+;; (require 'treemacs-extensions)
 
 (use-package lsp-metals)
 

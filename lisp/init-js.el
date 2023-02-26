@@ -49,7 +49,9 @@
    (add-hook 'js2-mode-hook 'add-node-modules-path)
    (add-hook 'rjsx-mode-hook 'add-node-modules-path))
 
-(use-package prettier)
+(use-package prettier
+  :hook
+  (typescript-mode . prettier-mode))
 
 ;; :hook
 ;;   (js2-mode . prettier-mode))

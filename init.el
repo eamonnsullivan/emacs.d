@@ -109,7 +109,6 @@
 (require 'init-lsp)
 (require 'init-flycheck)
 (require 'init-hydra)
-(require 'init-ts)
 (require 'init-json)
 (require 'init-cloudformation)
 (require 'init-kbd-macros)
