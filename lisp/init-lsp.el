@@ -13,7 +13,7 @@
         (setq lsp-metals-java-home "/usr/lib/jvm/java-8-openjdk-amd64")
         (message "configured for linux:"))
     (progn
-      (lsp-register-custom-settings '(("metals.sbt-script" "/usr/local/bin/sbt")))
+      (lsp-register-custom-settings '(("metals.sbt-script" "/opt/homebrew/bin/sbt")))
       (message "configured for Mac:"))))
 
 

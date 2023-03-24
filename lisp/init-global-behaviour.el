@@ -42,6 +42,7 @@
   (track-eol t)
   (line-move-visual nil)
   (visible-bell)
+  (warning-suppress-log-types '((comp)))
   :hook
   (before-save . delete-trailing-whitespace))
 

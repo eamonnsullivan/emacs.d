@@ -23,7 +23,8 @@
 ;; (defvar comp-deferred-compilation-deny-list ())
 
 (setq straight-repository-branch "develop"
-      straight-use-package-by-default t)
+      straight-use-package-by-default t
+      straight-disable-native-compile nil)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -51,7 +52,7 @@
  ((eq system-type 'gnu/linux)
   (setq straight-find-executable "/usr/bin/find"))
  ((eq system-type 'darwin)
-  (setq straight-find-executable "/usr/local/opt/findutils/libexec/gnubin/find")))
+  (setq straight-find-executable "/usr/homebrew/opt/findutils/libexec/gnubin/find")))
 
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 

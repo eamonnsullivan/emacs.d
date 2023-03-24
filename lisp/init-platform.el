@@ -4,7 +4,7 @@
 (when (featurep 'ns)
   (message "Running mac-specific initialization.")
   ;; Handle emacs server interactions on the Mac correctly.
-  (setenv "LIBRARY_PATH" "/usr/local/Cellar/gcc/11.2.0_3/lib/gcc/11:/usr/local/opt/libgccjit/lib/gcc/11")
+  ;; (setenv "LIBRARY_PATH" "/usr/local/Cellar/gcc/11.2.0_3/lib/gcc/11:/usr/local/opt/libgccjit/lib/gcc/11")
   (defun ns-raise-emacs ()
     "Raise Emacs."
     (ns-do-applescript "tell application \"Emacs\" to activate"))
