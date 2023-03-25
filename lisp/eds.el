@@ -142,7 +142,11 @@ When trying to open the test file, create a new test file if we can't find an ex
        "[A-Za-z]+-[0-9]+"
        input)
       (upcase (match-string 0 input))
-    "NO-TICKET"))
+    (if (string-match
+         "^innovation+"
+         input)
+        "INNOVATION-DAY"
+      "NO-TICKET")))
 
 (defun eds/insert-git-branch-name ()
   "Insert the current git branch name at point, surrounded by square brackets.
