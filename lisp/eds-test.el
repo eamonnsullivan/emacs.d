@@ -19,6 +19,9 @@
   (should (equal (eds/extract-jira-ticket "a") "NO-TICKET"))
   (should (equal (eds/extract-jira-ticket "") "NO-TICKET"))
   (should (equal (eds/extract-jira-ticket "CPSROADMAP-1234-something-other-stuff") "CPSROADMAP-1234"))
-  (should (equal (eds/extract-jira-ticket "someStuff-cpsRoadMap-1234-someOther/stuff") "CPSROADMAP-1234")))
+  (should (equal (eds/extract-jira-ticket "someStuff-cpsRoadMap-1234-someOther/stuff") "CPSROADMAP-1234"))
+  (should (equal (eds/extract-jira-ticket "innovation-day-something") "INNOVATION-DAY"))
+  (should (equal (eds/extract-jira-ticket "Innovation-Day") "INNOVATION-DAY"))
+  (should (equal (eds/extract-jira-ticket "cop-day-something") "COP-DAY")))
 
 (provide 'eds-test)

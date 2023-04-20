@@ -138,15 +138,11 @@ When trying to open the test file, create a new test file if we can't find an ex
        test-file))))
 
 (defun eds/extract-jira-ticket (input)
-  (if (string-match
-       "[A-Za-z]+-[0-9]+"
-       input)
-      (upcase (match-string 0 input))
-    (if (string-match
-         "^innovation+"
-         input)
-        "INNOVATION-DAY"
-      "NO-TICKET")))
+  (cond
+   ((string-match "[A-Za-z]+-[0-9]+" input) (upcase (match-string 0 input)))
+   ((string-match "^innovation+" input) "INNOVATION-DAY")
+   ((string-match "^cop-" input) "COP-DAY")
+   (t "NO-TICKET")))
 
 (defun eds/insert-git-branch-name ()
   "Insert the current git branch name at point, surrounded by square brackets.
