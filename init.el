@@ -52,7 +52,7 @@
  ((eq system-type 'gnu/linux)
   (setq straight-find-executable "/usr/bin/find"))
  ((eq system-type 'darwin)
-  (setq straight-find-executable "/usr/homebrew/opt/findutils/libexec/gnubin/find")))
+  (setq straight-find-executable "/opt/homebrew/opt/findutils/libexec/gnubin/find")))
 
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
 

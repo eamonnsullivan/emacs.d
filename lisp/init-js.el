@@ -56,8 +56,14 @@
 ;; :hook
 ;;   (js2-mode . prettier-mode))
 
-(use-package
-  eslintd-fix
+;; (use-package eslint-fix
+;;   :config
+;;   (eval-after-load 'js2-mode
+;;     '(add-hook 'js2-mode-hook
+;;                (lambda()
+;;                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
+
+(use-package eslintd-fix
   :config
   (if (eq system-type 'darwin)
       (setq eslintd-fix-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
