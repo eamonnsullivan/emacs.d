@@ -4,7 +4,9 @@
 (require 'eds)
 
 (use-package magit
-  :bind ("C-c g" . magit-file-dispatch)
+  :bind
+  ("C-c g" . magit-file-dispatch)
+  ("C-x g" . magit-status)
   :commands (magit-status)
   :init
   (setq magit-clone-default-directory "~/git/")

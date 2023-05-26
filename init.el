@@ -22,29 +22,23 @@
 
 ;; (defvar comp-deferred-compilation-deny-list ())
 
-(setq straight-repository-branch "develop"
-      straight-use-package-by-default t
-      straight-disable-native-compile nil)
+(setq straight-use-package-by-default t
+      straight-disable-native-compile nil
+      package-enable-at-startup nil
+      straight-repository-branch "develop")
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
-  (unless (catch 'emacs-version-changed
-	    (load bootstrap-file nil 'nomessage))
-    (when (boundp 'comp-eln-load-path)
-      ;; remove leftovers, with confirmation just to be safe
-      (when (yes-or-no-p (format "Delete '%s'?" (car comp-eln-load-path)))
-	(delete-directory (expand-file-name (car comp-eln-load-path)) t))
-      ;; and try again
-      (load bootstrap-file nil 'nomessage))))
+  (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
 
