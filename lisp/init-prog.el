@@ -18,7 +18,10 @@
   :chords (("XX" . highlight-symbol)))
 
 (use-package typescript-mode
-  :mode (("\.ts$" . typescript-mode)))
+  :mode (("\.ts$" . typescript-mode))
+  :config (add-hook 'typescript-mode-hook
+                    (lambda()
+                      (setq typescript-indent-level 2))))
 
 (use-package groovy-mode
   :mode (("\.groovy$" . groovy-mode))
