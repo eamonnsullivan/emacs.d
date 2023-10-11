@@ -3,6 +3,10 @@
 
 (require 'eds)
 
+(defun seq-keep (function sequence)
+  "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
+  (delq nil (seq-map function sequence)))
+
 (use-package magit
   :bind
   ("C-c g" . magit-file-dispatch)
