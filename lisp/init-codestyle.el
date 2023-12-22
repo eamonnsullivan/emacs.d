@@ -5,6 +5,10 @@
   :diminish editorconfig-mode
   :config (editorconfig-mode 1))
 
+(straight-use-package 'dtrt-indent)
+(require 'dtrt-indent)
+(setq dtrt-indent-global-mode t)
+
 (use-package smartparens
   :commands
   smartparens-mode
