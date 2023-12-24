@@ -43,8 +43,11 @@
   (line-move-visual nil)
   (visible-bell)
   (warning-suppress-log-types '((comp)))
+  (package-install-upgrade-built-in t)
   :hook
   (before-save . delete-trailing-whitespace))
+
+(setq package-install-upgrade-built-in t)
 
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
