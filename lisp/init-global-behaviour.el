@@ -227,4 +227,6 @@
   (setq super-save-exclude '("\\*dashboard\\*"))
   (setq super-save-auto-save-when-idle t))
 
+(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
+
 (provide 'init-global-behaviour)
