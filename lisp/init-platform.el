@@ -25,12 +25,13 @@
   (message "Initializing path from shell")
   (dolist (var '("GOPATH"
                  "SERVER_ENV"
+                 "PATH"
                  ))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
 
 ;; garbage collection tweaks
-(setq gc-cons-threshold (* 128 1024 1024))
-(setq read-process-output-max (* 1024 1024))
+;; (setq gc-cons-threshold (* 128 1024 1024))
+;; (setq read-process-output-max (* 1024 1024))
 
 (provide 'init-platform)

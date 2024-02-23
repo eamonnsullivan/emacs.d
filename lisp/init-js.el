@@ -58,20 +58,20 @@
 ;; :hook
 ;;   (js2-mode . prettier-mode))
 
-;; (use-package eslint-fix
-;;   :config
-;;   (eval-after-load 'js2-mode
-;;     '(add-hook 'js2-mode-hook
-;;                (lambda()
-;;                  (add-hook 'after-save-hook 'eslint-fix nil t)))))
-
-(use-package eslintd-fix
+(use-package eslint-fix
   :config
-  (if (eq system-type 'darwin)
-      (setq eslintd-fix-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
-    (setq eslintd-fix-executable "/home/eamonn/.nvm/versions/node/v16.17.1/bin/eslint_d"))
   (eval-after-load 'js2-mode
-    '(add-hook 'js2-mode-hook 'eslintd-fix-mode)))
+    '(add-hook 'js2-mode-hook
+               (lambda()
+                 (add-hook 'after-save-hook 'eslint-fix nil t)))))
+
+;; (use-package eslintd-fix
+;;   :config
+;;   (if (eq system-type 'darwin)
+;;       (setq eslintd-fix-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
+;;     (setq eslintd-fix-executable "/home/eamonn/.nvm/versions/node/v16.19.1/bin/eslint_d"))
+;;   (eval-after-load 'js2-mode
+;;     '(add-hook 'js2-mode-hook 'eslintd-fix-mode)))
 
 (use-package js2-refactor
   :after (js2-mode hydra)

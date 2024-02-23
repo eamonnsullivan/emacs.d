@@ -17,7 +17,7 @@
   (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
   (if (eq system-type 'darwin)
       (setq flycheck-javascript-eslint-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
-    (setq flycheck-javascript-eslint-executable "/home/eamonn/.nvm/versions/node/v16.17.1/bin/eslint_d"))
+    (setq flycheck-javascript-eslint-executable "/home/eamonn/.nvm/versions/node/v16.19.1/bin/eslint_d"))
   ;; add scalastyle for scala mode.
   (flycheck-add-mode 'scala-scalastyle 'scala-mode)
   ;; customize flycheck temp file prefix
