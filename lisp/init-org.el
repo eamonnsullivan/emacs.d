@@ -31,8 +31,10 @@
      (typescript . t)
      (clojure . t)
      (python . t)))
-  (setq org-directory "~/Dropbox/org"
-        org-default-notes-file (concat org-directory "/notes.org")
+  (if (eq system-type 'darwin)
+      (setq org-directory (file-truename "~/Sullivan Shared/eamonn-notes/org"))
+    (setq org-directory (file-truename "~/sullivan-shared/eamonn-notes/org")))
+  (setq org-default-notes-file (concat org-directory "/notes.org")
         org-capture-templates
         `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
            "* TODO %?\n  %i\n  %a")
@@ -41,15 +43,17 @@
           ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
            "* TODO %?\n  %i\n  %a"))
         org-agenda-files (quote
-                          ("~/Dropbox/org/personal.org"
-                           "~/Dropbox/org/notes.org"
-                           "~/Dropbox/org/tasks.org"))
+                          ((concat org-directory "/personal.org")
+                           (concat org-directory "/notes.org")
+                           (concat org-directory "/tasks.org")))
         org-src-fontify-natively t
         org-hide-emphasis-markers t))
 
 (use-package org-roam
   :config
-  (setq org-roam-directory (file-truename "~/Dropbox/org"))
+  (if (eq system-type 'darwin)
+      (setq org-roam-directory (file-truename "~/Sullivan Shared/eamonn-notes/org"))
+    (setq org-roam-directory (file-truename "~/sullivan-shared/eamonn-notes/org")))
   (org-roam-db-autosync-mode))
 
 (provide 'init-org)
