@@ -30,8 +30,7 @@
      (js . t)
      (typescript . t)
      (clojure . t)
-     (python . t)
-     (jupyter . t)))
+     (python . t)))
   (setq org-directory "~/Dropbox/org"
         org-default-notes-file (concat org-directory "/notes.org")
         org-capture-templates
@@ -47,6 +46,11 @@
                            "~/Dropbox/org/tasks.org"))
         org-src-fontify-natively t
         org-hide-emphasis-markers t))
+
+(use-package org-roam
+  :config
+  (setq org-roam-directory (file-truename "~/Dropbox/org"))
+  (org-roam-db-autosync-mode))
 
 (provide 'init-org)
 
