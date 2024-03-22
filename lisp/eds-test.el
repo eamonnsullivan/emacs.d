@@ -24,4 +24,10 @@
   (should (equal (eds/extract-jira-ticket "Innovation-Day") "INNOVATION-DAY"))
   (should (equal (eds/extract-jira-ticket "cop-day-something") "COP-DAY")))
 
+(ert-deftest eds/test-get-org-directory ()
+  "Test that we correctly return the org directory on Linux and Mac"
+    (if (eq system-type 'darwin)
+        (should (equal (eds/get-org-directory) "/Users/sullie09/Sullivan Shared/eamonn-notes/org"))
+      (should (equal (eds/get-org-directory) "/home/eamonn/sullivan-shared/eamonn-notes/org"))))
+
 (provide 'eds-test)

@@ -78,6 +78,7 @@
 
 ;; The rest of my init file, broken up into libraries in the lisp directory
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(require 'ert)
 (require 'init-git)
 (require 'init-elpa)
 (require 'init-helm)

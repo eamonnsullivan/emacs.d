@@ -8,6 +8,7 @@
 ;; backward-kill-word, restart-emacs
 (require 'eds)
 (require 'init-hydra)
+(require 'init-org)
 (global-unset-key (kbd "M-<backspace>"))
 (global-set-key (kbd "M-<backspace>") 'eds/backward-kill-word)
 
@@ -44,9 +45,12 @@
   :bind (("C-=" . er/expand-region)
          ("C--" . er/contract-region)))
 
-(set-register ?n '(file . "~/Dropbox/org/notes.org"))
-(set-register ?t '(file . "~/Dropbox/org/tasks.org"))
-(set-register ?p '(file . "~/Dropbox/org/personal.org"))
+
+(set-register ?n `(file . ,(concat (eds/get-org-directory) "/notes.org")))
+(set-register ?t `(file . ,(concat (eds/get-org-directory) "/tasks.org")))
+(set-register ?p `(file . ,(concat (eds/get-org-directory) "/personal.org")))
+
+(global-set-key (kbd "C-c l") #'org-store-link)
 
 (defhydra hydra-goto-line (goto-map ""
                                     :pre (display-line-numbers-mode 1)

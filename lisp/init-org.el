@@ -4,6 +4,8 @@
 
 (use-package ob-typescript)
 
+(require 'eds)
+
 ;; (straight-use-package '(org-plus-contrib :includes org))
 
 (use-package org
@@ -15,9 +17,6 @@
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
-  :bind (("\C-c a" . org-agenda)
-         ("\C-c c" . org-capture)
-         ("\C-c l" . org-store-link))
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
@@ -31,9 +30,7 @@
      (typescript . t)
      (clojure . t)
      (python . t)))
-  (if (eq system-type 'darwin)
-      (setq org-directory (file-truename "~/Sullivan Shared/eamonn-notes/org"))
-    (setq org-directory (file-truename "~/sullivan-shared/eamonn-notes/org")))
+  (setq org-directory (eds/get-org-directory))
   (setq org-default-notes-file (concat org-directory "/notes.org")
         org-capture-templates
         `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
@@ -51,10 +48,12 @@
 
 (use-package org-roam
   :config
-  (if (eq system-type 'darwin)
-      (setq org-roam-directory (file-truename "~/Sullivan Shared/eamonn-notes/org"))
-    (setq org-roam-directory (file-truename "~/sullivan-shared/eamonn-notes/org")))
-  (org-roam-db-autosync-mode))
+  (setq org-roam-directory (eds/get-org-directory))
+  (org-roam-db-autosync-mode)
+  :bind (("\C-c c" . org-roam-capture)
+         ("\C-c a" . org-roam-tag-add)
+         ("\C-c i" . org-roam-node-insert))
+)
 
 (provide 'init-org)
 
