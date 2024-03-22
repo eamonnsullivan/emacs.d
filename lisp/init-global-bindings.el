@@ -51,6 +51,7 @@
 (set-register ?p `(file . ,(concat (eds/get-org-directory) "/personal.org")))
 
 (global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c f") #'org-roam-node-find)
 
 (defhydra hydra-goto-line (goto-map ""
                                     :pre (display-line-numbers-mode 1)

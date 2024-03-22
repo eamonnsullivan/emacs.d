@@ -285,8 +285,6 @@ that don't work in a filename."
 
 (defun eds/get-org-directory ()
   "The location of my org directory varies by computer."
-    (if (eq system-type 'darwin)
-      (setq org-roam-directory (file-truename "~/Sullivan Shared/eamonn-notes/org"))
-    (setq org-roam-directory (file-truename "~/sullivan-shared/eamonn-notes/org"))))
+  (file-truename "~/org"))
 
 (provide 'eds)
