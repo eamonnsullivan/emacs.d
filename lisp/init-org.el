@@ -39,10 +39,11 @@
           ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
           ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
            "* TODO %?\n  %i\n  %a"))
-        org-agenda-files (quote
-                          ((concat org-directory "/personal.org")
-                           (concat org-directory "/notes.org")
-                           (concat org-directory "/tasks.org")))
+        org-agenda-files (backquote
+                          (,(concat org-directory "/personal.org")
+                           ,(concat org-directory "/notes.org")
+                           ,(concat org-directory "/tasks.org")
+                           ,(concat org-directory "/")))
         org-src-fontify-natively t
         org-hide-emphasis-markers t))
 
