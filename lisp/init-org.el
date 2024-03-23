@@ -17,6 +17,7 @@
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
+  :bind (("\C-c \C-a" . org-agenda))
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
@@ -53,8 +54,15 @@
   (org-roam-db-autosync-mode)
   :bind (("\C-c c" . org-roam-capture)
          ("\C-c a" . org-roam-tag-add)
-         ("\C-c i" . org-roam-node-insert))
-)
+         ("\C-c i" . org-roam-node-insert)
+         ("\C-c b" . org-roam-buffer-toggle)))
+
+(add-to-list 'display-buffer-alist
+             '("\\*org-roam\\*"
+               (display-buffer-in-direction)
+               (direction . right)
+               (window-width . 0.33)
+               (window-height . fit-window-to-buffer)))
 
 (provide 'init-org)
 
