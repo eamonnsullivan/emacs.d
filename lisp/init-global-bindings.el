@@ -49,6 +49,8 @@
 (set-register ?n `(file . ,(concat (eds/get-org-directory) "/notes.org")))
 (set-register ?t `(file . ,(concat (eds/get-org-directory) "/tasks.org")))
 (set-register ?p `(file . ,(concat (eds/get-org-directory) "/personal.org")))
+(set-register ?s `(file . ,(concat (eds/get-org-directory) "/SVP.org")))
+(set-register ?f `(file . ,(concat (eds/get-org-directory) "/foodbank.org")))
 
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c f") #'org-roam-node-find)
