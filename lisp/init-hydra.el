@@ -83,6 +83,31 @@ _q_: quit this menu                         _r_: restart emacs
    ("u" eds-straight-pull-or-prune)
    ("o" eds/open-buffer-on-desktop)
    ("q" nil)))
+
+(global-set-key
+ (kbd "C-c C-o")
+ (defhydra hydra-global-org-menu (:color blue :hint nil)
+   "
+^Org File^                       ^Actions^
+^^^^^^^^^^------------------------------------------------------
+_n_: General (work) notes       _c_: Capture
+_p_: General (personal) notes   _f_: Find
+_t_: General tasks              _a_: Agenda
+_f_: Foodbank
+_s_: SVP
+
+_q_: quit this menu
+"
+   ("n" (find-file (concat (eds/get-org-directory) "/notes.org")))
+   ("p" (find-file (concat (eds/get-org-directory) "/personal.org")))
+   ("t" (find-file (concat (eds/get-org-directory) "/tasks.org")))
+   ("f" (find-file (concat (eds/get-org-directory) "/foodbank.org")))
+   ("s" (find-file (concat (eds/get-org-directory) "/SVP.org")))
+   ("c" (org-roam-capture))
+   ("f" (org-roam-node-find))
+   ("a" (org-agenda))
+   ("q" nil)))
+
 (hydra-set-property 'hydra-global-menu :verbosity 1)
 
 (global-set-key
