@@ -91,7 +91,7 @@ _q_: quit this menu                         _r_: restart emacs
 ^Org File^                       ^Actions^
 ^^^^^^^^^^------------------------------------------------------
 _n_: General (work) notes       _c_: Capture
-_p_: General (personal) notes   _f_: Find
+_p_: General (personal) notes   _F_: Find
 _t_: General tasks              _a_: Agenda
 _f_: Foodbank
 _s_: SVP
@@ -104,7 +104,7 @@ _q_: quit this menu
    ("f" (find-file (concat (eds/get-org-directory) "/foodbank.org")))
    ("s" (find-file (concat (eds/get-org-directory) "/SVP.org")))
    ("c" (org-roam-capture))
-   ("f" (org-roam-node-find))
+   ("F" (org-roam-node-find))
    ("a" (org-agenda))
    ("q" nil)))
 
