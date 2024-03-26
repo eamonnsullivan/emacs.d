@@ -8,6 +8,15 @@
 
 ;; (straight-use-package '(org-plus-contrib :includes org))
 
+;; example template
+;; org-capture-templates
+;;         `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
+;;            "* TODO %?\n  %i\n  %a")
+;;           ("i" "Ideas" entry (file+headline ,(concat org-directory "/ideas.org") "Ideas"))
+;;           ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
+;;           ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
+;;            "* TODO %?\n  %i\n  %a"))
+
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
@@ -33,13 +42,6 @@
      (python . t)))
   (setq org-directory (eds/get-org-directory))
   (setq org-default-notes-file (concat org-directory "/notes.org")
-        org-capture-templates
-        `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
-           "* TODO %?\n  %i\n  %a")
-          ("i" "Ideas" entry (file+headline ,(concat org-directory "/ideas.org") "Ideas"))
-          ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
-          ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
-           "* TODO %?\n  %i\n  %a"))
         org-agenda-files (backquote
                           (,(concat org-directory "/")))
         org-src-fontify-natively t

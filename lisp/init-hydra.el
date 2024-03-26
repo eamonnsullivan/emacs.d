@@ -88,9 +88,9 @@ _q_: quit this menu                         _r_: restart emacs
  (kbd "C-c C-o")
  (defhydra hydra-global-org-menu (:color blue :hint nil)
    "
-^Org File^                       ^Actions^
+^Org File^                       ^Actions^        ^Incoming^
 ^^^^^^^^^^------------------------------------------------------
-_n_: General (work) notes       _c_: Capture
+_n_: General (work) notes       _c_: Capture      _i_: Inbox
 _p_: General (personal) notes   _F_: Find
 _t_: General tasks              _a_: Agenda
 _f_: Foodbank
@@ -103,6 +103,7 @@ _q_: quit this menu
    ("t" (find-file (concat (eds/get-org-directory) "/tasks.org")))
    ("f" (find-file (concat (eds/get-org-directory) "/foodbank.org")))
    ("s" (find-file (concat (eds/get-org-directory) "/SVP.org")))
+   ("i" (find-file (concat (eds/get-org-directory) "/inbox.org")))
    ("c" (org-roam-capture))
    ("F" (org-roam-node-find))
    ("a" (org-agenda))
