@@ -198,10 +198,10 @@
 
 (use-package dashboard
   :init
-  (setq dashboard-items '((recents . 5)
-                          (projects . 5)))
+  (dashboard-setup-startup-hook)
   :config
-  (dashboard-setup-startup-hook))
+  (setq dashboard-items '((recents . 5)
+                          (projects . 5))))
 
 (use-package eldoc-eval
   :config

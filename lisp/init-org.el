@@ -44,6 +44,7 @@
   (setq org-default-notes-file (concat org-directory "/notes.org")
         org-agenda-files (backquote
                           (,(concat org-directory "/")))
+	org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-src-fontify-natively t
         org-hide-emphasis-markers t))
 
