@@ -95,6 +95,7 @@ _p_: General (personal) notes   _F_: Find
 _t_: General tasks              _a_: Agenda
 _f_: Foodbank
 _s_: SVP
+_r_: Repeating events
 
 _q_: quit this menu
 "
@@ -104,6 +105,7 @@ _q_: quit this menu
    ("f" (find-file (concat (eds/get-org-directory) "/foodbank.org")))
    ("s" (find-file (concat (eds/get-org-directory) "/SVP.org")))
    ("i" (find-file (concat (eds/get-org-directory) "/inbox.org")))
+   ("r" (find-file (concat (eds/get-org-directory) "/agenda.org")))
    ("c" (org-roam-capture))
    ("F" (org-roam-node-find))
    ("a" (org-agenda))
