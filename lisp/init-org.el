@@ -6,16 +6,7 @@
 
 (require 'eds)
 
-;; (straight-use-package '(org-plus-contrib :includes org))
-
-;; example template
-;; org-capture-templates
-;;         `(("t" "Todo" entry (file+headline ,(concat org-directory "/tasks.org") "Tasks")
-;;            "* TODO %?\n  %i\n  %a")
-;;           ("i" "Ideas" entry (file+headline ,(concat org-directory "/ideas.org") "Ideas"))
-;;           ("n" "Notes" entry (file+headline ,(concat org-directory "/notes.org") "General Notes"))
-;;           ("p" "Personal Todo" entry (file+headline ,(concat org-directory "/personal.org") "Personal Tasks")
-;;            "* TODO %?\n  %i\n  %a"))
+;; (use-package '(org-plus-contrib :includes org))
 
 (use-package org
   :init
@@ -54,9 +45,9 @@
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
                                 ("w" "Work note" entry (file org-default-notes-file)
-                                 "* %?\n %t\n %a")
+                                 "* %?\n %U\n %a")
                                 ("p" "Personal note" entry (file eds-org-personal-file)
-                                 "* %?\n %t\n %a")))
+                                 "* %?\n %U\n %a")))
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
@@ -82,12 +73,12 @@
   ;; If using org-roam-protocol
   (require 'org-roam-protocol))
 
-(add-to-list 'display-buffer-alist
-             '("\\*org-roam\\*"
-               (display-buffer-in-direction)
-               (direction . right)
-               (window-width . 0.33)
-               (window-height . fit-window-to-buffer)))
+;; (add-to-list 'display-buffer-alist
+;;              '("\\*org-roam\\*"
+;;                (display-buffer-in-direction)
+;;                (direction . right)
+;;                (window-width . 0.33)
+;;                (window-height . fit-window-to-buffer)))
 
 (provide 'init-org)
 

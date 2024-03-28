@@ -26,6 +26,7 @@
         lsp-keymap-prefix "C-c l"
         lsp-prefer-flymake nil
         lsp-restart 'auto-restart
+        lsp-warn-no-matched-clients nil
         lsp-pylsp-plugins-yapf-enabled t)
   :config
   ;; (dolist (m '(clojure-mode
