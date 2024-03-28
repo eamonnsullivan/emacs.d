@@ -57,7 +57,8 @@
   :straight (:host github :repo "org-roam/org-roam"
              :files (:defaults "extensions/*"))
   :config
-  (setq org-roam-directory (eds/get-org-directory))
+  (setq org-roam-directory (eds/get-org-directory)
+        org-roam-database-connector 'sqlite-builtin)
   (org-roam-db-autosync-mode)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
