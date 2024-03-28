@@ -26,7 +26,6 @@
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
-  :bind (("\C-c \C-a" . org-agenda))
   :config
   (require 'ox-latex)
   (require 'ob-clojure)
@@ -42,6 +41,8 @@
      (python . t)))
   (setq org-directory (eds/get-org-directory)
         org-default-notes-file (concat org-directory "/notes.org")
+        eds-org-index-file (concat org-directory "/index.org")
+        eds-org-personal-file (concat org-directory "/personal.org")
         org-agenda-files (backquote
                           (,(concat org-directory "/")))
 	org-refile-targets '((org-agenda-files :maxlevel . 5))
@@ -50,21 +51,36 @@
         org-agenda-include-diary t
         org-timer-default-timer 25
         org-capture-use-agenda-date t
-        org-capture-templates `(("t" "Todo" entry (file org-default-notes-file)
-                                 "* TODO %?\n SCHEDULED: %t\n %a")))
+        org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
+                                 "* TODO %?\n SCHEDULED: %t\n %a")
+                                ("w" "Work note" entry (file org-default-notes-file)
+                                 "* %?\n %t\n %a")
+                                ("p" "Personal note" entry (file eds-org-personal-file)
+                                 "* %?\n %t\n %a")))
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
           (org-timer-set-timer '(16))))))
 
 (use-package org-roam
+  :straight (:host github :repo "org-roam/org-roam"
+             :files (:defaults "extensions/*"))
   :config
   (setq org-roam-directory (eds/get-org-directory))
   (org-roam-db-autosync-mode)
-  :bind (("\C-c c" . org-roam-capture)
-         ("\C-c a" . org-roam-tag-add)
-         ("\C-c i" . org-roam-node-insert)
-         ("\C-c b" . org-roam-buffer-toggle)))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
 
 (add-to-list 'display-buffer-alist
              '("\\*org-roam\\*"
