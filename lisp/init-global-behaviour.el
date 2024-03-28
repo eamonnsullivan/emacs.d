@@ -44,6 +44,7 @@
   (visible-bell)
   (warning-suppress-log-types '((comp)))
   (package-install-upgrade-built-in t)
+  (calendar-date-style 'european)
   :hook
   (before-save . delete-trailing-whitespace))
 
@@ -196,12 +197,12 @@
 ;; font scaling
 (use-package default-text-scale)
 
-(use-package dashboard
-  :init
-  (dashboard-setup-startup-hook)
-  :config
-  (setq dashboard-items '((recents . 5)
-                          (projects . 5))))
+;; (use-package dashboard
+;;   :init
+;;   (dashboard-setup-startup-hook)
+;;   :config
+;;   (setq dashboard-items '((recents . 5)
+;;                           (projects . 5))))
 
 (use-package eldoc-eval
   :config

@@ -40,13 +40,22 @@
      (typescript . t)
      (clojure . t)
      (python . t)))
-  (setq org-directory (eds/get-org-directory))
-  (setq org-default-notes-file (concat org-directory "/notes.org")
+  (setq org-directory (eds/get-org-directory)
+        org-default-notes-file (concat org-directory "/notes.org")
         org-agenda-files (backquote
                           (,(concat org-directory "/")))
 	org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-src-fontify-natively t
-        org-hide-emphasis-markers t))
+        org-hide-emphasis-markers t
+        org-agenda-include-diary t
+        org-timer-default-timer 25
+        org-capture-use-agenda-date t
+        org-capture-templates `(("t" "Todo" entry (file org-default-notes-file)
+                                 "* TODO %?\n SCHEDULED: %t\n %a")))
+  (add-to-list 'org-modules 'org-timer)
+  (add-hook 'org-clock-in-hook (lambda ()
+      (if (not org-timer-countdown-timer)
+          (org-timer-set-timer '(16))))))
 
 (use-package org-roam
   :config
