@@ -72,7 +72,9 @@ programming."
 (straight-use-package 'yapfify)
 (add-hook 'python-mode-hook 'yapf-mode)
 
-(when (not (string= system-name "blueberry"))
+(when (and
+       (not (string= system-name "blueberry"))
+       (not (string= system-name "pineapple")))
   (progn
    (use-package tree-sitter)
    (use-package tree-sitter-langs)
