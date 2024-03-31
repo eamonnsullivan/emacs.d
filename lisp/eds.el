@@ -285,6 +285,6 @@ that don't work in a filename."
 
 (defun eds/get-org-directory ()
   "The location of my org directory varies by computer."
-  (file-truename "~/org"))
+  (file-truename "~/Dropbox/org"))
 
 (provide 'eds)

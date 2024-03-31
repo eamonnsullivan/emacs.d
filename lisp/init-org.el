@@ -47,7 +47,8 @@
                                 ("w" "Work note" entry (file org-default-notes-file)
                                  "* %?\n %U\n %a")
                                 ("p" "Personal note" entry (file eds-org-personal-file)
-                                 "* %?\n %U\n %a")))
+                                 "* %?\n %U\n %a"))
+        org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)")))
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
@@ -69,6 +70,13 @@
          ("C-c n c" . org-roam-capture)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
+
+(add-to-list 'display-buffer-alist
+             '("\\*org-roam\\*"
+               (display-buffer-in-direction)
+               (direction . right)
+               (window-width . 0.33)
+               (window-height . fit-window-to-buffer)))
 
 (provide 'init-org)
 
