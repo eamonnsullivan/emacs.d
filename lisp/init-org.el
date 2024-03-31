@@ -29,6 +29,7 @@
      (js . t)
      (typescript . t)
      (clojure . t)
+     (haskell . t)
      (python . t)))
   (setq org-directory (eds/get-org-directory)
         org-default-notes-file (concat org-directory "/notes.org")
