@@ -3,6 +3,7 @@
 
 
 (use-package ob-typescript)
+(use-package ob-go)
 
 (require 'eds)
 
@@ -21,6 +22,7 @@
   (require 'ox-latex)
   (require 'ob-clojure)
   (require 'ob-typescript)
+  (require 'ob-go)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
