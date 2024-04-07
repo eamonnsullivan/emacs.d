@@ -11,53 +11,27 @@
   :straight
   (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes" :branch "main")
   :init
-  (setq modus-themes-slanted-constructs nil
-        modus-themes-bold-constructs nil
-        modus-themes-fringes 'subtle ; {nil,'subtle,'intense}
-        modus-themes-hl-line '(underline accented)
-        modus-themes-subtle-line-numbers t
-        modus-themes-paren-match '(bold subtle)
-        modus-themes-lang-checkers nil
-        modus-themes-links nil
-        modus-themes-mixed-fonts t
-        modus-themes-prompts '(intense accented)
-        modus-themes-completions nil ; {nil,'moderate,'opinionated}
-        modus-themes-region '(bg-only no-extend)
-        modus-themes-diffs 'fg-only ; {nil,'desaturated,'fg-only,'bg-only,'deuteranopia}
-        modus-themes-org-blocks 'grayscale ; {nil,'grayscale,'rainbow}
-        modus-themes-org-habit nil ; {nil,'simplified,'traffic-light}
-        modus-themes-headings ; this is an alist: read the manual or its doc string
-        '((1 . (overline background variable-pitch 1.3))
-          (2 . (rainbow overline 1.1))
-          (t . (semibold)))
-        modus-themes-variable-pitch-ui t
-        modus-themes-variable-pitch-headings t
-        modus-themes-scale-headings t
-        modus-themes-scale-1 1.1
-        modus-themes-scale-2 1.15
-        modus-themes-scale-3 1.21
-        modus-themes-scale-4 1.27
-        modus-themes-scale-5 1.33)
+  (setq modus-themes-mixed-fonts t)
   :config
-  (modus-themes-load-theme 'modus-operandi)
+  (modus-themes-load-theme 'modus-operandi-tinted)
   :demand t)
 
 (defun modus-themes-toggle ()
-  (if (eq (car custom-enabled-themes) 'modus-operandi)
-      (modus-themes-load-theme 'modus-vivendi)
-    (modus-themes-load-theme 'modus-operandi)))
+  (if (eq (car custom-enabled-themes) 'modus-operandi-tinted)
+      (modus-themes-load-theme 'modus-vivendi-tinted)
+    (modus-themes-load-theme 'modus-operandi-tinted)))
 
 ;; Light at sunrise
 (run-at-time (nth 1 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (modus-themes-load-theme 'modus-operandi)))
+               (modus-themes-load-theme 'modus-operandi-tinted)))
 
 ;; Dark at sunset
 (run-at-time (nth 4 (split-string (sunrise-sunset)))
              (* 60 60 24)
              (lambda ()
-               (modus-themes-load-theme 'modus-vivendi)))
+               (modus-themes-load-theme 'modus-vivendi-tinted)))
 
 ;; others I've tried
 (use-package poet-theme
