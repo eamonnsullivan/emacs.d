@@ -45,6 +45,7 @@
   (warning-suppress-log-types '((comp)))
   (package-install-upgrade-built-in t)
   (calendar-date-style 'european)
+  (tramp-default-method "ssh")
   :hook
   (before-save . delete-trailing-whitespace))
 

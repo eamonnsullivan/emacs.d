@@ -19,7 +19,7 @@
         modus-themes-paren-match '(bold subtle)
         modus-themes-lang-checkers nil
         modus-themes-links nil
-        modus-themes-no-mixed-fonts nil
+        modus-themes-mixed-fonts t
         modus-themes-prompts '(intense accented)
         modus-themes-completions nil ; {nil,'moderate,'opinionated}
         modus-themes-region '(bg-only no-extend)

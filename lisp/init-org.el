@@ -45,6 +45,7 @@
         org-agenda-include-diary t
         org-timer-default-timer 25
         org-capture-use-agenda-date t
+        org-confirm-babel-evaluate nil
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
                                 ("w" "Work note" entry (file org-default-notes-file)
