@@ -11,15 +11,7 @@
   :straight
   (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes" :branch "main")
   :init
-  (setq modus-themes-mixed-fonts t
-        modus-themes-common-palette-overrides '((date-common cyan)   ; default value (for timestamps and more)
-                                                (date-deadline red-warmer)
-                                                (date-event magenta-warmer)
-                                                (date-holiday blue) ; for M-x calendar
-                                                (date-now yellow-warmer)
-                                                (date-scheduled magenta-cooler)
-                                                (date-weekday cyan-cooler)
-                                                (date-weekend blue-faint)))
+  (setq modus-themes-mixed-fonts t)
   :config
   (modus-themes-load-theme 'modus-operandi-tinted)
   :demand t)

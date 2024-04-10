@@ -46,6 +46,7 @@
         org-timer-default-timer 25
         org-capture-use-agenda-date t
         org-confirm-babel-evaluate nil
+        org-agenda-start-on-weekday 2
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
                                 ("w" "Work note" entry (file org-default-notes-file)
@@ -64,8 +65,7 @@
   :config
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
-        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
-        org-roam-graph-executable "/usr/bin/neato")
+        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
