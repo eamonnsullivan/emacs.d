@@ -65,7 +65,33 @@
   :config
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
-        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
+        org-roam-capture-templates `(("d" "default" plain "%?"
+                                      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+                                      :unnarrowed t)
+                                     ("m" "meeting" entry "* Notes\n%?"
+                                      :target
+                                      (file+head
+                                       "%<%Y%m%d%H%M%S>-${slug}.org"
+                                       ,(concat "#+title: ${title}"
+                                                "\n#+filetags: :meeting:"
+                                                "\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]"
+                                                "\n* Actions\n"))
+                                      :unnarrowed t)
+                                     ("t" "training" entry "* Notes\n%?"
+                                      :target
+                                      (file+head
+                                       "%<%Y%m%d%H%M%S>-${slug}.org"
+                                       ,(concat "#+title: ${title}"
+                                                "\n#+filetags: :training:"
+                                                "\n- [[id:C9EB836D-F0DD-47CE-B8F3-B44FD1A0A0E6][training]]\n"))
+                                      :unnarrowed t)
+                                     ("i" "idea" entry nil
+                                      :target (file+head
+                                               "%<%Y%m%d%H%M%S>-${slug}.org"
+                                               ,(concat "#+title: ${title}"
+                                                        "\n#+filetags: :ideas:"
+                                                        "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n")))))
   (org-roam-db-autosync-mode)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
@@ -81,6 +107,7 @@
                (direction . right)
                (window-width . 0.33)
                (window-height . fit-window-to-buffer)))
+
 
 (provide 'init-org)
 
