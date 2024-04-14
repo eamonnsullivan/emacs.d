@@ -53,7 +53,12 @@
                                  "* %?\n %U\n %a")
                                 ("p" "Personal note" entry (file eds-org-personal-file)
                                  "* %?\n %U\n %a"))
-        org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)")))
+        org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)"))
+        org-agenda-custom-commands '(("ha" tags-todo "homeautomation|home-it")
+                                     ("hg" tags-todo "gardening")
+                                     ("pt" tags-todo "personal")
+                                     ("ps" tags-todo "shopping")
+                                     ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
@@ -98,6 +103,7 @@
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
+         ("C-c n a" . org-roam-tag-add)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
