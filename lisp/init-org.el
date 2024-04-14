@@ -71,7 +71,7 @@
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
-        org-roam-capture-templates `(("d" "default" plain "%?"
+        org-roam-capture-templates `(("d" "default" entry nil
                                       :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
                                       :unnarrowed t)
                                      ("m" "meeting" entry "* Notes\n%?"
