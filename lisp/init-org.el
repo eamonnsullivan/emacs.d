@@ -4,6 +4,8 @@
 
 (use-package ob-typescript)
 (use-package ob-go)
+(straight-use-package
+ '(edraw-org :type git :host github :repo "misohena/el-easydraw"))
 
 (require 'eds)
 
@@ -47,6 +49,10 @@
         org-capture-use-agenda-date t
         org-confirm-babel-evaluate nil
         org-agenda-start-on-weekday 2
+        org-agenda-dim-blocked-tasks nil
+        org-agenda-inhibit-startup t
+        org-agenda-ignore-drawer-properties '(effort appt)
+        org-fold-catch-invisible-edits t
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
                                 ("w" "Work note" entry (file org-default-notes-file)
@@ -64,12 +70,21 @@
       (if (not org-timer-countdown-timer)
           (org-timer-set-timer '(16))))))
 
+(with-eval-after-load 'org
+  (require 'edraw-org)
+  (edraw-org-setup-default))
+
+(with-eval-after-load "ox"
+  (require 'edraw-org)
+  (edraw-org-setup-exporter))
+
 (use-package org-roam
   :straight (:host github :repo "org-roam/org-roam"
              :files (:defaults "extensions/*"))
   :config
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
+        org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
         `(("d" "default" entry nil
