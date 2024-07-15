@@ -48,7 +48,7 @@
         org-timer-default-timer 25
         org-capture-use-agenda-date t
         org-confirm-babel-evaluate nil
-        org-agenda-start-on-weekday 2
+        org-agenda-start-on-weekday nil
         org-agenda-dim-blocked-tasks nil
         org-agenda-inhibit-startup t
         org-agenda-ignore-drawer-properties '(effort appt)

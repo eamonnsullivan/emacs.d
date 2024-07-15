@@ -10,6 +10,8 @@
 (setq dtrt-indent-global-mode t)
 
 (use-package smartparens
+  :straight
+  (smartparens :type git :host github :repo "Fuco1/smartparens")
   :commands
   smartparens-mode
   sp-restrict-to-pairs-interactive
