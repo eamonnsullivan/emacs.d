@@ -46,6 +46,7 @@
   (package-install-upgrade-built-in t)
   (calendar-date-style 'european)
   (tramp-default-method "ssh")
+  (find-file-visit-truename t)
   :hook
   (before-save . delete-trailing-whitespace))
 
