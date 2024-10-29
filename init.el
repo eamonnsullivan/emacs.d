@@ -113,5 +113,6 @@
 (require 'init-codestyle)
 (require 'init-haskell)
 (require 'init-crypt)
+(require 'init-copilot)
 (provide 'init)
 ;;; init.el ends here
