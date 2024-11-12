@@ -118,6 +118,7 @@
                              "\n#+filetags: :ideas:"
                              "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n")))))
   (org-roam-db-autosync-mode)
+  (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
@@ -127,12 +128,24 @@
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
+;; for org-roam-buffer-toggle
+;; Use side-window like V1
+;; This can take advantage of slots available with it
 (add-to-list 'display-buffer-alist
-             '("\\*org-roam\\*"
-               (display-buffer-in-direction)
-               (direction . right)
-               (window-width . 0.33)
-               (window-height . fit-window-to-buffer)))
+    '("\\*org-roam\\*"
+        (display-buffer-in-side-window)
+        (side . right)
+        (slot . 0)
+        (window-width . 0.25)
+        (preserve-size . (t . nil))
+        (window-parameters . ((no-other-window . t)
+                              (no-delete-other-windows . t)))))
+;; (add-to-list 'display-buffer-alist
+;;              '("\\*org-roam\\*"
+;;                (display-buffer-in-direction)
+;;                (direction . right)
+;;                (window-width . 0.33)
+;;                (window-height . fit-window-to-buffer)))
 
 
 (provide 'init-org)
