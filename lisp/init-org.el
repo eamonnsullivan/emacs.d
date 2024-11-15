@@ -125,8 +125,13 @@
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ("C-c n a" . org-roam-tag-add)
+         ("C-c n o" . eds/switch-to-org-roam-buffer)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
+
+(defun eds/switch-to-org-roam-buffer ()
+  (interactive)
+  (switch-to-buffer-other-frame "*org-roam*"))
 
 ;; for org-roam-buffer-toggle
 ;; Use side-window like V1
