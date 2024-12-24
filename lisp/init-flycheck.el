@@ -7,7 +7,6 @@
 (use-package flycheck
   :diminish flycheck-mode
   :config
-  (global-flycheck-mode)
   ;; disable jshint since we prefer eslint checking
   (setq-default flycheck-disabled-checkers
                 (append flycheck-disabled-checkers
@@ -31,7 +30,8 @@
                         '(emacs-lisp-checkdoc)))
   (setq-default flycheck-scalastylerc "/home/eamonn/git/disco-api/scalastyle-config.xml")
   (eval-after-load 'flycheck
-  '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+    '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
+  :init   (global-flycheck-mode))
 
 (use-package flycheck-clj-kondo
   :if (executable-find "clj-kondo")

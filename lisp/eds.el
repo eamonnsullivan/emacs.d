@@ -2,8 +2,6 @@
 ;;; eds.el --- Library for my own tweaks to various packages
 
 (require 'eds-test)
-(straight-use-package 'lsp-mode)
-(require 'lsp-mode)
 
 (defun eds/insert-enzyme-test-case (arg)
   "Insert a skeleton test case at point. If a prefix is used, make it synchronous."
@@ -208,45 +206,6 @@ With argument, do this that many times."
            :error "Unknown system type"))
       (display-warning
        :error "Buffer not attached to any file"))))
-
-(defun eds/trim-lsp-hover-markdown (markdown)
-  "Strip out the markdown from an lsp hover string"
-  (let* ((strip-quotes (replace-regexp-in-string "```" "" markdown))
-         (strip-lang (string-trim (replace-regexp-in-string (lsp-buffer-language) "" strip-quotes))))
-    strip-lang))
-
-(defun eds/make-hover-request (doc line character)
-  "Make a request to the LSP server for the hover string for this file and location."
-  (lsp--make-request
-   "textDocument/hover"
-   (list :textDocument doc
-         :position (lsp--position line character))))
-
-(defun eds/split-hover-string (hover)
-  "Split the hover string we get back into the symbol part and the type part."
-  (let* ((last-colon (- (length hover) (string-match "\:" (reverse hover))))
-         (symbol (string-trim (substring hover 0 (1- last-colon))))
-         (type (string-trim (substring hover last-colon))))
-    (list symbol type)))
-
-(defun eds/get-symbol-and-type-of-thing-at-point ()
-  "Using lsp, if available, find the whole symbol name and the type of the thing at point."
-  (when (and buffer-file-name (lsp--capability "hoverProvider"))
-    (let* ((line-widen (save-restriction (widen) (line-number-at-pos)))
-           (bol (line-beginning-position))
-           (doc-id (lsp--text-document-identifier))
-           (response (lsp--send-request
-                      (eds/make-hover-request doc-id (1- line-widen) (- (point) bol)))))
-      (when response
-        (let* ((content (thread-first (gethash "contents" response)))
-               (value (gethash "value" content)))
-          (when content
-            (let* ((trimmed (eds/trim-lsp-hover-markdown value))
-                   (split (eds/split-hover-string trimmed))
-                   (type (car (cdr split)))
-                   (symbol (car split)))
-              (list symbol type))))))))
-
 
 (defun eds/insert-skeleton-blog-post (title)
   "Insert a basic skeleton for a blog post."

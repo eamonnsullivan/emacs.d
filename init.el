@@ -25,7 +25,8 @@
 (setq straight-use-package-by-default t
       straight-disable-native-compile nil
       package-enable-at-startup nil
-      straight-repository-branch "develop")
+      straight-repository-branch "develop"
+      straight-recipes-gnu-elpa-use-mirror t)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -76,6 +77,10 @@
   :config
   (setq vc-follow-symlinks t))
 
+(straight-use-package 'flymake)
+(straight-use-package 'use-package)
+(straight-use-package 'project)
+
 ;; The rest of my init file, broken up into libraries in the lisp directory
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'ert)
@@ -102,7 +107,7 @@
 (require 'init-mc)
 (require 'init-markdown)
 (require 'init-server)
-(require 'init-lsp)
+(require 'init-eglot)
 (require 'init-flycheck)
 (require 'init-hydra)
 (require 'init-json)

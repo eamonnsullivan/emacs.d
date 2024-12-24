@@ -10,8 +10,7 @@
         company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
-        company-tooltip-align-annotations t
-        lsp-completion-provider :capf)
+        company-tooltip-align-annotations t)
   (add-to-list 'company-backends 'company-capf))
 
 (provide 'init-company)
