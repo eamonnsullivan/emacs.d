@@ -210,6 +210,8 @@
   :config
   (eldoc-in-minibuffer-mode 1))
 
+(use-package eldoc-box)
+
 (use-package pomidor
   :bind (("<f12>" . pomidor))
   :config (setq pomidor-sound-tick nil
