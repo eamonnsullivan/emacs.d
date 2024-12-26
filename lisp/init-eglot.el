@@ -3,7 +3,6 @@
 
 (use-package eglot
   :config
-  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
   :hook ((prog-mode . eglot-ensure))
   :bind (("C-c C-l r" . eglot-rename)
          ("C-c C-l o" . eglot-code-action-organize-imports)
