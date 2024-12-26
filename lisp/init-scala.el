@@ -13,11 +13,14 @@
   "Returns t if the line appears to already have a type annotation. Nil otherwise."
   (string-match-p "\:[^)]+\=" line))
 
-(use-package scala-mode
-  :interpreter ("scala" . scala-mode)
-  :config
-  (setq scala-indent:default-run-on-strategy
-        scala-indent:operator-strategy))
+(straight-use-package '(scala-ts-mode :type git :host github
+                                      :repo "KaranAhlawat/scala-ts-mode"))
+
+;; (use-package scala-mode
+;;   :interpreter ("scala" . scala-mode)
+;;   :config
+;;   (setq scala-indent:default-run-on-strategy
+;;         scala-indent:operator-strategy))
 
 (use-package sbt-mode
   :straight
@@ -38,5 +41,7 @@
 (use-package feature-mode
   :config
   (defvar feature-step-search-path "src/test/scala/steps/**/*Steps.scala"))
+
+
 
 (provide 'init-scala)

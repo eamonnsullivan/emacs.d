@@ -72,16 +72,18 @@ programming."
 (straight-use-package 'yapfify)
 (add-hook 'python-mode-hook 'yapf-mode)
 
-(when (and
-       (not (string= system-name "blueberry"))
-       (not (string= system-name "pineapple")))
-  (progn
-   (use-package tree-sitter)
-   (use-package tree-sitter-langs)
-   (require 'tree-sitter)
-   (require 'tree-sitter-langs)
-   (global-tree-sitter-mode)))
+;; (when (and
+;;        (not (string= system-name "blueberry"))
+;;        (not (string= system-name "pineapple")))
+;;   (progn
+;;    (use-package tree-sitter)
+;;    (use-package tree-sitter-langs)
+;;    (require 'tree-sitter)
+;;    (require 'tree-sitter-langs)
+;;    (global-tree-sitter-mode)))
 
 (use-package haskell-mode)
+
+(setq treesit-font-lock-level 4)
 
 (provide 'init-prog)
