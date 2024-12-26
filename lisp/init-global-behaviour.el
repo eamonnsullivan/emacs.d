@@ -210,7 +210,9 @@
   :config
   (eldoc-in-minibuffer-mode 1))
 
-(use-package eldoc)
+(use-package eldoc
+  :config
+  (setq eldoc-echo-area-use-multiline-p t))
 
 (use-package pomidor
   :bind (("<f12>" . pomidor))
