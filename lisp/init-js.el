@@ -39,8 +39,7 @@
   (setq prettier-mode-sync-config-flag nil))
 
 (use-package eslintd-fix
-  :hook ((typescript-mode . eslintd-fix-mode)
-         (tsx-ts-mode . eslintd-fix-mode)))
+  :hook ((typescript-ts-base-mode . eslintd-fix-mode)))
 
 
 (provide 'init-js)
