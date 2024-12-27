@@ -13,24 +13,16 @@
   "Returns t if the line appears to already have a type annotation. Nil otherwise."
   (string-match-p "\:[^)]+\=" line))
 
-(straight-use-package '(scala-ts-mode :type git :host github
-                                      :repo "KaranAhlawat/scala-ts-mode"))
-
-;; (use-package scala-mode
-;;   :interpreter ("scala" . scala-mode)
-;;   :config
-;;   (setq scala-indent:default-run-on-strategy
-;;         scala-indent:operator-strategy))
+(use-package scala-ts-mode
+  :straight
+  (scala-ts-mode :type git :host github :repo "KaranAhlawat/scala-ts-mode"))
 
 (use-package sbt-mode
   :straight
   (sbt-mode :type git :host github :repo "hvesalai/emacs-sbt-mode")
   :commands sbt-start sbt-command
-  :bind (("C-c C-b" . sbt-hydra)
-         ("C-c t" . annotate-scala-symbol-with-type))
+  :bind (("C-c C-b" . sbt-hydra))
   :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command

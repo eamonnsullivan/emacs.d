@@ -17,9 +17,9 @@
          ("M-p" . highlight-symbol-prev))
   :chords (("XX" . highlight-symbol)))
 
-(use-package typescript-mode
-  :mode (("\.ts$" . typescript-mode))
-  :config (add-hook 'typescript-mode-hook
+(use-package typescript-ts-mode
+  :mode (("\.ts$" . typescript-ts-mode))
+  :config (add-hook 'typescript-ts-base-mode-hook
                     (lambda()
                       (setq typescript-indent-level 2))))
 
@@ -89,6 +89,7 @@ programming."
    (bash-mode . bash-ts-mode)
    (js2-mode . js-ts-mode)
    (typescript-mode . typescript-ts-mode)
+   (go-mode . go-ts-mode)
    (json-mode . json-ts-mode)
    (css-mode . css-ts-mode)
    (python-mode . python-ts-mode)

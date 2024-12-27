@@ -3,7 +3,6 @@
 
 (use-package emacs
   :config
-  (add-hook 'text-mode-hook 'visual-line-mode)
   (global-font-lock-mode)
   (size-indication-mode)
   (column-number-mode)
@@ -48,7 +47,8 @@
   (tramp-default-method "ssh")
   (find-file-visit-truename t)
   :hook
-  (before-save . delete-trailing-whitespace))
+  ((text-mode . visual-line-mode)
+   (before-save . delete-trailing-whitespace)))
 
 (setq package-install-upgrade-built-in t)
 
@@ -199,12 +199,12 @@
 ;; font scaling
 (use-package default-text-scale)
 
-;; (use-package dashboard
-;;   :init
-;;   (dashboard-setup-startup-hook)
-;;   :config
-;;   (setq dashboard-items '((recents . 5)
-;;                           (projects . 5))))
+(use-package dashboard
+  :init
+  (dashboard-setup-startup-hook)
+  :config
+  (setq dashboard-items '((recents . 5)
+                          (projects . 5))))
 
 (use-package eldoc-eval
   :config

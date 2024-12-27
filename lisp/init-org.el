@@ -145,13 +145,6 @@
         (preserve-size . (t . nil))
         (window-parameters . ((no-other-window . t)
                               (no-delete-other-windows . t)))))
-;; (add-to-list 'display-buffer-alist
-;;              '("\\*org-roam\\*"
-;;                (display-buffer-in-direction)
-;;                (direction . right)
-;;                (window-width . 0.33)
-;;                (window-height . fit-window-to-buffer)))
-
 
 (provide 'init-org)
 

@@ -43,14 +43,4 @@
   :bind ("C-c G h" . github-browse-file)
   :defer t)
 
-;; (use-package github-pr-manager
-;;   :config
-;;   (setq debug-on-error t)
-;;   :straight
-;;   (github-pr-manager :type git
-;;                      :host github
-;;                      :branch "get-info"
-;;                      :repo "eamonnsullivan/github-pr-manager"))
-
-
 (provide 'init-git)

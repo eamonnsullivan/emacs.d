@@ -6,9 +6,9 @@
   :bind (("C-c C-c" . copilot-accept-completion))
   :ensure t)
 
-(add-hook 'js2-mode-hook 'copilot-mode)
-(add-hook 'scala-mode-hook 'copilot-mode)
-(add-hook 'go-mode-hook 'copilot-mode)
+(add-hook 'typescript-ts-base-mode-hook 'copilot-mode)
+(add-hook 'scala-ts-mode-hook 'copilot-mode)
+(add-hook 'go-ts-mode-hook 'copilot-mode)
 
 (use-package copilot-chat
   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))

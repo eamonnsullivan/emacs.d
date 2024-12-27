@@ -113,7 +113,6 @@
 (require 'init-json)
 (require 'init-cloudformation)
 (require 'init-kbd-macros)
-(require 'init-slack)
 (require 'init-yasnippet)
 (require 'init-codestyle)
 (require 'init-haskell)

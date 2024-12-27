@@ -33,30 +33,6 @@
              (lambda ()
                (modus-themes-load-theme 'modus-vivendi-tinted)))
 
-;; others I've tried
-(use-package poet-theme
-  :straight
-  (poet-theme :type git :host github :repo "kunalb/poet")
-  :demand t)
-
-(use-package leuven-theme
-  :demand t
-  :straight
-  (leuven-theme :type git :host github :repo "fniessen/emacs-leuven-theme"))
-
-(use-package zenburn-theme
-  :demand t)
-(use-package vscode-dark-plus-theme
-  :straight
-  (vscode-dark-plus-theme :type git :host github :repo "ianpan870102/vscode-dark-plus-emacs-theme")
-  :demand t)
-(use-package material-theme
-  :demand t)
-(use-package parchment-theme
-  :demand t)
-(use-package doom-themes
-  :demand t)
-
 (defun my-setup-main-fonts (default-height variable-pitch-height)
   "Set up default fonts.
 Use DEFAULT-HEIGHT for default face and VARIABLE-PITCH-HEIGHT
