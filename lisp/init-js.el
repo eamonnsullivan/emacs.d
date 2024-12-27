@@ -4,11 +4,9 @@
 (use-package nvm
   :commands (nvm-use nvm-use-for nvm--installed-versions))
 
-(use-package rjsx-mode)
-
 (use-package js-comint
   :config
-  (add-hook 'js2-mode-hook
+  (add-hook 'js-ts-mode-hook
             (lambda ()
               (local-set-key (kbd "C-x C-e") 'js-send-last-sexp)
               (local-set-key (kbd "C-M-x") 'js-send-last-sexp-and-go)
@@ -26,11 +24,11 @@
                        (let ((buff (current-buffer)))
                          (if (or (search-forward "React." nil t 1)
                                  (search-forward "import React" nil t 1))
-                             (rjsx-mode)
-                           (js2-mode))))))))
+                             (js-ts-mode)
+                           (js-ts-mode))))))))
   :config
   (setq-default js2-ignored-warnings '("msg.extra.trailing.comma"))
-  (add-hook 'js2-mode-hook
+  (add-hook 'js-ts-mode-hook
             (lambda()
               (setq js-indent-level 2
                     js2-basic-offset 2
@@ -46,8 +44,8 @@
 
 (use-package add-node-modules-path
    :config
-   (add-hook 'js2-mode-hook 'add-node-modules-path)
-   (add-hook 'rjsx-mode-hook 'add-node-modules-path))
+   (add-hook 'js-ts-mode-hook 'add-node-modules-path)
+   (add-hook 'js-ts-mode-hook 'add-node-modules-path))
 
 (use-package prettier
   :hook
@@ -70,13 +68,13 @@
   (if (eq system-type 'darwin)
       (setq eslintd-fix-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
     (setq eslintd-fix-executable "/home/linuxbrew/.linuxbrew/bin/eslint"))
-  (eval-after-load 'js2-mode
-    '(add-hook 'js2-mode-hook 'eslintd-fix-mode)))
+  (eval-after-load 'js-ts-mode
+    '(add-hook 'js-ts-mode-hook 'eslintd-fix-mode)))
 
 (use-package js2-refactor
-  :after (js2-mode hydra)
+  :after (js-ts-mode hydra)
   :hook
-  (js2-mode . js2-refactor-mode)
+  (js-ts-mode . js2-refactor-mode)
 
   :config
   (js2r-add-keybindings-with-prefix "C-c C-r")
@@ -144,6 +142,6 @@ _q_: quit this menu
     ("q" nil))
 
 (eval-after-load 'js2-mode
-  '(key-chord-define js2-mode-map "MM" 'hydra-my-javascript-macros/body))
+  '(key-chord-define js-ts-mode-map "MM" 'hydra-my-javascript-macros/body))
 
 (provide 'init-js)

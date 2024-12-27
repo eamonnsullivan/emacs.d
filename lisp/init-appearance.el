@@ -117,4 +117,6 @@ for variable-pitch face."
 (unless (version< emacs-version "27.0")
   (add-hook 'server-after-make-frame-hook 'my-appearance-settings t))
 
+(add-hook 'enable-theme-functions #'my-modus-themes-custom-faces)
+
 (provide 'init-appearance)
