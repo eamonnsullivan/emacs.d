@@ -26,4 +26,6 @@
                                             "gconstpointer"
                                             "GList" "GSList" "GFunc" "GString"))))
 
+(use-package zig-mode)
+
 (provide 'init-cc)
