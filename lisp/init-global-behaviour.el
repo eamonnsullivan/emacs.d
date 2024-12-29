@@ -203,8 +203,11 @@
   :init
   (dashboard-setup-startup-hook)
   :config
-  (setq dashboard-items '((recents . 5)
-                          (projects . 5))))
+  (setq dashboard-projects-backend 'projectile
+        dashboard-items '((recents   . 5)
+                          (projects  . 5)
+                          (agenda    . 5))))
+
 
 (use-package eldoc-eval
   :config
