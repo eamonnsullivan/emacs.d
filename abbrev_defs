@@ -133,12 +133,18 @@
     ("edocs" "" eds-short-documentation-block-scala 0)
    ))
 
+(define-abbrev-table 'scala-ts-mode-abbrev-table
+  '(
+    ("edeb" "" eds-edeb-expansion-scala 0)
+    ("edocs" "" eds-short-documentation-block-scala 0)
+   ))
+
 (define-abbrev-table 'java-mode-abbrev-table
   '(
     ("edeb" "" eds-edeb-expansion-java 0)
    ))
 
-(define-abbrev-table 'js2-mode-abbrev-table
+(define-abbrev-table 'typescript-ts-base-mode-abbrev-table
   '(
     ("edeb" "" eds-edeb-expansion-javascript 0)
     ("edump" "" eds-edump-expansion-javascript 0)

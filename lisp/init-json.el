@@ -12,7 +12,7 @@
               (smartparens-mode t))))
 
 (use-package json-reformat
-  :after json-mode
+  :after json-ts-mode
   :bind (("C-c r" . json-pretty-print)
          ("C-c C-f" . json-pretty-print-buffer)))
 

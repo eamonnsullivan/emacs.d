@@ -89,7 +89,10 @@
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
         `(("d" "default" entry nil
-           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+           :target (file+head
+                    "%<%Y%m%d%H%M%S>-${slug}.org"
+                    ,(concat "#+title: ${title}"
+                             "\n#+startup: content"))
            :unnarrowed t)
           ("m" "meeting" entry "* Notes\n%u\n%?"
            :target
@@ -97,11 +100,15 @@
             "%<%Y%m%d%H%M%S>-${slug}.org"
             ,(concat "#+title: ${title}"
                      "\n#+filetags: :meeting:"
+                     "\n#+startup: content"
                      "\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]"
                      "\n* Actions\n"))
            :unnarrowed t)
           ("t" "todo" entry "* TODO %?"
-           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+           :target (file+head
+                    "%<%Y%m%d%H%M%S>-${slug}.org"
+                    ,(concat "#+title: ${title}"
+                             "\n#+startup: content"))
            :unnarrowed t)
           ("x" "training" entry "* Notes\n%u\n%?"
            :target
@@ -109,6 +116,7 @@
             "%<%Y%m%d%H%M%S>-${slug}.org"
             ,(concat "#+title: ${title}"
                      "\n#+filetags: :training:"
+                     "\n#+startup: content"
                      "\n- [[id:C9EB836D-F0DD-47CE-B8F3-B44FD1A0A0E6][training]]\n"))
            :unnarrowed t)
           ("i" "idea" entry "* %?\n%u\n"
@@ -116,6 +124,7 @@
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
                              "\n#+filetags: :ideas:"
+                             "\n#+startup: content"
                              "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n")))))
   (org-roam-db-autosync-mode)
   (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)

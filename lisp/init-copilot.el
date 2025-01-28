@@ -4,7 +4,13 @@
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :bind (("C-c C-c" . copilot-accept-completion))
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(closure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
 (add-hook 'typescript-ts-base-mode-hook 'copilot-mode)
 (add-hook 'scala-ts-mode-hook 'copilot-mode)
