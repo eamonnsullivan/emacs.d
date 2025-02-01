@@ -3,7 +3,7 @@
 
 (require 'tramp)
 
-;; (use-package all-the-icons)
+(use-package all-the-icons)
 
 (use-package helm
   :diminish helm-mode
