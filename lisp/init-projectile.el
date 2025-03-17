@@ -20,7 +20,7 @@
   (projectile-mode t)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
   (add-to-list 'projectile-globally-ignored-files "node-modules")
-  :bind   (("s-f" . helm-projectile-find-file)
-           ("s-F" . helm-projectile-grep)))
+  :bind   (("s-F" . helm-projectile-grep)
+           ("C-c p h" . helm-projectile-find-file)))
 
 (provide 'init-projectile)
