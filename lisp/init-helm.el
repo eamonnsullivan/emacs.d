@@ -5,15 +5,6 @@
 
 (use-package all-the-icons)
 
-;; describe key bindings for current mode, with searching
-(use-package helm-descbinds
-  :demand t
-  :bind (("C-h b" . helm-descbinds))
-  :config
-  (message "loading helm-descbinds")
-  (helm-descbinds-mode))
-
-
 (use-package helm-ls-git
   :demand t
   :config
@@ -36,7 +27,17 @@
   (unless (boundp 'completion-in-region-function)
     (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
     (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 
   (helm-mode 1))
+
+(use-package helm-ag
+  :init
+  (setq helm-ag-use-grep-ignore-list t
+        helm-ag-use-agignore t
+        helm-ag-base-command "ag --nocolor --nogroup --ignore-case"
+        helm-ag-command-option "--all-text"
+        helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'")
+        helm-ag-insert-at-point 'symbol))
 
 (provide 'init-helm)

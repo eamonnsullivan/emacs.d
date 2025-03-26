@@ -9,7 +9,7 @@
 
 (use-package parseedn)
 
-(use-package package-lint)
+;; (use-package package-lint)
 
 (require 'init-flycheck)
 (require 'init-helm)
