@@ -1,6 +1,21 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-global-behavior.el --- Things I always want, no matter the mode
 
+(use-package crux
+  :bind (("C-k"                          . crux-smart-kill-line)
+         ([(control shift return)]       . crux-smart-open-line-above)
+         ([(shift return)]               . crux-smart-open-line)
+         ([remap move-beginning-of-line] . crux-move-beginning-of-line)
+         ("s-r"                          . crux-recentf-find-file)
+         ("C-c D"                        . crux-delete-file-and-buffer)
+         ("C-c r"                        . crux-rename-file-and-buffer)
+         ("C-c k"                        . crux-kill-other-buffers))
+  :config
+  (crux-with-region-or-buffer indent-region)
+  (crux-with-region-or-buffer untabify)
+  (crux-with-region-or-point-to-eol kill-ring-save)
+  (defalias 'rename-file-and-buffer #'crux-rename-file-and-buffer))
+
 (use-package emacs
   :config
   (global-font-lock-mode)
@@ -180,21 +195,6 @@
 (use-package discover-my-major
   :bind (("C-h M-m" . discover-my-major)
          ("C-h M-M" . discover-my-mode)))
-
-(use-package crux
-  :bind (("C-k"                          . crux-smart-kill-line)
-         ([(control shift return)]       . crux-smart-open-line-above)
-         ([(shift return)]               . crux-smart-open-line)
-         ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-         ("s-r"                          . crux-recentf-find-file)
-         ("C-c D"                        . crux-delete-file-and-buffer)
-         ("C-c r"                        . crux-rename-file-and-buffer)
-         ("C-c k"                        . crux-kill-other-buffers))
-  :config
-  (crux-with-region-or-buffer indent-region)
-  (crux-with-region-or-buffer untabify)
-  (crux-with-region-or-point-to-eol kill-ring-save)
-  (defalias 'rename-file-and-buffer #'crux-rename-file-and-buffer))
 
 ;; font scaling
 (use-package default-text-scale)
