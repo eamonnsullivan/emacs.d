@@ -27,7 +27,7 @@
 (ert-deftest eds/test-get-org-directory ()
   "Test that we correctly return the org directory on Linux and the Mac"
     (if (eq system-type 'darwin)
-        (should (equal (eds/get-org-directory) "/Users/sullie09/org"))
-      (should (equal (eds/get-org-directory) "/home/eamonn/org"))))
+        (should (equal (eds/get-org-directory) "/Users/sullie09/Dropbox/org"))
+      (should (equal (eds/get-org-directory) "/home/eamonn/Dropbox/org"))))
 
 (provide 'eds-test)
