@@ -246,4 +246,16 @@ that don't work in a filename."
   "The location of my org directory varies by computer."
   (file-truename "~/Dropbox/org"))
 
+(defun eds/filter-for-regex (regex strings)
+  "Filter STRINGS (a list of strings) to those matching REGEX."
+  (seq-filter (lambda (str) (string-match-p regex str)) strings))
+
+(defun eds/get-conflicted-org-files ()
+  (eds/filter-for-regex "conflicted" (directory-files (eds/get-org-directory))))
+
+(defun eds/dashboard-custom-conflicted-files (list-size)
+  (if (> (length (eds/get-conflicted-org-files)) 0)
+      (insert "There are some dropbox errors in our org files.")
+    (insert "No dropbox conficts found in our org files.")))
+
 (provide 'eds)

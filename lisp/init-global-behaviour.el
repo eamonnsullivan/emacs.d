@@ -206,7 +206,10 @@
   (setq dashboard-projects-backend 'projectile
         dashboard-items '((recents   . 5)
                           (projects  . 5)
-                          (agenda    . 5))))
+                          (agenda    . 5)))
+  (require 'eds)
+  (add-to-list 'dashboard-item-generators  '(custom . eds/dashboard-custom-conflicted-files))
+  (add-to-list 'dashboard-items '(custom) t))
 
 
 (use-package eldoc-eval

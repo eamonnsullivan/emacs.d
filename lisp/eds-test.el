@@ -27,7 +27,18 @@
 (ert-deftest eds/test-get-org-directory ()
   "Test that we correctly return the org directory on Linux and the Mac"
     (if (eq system-type 'darwin)
-        (should (equal (eds/get-org-directory) "/Users/sullie09/Dropbox/org"))
+        (should (equal (eds/get-org-directory) "/Users/sullie09/Library/CloudStorage/Dropbox/org"))
       (should (equal (eds/get-org-directory) "/home/eamonn/Dropbox/org"))))
+
+(ert-deftest eds/filter-for-regex ()
+  "Tests that we correctly filter a list of string"
+  (should (equal (eds/filter-for-regex "foo" '("foobar" "baz" "fool23" "hello"))
+                 '("foobar" "fool23")))
+  (should (equal (eds/filter-for-regex "foob" '("foobar" "baz" "fool23" "hello"))
+                 '("foobar")))
+  (should (equal (eds/filter-for-regex "foo.[0-9]" '("foobar" "baz" "fool23" "hello"))
+                 '("fool23")))
+  (should (equal (eds/filter-for-regex "foo" '("baz" "hello"))
+                 nil)))
 
 (provide 'eds-test)
