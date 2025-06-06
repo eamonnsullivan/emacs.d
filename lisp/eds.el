@@ -255,7 +255,15 @@ that don't work in a filename."
 
 (defun eds/dashboard-custom-conflicted-files (list-size)
   (if (> (length (eds/get-conflicted-org-files)) 0)
-      (insert "There are some dropbox errors in our org files.")
-    (insert "No dropbox conficts found in our org files.")))
+      (progn
+        (dashboard-insert-heading "Dropbox:")
+        (insert " There are some dropbox errors in our org files.")
+        (insert "\n")
+        (dolist (str (eds/get-conflicted-org-files))
+          (insert str)))
+    (progn
+      (dashboard-insert-heading "Dropbox:")
+      (insert " No dropbox conficts found in our org files."))
+    ))
 
 (provide 'eds)
