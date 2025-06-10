@@ -34,7 +34,7 @@
 
 (use-package prettier
   :hook
-  (typescript-mode . prettier-mode)
+  (typescript-ts-mode . prettier-mode)
   :config
   (setq prettier-mode-sync-config-flag nil))
 
