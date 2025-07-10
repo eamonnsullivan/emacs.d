@@ -60,6 +60,11 @@
   (package-install-upgrade-built-in t)
   (calendar-date-style 'european)
   (tramp-default-method "ssh")
+  (remote-file-name-inhibit-locks t)
+  (tramp-use-scp-direct-remote-copying t)
+  (remote-file-name-inhibit-auto-save-visited t)
+  (tramp-copy-size-limit (* 1024 1024))
+  (tramp-verbose 2)
   (find-file-visit-truename t)
   :hook
   ((text-mode . visual-line-mode)

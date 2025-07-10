@@ -266,4 +266,16 @@ that don't work in a filename."
       (insert " No dropbox conficts found in our org files."))
     ))
 
+(defun eds/make-svp-contact-link ()
+  "Make a link to the SVP's contact page from the current selection."
+  (interactive)
+  (if (use-region-p)
+      (let ((start (region-beginning))
+            (end (region-end)))
+        (goto-char end)
+        (insert "](../../pages-output/contact/)")
+        (goto-char start)
+        (insert "["))
+    (message "No active selection found!")))
+
 (provide 'eds)

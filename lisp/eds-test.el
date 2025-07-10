@@ -41,4 +41,29 @@
   (should (equal (eds/filter-for-regex "foo" '("baz" "hello"))
                  nil)))
 
+(ert-deftest eds/test-make-svp-contact-link ()
+  "Tests the function for inserting the contact link in the current region"
+  (with-temp-buffer
+    (insert "This is a test")
+    (set-mark 11)
+    (goto-char (point-max))
+    (call-interactively 'eds/make-svp-contact-link)
+    (should (equal "This is a [test](../../pages-output/contact/)"
+                   (buffer-string))))
+  ;; Makes no changes when there is no region
+  (with-temp-buffer
+    (insert "This is a test")
+    (call-interactively 'eds/make-svp-contact-link)
+    (should (equal "This is a test"
+                   (buffer-string))))
+  ;; Can handle the whole buffer region
+  (with-temp-buffer
+    (insert "This is a test")
+    (set-mark (point-min))
+    (goto-char (point-max))
+    (call-interactively 'eds/make-svp-contact-link)
+    (should (equal "[This is a test](../../pages-output/contact/)"
+                   (buffer-string)))))
+
+
 (provide 'eds-test)
