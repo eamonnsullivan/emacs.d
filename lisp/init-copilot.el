@@ -15,10 +15,14 @@
 (add-hook 'typescript-ts-base-mode-hook 'copilot-mode)
 (add-hook 'scala-ts-mode-hook 'copilot-mode)
 (add-hook 'go-ts-mode-hook 'copilot-mode)
+(add-hook 'emacs-lisp-mode-hook 'copilot-mode)
 
 (use-package copilot-chat
   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
+  :bind (("C-c i" . copilot-chat-goto-input))
   :after (request org markdown-mode))
+
+(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 
 
 (provide 'init-copilot)

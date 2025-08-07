@@ -57,6 +57,8 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c n f") #'org-roam-node-find)
 
+(global-set-key (kbd "C-c i b") #'copilot-chat-add-current-buffer)
+
 (defhydra hydra-goto-line (goto-map ""
                                     :pre (display-line-numbers-mode 1)
                                     :post (display-line-numbers-mode -1))
