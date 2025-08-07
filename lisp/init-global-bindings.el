@@ -56,6 +56,7 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c n f") #'org-roam-node-find)
+(global-set-key (kbd "C-c n l") #'eds/create-new-note-from-clipboard-link)
 
 (global-set-key (kbd "C-c i b") #'copilot-chat-add-current-buffer)
 

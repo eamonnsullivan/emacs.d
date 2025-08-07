@@ -278,4 +278,24 @@ that don't work in a filename."
         (insert "["))
     (message "No active selection found!")))
 
+(defun eds/create-new-note-from-clipboard-link (title)
+  "Create a new note file in `org-roam-directory' and insert a link."
+  (interactive "sTitle: ")
+  (let* ((time-string (format-time-string "%Y%m%dT%H%M%S"))
+         (clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
+         (extension "org")
+         (slug (eds/process-title title))
+         (file-base-name (concat time-string "-" slug "." extension))
+         (org-roam-directory (eds/get-org-directory))
+         (file-name (expand-file-name file-base-name org-roam-directory))
+         (title-line (format "#+title: %s\n" title))
+         (startup-line "#+startup: content\n")
+         (link-line (format "* [[%s][%s]]\n" clipboard-content title)))
+    (find-file file-name)
+    ;; In the new buffer
+    (insert (concat title-line startup-line link-line))
+    (beginning-of-buffer)
+    (org-id-get-create)
+    (end-of-buffer)))
+
 (provide 'eds)
