@@ -135,6 +135,7 @@
          ("C-c n c" . org-roam-capture)
          ("C-c n a" . org-roam-tag-add)
          ("C-c n o" . eds/switch-to-org-roam-buffer)
+         ("C-c n r" . eds/create-new-note-from-clipboard-link)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 

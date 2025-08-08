@@ -296,6 +296,8 @@ that don't work in a filename."
     (insert (concat title-line startup-line link-line))
     (beginning-of-buffer)
     (org-id-get-create)
-    (end-of-buffer)))
+    (end-of-buffer)
+    (save-buffer)
+    (org-roam-db-sync)))
 
 (provide 'eds)
