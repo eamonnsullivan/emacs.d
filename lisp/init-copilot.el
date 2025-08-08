@@ -22,7 +22,7 @@
   :bind (("C-c i" . copilot-chat-goto-input))
   :after (request org markdown-mode))
 
-(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
+;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
 
 
 (provide 'init-copilot)
