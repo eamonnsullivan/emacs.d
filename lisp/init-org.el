@@ -136,6 +136,7 @@
          ("C-c n a" . org-roam-tag-add)
          ("C-c n o" . eds/switch-to-org-roam-buffer)
          ("C-c n r" . eds/create-new-note-from-clipboard-link)
+         ("C-c n n" . org-id-get-create) ; useful for making a heading a node
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
