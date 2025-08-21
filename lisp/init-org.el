@@ -125,7 +125,16 @@
                     ,(concat "#+title: ${title}"
                              "\n#+filetags: :ideas:"
                              "\n#+startup: content"
-                             "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n")))))
+                             "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"))))
+        org-roam-capture-ref-templates
+        '(("r" "ref" entry "* [[${ref}][${title}]]\n${body}\n%?"
+           :target
+           (file+head
+            "%<%Y%m%d%H%M%S>-${slug}.org"
+            "#+title: ${title}")
+           :unnarrowed t)))
+
+
   (org-roam-db-autosync-mode)
   (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
   :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -139,6 +148,8 @@
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
+
+(require 'org-roam-protocol)
 
 (defun eds/switch-to-org-roam-buffer ()
   (interactive)
