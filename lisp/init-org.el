@@ -52,6 +52,8 @@
         org-agenda-dim-blocked-tasks nil
         org-agenda-inhibit-startup t
         org-agenda-ignore-drawer-properties '(effort appt)
+        org-agenda-skip-scheduled-repeats-after-deadline t
+        org-agenda-skip-deadline-prewarning-if-scheduled t
         org-fold-catch-invisible-edits t
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
@@ -80,7 +82,7 @@
 
 (use-package org-roam
   :straight (:host github :repo "org-roam/org-roam"
-             :files (:defaults "extensions/*"))
+                   :files (:defaults "extensions/*"))
   :config
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
   (setq org-roam-directory (eds/get-org-directory)
