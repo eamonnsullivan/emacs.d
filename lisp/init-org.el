@@ -70,7 +70,8 @@
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
-          (org-timer-set-timer '(16))))))
+          (org-timer-set-timer '(16)))))
+  (add-hook 'auto-save-hook 'org-save-all-org-buffers))
 
 (with-eval-after-load 'org
   (require 'edraw-org)
