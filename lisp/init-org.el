@@ -43,6 +43,7 @@
                           (,(concat org-directory "/")))
 	org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-src-fontify-natively t
+        org-log-into-drawer t
         org-hide-emphasis-markers t
         org-agenda-include-diary t
         org-timer-default-timer 25
@@ -71,6 +72,7 @@
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
           (org-timer-set-timer '(16)))))
+  (add-to-list 'org-modules 'habit t)
   (add-hook 'auto-save-hook 'org-save-all-org-buffers))
 
 (with-eval-after-load 'org
