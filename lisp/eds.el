@@ -296,6 +296,7 @@ that don't work in a filename."
     (insert (concat title-line startup-line link-line))
     (beginning-of-buffer)
     (org-id-get-create)
+    (org-set-property "ROAM_REFS" clipboard-content)
     (end-of-buffer)
     (save-buffer)
     (org-roam-db-sync)))
