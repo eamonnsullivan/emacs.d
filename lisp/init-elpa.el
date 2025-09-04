@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 (straight-use-package 'use-package)
 (use-package bind-key)
