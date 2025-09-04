@@ -1,4 +1,4 @@
-;;; early-init.el -- early initialization code for emacs
+;;; early-init.el -- early initialization code for emacs  -*- lexical-binding: t; -*-
 
 (setq gc-cons-threshold 100000000)
 (setq package-enable-at-startup nil)
