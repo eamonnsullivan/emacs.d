@@ -11,6 +11,11 @@
 
 ;; (use-package '(org-plus-contrib :includes org))
 
+(use-package org-modern
+  :after org
+  :config
+  (with-eval-after-load 'org (global-org-modern-mode)))
+
 (use-package org
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
@@ -151,6 +156,7 @@
          ("C-c n o" . eds/switch-to-org-roam-buffer)
          ("C-c n r" . eds/create-new-note-from-clipboard-link)
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
+         ("C-c n a" . org-roam-alias-add) ; add an alias to the current node
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
