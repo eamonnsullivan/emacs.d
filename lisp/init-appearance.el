@@ -2,6 +2,84 @@
 ;;; init-appearance.el --- Code related to the look of emacs
 
 
+(use-package fontaine
+  :straight t
+  :config
+  (setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld")
+        fontaine-presets
+        '((small
+           :default-family "Aporetic Serif Mono"
+           :default-height 80
+           :variable-pitch-family "Aporetic Sans")
+          (regular) ; like this it uses all the fallback values and is named `regular'
+          (medium
+           :default-weight semilight
+           :default-height 115
+           :bold-weight extrabold)
+          (large
+           :inherit medium
+           :default-height 150)
+          (presentation
+           :default-height 180)
+          (t
+           ;; I keep all properties for didactic purposes, but most can be
+           ;; omitted.  See the fontaine manual for the technicalities:
+           ;; <https://protesilaos.com/emacs/fontaine>.
+           :default-family "Aporetic Sans Mono"
+           :default-weight regular
+           :default-height 100
+
+           :fixed-pitch-family nil ; falls back to :default-family
+           :fixed-pitch-weight nil ; falls back to :default-weight
+           :fixed-pitch-height 1.0
+
+           :fixed-pitch-serif-family nil ; falls back to :default-family
+           :fixed-pitch-serif-weight nil ; falls back to :default-weight
+           :fixed-pitch-serif-height 1.0
+
+           :variable-pitch-family "Aporetic Serif"
+           :variable-pitch-weight nil
+           :variable-pitch-height 1.0
+
+           :mode-line-active-family nil ; falls back to :default-family
+           :mode-line-active-weight nil ; falls back to :default-weight
+           :mode-line-active-height 0.9
+
+           :mode-line-inactive-family nil ; falls back to :default-family
+           :mode-line-inactive-weight nil ; falls back to :default-weight
+           :mode-line-inactive-height 0.9
+
+           :header-line-family nil ; falls back to :default-family
+           :header-line-weight nil ; falls back to :default-weight
+           :header-line-height 0.9
+
+           :line-number-family nil ; falls back to :default-family
+           :line-number-weight nil ; falls back to :default-weight
+           :line-number-height 0.9
+
+           :tab-bar-family nil ; falls back to :default-family
+           :tab-bar-weight nil ; falls back to :default-weight
+           :tab-bar-height 1.0
+
+           :tab-line-family nil ; falls back to :default-family
+           :tab-line-weight nil ; falls back to :default-weight
+           :tab-line-height 1.0
+
+           :bold-family nil ; use whatever the underlying face has
+           :bold-weight bold
+
+           :italic-family nil
+           :italic-slant italic
+
+           :line-spacing nil)))
+  ;; Set the last preset or fall back to desired style from `fontaine-presets'
+  ;; (the `regular' in this case).
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'large))
+
+  ;; Persist the latest font preset when closing/starting Emacs and
+  ;; while switching between themes.
+  (fontaine-mode 1))
+
 (defun disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
@@ -33,19 +111,6 @@
              (lambda ()
                (modus-themes-load-theme 'modus-vivendi-tinted)))
 
-(defun my-setup-main-fonts (default-height variable-pitch-height)
-  "Set up default fonts.
-Use DEFAULT-HEIGHT for default face and VARIABLE-PITCH-HEIGHT
-for variable-pitch face."
-  (message "Found Hack and Fira Sans, so setting up fonts.")
-  (set-face-attribute 'default nil
-                      :family "Hack"
-                      :height default-height)
-  (set-face-attribute 'variable-pitch nil
-                      :family "Fira Sans"
-                      :height variable-pitch-height
-                      :weight 'regular))
-
 (defun my-appearance-settings (&rest frame)
   "Apply my preferences on graphical appearance."
   (interactive "P")
@@ -72,25 +137,8 @@ for variable-pitch face."
               (tool-bar-mode . -1)
               (toggle-scroll-bar . -1))))
 
-    ;; set some font options, if the fonts are available
-    (if (and (find-font (font-spec :name "Hack"))
-             (find-font (font-spec :name "Fira Sans")))
-        (when window-system
-          (if (> (x-display-pixel-width) 1800)
-              (my-setup-main-fonts 130 140)
-            (my-setup-main-fonts 110 120)))
-      (set-face-attribute 'default nil :height 120))))
+    (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
+        (message "Font Aporetic Sans Mono not found, using default font settings"))))
 
-
-(require 'server)
-(defadvice server-create-window-system-frame
-    (after set-window-system-frame-colours ())
-  "Set custom appearance settings when creating the first frame on a display"
-  (message "Running after frame-initialize")
-  (my-appearance-settings))
-(ad-activate 'server-create-window-system-frame)
-(add-hook 'after-make-frame-functions 'my-appearance-settings t)
-(unless (version< emacs-version "27.0")
-  (add-hook 'server-after-make-frame-hook 'my-appearance-settings t))
 
 (provide 'init-appearance)
