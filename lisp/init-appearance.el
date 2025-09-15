@@ -137,6 +137,24 @@
           (agenda-structure . (variable-pitch light 1.9))
           (t . (variable-pitch 1.1)))))
 
+
+(defun modus-themes-toggle ()
+  (if (eq (car custom-enabled-themes) 'modus-operandi-tinted)
+      (modus-themes-load-theme 'modus-vivendi-tinted)
+    (modus-themes-load-theme 'modus-operandi-tinted)))
+
+;; Light at sunrise
+(run-at-time (nth 1 (split-string (sunrise-sunset)))
+             (* 60 60 24)
+             (lambda ()
+               (modus-themes-load-theme 'modus-operandi-tinted)))
+
+;; Dark at sunset
+(run-at-time (nth 4 (split-string (sunrise-sunset)))
+             (* 60 60 24)
+             (lambda ()
+               (modus-themes-load-theme 'modus-vivendi-tinted)))
+
 ;;;; Theme buffet
 (use-package theme-buffet
   :straight t
@@ -211,24 +229,12 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
     (message "my-appearance-settings running.")
     (transient-mark-mode t)
     (menu-bar-mode -1)
-    (when (and (window-system) (< emacs-major-version 27))
-      (message "toggling tool bar off")
-      (tool-bar-mode -1))
     (when (window-system)
       (message "toggling scroll bar off")
       (toggle-scroll-bar -1))
     (line-number-mode t)
     (display-time-mode t)
     (setq display-time-24hr-format t)
-    (when (and (window-system) (< emacs-major-version 27))
-      (message "setting default-frame-alist")
-      (setq default-frame-alist
-            '((vertical-scroll-bars)
-              (tool-bar-lines . 0)
-              (menu-bar-lines . 0)
-              (menu-bar-mode . -1)
-              (tool-bar-mode . -1)
-              (toggle-scroll-bar . -1))))
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))))

@@ -9,8 +9,6 @@
 
 (require 'eds)
 
-;; (use-package '(org-plus-contrib :includes org))
-
 (use-package org-modern
   :after org
   :config
@@ -77,7 +75,7 @@
   (add-hook 'org-clock-in-hook (lambda ()
       (if (not org-timer-countdown-timer)
           (org-timer-set-timer '(16)))))
-  (add-to-list 'org-modules 'habit t)
+  (add-to-list 'org-modules 'org-habit)
   (add-hook 'auto-save-hook 'org-save-all-org-buffers))
 
 (with-eval-after-load 'org
