@@ -80,36 +80,129 @@
   ;; while switching between themes.
   (fontaine-mode 1))
 
+;; current faves
+;; The themes are highly customisable.  Read the manual:
+;; <https://protesilaos.com/emacs/modus-themes>.
+(use-package modus-themes
+  :straight
+  (modus-themes :type git :host github :repo "protesilaos/modus-themes" :branch "main")
+  :ensure t
+  :demand t
+  :bind (("<f5>" . modus-themes-toggle)
+         ("C-<f5>" . modus-themes-select)
+         ("M-<f5>" . modus-themes-rotate))
+  :config
+  (setq modus-themes-custom-auto-reload nil
+        ;; modus-themes-to-toggle '(modus-operandi modus-vivendi)
+        modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
+        ;; modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-deuteranopia)
+        ;; modus-themes-to-toggle '(modus-operandi-tritanopia modus-vivendi-tritanopia)
+        modus-themes-to-rotate modus-themes-items
+        modus-themes-mixed-fonts t
+        modus-themes-variable-pitch-ui t
+        modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-completions '((t . (bold)))
+        modus-themes-prompts '(bold)
+        modus-themes-common-palette-overrides nil
+        modus-themes-headings
+        '((agenda-structure . (variable-pitch light 2.2))
+          (agenda-date . (variable-pitch regular 1.3))
+          (t . (regular 1.15)))))
+
+;; The themes are customisable.  Read the manual:
+;; <https://protesilaos.com/emacs/ef-themes>.
+(use-package ef-themes
+  :straight
+  (ef-themes :type git :host github :repo "protesilaos/ef-themes" :branch "main")
+  :ensure t
+  :demand t
+  :bind
+  (("<f5>" . ef-themes-rotate)
+   ("C-<f5>" . ef-themes-select))
+  :config
+  (setq ef-themes-variable-pitch-ui t
+        ef-themes-mixed-fonts t
+        ef-themes-to-rotate ef-themes-items
+        ef-themes-headings ; read the manual's entry of the doc string
+        '((0 . (variable-pitch light 1.9))
+          (1 . (variable-pitch light 1.8))
+          (2 . (variable-pitch regular 1.7))
+          (3 . (variable-pitch regular 1.6))
+          (4 . (variable-pitch regular 1.5))
+          (5 . (variable-pitch 1.4)) ; absence of weight means `bold'
+          (6 . (variable-pitch 1.3))
+          (7 . (variable-pitch 1.2))
+          (agenda-date . (semilight 1.5))
+          (agenda-structure . (variable-pitch light 1.9))
+          (t . (variable-pitch 1.1)))))
+
+;;;; Theme buffet
+(use-package theme-buffet
+  :straight t
+  :after (:any modus-themes ef-themes)
+  :defer 1
+  :config
+  (let ((modus-themes-p (featurep 'modus-themes))
+        (ef-themes-p (featurep 'ef-themes)))
+    (setq theme-buffet-menu 'end-user)
+    (setq theme-buffet-end-user
+          (cond
+           ((and modus-themes-p ef-themes-p)
+            '( :night
+               (modus-vivendi ef-dark ef-winter ef-autumn ef-night ef-duo-dark ef-symbiosis)
+               :morning
+               (modus-operandi ef-light ef-cyprus ef-spring ef-frost ef-duo-light)
+               :afternoon
+               (modus-operandi-tinted ef-arbutus ef-day ef-kassio ef-summer ef-elea-light ef-maris-light ef-melissa-light ef-trio-light ef-reverie)
+               :evening
+               (modus-vivendi-tinted ef-rosa ef-elea-dark ef-maris-dark ef-melissa-dark ef-trio-dark ef-dream)))
+           (ef-themes-p
+            '( :night
+               (ef-dark ef-winter ef-autumn ef-night ef-duo-dark ef-symbiosis ef-owl)
+               :morning
+               (ef-light ef-cyprus ef-spring ef-frost ef-duo-light ef-eagle)
+               :afternoon
+               (ef-arbutus ef-day ef-kassio ef-summer ef-elea-light ef-maris-light ef-melissa-light ef-trio-light ef-reverie)
+               :evening
+               (ef-rosa ef-elea-dark ef-maris-dark ef-melissa-dark ef-trio-dark ef-dream)))
+           (modus-themes-p
+            '( :night
+               (modus-vivendi modus-vivendi-tinted modus-vivendi-tritanopia modus-vivendi-deuteranopia)
+               :morning
+               (modus-operandi modus-operandi-tinted modus-operandi-tritanopia modus-operandi-deuteranopia)
+               :afternoon
+               (modus-operandi modus-operandi-tinted modus-operandi-tritanopia modus-operandi-deuteranopia)
+               :evening
+               (modus-vivendi modus-vivendi-tinted modus-vivendi-tritanopia modus-vivendi-deuteranopia)))))
+
+    (when (or modus-themes-p ef-themes-p)
+      (theme-buffet-timer-hours 1))))
+
+(use-package show-font
+  :straight t
+  :if (display-graphic-p)
+  :commands (show-font-select-preview show-font-list show-font-tabulated)
+  :config
+  ;; These are the defaults, but I keep them here for easier access.
+  (setq show-font-pangram 'prot)
+  (setq show-font-character-sample
+        "
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789   !@#$¢%^&*~|
+`'\"‘’“”.,;:  ()[]{}—-_+=<>
+
+()[]{}<>«»‹› 6bB8&0ODdoa 1tiIlL|\/
+!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
+x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
+")
+  (setq show-font-display-buffer-action-alist '(display-buffer-full-frame)))
+
+
 (defun disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
-
-;; current fave
-(use-package modus-themes
-  :straight
-  (modus-themes :type git :host gitlab :repo "protesilaos/modus-themes" :branch "main")
-  :init
-  (setq modus-themes-mixed-fonts t)
-  :config
-  (modus-themes-load-theme 'modus-operandi-tinted)
-  :demand t)
-
-(defun modus-themes-toggle ()
-  (if (eq (car custom-enabled-themes) 'modus-operandi-tinted)
-      (modus-themes-load-theme 'modus-vivendi-tinted)
-    (modus-themes-load-theme 'modus-operandi-tinted)))
-
-;; Light at sunrise
-(run-at-time (nth 1 (split-string (sunrise-sunset)))
-             (* 60 60 24)
-             (lambda ()
-               (modus-themes-load-theme 'modus-operandi-tinted)))
-
-;; Dark at sunset
-(run-at-time (nth 4 (split-string (sunrise-sunset)))
-             (* 60 60 24)
-             (lambda ()
-               (modus-themes-load-theme 'modus-vivendi-tinted)))
 
 (defun my-appearance-settings (&rest frame)
   "Apply my preferences on graphical appearance."
