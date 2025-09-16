@@ -88,9 +88,6 @@
   (modus-themes :type git :host github :repo "protesilaos/modus-themes" :branch "main")
   :ensure t
   :demand t
-  :bind (("<f5>" . modus-themes-toggle)
-         ("C-<f5>" . modus-themes-select)
-         ("M-<f5>" . modus-themes-rotate))
   :config
   (setq modus-themes-custom-auto-reload nil
         ;; modus-themes-to-toggle '(modus-operandi modus-vivendi)
@@ -117,9 +114,6 @@
   (ef-themes :type git :host github :repo "protesilaos/ef-themes" :branch "main")
   :ensure t
   :demand t
-  :bind
-  (("<f5>" . ef-themes-rotate)
-   ("C-<f5>" . ef-themes-select))
   :config
   (setq ef-themes-variable-pitch-ui t
         ef-themes-mixed-fonts t
@@ -222,6 +216,8 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
 
+
+
 (defun my-appearance-settings (&rest frame)
   "Apply my preferences on graphical appearance."
   (interactive "P")
@@ -238,6 +234,8 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))))
+
+
 
 
 (provide 'init-appearance)
