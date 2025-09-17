@@ -180,13 +180,13 @@
                (ef-rosa ef-elea-dark ef-maris-dark ef-melissa-dark ef-trio-dark ef-dream)))
            (modus-themes-p
             '( :night
-               (modus-vivendi modus-vivendi-tinted modus-vivendi-tritanopia modus-vivendi-deuteranopia)
+               (modus-vivendi modus-vivendi-tinted)
                :morning
-               (modus-operandi modus-operandi-tinted modus-operandi-tritanopia modus-operandi-deuteranopia)
+               (modus-operandi modus-operandi-tinted)
                :afternoon
-               (modus-operandi modus-operandi-tinted modus-operandi-tritanopia modus-operandi-deuteranopia)
+               (modus-operandi modus-operandi-tinted)
                :evening
-               (modus-vivendi modus-vivendi-tinted modus-vivendi-tritanopia modus-vivendi-deuteranopia)))))
+               (modus-vivendi modus-vivendi-tinted)))))
 
     (when (or modus-themes-p ef-themes-p)
       (theme-buffet-timer-hours 1))))

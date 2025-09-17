@@ -167,15 +167,15 @@
 ;; for org-roam-buffer-toggle
 ;; Use side-window like V1
 ;; This can take advantage of slots available with it
-(add-to-list 'display-buffer-alist
-    '("\\*org-roam\\*"
-        (display-buffer-in-side-window)
-        (side . right)
-        (slot . 0)
-        (window-width . 0.25)
-        (preserve-size . (t . nil))
-        (window-parameters . ((no-other-window . t)
-                              (no-delete-other-windows . t)))))
+;; (add-to-list 'display-buffer-alist
+;;     '("\\*org-roam\\*"
+;;         (display-buffer-in-side-window)
+;;         (side . right)
+;;         (slot . 0)
+;;         (window-width . 0.25)
+;;         (preserve-size . (t . nil))
+;;         (window-parameters . ((no-other-window . t)
+;;                               (no-delete-other-windows . t)))))
 
 (provide 'init-org)
 
