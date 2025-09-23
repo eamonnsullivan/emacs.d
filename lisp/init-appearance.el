@@ -137,18 +137,6 @@
       (modus-themes-load-theme 'modus-vivendi-tinted)
     (modus-themes-load-theme 'modus-operandi-tinted)))
 
-;; Light at sunrise
-(run-at-time (nth 1 (split-string (sunrise-sunset)))
-             (* 60 60 24)
-             (lambda ()
-               (modus-themes-load-theme 'modus-operandi-tinted)))
-
-;; Dark at sunset
-(run-at-time (nth 4 (split-string (sunrise-sunset)))
-             (* 60 60 24)
-             (lambda ()
-               (modus-themes-load-theme 'modus-vivendi-tinted)))
-
 ;;;; Theme buffet
 (use-package theme-buffet
   :straight t
@@ -233,7 +221,8 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
     (setq display-time-24hr-format t)
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
-        (message "Font Aporetic Sans Mono not found, using default font settings"))))
+        (message "Font Aporetic Sans Mono not found, using default font settings"))
+    (theme-buffet-a-la-carte)))
 
 
 

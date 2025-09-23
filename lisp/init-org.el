@@ -59,6 +59,7 @@
         org-agenda-skip-scheduled-repeats-after-deadline t
         org-agenda-skip-deadline-prewarning-if-scheduled t
         org-fold-catch-invisible-edits t
+        org-startup-folded 'content
         org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
                                  "* TODO %?\n SCHEDULED: %t\n %a")
                                 ("w" "Work note" entry (file org-default-notes-file)
@@ -73,8 +74,8 @@
                                      ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
-      (if (not org-timer-countdown-timer)
-          (org-timer-set-timer '(16)))))
+                                 (if (not org-timer-countdown-timer)
+                                     (org-timer-set-timer '(16)))))
   (add-to-list 'org-modules 'org-habit)
   (add-hook 'auto-save-hook 'org-save-all-org-buffers))
 
@@ -90,9 +91,16 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
+  (setq org-roam-mode-sections
+        (list #'org-roam-backlinks-section
+              #'org-roam-reflinks-section
+              #'org-roam-unlinked-references-section
+              ))
+
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
+        org-roam-graph-executable "neato"
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates

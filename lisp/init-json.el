@@ -2,9 +2,9 @@
 ;;; init-json.el --- stuff related to JSON
 
 (use-package json-mode
-  :mode (("\\.json\\'" . json-mode)
-         ("\\.tmpl\\'" . json-mode)
-         ("\\.eslintrc\\'" . json-mode))
+  :mode (("\\.json\\'" . json-ts-mode)
+         ("\\.tmpl\\'" . json-ts-mode)
+         ("\\.eslintrc\\'" . json-ts-mode))
   :config (setq-default js-indent-level 2)
   (add-hook 'json-mode-hook
             (lambda()
