@@ -100,7 +100,9 @@
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
-        org-roam-graph-executable "neato"
+        org-roam-graph-executable "dot"
+        ;; needs to be set correctly on non-MacOS
+        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
@@ -150,12 +152,15 @@
             "#+title: ${title}")
            :unnarrowed t)))
 
+  (defun eds/org-roam-graph-small ()
+    (interactive)
+    (org-roam-graph 2 (org-roam-node-at-point)))
 
   (org-roam-db-autosync-mode)
   (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
+         ("C-c n g" . eds/org-roam-graph-small)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ("C-c n a" . org-roam-tag-add)
