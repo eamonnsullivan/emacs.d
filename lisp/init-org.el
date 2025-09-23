@@ -101,8 +101,6 @@
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
         org-roam-graph-executable "dot"
-        ;; needs to be set correctly on non-MacOS
-        org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
@@ -151,6 +149,9 @@
             "%<%Y%m%d%H%M%S>-${slug}.org"
             "#+title: ${title}")
            :unnarrowed t)))
+
+  (when (eq system-type 'darwin)
+    (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
 
   (defun eds/org-roam-graph-small ()
     (interactive)
