@@ -7,10 +7,9 @@
   :demand
   :diminish projectile-mode
   :init
-  (setq projectile-use-git-grep t
-        projectile-enable-caching t
-        projectile-completion-system 'helm
-        projectile-switch-project-action 'projectile-find-file)
+  (setq projectile-completion-system 'helm
+        projectile-switch-project-action 'projectile-find-file
+        projectile-indexing-method 'alien)
   (use-package helm-projectile
     :after projectile
     :config
