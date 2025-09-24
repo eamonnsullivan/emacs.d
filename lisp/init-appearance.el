@@ -179,32 +179,9 @@
     (when (or modus-themes-p ef-themes-p)
       (theme-buffet-timer-hours 1))))
 
-(use-package show-font
-  :straight t
-  :if (display-graphic-p)
-  :commands (show-font-select-preview show-font-list show-font-tabulated)
-  :config
-  ;; These are the defaults, but I keep them here for easier access.
-  (setq show-font-pangram 'prot)
-  (setq show-font-character-sample
-        "
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-abcdefghijklmnopqrstuvwxyz
-0123456789   !@#$¢%^&*~|
-`'\"‘’“”.,;:  ()[]{}—-_+=<>
-
-()[]{}<>«»‹› 6bB8&0ODdoa 1tiIlL|\/
-!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
-x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
-")
-  (setq show-font-display-buffer-action-alist '(display-buffer-full-frame)))
-
-
 (defun disable-all-themes ()
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
-
-
 
 (defun my-appearance-settings (&rest frame)
   "Apply my preferences on graphical appearance."
@@ -223,8 +200,5 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))
     (theme-buffet-a-la-carte)))
-
-
-
 
 (provide 'init-appearance)

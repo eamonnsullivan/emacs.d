@@ -123,4 +123,24 @@
 
 (define-key isearch-mode-map (kbd "<f2>") 'cc/isearch-menu)
 
+(use-package show-font
+  :straight t
+  :if (display-graphic-p)
+  :commands (show-font-select-preview show-font-list show-font-tabulated)
+  :config
+  ;; These are the defaults, but I keep them here for easier access.
+  (setq show-font-pangram 'prot)
+  (setq show-font-character-sample
+        "
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+0123456789   !@#$¢%^&*~|
+`'\"‘’“”.,;:  ()[]{}—-_+=<>
+
+()[]{}<>«»‹› 6bB8&0ODdoa 1tiIlL|\/
+!ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
+x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
+")
+  (setq show-font-display-buffer-action-alist '(display-buffer-full-frame)))
+
 (provide 'init-utils)
