@@ -104,7 +104,7 @@
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
-        `(("d" "default" entry nil
+        `(("d" "default" entry "* ${title}\n%?"
            :target (file+head
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
