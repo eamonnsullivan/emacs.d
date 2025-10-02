@@ -143,7 +143,7 @@
                              "\n#+startup: content"
                              "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"))))
         org-roam-capture-ref-templates
-        '(("r" "ref" entry "* [[${ref}][${title}]]\n${body}\n%?"
+        '(("r" "ref" entry "* ${title}\n${body}\n%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -177,19 +177,6 @@
 (defun eds/switch-to-org-roam-buffer ()
   (interactive)
   (switch-to-buffer-other-frame "*org-roam*"))
-
-;; for org-roam-buffer-toggle
-;; Use side-window like V1
-;; This can take advantage of slots available with it
-;; (add-to-list 'display-buffer-alist
-;;     '("\\*org-roam\\*"
-;;         (display-buffer-in-side-window)
-;;         (side . right)
-;;         (slot . 0)
-;;         (window-width . 0.25)
-;;         (preserve-size . (t . nil))
-;;         (window-parameters . ((no-other-window . t)
-;;                               (no-delete-other-windows . t)))))
 
 (provide 'init-org)
 
