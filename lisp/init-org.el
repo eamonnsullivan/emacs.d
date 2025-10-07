@@ -110,7 +110,7 @@
                     ,(concat "#+title: ${title}"
                              "\n#+startup: content"))
            :unnarrowed t)
-          ("m" "meeting" entry "* Notes\n%u\n%?"
+          ("m" "meeting" entry "* ${title} Notes\n%u\n%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -126,7 +126,7 @@
                     ,(concat "#+title: ${title}"
                              "\n#+startup: content"))
            :unnarrowed t)
-          ("x" "training" entry "* Notes\n%u\n%?"
+          ("x" "training" entry "* ${title} Notes\n%u\n%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
