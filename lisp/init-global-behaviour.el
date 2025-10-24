@@ -152,16 +152,6 @@
   (require 'eds)
   (key-chord-define-global "JJ" 'eds/switch-to-previous-buffer))
 
-;; undo-tree everywhere
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-  :bind ("s-/" . undo-tree-visualize)
-  :chords (("ZZ" . undo-tree-visualize)))
-
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 

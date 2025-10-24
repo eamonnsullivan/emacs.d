@@ -3,7 +3,7 @@
 
 (use-package yasnippet
   :diminish (yas-minor-mode . " Ⓨ")
-  :hook ((prog-mode text-mode) . yas-minor-mode)
+  :hook ((prog-mode) . yas-minor-mode)
   :config
   (use-package yasnippet-snippets :after yasnippet :demand t)
   (with-eval-after-load 'company-mode
