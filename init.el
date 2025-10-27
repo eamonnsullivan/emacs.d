@@ -116,12 +116,13 @@
 (require 'init-codestyle)
 (require 'init-haskell)
 (require 'init-crypt)
-(require 'init-copilot)
+;; (require 'init-copilot)
 (require 'init-org)
 (require 'init-global-bindings)
 (require 'init-hydra)
 (require 'init-projectile)
 (require 'init-helm)
+(require 'init-eca)
 
 (provide 'init)
 ;;; init.el ends here
