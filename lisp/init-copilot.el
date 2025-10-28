@@ -5,6 +5,15 @@
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :bind (("C-c C-c" . copilot-accept-completion))
   :ensure t
+  :hook
+  ((typescript-ts-base-mode . copilot-mode)
+   (scala-ts-mode . copilot-mode)
+   (go-ts-mode . copilot-mode)
+   (emacs-lisp-mode . copilot-mode)
+   (python-ts-mode . copilot-mode)
+   (bash-ts-mode . copilot-mode)
+   (java-ts-mode . copilot-mode)
+   (clojure-ts-mode . copilot-mode))
   :config
   (add-to-list 'copilot-indentation-alist '(prog-mode 2))
   (add-to-list 'copilot-indentation-alist '(org-mode 2))
@@ -12,10 +21,6 @@
   (add-to-list 'copilot-indentation-alist '(closure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
 
-(add-hook 'typescript-ts-base-mode-hook 'copilot-mode)
-(add-hook 'scala-ts-mode-hook 'copilot-mode)
-(add-hook 'go-ts-mode-hook 'copilot-mode)
-(add-hook 'emacs-lisp-mode-hook 'copilot-mode)
 
 (use-package copilot-chat
   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))

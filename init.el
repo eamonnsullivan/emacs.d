@@ -116,7 +116,7 @@
 (require 'init-codestyle)
 (require 'init-haskell)
 (require 'init-crypt)
-;; (require 'init-copilot)
+(require 'init-copilot)
 (require 'init-org)
 (require 'init-global-bindings)
 (require 'init-hydra)
