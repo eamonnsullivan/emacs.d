@@ -18,7 +18,7 @@
   sp-local-pair
   :diminish smartparens-mode
   :hook ((scala-mode . smartparens-mode)
-         (python-mode . smartparens-mode)
+         (python-ts-mode . smartparens-mode)
          (java-mode . smartparens-mode)
          (js2-mode . smartparens-mode)
          (markdown-mode . smartparens-mode)

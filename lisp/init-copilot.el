@@ -15,6 +15,9 @@
    (java-ts-mode . copilot-mode)
    (clojure-ts-mode . copilot-mode))
   :config
+  ;; Remap for copilot, since I don't actually use this key in python
+  ;; much.
+  (unbind-key "C-c C-c" python-ts-mode-map)
   (add-to-list 'copilot-indentation-alist '(prog-mode 2))
   (add-to-list 'copilot-indentation-alist '(org-mode 2))
   (add-to-list 'copilot-indentation-alist '(text-mode 2))

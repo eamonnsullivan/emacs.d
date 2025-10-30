@@ -70,7 +70,7 @@ programming."
   :straight t)
 
 (straight-use-package 'yapfify)
-(add-hook 'python-mode-hook 'yapf-mode)
+(add-hook 'python-ts-mode-hook 'yapf-mode)
 
 ;; (when (and
 ;;        (not (string= system-name "blueberry"))
