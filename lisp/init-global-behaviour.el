@@ -26,6 +26,10 @@
   (electric-pair-mode)
   (global-subword-mode)
   (delete-selection-mode)
+  (require 'info)
+  (info-initialize)
+  (push "/opt/homebrew/share/info/" Info-directory-list)
+  (add-to-list 'Info-default-directory-list "/opt/homebrew/share/info")
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)

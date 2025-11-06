@@ -22,7 +22,7 @@
         mu4e-view-show-images t
         user-mail-address "eamonn.sullivan@gmail.com"
         user-full-name "Eamonn Sullivan"
-        send-mail-function 'sendmail-send-it
+        send-mail-function 'smtpmail-send-it
         message-send-mail-function 'sendmail-send-it
         message-kill-buffer-on-exit t
         sendmail-program (executable-find "msmtp")
