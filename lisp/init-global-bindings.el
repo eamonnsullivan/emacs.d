@@ -91,6 +91,7 @@ _SPC_ cancel
                   ("SPC" nil)))
 
 (key-chord-define-global "XX" 'calendar)
+(key-chord-define-global "II" 'mu4e)
 
 
 (provide 'init-global-bindings)

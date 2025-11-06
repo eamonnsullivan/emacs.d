@@ -13,6 +13,10 @@
         mu4e-update-interval 300
         mu4e-attachment-dir "~/Downloads"
         mu4e-change-filenames-when-moving t
+        mu4e-drafts-folder "/gmail-eamonn/[Gmail].Drafts"
+        mu4e-sent-folder   "/gmail-eamonn/[Gmail].Sent Mail"
+        mu4e-trash-folder  "/gmail-eamonn/[Gmail].Trash"
+        mu4e-sent-messages-behavior 'delete
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?s)
@@ -28,7 +32,7 @@
         sendmail-program (executable-find "msmtp")
         message-sendmail-envelope-from 'header
         mail-user-agent 'mu4e-user-agent)
-  (add-to-list 'mu4e-bookmarks '(:query "maildir:/gmail-eamonn/INBOX" :name "Inbox" :key ?i :favorite t))
+  (add-to-list 'mu4e-bookmarks '(:query "maildir:/inbox" :name "Inbox" :key ?i :favorite t))
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
 
   (require 'epa-file)
