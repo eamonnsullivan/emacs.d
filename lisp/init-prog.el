@@ -14,8 +14,7 @@
 
 (use-package highlight-symbol
   :bind (("M-n" . highlight-symbol-next)
-         ("M-p" . highlight-symbol-prev))
-  :chords (("XX" . highlight-symbol)))
+         ("M-p" . highlight-symbol-prev)))
 
 (use-package typescript-ts-mode
   :mode (("\.ts$" . typescript-ts-mode))

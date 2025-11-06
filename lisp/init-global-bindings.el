@@ -90,7 +90,7 @@ _SPC_ cancel
                   ("p" (forward-line -1))
                   ("SPC" nil)))
 
-(key-chord-define-global "CC" 'calendar)
+(key-chord-define-global "XX" 'calendar)
 
 
 (provide 'init-global-bindings)

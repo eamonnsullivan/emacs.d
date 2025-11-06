@@ -28,7 +28,10 @@
 (use-package vterm
   :straight
   (vterm :type git :host github :repo "akermu/emacs-libvterm")
-  :bind ("C-<f2>" . visit-term))
+  :bind
+  (("C-<f2>" . visit-term)
+   ("C-q" . vterm-send-next-key)))
+
 
 
 (provide 'init-term)
