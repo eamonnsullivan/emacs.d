@@ -86,6 +86,7 @@
 (straight-use-package 'project)
 
 ;; The rest of my init file, broken up into libraries in the lisp directory
+;; (setq debug-on-error t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'ert)
 (require 'init-git)
@@ -123,6 +124,6 @@
 (require 'init-projectile)
 (require 'init-helm)
 (require 'init-eca)
-
+(require 'init-mu4e)
 (provide 'init)
 ;;; init.el ends here
