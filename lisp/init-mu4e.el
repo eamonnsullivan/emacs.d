@@ -34,6 +34,8 @@
         mail-user-agent 'mu4e-user-agent)
   (add-to-list 'mu4e-bookmarks '(:query "maildir:/inbox" :name "Inbox" :key ?i :favorite t))
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
+  (add-to-list 'mu4e-view-actions
+       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
 
   (require 'epa-file)
   (epa-file-enable)
