@@ -16,12 +16,28 @@
         mu4e-drafts-folder "/gmail-eamonn/[Gmail].Drafts"
         mu4e-sent-folder   "/gmail-eamonn/[Gmail].Sent Mail"
         mu4e-trash-folder  "/gmail-eamonn/[Gmail].Trash"
+        mu4e-search-skip-duplicates t
+        mu4e-search-include-related t
         mu4e-sent-messages-behavior 'delete
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?s)
                                   (:maildir "/gmail-eamonn/[Gmail].Trash"      :key ?t)
-                                  (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?a))
+                                  (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?a)
+                                  (:maildir "/gmail-eamonn/[Gmail].Starred"    :key ?z))
+        mu4e-bookmarks '((:name "Inbox"
+                          :query "maildir:/gmail-eamonn/INBOX"
+                          :key ?i
+                          :favorite t)
+                         (:name "Important"
+                          :query "maildir:/gmail-eamonn/[Gmail].Important"
+                          :key ?p)
+                         (:name "Unread messages"
+                          :query "flag:unread AND NOT maildir:/gmail-eamonn/[Gmail].Spam"
+                          :key ?u)
+                         (:name "To Hillingdon Foodbank"
+                          :query "to:Hillingdon Foodbank"
+                          :key ?h))
         mu4e-use-fancy-chars t
         mu4e-view-show-images t
         user-mail-address "eamonn.sullivan@gmail.com"
@@ -32,7 +48,6 @@
         sendmail-program (executable-find "msmtp")
         message-sendmail-envelope-from 'header
         mail-user-agent 'mu4e-user-agent)
-  (add-to-list 'mu4e-bookmarks '(:query "maildir:/inbox" :name "Inbox" :key ?i :favorite t))
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
   (add-to-list 'mu4e-view-actions
        '("ViewInBrowser" . mu4e-action-view-in-browser) t)
