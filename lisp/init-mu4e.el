@@ -17,7 +17,6 @@
         mu4e-sent-folder   "/gmail-eamonn/[Gmail].Sent Mail"
         mu4e-trash-folder  "/gmail-eamonn/[Gmail].Trash"
         mu4e-search-skip-duplicates t
-        mu4e-search-include-related t
         mu4e-sent-messages-behavior 'delete
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
@@ -37,7 +36,10 @@
                           :key ?u)
                          (:name "To Hillingdon Foodbank"
                           :query "to:Hillingdon Foodbank"
-                          :key ?h))
+                          :key ?h)
+                         (:name "Food bank"
+                          :query "to:foodbank@svpsouthruislip.org.uk"
+                          :key ?f))
         mu4e-use-fancy-chars t
         mu4e-view-show-images t
         user-mail-address "eamonn.sullivan@gmail.com"
