@@ -238,10 +238,9 @@
   (progn
     (message "my-appearance-settings running.")
     (transient-mark-mode t)
-    (menu-bar-mode -1)
     (when (window-system)
-      (message "toggling scroll bar off")
-      (toggle-scroll-bar -1))
+      (toggle-scroll-bar -1)
+      (tool-bar-mode t))
     (line-number-mode t)
     (display-time-mode t)
     (setq display-time-24hr-format t)

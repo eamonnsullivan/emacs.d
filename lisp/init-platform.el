@@ -26,6 +26,7 @@
   (dolist (var '("GOPATH"
                  "SERVER_ENV"
                  "PATH"
+                 "OP_SERVICE_ACCOUNT_TOKEN"
                  ))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
