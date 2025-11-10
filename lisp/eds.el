@@ -301,4 +301,18 @@ that don't work in a filename."
     (save-buffer)
     (org-roam-db-sync)))
 
+(defun eds/set-msmtp-account ()
+  "Set the msmtp account based on the current from."
+  (if (message-mail-p)
+      (save-excursion
+        (let*
+            ((from (save-excursion
+                     (message-narrow-to-headers)
+                     (message-fetch-field "From")))
+             (account
+              (cond
+               ((string-match "eamonn.sullivan@gmail.com" from) "gmail-eamonn")
+               ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp"))))
+          (setq message-sendmail-extra-arguments (list '"-a" account))))))
+
 (provide 'eds)
