@@ -29,8 +29,9 @@
   :straight
   (vterm :type git :host github :repo "akermu/emacs-libvterm")
   :bind
-  (("C-<f2>" . visit-term)
-   ("C-q" . vterm-send-next-key)))
+  (("C-<f2>" . visit-term))
+  :config
+  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key))
 
 
 

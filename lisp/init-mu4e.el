@@ -11,10 +11,11 @@
   (setq mu4e-mu-binary (executable-find "mu")
         mu4e-maildir "~/.maildir"
         mu4e-get-mail-command (executable-find "offlineimap")
-        mu4e-update-interval 600
+        mu4e-update-interval 300
         mu4e-attachment-dir "~/Downloads"
         mu4e-change-filenames-when-moving t
         mu4e-search-skip-duplicates t
+        mu4e-search-include-related nil
         mu4e-sent-messages-behavior 'delete
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
@@ -46,7 +47,10 @@
                                 :key ?h)
                          (:name "Food bank"
                                 :query "to:foodbank@svpsouthruislip.org.uk"
-                                :key ?f))
+                                :key ?f)
+                         (:name "SVP Info"
+                                :query "maildir:/gmail-svp/svp-info"
+                                :key ?n))
         mu4e-contexts `(,(make-mu4e-context
                           :name "personal"
                           :enter-func
