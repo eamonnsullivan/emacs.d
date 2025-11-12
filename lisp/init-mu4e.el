@@ -93,7 +93,13 @@
         message-kill-buffer-on-exit t
         sendmail-program (executable-find "msmtp")
         message-sendmail-envelope-from 'header
-        mail-user-agent 'mu4e-user-agent)
+        mail-user-agent 'mu4e-user-agent
+        org-mu4e-link-query-in-headers-mode nil
+        mu4e-headers-show-threads nil
+        mu4e-hide-index-messages t
+        mu4e-headers-include-related nil
+        mu4e-headers-show-threads nil
+        mu4e-confirm-quit nil)
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
   (add-hook 'message-send-mail-hook 'eds/set-msmtp-account)
   (add-to-list 'mu4e-view-actions
