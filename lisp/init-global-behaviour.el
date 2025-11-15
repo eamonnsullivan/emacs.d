@@ -74,6 +74,9 @@
   ((text-mode . visual-line-mode)
    (before-save . delete-trailing-whitespace)))
 
+(require 'init-mu4e)
+(set-variable 'mail-user-agent 'mu4e-user-agent)
+(set-variable 'read-mail-command 'mu4e)
 (setq package-install-upgrade-built-in t)
 
 ;; Turn off the annoying default backup behaviour

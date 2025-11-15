@@ -32,7 +32,7 @@
                                 :favorite t)
                          (:name "Important"
                                 :query "maildir:/gmail-eamonn/[Gmail].Important"
-                                :key ?p)
+                                :key ?a)
                          (:name "Unread messages"
                                 :query "flag:unread AND NOT maildir:/gmail-eamonn/[Gmail].Spam"
                                 :key ?u)
