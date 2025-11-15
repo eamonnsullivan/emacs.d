@@ -40,10 +40,10 @@
                                 :query "maildir:/gmail-svp/INBOX"
                                 :key ?v)
                          (:name "SVP All Mail"
-                                :query "maildir:/gmail-svp/[Gmail].All Mail"
+                                :query "maildir:\"/gmail-svp/[Gmail].All Mail\""
                                 :key ?p)
                          (:name "To Hillingdon Foodbank"
-                                :query "to:Hillingdon Foodbank"
+                                :query "to:\"Hillingdon Foodbank\""
                                 :key ?h)
                          (:name "Food bank"
                                 :query "to:foodbank@svpsouthruislip.org.uk"
