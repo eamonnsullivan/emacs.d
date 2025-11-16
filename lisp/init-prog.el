@@ -12,9 +12,8 @@
   (set (make-local-variable 'scroll-conservatively) 1000))
 (add-hook 'comint-mode-hook 'eds/init-comint)
 
-(use-package highlight-symbol
-  :bind (("M-n" . highlight-symbol-next)
-         ("M-p" . highlight-symbol-prev)))
+(use-package idle-highlight-mode
+  :config (setq idle-highlight-idle-time 0.2))
 
 (use-package typescript-ts-mode
   :mode (("\.ts$" . typescript-ts-mode))

@@ -20,7 +20,6 @@
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?s)
-                                  (:maildir "/gmail-eamonn/[Gmail].Trash"      :key ?t)
                                   (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?a)
                                   (:maildir "/gmail-eamonn/[Gmail].Starred"    :key ?z)
                                   (:maildir "/gmail-svp/INBOX"                 :key ?v)
@@ -30,26 +29,17 @@
                                 :query "maildir:/gmail-eamonn/INBOX"
                                 :key ?i
                                 :favorite t)
-                         (:name "Important"
-                                :query "maildir:/gmail-eamonn/[Gmail].Important"
-                                :key ?a)
-                         (:name "Unread messages"
-                                :query "flag:unread AND NOT maildir:/gmail-eamonn/[Gmail].Spam"
-                                :key ?u)
                          (:name "SVP Inbox"
                                 :query "maildir:/gmail-svp/INBOX"
                                 :key ?v)
-                         (:name "SVP All Mail"
-                                :query "maildir:\"/gmail-svp/[Gmail].All Mail\""
-                                :key ?p)
-                         (:name "To Hillingdon Foodbank"
-                                :query "to:\"Hillingdon Foodbank\""
-                                :key ?h)
+                         (:name "Unread messages"
+                                :query "flag:unread AND NOT maildir:/gmail-eamonn/[Gmail].Spam"
+                                :key ?u)
                          (:name "Food bank"
                                 :query "to:foodbank@svpsouthruislip.org.uk"
                                 :key ?f)
                          (:name "SVP Info"
-                                :query "maildir:/gmail-svp/svp-info"
+                                :query "to:info@svpsouthruislip.org.uk"
                                 :key ?n))
         mu4e-contexts `(,(make-mu4e-context
                           :name "personal"
