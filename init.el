@@ -125,5 +125,6 @@
 (require 'init-helm)
 (require 'init-eca)
 (require 'init-mu4e)
+(require 'init-treemacs)
 (provide 'init)
 ;;; init.el ends here

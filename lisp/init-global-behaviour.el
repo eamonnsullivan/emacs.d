@@ -70,6 +70,7 @@
   (tramp-copy-size-limit (* 1024 1024))
   (tramp-verbose 2)
   (find-file-visit-truename t)
+  (auth-source "~/.authinfo.gpg")
   :hook
   ((text-mode . visual-line-mode)
    (before-save . delete-trailing-whitespace)))
