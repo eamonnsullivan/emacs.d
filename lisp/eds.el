@@ -315,4 +315,13 @@ that don't work in a filename."
                ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp"))))
           (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
+(defun eds/get-org-agenda-files ()
+  "Return a list of org files containing the :agenda: tag, using grep and shell glob expansion."
+  (let* ((org-directory (eds/get-org-directory))
+         (default-directory (concat org-directory "/"))
+         (cmd "grep -l ':agenda:' *.org")
+         (output (shell-command-to-string cmd)))
+    (mapcar (lambda (file) (expand-file-name file org-directory))
+            (split-string output "\n" t))))
+
 (provide 'eds)

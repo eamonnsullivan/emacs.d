@@ -42,8 +42,10 @@
         org-default-notes-file (concat org-directory "/notes.org")
         eds-org-index-file (concat org-directory "/index.org")
         eds-org-personal-file (concat org-directory "/personal.org")
-        org-agenda-files (backquote
-                          (,(concat org-directory "/")))
+        eds-org-calendar-file (concat org-directory "/calendar.org")
+        org-agenda-files (eds/get-org-agenda-files)
+        ;; org-agenda-files (backquote
+        ;;                   (,(concat org-directory "/")))
 	org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-src-fontify-natively t
         org-log-into-drawer t
@@ -73,6 +75,7 @@
                                      ("ps" tags-todo "shopping")
                                      ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
+  (add-to-list 'org-agenda-files eds-org-calendar-file)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
                                      (org-timer-set-timer '(16)))))

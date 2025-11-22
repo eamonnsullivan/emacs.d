@@ -27,6 +27,8 @@
 
 (use-package copilot-chat
   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
+  :config
+  (global-unset-key (kbd "C-c i"))
   :bind (("C-c i" . copilot-chat-goto-input))
   :after (request org markdown-mode))
 

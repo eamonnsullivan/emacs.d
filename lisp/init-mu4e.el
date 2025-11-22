@@ -29,12 +29,12 @@
                                 :query "maildir:/gmail-eamonn/INBOX"
                                 :key ?i
                                 :favorite t)
+                         (:name "Unread"
+                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND flag:unread"
+                                :key ?u)
                          (:name "SVP Inbox"
                                 :query "maildir:/gmail-svp/INBOX"
                                 :key ?v)
-                         (:name "Unread messages"
-                                :query "flag:unread AND NOT maildir:/gmail-eamonn/[Gmail].Spam"
-                                :key ?u)
                          (:name "Food bank"
                                 :query "to:foodbank@svpsouthruislip.org.uk"
                                 :key ?f)
