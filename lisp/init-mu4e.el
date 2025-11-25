@@ -32,6 +32,9 @@
                          (:name "Unread"
                                 :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND flag:unread"
                                 :key ?u)
+                         (:name "Github"
+                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND tags:ads/github"
+                                :key ?g)
                          (:name "SVP Inbox"
                                 :query "maildir:/gmail-svp/INBOX"
                                 :key ?v)
