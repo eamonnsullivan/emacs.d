@@ -312,7 +312,8 @@ that don't work in a filename."
              (account
               (cond
                ((string-match "eamonn.sullivan@gmail.com" from) "gmail-eamonn")
-               ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp"))))
+               ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp")
+               ((string-match "me@eamonnsullivan.co.uk" from) "fastmail"))))
           (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
 (defun eds/get-org-agenda-files ()
