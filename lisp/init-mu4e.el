@@ -16,7 +16,11 @@
         mu4e-change-filenames-when-moving t
         mu4e-search-skip-duplicates t
         mu4e-search-include-related nil
-        mu4e-sent-messages-behavior 'sent
+        mu4e-sent-messages-behavior
+        (lambda ()
+          (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
+                  (string= (message-sendmail-envelope-from) "svpsouthruislip@gmail.com"))
+              'delete 'sent))
         mu4e-user-mail-address-list '("eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com" "me@eamonnsullivan.co.uk")
         mu4e-maildir-shortcuts '( (:maildir "/gmail-eamonn/INBOX"              :key ?i)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?s)
