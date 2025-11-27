@@ -126,6 +126,8 @@
   (add-hook 'message-send-mail-hook 'eds/set-msmtp-account)
   (add-to-list 'mu4e-view-actions
                '("Search for sender" . eds/other-messages-from-sender) t)
+  (add-to-list 'mu4e-view-actions
+               '("Org" . eds/orgify-msg) t)
 
   (require 'epa-file)
   (epa-file-enable)

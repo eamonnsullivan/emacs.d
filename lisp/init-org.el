@@ -168,18 +168,13 @@
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ("C-c n a" . org-roam-tag-add)
-         ("C-c n o" . eds/switch-to-org-roam-buffer)
          ("C-c n r" . eds/create-new-note-from-clipboard-link)
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
-         ("C-c n a" . org-roam-alias-add) ; add an alias to the current node
+         ("C-c n A" . org-roam-alias-add) ; add an alias to the current node
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
 (require 'org-roam-protocol)
-
-(defun eds/switch-to-org-roam-buffer ()
-  (interactive)
-  (switch-to-buffer-other-frame "*org-roam*"))
 
 (provide 'init-org)
 
