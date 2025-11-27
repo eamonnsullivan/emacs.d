@@ -325,4 +325,11 @@ that don't work in a filename."
     (mapcar (lambda (file) (expand-file-name file org-directory))
             (split-string output "\n" t))))
 
+(require 'init-mu4e)
+
+(defun eds/other-messages-from-sender (msg)
+  "Return a list of other messages from the same sender as MSG."
+  (mu4e-search
+   (concat "from:" (mu4e-contact-email (car (mu4e-message-field msg :from))))))
+
 (provide 'eds)

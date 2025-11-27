@@ -125,7 +125,7 @@
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
   (add-hook 'message-send-mail-hook 'eds/set-msmtp-account)
   (add-to-list 'mu4e-view-actions
-               '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+               '("Search for sender" . eds/other-messages-from-sender) t)
 
   (require 'epa-file)
   (epa-file-enable)
