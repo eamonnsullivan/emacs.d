@@ -11,7 +11,7 @@
   (setq mu4e-mu-binary (executable-find "mu")
         mu4e-maildir "~/.maildir"
         mu4e-get-mail-command (executable-find "offlineimap")
-        mu4e-update-interval 300
+        mu4e-update-interval nil
         mu4e-attachment-dir (expand-file-name "~/Downloads")
         mu4e-change-filenames-when-moving t
         mu4e-search-skip-duplicates t
