@@ -126,5 +126,6 @@
 (require 'init-eca)
 (require 'init-mu4e)
 (require 'init-treemacs)
+(require 'init-whatsapp)
 (provide 'init)
 ;;; init.el ends here

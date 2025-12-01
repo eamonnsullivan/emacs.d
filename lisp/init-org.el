@@ -37,21 +37,23 @@
      (typescript . t)
      (clojure . t)
      (haskell . t)
-     (python . t)))
+     (python . t)
+     (dot . t)
+     (plantuml . t)))
   (setq org-directory (eds/get-org-directory)
         org-default-notes-file (concat org-directory "/notes.org")
         eds-org-index-file (concat org-directory "/index.org")
         eds-org-personal-file (concat org-directory "/personal.org")
         eds-org-calendar-file (concat org-directory "/calendar.org")
         org-agenda-files (eds/get-org-agenda-files)
-        ;; org-agenda-files (backquote
-        ;;                   (,(concat org-directory "/")))
 	org-refile-targets '((org-agenda-files :maxlevel . 5))
         org-src-fontify-natively t
         org-log-into-drawer t
         org-hide-emphasis-markers t
         org-agenda-include-diary t
         org-timer-default-timer 25
+        org-plantuml-executable-path "/opt/homebrew/bin/plantuml"
+        org-plantuml-exec-mode 'plantuml
         org-capture-use-agenda-date t
         org-confirm-babel-evaluate nil
         org-agenda-start-on-weekday nil
