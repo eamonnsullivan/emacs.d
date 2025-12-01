@@ -6,6 +6,7 @@
 (use-package ob-go)
 (straight-use-package
  '(edraw-org :type git :host github :repo "misohena/el-easydraw"))
+(use-package ob-http)
 
 (require 'eds)
 
@@ -39,7 +40,8 @@
      (haskell . t)
      (python . t)
      (dot . t)
-     (plantuml . t)))
+     (plantuml . t)
+     (http . t)))
   (setq org-directory (eds/get-org-directory)
         org-default-notes-file (concat org-directory "/notes.org")
         eds-org-index-file (concat org-directory "/index.org")
