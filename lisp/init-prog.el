@@ -67,6 +67,9 @@ programming."
 (use-package jupyter
   :straight t)
 
+(use-package buttercup
+  :straight (:host github :repo "jorgenschaefer/emacs-buttercup" :files ("*.el")))
+
 (straight-use-package 'yapfify)
 (add-hook 'python-ts-mode-hook 'yapf-mode)
 

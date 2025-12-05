@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init.el --- Initialization code for emacs
 
-;; Copyright (c) 2018 Eamonn Sullivan
+;; Copyright (c) 2025 Eamonn Sullivan
 
 ;; Author: Eamonn Sullivan <eamonn.sullivan@gmail.com>
 ;; Maintainer: Eamonn Sullivan <eamonn.sullivan@gmail.com>
@@ -127,5 +127,6 @@
 (require 'init-mu4e)
 (require 'init-treemacs)
 (require 'init-whatsapp)
+(require 'init-presentations)
 (provide 'init)
 ;;; init.el ends here
