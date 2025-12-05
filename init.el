@@ -8,6 +8,7 @@
 ;; Updated pretty much constantly
 
 ;; Homepage: https://github.com/eamonnsullivan/emacs.d
+;; Version: 1.0.0
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -24,6 +25,8 @@
 ;; (defvar comp-deferred-compilation-deny-list ())
 
 (setq straight-use-package-by-default t
+      straight-use-package-mode t
+      straight-enable-use-package-integration t
       straight-disable-native-compile nil
       package-enable-at-startup nil
       straight-repository-branch "develop"
@@ -128,5 +131,6 @@
 (require 'init-treemacs)
 (require 'init-whatsapp)
 (require 'init-presentations)
+(require 'init-testing)
 (provide 'init)
 ;;; init.el ends here

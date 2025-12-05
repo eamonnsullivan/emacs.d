@@ -65,5 +65,24 @@
     (should (equal "[This is a test](../../pages-output/contact/)"
                    (buffer-string)))))
 
+(ert-deftest eds/get-from-field ()
+    "Test getting the from field from a message plist"
+  (should (equal (eds/get-from-field '(:from ((:name "User" :email "user@example.com"))))
+                 '((:name "User" :email "user@example.com"))))
+  (should (equal (eds/get-from-field '(:subject "Test Subject" :date "2024-06-01"))
+                 nil))
+  (should (equal (eds/get-from-field '(:from "something"))
+                 "something")))
+
+(ert-deftest eds/get-contact-email ()
+  "Test that we extract just the email from the first contact"
+  (should (equal (eds/get-contact-email '(:email "user@example.com" :name "User"))
+                 "user@example.com"))
+  (should (equal (eds/get-contact-email '(:name "User"))
+                 nil)))
+
+(ert-deftest eds/get-email-search-string ()
+  (should (equal (eds/get-email-search-string "user@example.com")
+                 "from:user@example.com")))
 
 (provide 'eds-test)

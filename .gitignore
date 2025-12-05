@@ -3,6 +3,7 @@
 
 # Packaging
 .cask
+.eask
 
 authinfo
 /.DS_Store

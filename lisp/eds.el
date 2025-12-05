@@ -1,5 +1,15 @@
-;;; -*- lexical-binding: t -*-
-;;; eds.el --- Library for my own tweaks to various packages
+;;; eds.el --- Library of small functions and tweaks to various packages  -*- lexical-binding:t -*-
+
+;; Copyright (C) 2025 Eamonnn Sullivan
+
+
+;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Version: 1.0
+;; Keywords: emacs testing development
+;; URL: https://eamonnsullivan.co.uk
+
+
+;;; Commentary:
 
 (require 'eds-test)
 
@@ -346,11 +356,23 @@ that don't work in a filename."
     (mapcar (lambda (file) (expand-file-name file org-directory))
             (split-string output "\n" t))))
 
-(require 'init-mu4e)
+(defun eds/get-from-field (msg)
+  "Return the 'from' field of MSG as a string."
+  (plist-get msg :from))
 
+(defun eds/get-contact-email (contact)
+  (plist-get contact :email))
+
+(defun eds/get-email-search-string (email)
+  (concat "from:" email))
+
+(require 'init-mu4e)
 (defun eds/other-messages-from-sender (msg)
-  "Return a list of other messages from the same sender as MSG."
-  (mu4e-search
-   (concat "from:" (mu4e-contact-email (car (mu4e-message-field msg :from))))))
+  "Search for messages from the same sender as MSG."
+  (let* ((from-field (eds/get-from-field msg))
+         (contact (car from-field))
+         (email (eds/get-contact-email contact))
+         (search-string (eds/get-email-search-string email)))
+    (mu4e-search search-string)))
 
 (provide 'eds)
