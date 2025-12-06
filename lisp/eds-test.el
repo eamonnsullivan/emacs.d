@@ -1,6 +1,8 @@
 ;;; -*- lexical-binding: t -*-
 ;;; eds-test.el --- unit tests for my tweaks for various packages
 
+;; (require 'el-mock)
+
 (ert-deftest eds/test-get-test-or-impl ()
   "Test the output of eds/get-test-or-impl."
   (should (equal (eds/get-test-or-impl "/dir/somewhere/something.test.js") "/dir/somewhere/something.js"))
@@ -41,8 +43,25 @@
   (should (equal (eds/filter-for-regex "foo" '("baz" "hello"))
                  nil)))
 
+(ert-deftest eds/strip-invalid-chars ()
+  "Tests that we correctly strip invalid characters from a string"
+  (should (equal (eds/strip-invalid-chars "Hello, World?") "Hello, World"))
+  (should (equal (eds/strip-invalid-chars "This is a <test> string") "This is a test string"))
+  (should (equal (eds/strip-invalid-chars "NoInvalidChars") "NoInvalidChars"))
+  (should (equal (eds/strip-invalid-chars "Special@:#%&*Chars") "Special@#%Chars"))
+  (should (equal (eds/strip-invalid-chars "some/directory/like/thing") "somedirectorylikething")))
+
+(ert-deftest eds/process-title ()
+  "Tests that we correctly process a title string"
+  (should (equal (eds/process-title "Hello, World?") "hello,-world"))
+  (should (equal (eds/process-title "This is a <test> string!") "this-is-a-test-string"))
+  (should (equal (eds/process-title "NoInvalidChars") "noinvalidchars"))
+  (should (equal (eds/process-title "Special@:#%&*Chars") "special@#%chars"))
+  (should (equal (eds/process-title "some/directory/like/thing") "somedirectorylikething")))
+
 (ert-deftest eds/test-make-svp-contact-link ()
   "Tests the function for inserting the contact link in the current region"
+  (ert--skip-when (not (equal noninteractive nil)))
   (with-temp-buffer
     (insert "This is a test")
     (set-mark 11)
@@ -84,5 +103,24 @@
 (ert-deftest eds/get-email-search-string ()
   (should (equal (eds/get-email-search-string "user@example.com")
                  "from:user@example.com")))
+
+(ert-deftest eds/set-msmtp-account ()
+  "Test setting the msmtp account based on the from field"
+  (ert--skip-when (not (equal noninteractive nil)))
+  (with-mock
+    (stub message-mail-p => t)
+    (with-mock
+      (stub message-fetch-field => "eamonn.sullivan@gmail.com")
+      (should (equal (eds/set-msmtp-account) '("-a" "gmail-eamonn")))))
+  (with-mock
+    (stub message-mail-p => t)
+    (with-mock
+      (stub message-fetch-field => "svpsouthruislip@gmail.com")
+      (should (equal (eds/set-msmtp-account) '("-a" "gmail-svp")))))
+  (with-mock
+    (stub message-mail-p => t)
+    (with-mock
+      (stub message-fetch-field => "me@eamonnsullivan.co.uk")
+      (should (equal (eds/set-msmtp-account) '("-a" "fastmail"))))))
 
 (provide 'eds-test)

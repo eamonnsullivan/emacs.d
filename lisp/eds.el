@@ -11,8 +11,6 @@
 
 ;;; Commentary:
 
-(require 'eds-test)
-
 (defun eds/insert-enzyme-test-case (arg)
   "Insert a skeleton test case at point. If a prefix is used, make it synchronous."
   (interactive "P")
@@ -224,7 +222,7 @@ With argument, do this that many times."
 
 (defun eds/strip-invalid-chars (title)
   "Strip characters that don't work in filenames or github branches"
-  (replace-regexp-in-string "[\\?\\>\\<\\|\\:\\&]" "" title))
+  (replace-regexp-in-string "[\\?\\>\\<\\|\\:\\&\\*\/\\!]" "" title))
 
 (defun eds/process-title (title)
   "Downcase and hyphenate a title case string. Remove characters
@@ -328,24 +326,9 @@ that don't work in a filename."
     (find-file file-name)
     (insert (concat title-line startup-line first-heading))
     (org-id-get-create)
-    (end-of-buffer)
+    (goto-char (point-max))
     (save-buffer)
     (org-roam-db-sync)))
-
-(defun eds/set-msmtp-account ()
-  "Set the msmtp account based on the current from."
-  (if (message-mail-p)
-      (save-excursion
-        (let*
-            ((from (save-excursion
-                     (message-narrow-to-headers)
-                     (message-fetch-field "From")))
-             (account
-              (cond
-               ((string-match "eamonn.sullivan@gmail.com" from) "gmail-eamonn")
-               ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp")
-               ((string-match "me@eamonnsullivan.co.uk" from) "fastmail"))))
-          (setq message-sendmail-extra-arguments (list '"-a" account))))))
 
 (defun eds/get-org-agenda-files ()
   "Return a list of org files containing the :agenda: tag, using grep and shell glob expansion."
@@ -367,6 +350,22 @@ that don't work in a filename."
   (concat "from:" email))
 
 (require 'init-mu4e)
+
+(defun eds/set-msmtp-account ()
+  "Set the msmtp account based on the current from."
+  (if (message-mail-p)
+      (save-excursion
+        (let*
+            ((from (save-excursion
+                     (message-narrow-to-headers)
+                     (message-fetch-field "From")))
+             (account
+              (cond
+               ((string-match "eamonn.sullivan@gmail.com" from) "gmail-eamonn")
+               ((string-match "svpsouthruislip@gmail.com" from) "gmail-svp")
+               ((string-match "me@eamonnsullivan.co.uk" from) "fastmail"))))
+          (setq message-sendmail-extra-arguments (list '"-a" account))))))
+
 (defun eds/other-messages-from-sender (msg)
   "Search for messages from the same sender as MSG."
   (let* ((from-field (eds/get-from-field msg))

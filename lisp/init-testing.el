@@ -1,7 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-testing.el --- stuff related to testing, in general
 
-(use-package buttercup
-  :straight (:host github :repo "jorgenschaefer/emacs-buttercup" :files ("*.el")))
+;; I haven't figured out how to get this to work.
+(use-package buttercup)
+
+(use-package el-mock)
 
 (provide 'init-testing)
