@@ -1,6 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 ;;; mu4e.el -- provide mu4e for email
 
+(defun eds/from-search (msg)
+  "Return a search string for the sender of MSG."
+  (mu4e-search (eds/get-mu4e-from-search-string msg)))
+
 (use-package mu4e
   :straight
   (:local-repo "/opt/homebrew/share/emacs/site-lisp/mu/mu4e"
@@ -71,7 +75,8 @@
                             (user-full-name . "Eamonn Sullivan")
                             (mu4e-drafts-folder . "/gmail-eamonn/[Gmail].Drafts")
                             (mu4e-sent-folder . "/gmail-eamonn/[Gmail].Sent Mail")
-                            (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")))
+                            (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")
+                            (mu4e-refile-folder . "/archive")))
 
                         ,(make-mu4e-context
                           :name "SVP"
@@ -88,7 +93,8 @@
                             (user-full-name . "SVP South Ruislip")
                             (mu4e-drafts-folder . "/gmail-svp/[Gmail].Drafts")
                             (mu4e-sent-folder . "/gmail-svp/[Gmail].Sent Mail")
-                            (mu4e-trash-folder . "/gmail-svp/[Gmail].Trash")))
+                            (mu4e-trash-folder . "/gmail-svp/[Gmail].Trash")
+                            (mu4e-refile-folder . "/archive")))
 
                         ,(make-mu4e-context
                           :name "Fastmail"
@@ -99,13 +105,14 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (mu4e-message-contact-field-matches msg :to "me@eamonnsullivan.co.uk")))
+                              (string-match-p "^/fastmail/" (mu4e-message-field msg :maildir))))
                           :vars
                           '((user-mail-address . "me@eamonnsullivan.co.uk")
                             (user-full-name . "Eamonn Sullivan")
                             (mu4e-drafts-folder . "/fastmail/Drafts")
                             (mu4e-sent-folder . "/fastmail/Sent")
-                            (mu4e-trash-folder . "/fastmail/Trash"))))
+                            (mu4e-trash-folder . "/fastmail/Trash")
+                            (mu4e-refile-folder . "/fastmail/Archive"))))
         mu4e-context-policy 'pick-first
         mu4e-compose-context-policy 'ask
         mu4e-use-fancy-chars t
@@ -125,7 +132,7 @@
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
   (add-hook 'message-send-mail-hook 'eds/set-msmtp-account)
   (add-to-list 'mu4e-view-actions
-               '("Search for sender" . eds/other-messages-from-sender) t)
+               '("Search for sender" . eds/from-search) t)
   (add-to-list 'mu4e-view-actions
                '("Org" . eds/orgify-msg) t)
 
