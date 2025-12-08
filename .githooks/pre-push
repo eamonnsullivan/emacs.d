@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# This hook runs your unit tests before pushing to a remote repository.
+# If any tests fail, the push will be blocked.
+
+echo "--- Running pre-push tests ---"
+
+# Navigate to the project root. This ensures the test command is run from the correct directory,
+# even if you are in a subdirectory when you run 'git push'.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+YOUR_TEST_COMMAND="eask test buttercup"
+
+# Execute the test command
+eval "$YOUR_TEST_COMMAND"
+TEST_STATUS=$? # Capture the exit status of the test command
+
+if [ $TEST_STATUS -ne 0 ]; then
+  echo ""
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "!!! PUSH BLOCKED: Unit tests failed.    !!!"
+  echo "!!! Please fix the tests before pushing.!!!"
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo ""
+  exit 1 # Block the push
+else
+  echo ""
+  echo "--- All pre-push tests passed. Pushing... ---"
+  echo ""
+  exit 0 # Allow the push
+fi
