@@ -1,4 +1,4 @@
-;; -*- mode: eask; lexical-binding: t -*-
+;; -*- mode: elisp-byte-code-mode; lexical-binding: t -*-
 
 (package "init"
          "1.0.0"

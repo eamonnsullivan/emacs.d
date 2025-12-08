@@ -2,8 +2,9 @@
 *.elc
 
 # Packaging
-.cask
 .eask
+dist/
+emacs.d-autoloads.el
 
 authinfo
 /.DS_Store
