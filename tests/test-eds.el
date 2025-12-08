@@ -1,6 +1,95 @@
 ;; -*- lexical-binding: t; -*-
 
-(require 'eds "../lisp/eds.el")
+(require 'eds)
+
+(describe "eds/eds-insert-git-branch-name"
+  :var (magit-get-current-branch)
+
+  (it "it extracts the jira ticket from the branch"
+    (spy-on 'magit-get-current-branch
+            :and-return-value "feature/ABC-123-new-feature")
+      (with-temp-buffer
+        (let ((initial-point (point)))
+          (setq eds-insert-branch-name-p t)
+          (eds/insert-git-branch-name)
+          (expect (buffer-string) :to-equal "[ABC-123] ")
+          (expect (point) :to-equal (+ initial-point 10))
+          (expect eds-insert-branch-name-p :to-be nil)))))
+
+(describe "eds/kill-word"
+  (it "deletes the next word when no region is selected"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-min))
+      (eds/kill-word 1)
+      (expect (buffer-string) :to-equal " World!")))
+
+  (it "deletes the previous word when no region is selected"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-max))
+      (eds/backward-kill-word 1)
+      (expect (buffer-string) :to-equal "Hello ")))
+
+  (it "deletes the selected region"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-min))
+      (set-mark-command nil)
+      (forward-word 1)
+      (eds/kill-word 1)
+      (expect (buffer-string) :to-equal "Hello!")))
+
+  (it "deletes the specified number of words"
+    (with-temp-buffer
+      (insert "The quick brown fox jumps over the lazy dog.")
+      (goto-char (point-min))
+      (eds/kill-word 3)
+      (expect (buffer-string) :to-equal " fox jumps over the lazy dog."))))
+
+(describe "eds/backward-kill-word"
+  (it "deletes the previous word when no region is selected"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-max))
+      (eds/backward-kill-word 1)
+      (expect (buffer-string) :to-equal "Hello ")))
+
+  (it "deletes the next word when no region is selected"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-min))
+      (eds/backward-kill-word -1)
+      (expect (buffer-string) :to-equal " World!")))
+
+  (it "deletes the selected region"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-min))
+      (set-mark-command nil)
+      (forward-word 1)
+      (eds/backward-kill-word 1)
+      (expect (buffer-string) :to-equal " World!")))
+
+  (it "deletes the specified number of words"
+    (with-temp-buffer
+      (insert "The quick brown fox jumps over the lazy dog.")
+      (goto-char (point-max))
+      (eds/backward-kill-word 3)
+      (expect (buffer-string) :to-equal "The quick brown fox jumps over "))))
+
+(describe "eds/switch-to-previous-buffer"
+  (it "switches to the previously open buffer"
+    (with-temp-buffer
+      (let ((buf1 (generate-new-buffer "*temp-buffer-1*"))
+            (buf2 (generate-new-buffer "*temp-buffer-2*")))
+        (switch-to-buffer buf1)
+        (switch-to-buffer buf2)
+        (eds/switch-to-previous-buffer)
+        (expect (current-buffer) :to-equal buf1)
+        (eds/switch-to-previous-buffer)
+        (expect (current-buffer) :to-equal buf2)
+        (kill-buffer buf2)))))
 
 (describe "eds/strip-invalid-chars"
   (it "removes question marks"
