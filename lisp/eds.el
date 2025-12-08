@@ -244,7 +244,7 @@ that don't work in a filename."
               ((from (save-excursion
                        (message-narrow-to-headers)
                        (message-fetch-field "From")))
-               (account (eds/get-sendmail-extra-args from)))
-            (setq message-sendmail-extra-arguments (list '"-a" account))))))
+               (args (eds/get-sendmail-extra-args from)))
+            (setq message-sendmail-extra-arguments args)))))
 
   (provide 'eds)
