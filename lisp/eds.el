@@ -236,15 +236,4 @@ that don't work in a filename."
         (list "-a" account)
       nil)))
 
-  (defun eds/set-msmtp-account ()
-    "Set the msmtp account based on the current from."
-    (if (message-mail-p)
-        (save-excursion
-          (let*
-              ((from (save-excursion
-                       (message-narrow-to-headers)
-                       (message-fetch-field "From")))
-               (args (eds/get-sendmail-extra-args from)))
-            (setq message-sendmail-extra-arguments args)))))
-
   (provide 'eds)

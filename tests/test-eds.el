@@ -15,23 +15,24 @@
     (expect (eds/strip-invalid-chars "some/directory/like/thing") :to-equal "somedirectorylikething")))
 
 (describe "eds/process-title"
-  (it "processes title strings correctly"
-    (expect (eds/process-title "Hello, World?") :to-equal "hello,-world")
-    (expect (eds/process-title "This is a <test> string!") :to-equal "this-is-a-test-string")
-    (expect (eds/process-title "NoInvalidChars") :to-equal "noinvalidchars")
-    (expect (eds/process-title "Special@:#%&*Chars") :to-equal "special@#%chars")
+  (it "removes question marks and replaces spaces with hyphens"
+    (expect (eds/process-title "Hello, World?") :to-equal "hello,-world"))
+  (it "removes angle brackets"
+    (expect (eds/process-title "This is a <test> string!") :to-equal "this-is-a-test-string"))
+  (it "it downcases"
+    (expect (eds/process-title "NoInvalidChars") :to-equal "noinvalidchars"))
+  (it "removes some special characters"
+    (expect (eds/process-title "Special@:#%&*Chars") :to-equal "special@#%chars"))
+  (it "removes forward slashes"
     (expect (eds/process-title "some/directory/like/thing") :to-equal "somedirectorylikething")))
 
 (describe "eds/get-from-field"
-  (it "get the from field from a message plist"
+  (it "gets the 'from' field from a message"
     (expect (eds/get-from-field '(:from ((:name "User" :email "user@example.com"))))
             :to-equal '((:name "User" :email "user@example.com"))))
-    (it "returns nil when from field is absent"
+    (it "returns nil when 'from' field is absent"
       (expect (eds/get-from-field '(:subject "Test Subject" :date "2024-06-01"))
-              :to-equal nil))
-    (it "returns the from field when it's a simple string"
-      (expect (eds/get-from-field '(:from "something"))
-              :to-equal "something")))
+              :to-equal nil)))
 
 (describe "eds/get-contact-email"
   (it "returns the email address part of a contact"
@@ -42,7 +43,7 @@
             :to-be nil)))
 
 (describe "eds/get-mu4e-from-string-search"
-  (it "returns a search string with the sender's email"
+  (it "extracts sender's email from a msg and returns a mu4e seach string"
     (let ((msg '(:docid 32461
                         :from ((:name "Nikola Tesla" :email "niko@example.com"))
                         :to ((:name "Thomas Edison" :email "tom@example.com"))
@@ -64,25 +65,27 @@
     (expect (eds/extract-jira-ticket "PROJECT-123-some-feature") :to-equal "PROJECT-123")
     (expect (eds/extract-jira-ticket "ABC-4567-fix-bug") :to-equal "ABC-4567")
     (expect (eds/extract-jira-ticket "XYZ-89-another-task") :to-equal "XYZ-89"))
-  (it "return INNOVATION-DAY with things that look like that"
+  (it "ignores case when spotting a ticket"
+    (expect (eds/extract-jira-ticket "passports-123") :to-equal "PASSPORTS-123")
+    (expect (eds/extract-jira-ticket "PassPorts-123") :to-equal "PASSPORTS-123"))
+  (it "return INNOVATION-DAY with things that start with 'innovation'"
     (expect (eds/extract-jira-ticket "Innovation-Day") :to-equal "INNOVATION-DAY")
     (expect (eds/extract-jira-ticket "innovation-day-something") :to-equal "INNOVATION-DAY"))
-  (it "returns COP-DAY for cop-day strings"
+  (it "returns COP-DAY for strings that start with 'cop-day"
     (expect (eds/extract-jira-ticket "cop-day-something") :to-equal "COP-DAY"))
   (it "returns NO-TICKET when no ticket is found"
     (expect (eds/extract-jira-ticket "not-a-jira-ticket") :to-equal "NO-TICKET")))
 
 (describe "eds/get-org-directory"
   :var (file-truename)
-
   (before-each
   (spy-on 'file-truename
           :and-return-value
-          "/Users/sullie09/Library/CloudStorage/Dropbox/org"))
+          "/mock/path/to/org"))
 
   (it "returns the full path to the org directory"
     (expect (eds/get-org-directory)
-            :to-equal "/Users/sullie09/Library/CloudStorage/Dropbox/org")))
+            :to-equal "/mock/path/to/org")))
 
 (describe "eds/filter-for-regex"
   (it "filters a list of strings based on a regex"

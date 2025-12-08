@@ -5,6 +5,17 @@
   "Return a search string for the sender of MSG."
   (mu4e-search (eds/get-mu4e-from-search-string msg)))
 
+(defun eds/set-msmtp-account ()
+  "Set the msmtp account based on the current from."
+  (if (message-mail-p)
+      (save-excursion
+        (let*
+            ((from (save-excursion
+                     (message-narrow-to-headers)
+                     (message-fetch-field "From")))
+             (args (eds/get-sendmail-extra-args from)))
+          (setq message-sendmail-extra-arguments args)))))
+
 (use-package mu4e
   :straight
   (:local-repo "/opt/homebrew/share/emacs/site-lisp/mu/mu4e"
@@ -43,12 +54,15 @@
                          (:name "Sent"
                                 :query "maildir:/fastmail/Sent"
                                 :key ?s)
+                         (:name "Unread"
+                                :query "flag:unread and not maildir:/gmail-eamonn/[Gmail].Spam and not maildir:/gmail-svp/[Gmail].Spam and not maildir:/fastmail/Spam"
+                                :key ?u)
                          (:name "Gmail Inbox"
                                 :query "maildir:/gmail-eamonn/INBOX"
                                 :key ?g)
                          (:name "Gmail Unread"
                                 :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND flag:unread"
-                                :key ?u)
+                                :key ?r)
                          (:name "Github"
                                 :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND tags:ads/github"
                                 :key ?h)
