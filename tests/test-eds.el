@@ -4,13 +4,16 @@
 
 (describe "eds/eds-insert-git-branch-name"
   :var (magit-get-current-branch)
+    (before-each
+      (setq eds-insert-branch-name-p t))
+    (after-each
+      (setq eds-insert-branch-name-p nil))
 
   (it "it extracts the jira ticket from the branch"
     (spy-on 'magit-get-current-branch
             :and-return-value "feature/ABC-123-new-feature")
       (with-temp-buffer
         (let ((initial-point (point)))
-          (setq eds-insert-branch-name-p t)
           (eds/insert-git-branch-name)
           (expect (buffer-string) :to-equal "[ABC-123] ")
           (expect (point) :to-equal (+ initial-point 10))
