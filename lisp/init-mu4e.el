@@ -55,7 +55,7 @@
                                 :query "maildir:/fastmail/Sent"
                                 :key ?s)
                          (:name "Unread"
-                                :query "flag:unread and not maildir:/gmail-eamonn/[Gmail].Spam and not maildir:/gmail-svp/[Gmail].Spam and not maildir:/fastmail/Spam"
+                                :query "flag:unread and (maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail)"
                                 :key ?u)
                          (:name "Gmail Inbox"
                                 :query "maildir:/gmail-eamonn/INBOX"
@@ -78,13 +78,13 @@
         mu4e-contexts `(,(make-mu4e-context
                           :name "personal"
                           :enter-func
-                          (lambda () (mu4e-message "Entering Fastmail context"))
+                          (lambda () (mu4e-message "Entering personal context"))
                           :leave-func
-                          (lambda () (mu4e-message "Leaving Fastmail context"))
+                          (lambda () (mu4e-message "Leaving personal context"))
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (string-match-p "^/fastmail/" (mu4e-message-field msg :maildir))))
+                              (mu4e-message-contact-field-matches msg :to "eamonnsullivan.co.uk")))
                           :vars
                           '((user-mail-address . "me@eamonnsullivan.co.uk")
                             (user-full-name . "Eamonn Sullivan")
@@ -96,9 +96,9 @@
                         ,(make-mu4e-context
                           :name "gmail"
                           :enter-func
-                          (lambda () (mu4e-message "Entering personal context"))
+                          (lambda () (mu4e-message "Entering Gmail context"))
                           :leave-func
-                          (lambda () (mu4e-message "Leaving personal context"))
+                          (lambda () (mu4e-message "Leaving Gmail context"))
                           :match-func
                           (lambda (msg)
                             (when msg
@@ -120,7 +120,8 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (mu4e-message-contact-field-matches msg :to "svpsouthruislip@gmail.com")))
+                              (or (mu4e-message-contact-field-matches msg :to "svpsouthruislip@gmail.com")
+                                  (mu4e-message-contact-field-matches msg :to "svpsouthruislip.org.uk"))))
                           :vars
                           '((user-mail-address . "svpsouthruislip@gmail.com")
                             (user-full-name . "SVP South Ruislip")
