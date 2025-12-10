@@ -102,7 +102,8 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (mu4e-message-contact-field-matches msg :to "eamonn.sullivan@gmail.com")))
+                              (or (mu4e-message-contact-field-matches msg :to "eamonn.sullivan@gmail.com")
+                                  (mu4e-message-contact-field-matches msg :cc "eamonn.sullivan@gmail.com"))))
                           :vars
                           '((user-mail-address . "eamonn.sullivan@gmail.com")
                             (user-full-name . "Eamonn Sullivan")
