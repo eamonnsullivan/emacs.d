@@ -241,6 +241,71 @@
     (expect (eds/get-conflicted-org-files)
             :to-equal '("meeting-conflicted.org" "project-conflicted-v2.org"))))
 
+(describe "eds/ref-link-org-roam"
+  :var (find-file
+        insert
+        org-id-get-create
+        org-set-property
+        end-of-buffer
+        save-buffer)
+  (before-all
+    (fset 'find-file (lambda (filename) nil))
+    (fset 'insert (lambda (str) nil))
+    (fset 'org-id-get-create (lambda () nil))
+    (fset 'org-set-property (lambda (prop) nil))
+    (fset 'end-of-buffer (lambda () nil))
+    (fset 'save-buffer (lambda () nil)))
+
+  (it "opens a buffer"
+    (spy-on 'find-file)
+    (spy-on 'insert)
+    (spy-on 'org-id-get-create)
+    (spy-on 'org-set-property)
+    (spy-on 'end-of-buffer)
+    (spy-on 'save-buffer)
+    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (expect 'find-file :to-have-been-called-times 1))
+
+  (it "inserts the title and ref"
+    (spy-on 'find-file)
+    (spy-on 'insert)
+    (spy-on 'org-id-get-create)
+    (spy-on 'org-set-property)
+    (spy-on 'end-of-buffer)
+    (spy-on 'save-buffer)
+    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (expect 'insert :to-have-been-called-with "#+title: This is a test\n#+startup: content\n* [[https://some.ref][This is a test]]\n"))
+
+  (it "creates a new org-roam id"
+    (spy-on 'find-file)
+    (spy-on 'insert)
+    (spy-on 'org-id-get-create)
+    (spy-on 'org-set-property)
+    (spy-on 'end-of-buffer)
+    (spy-on 'save-buffer)
+    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (expect 'org-id-get-create :to-have-been-called-times 1))
+
+  (it "sets a ROAM_REFS property with the ref"
+    (spy-on 'find-file)
+    (spy-on 'insert)
+    (spy-on 'org-id-get-create)
+    (spy-on 'org-set-property)
+    (spy-on 'end-of-buffer)
+    (spy-on 'save-buffer)
+    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (expect 'org-set-property :to-have-been-called-with "ROAM_REFS" "https://some.ref"))
+
+  (it "saves the buffer"
+    (spy-on 'find-file)
+    (spy-on 'insert)
+    (spy-on 'org-id-get-create)
+    (spy-on 'org-set-property)
+    (spy-on 'end-of-buffer)
+    (spy-on 'save-buffer)
+    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (expect 'save-buffer :to-have-been-called-times 1)))
+
 (describe "eds/link-to-svp-contact-page"
   (it "inserts a contact link around the provided text"
     (expect (eds/link-to-svp-contact-page "test")

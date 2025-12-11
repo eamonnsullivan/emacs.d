@@ -159,11 +159,9 @@ that don't work in a filename."
               (insert (eds/link-to-svp-contact-page yank-text)))
           (message "No active selection found!")))))
 
-(defun eds/create-new-note-from-clipboard-link (title)
-  "Create a new note file in `org-roam-directory' and insert a link."
-  (interactive "sTitle: ")
+(defun eds/ref-link-org-roam (title roam_ref)
+  "Create or update an org-roam node with the given ROAM_REF and TITLE."
   (let* ((time-string (format-time-string "%Y%m%dT%H%M%S"))
-         (clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
          (extension "org")
          (clean-title (eds/strip-invalid-chars title))
          (slug (eds/process-title clean-title))
@@ -172,15 +170,20 @@ that don't work in a filename."
          (file-name (expand-file-name file-base-name org-roam-directory))
          (title-line (format "#+title: %s\n" title))
          (startup-line "#+startup: content\n")
-         (link-line (format "* [[%s][%s]]\n" clipboard-content title)))
+         (link-line (format "* [[%s][%s]]\n" roam_ref title)))
     (find-file file-name)
     ;; In the new buffer
     (insert (concat title-line startup-line link-line))
     (org-id-get-create)
-    (org-set-property "ROAM_REFS" clipboard-content)
+    (org-set-property "ROAM_REFS" roam_ref)
     (end-of-buffer)
-    (save-buffer)
-    (org-roam-db-sync)))
+    (save-buffer)))
+
+(defun eds/create-new-note-from-clipboard-link (title)
+  "Create or update an org roam node from a (presumable) url in the clipboard."
+  (interactive "sTitle: ")
+  (let ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
+        (eds/ref-link-org-roam title clipboard-content))))
 
 (defun eds/orgify-msg (msg)
   "Create a new org-roam node from an email message."
