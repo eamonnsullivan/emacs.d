@@ -182,8 +182,8 @@ that don't work in a filename."
 (defun eds/create-new-note-from-clipboard-link (title)
   "Create or update an org roam node from a (presumable) url in the clipboard."
   (interactive "sTitle: ")
-  (let ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
-        (eds/ref-link-org-roam title clipboard-content))))
+  (let ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty.")))
+    (eds/ref-link-org-roam title clipboard-content)))
 
 (defun eds/orgify-msg (msg)
   "Create a new org-roam node from an email message."
