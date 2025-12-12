@@ -4,20 +4,20 @@
 
 (describe "eds/eds-insert-git-branch-name"
   :var (magit-get-current-branch)
-    (before-each
-      (setq eds-insert-branch-name-p t))
-    (after-each
-      (setq eds-insert-branch-name-p nil))
+  (before-each
+    (setq eds-insert-branch-name-p t))
+  (after-each
+    (setq eds-insert-branch-name-p nil))
 
   (it "it extracts the jira ticket from the branch"
     (spy-on 'magit-get-current-branch
             :and-return-value "feature/ABC-123-new-feature")
-      (with-temp-buffer
-        (let ((initial-point (point)))
-          (eds/insert-git-branch-name)
-          (expect (buffer-string) :to-equal "[ABC-123] ")
-          (expect (point) :to-equal (+ initial-point 10))
-          (expect eds-insert-branch-name-p :to-be nil)))))
+    (with-temp-buffer
+      (let ((initial-point (point)))
+        (eds/insert-git-branch-name)
+        (expect (buffer-string) :to-equal "[ABC-123] ")
+        (expect (point) :to-equal (+ initial-point 10))
+        (expect eds-insert-branch-name-p :to-be nil)))))
 
 (describe "eds/kill-word"
   (it "deletes the next word when no region is selected"
@@ -122,9 +122,9 @@
   (it "gets the 'from' field from a message"
     (expect (eds/get-from-field '(:from ((:name "User" :email "user@example.com"))))
             :to-equal '((:name "User" :email "user@example.com"))))
-    (it "returns nil when 'from' field is absent"
-      (expect (eds/get-from-field '(:subject "Test Subject" :date "2024-06-01"))
-              :to-equal nil)))
+  (it "returns nil when 'from' field is absent"
+    (expect (eds/get-from-field '(:subject "Test Subject" :date "2024-06-01"))
+            :to-equal nil)))
 
 (describe "eds/get-contact-email"
   (it "returns the email address part of a contact"
@@ -192,7 +192,7 @@
       (spy-on 'magit-checkout)
       (eds/start-blog-post project title)
       (let* ((expected-branch (concat (format-time-string "%Y-%m-%d") "-my-first-blog-post"))
-            (expected-filename (concat project "/content/md/posts/" expected-branch ".md")))
+             (expected-filename (concat project "/content/md/posts/" expected-branch ".md")))
         (expect 'find-file :to-have-been-called-with expected-filename)
         (expect 'eds/insert-skeleton-blog-post :to-have-been-called-with title)
         (expect 'save-buffer :to-have-been-called)
@@ -202,9 +202,9 @@
 (describe "eds/get-org-directory"
   :var (file-truename)
   (before-each
-  (spy-on 'file-truename
-          :and-return-value
-          "/mock/path/to/org"))
+    (spy-on 'file-truename
+            :and-return-value
+            "/mock/path/to/org"))
 
   (it "returns the full path to the org directory"
     (expect (eds/get-org-directory)
@@ -228,7 +228,7 @@
     (fset 'eds/get-org-directory (lambda ()
                                    ""))
     (fset 'directory-files (lambda (dir)
-                                   '()))
+                             '()))
     (spy-on 'eds/get-org-directory
             :and-return-value "/mock/org/dir")
     (spy-on 'directory-files
@@ -256,54 +256,28 @@
     (fset 'end-of-buffer (lambda () nil))
     (fset 'save-buffer (lambda () nil)))
 
-  (it "opens a buffer"
+  (before-each
     (spy-on 'find-file)
     (spy-on 'insert)
     (spy-on 'org-id-get-create)
     (spy-on 'org-set-property)
     (spy-on 'end-of-buffer)
     (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref")
+    (eds/ref-link-org-roam "This is a test" "https://some.ref"))
+
+  (it "opens a buffer"
     (expect 'find-file :to-have-been-called-times 1))
 
   (it "inserts the title and ref"
-    (spy-on 'find-file)
-    (spy-on 'insert)
-    (spy-on 'org-id-get-create)
-    (spy-on 'org-set-property)
-    (spy-on 'end-of-buffer)
-    (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref")
     (expect 'insert :to-have-been-called-with "#+title: This is a test\n#+startup: content\n* [[https://some.ref][This is a test]]\n"))
 
   (it "creates a new org-roam id"
-    (spy-on 'find-file)
-    (spy-on 'insert)
-    (spy-on 'org-id-get-create)
-    (spy-on 'org-set-property)
-    (spy-on 'end-of-buffer)
-    (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref")
     (expect 'org-id-get-create :to-have-been-called-times 1))
 
   (it "sets a ROAM_REFS property with the ref"
-    (spy-on 'find-file)
-    (spy-on 'insert)
-    (spy-on 'org-id-get-create)
-    (spy-on 'org-set-property)
-    (spy-on 'end-of-buffer)
-    (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref")
     (expect 'org-set-property :to-have-been-called-with "ROAM_REFS" "https://some.ref"))
 
   (it "saves the buffer"
-    (spy-on 'find-file)
-    (spy-on 'insert)
-    (spy-on 'org-id-get-create)
-    (spy-on 'org-set-property)
-    (spy-on 'end-of-buffer)
-    (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref")
     (expect 'save-buffer :to-have-been-called-times 1)))
 
 (describe "eds/link-to-svp-contact-page"
