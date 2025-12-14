@@ -159,52 +159,72 @@ that don't work in a filename."
               (insert (eds/link-to-svp-contact-page yank-text)))
           (message "No active selection found!")))))
 
-(defun eds/ref-link-org-roam (title roam_ref)
-  "Create or update an org-roam node with the given ROAM_REF and TITLE."
-  (let* ((time-string (format-time-string "%Y%m%dT%H%M%S"))
+
+(defun eds/make-org-roam-link (url description)
+  "Create an org-roam link with the given URL and DESCRIPTION."
+  (org-store-link description url))
+
+(defun eds/get-link-line (link)
+  "Get an org top-level heading with the provided LINK."
+  (format "* %s\n" link))
+
+(defun eds/get-title-line (title)
+  "Get the org-roam title line for TITLE."
+  (format "#+title: %s\n" title))
+
+(defun eds/get-time-string ()
+  "Get the current time as a string formatted for org-roam filenames."
+  (format-time-string "%Y%m%dT%H%M%S"))
+
+(defun eds/get-startup-line ()
+  "Get the org-roam startup line."
+  "#+startup: content\n")
+
+(defun eds/get-subject-from-msg (msg)
+  "Return the subject of MSG as a string, or \"No Subject\" if there isn't a subject."
+  (or (plist-get msg :subject) "No Subject"))
+
+(defun eds/get-link-from-link (link)
+  "Extract the URL from an org-roam LINK."
+  (if (string-match "\\[\\[\\(.*?\\)\\]\\[.*?\\]\\]" link)
+      (match-string 1 link)
+    nil))
+
+(defun eds/get-org-file-name (title)
+  "Get a suitable org-roam filename for TITLE."
+  (let* ((time-string (eds/get-time-string))
          (extension "org")
          (clean-title (eds/strip-invalid-chars title))
          (slug (eds/process-title clean-title))
-         (file-base-name (concat time-string "-" slug "." extension))
-         (org-roam-directory (eds/get-org-directory))
-         (file-name (expand-file-name file-base-name org-roam-directory))
-         (title-line (format "#+title: %s\n" title))
-         (startup-line "#+startup: content\n")
-         (link-line (format "* [[%s][%s]]\n" roam_ref title)))
+         (file-base-name (concat time-string "-" slug "." extension)))
+    (expand-file-name file-base-name (eds/get-org-directory))))
+
+(defun eds/ref-link-org-roam (title link)
+  "Create or update an org-roam node with the given LINK and TITLE."
+  (let* ((file-name (eds/get-org-file-name title))
+         (title-line (eds/get-title-line title))
+         (startup-line (eds/get-startup-line))
+         (link-line (eds/get-link-line link)))
     (find-file file-name)
     ;; In the new buffer
     (insert (concat title-line startup-line link-line))
     (org-id-get-create)
-    (org-set-property "ROAM_REFS" roam_ref)
+    (org-set-property "ROAM_REFS" (or (eds/get-link-from-link link) link))
     (end-of-buffer)
     (save-buffer)))
 
 (defun eds/create-new-note-from-clipboard-link (title)
   "Create or update an org roam node from a (presumable) url in the clipboard."
   (interactive "sTitle: ")
-  (let ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty.")))
-    (eds/ref-link-org-roam title clipboard-content)))
+  (let* ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
+         (link (eds/make-org-roam-link clipboard-content title)))
+    (eds/ref-link-org-roam title link)))
 
 (defun eds/orgify-msg (msg)
   "Create a new org-roam node from an email message."
   (let* ((link (org-store-link msg nil))
-         (subject (mu4e-message-field msg :subject))
-         (time-string (format-time-string "%Y%m%dT%H%M%S"))
-         (clean-subject (eds/strip-invalid-chars subject))
-         (extension "org")
-         (slug (eds/process-title clean-subject))
-         (file-base-name (concat time-string "-" slug "." extension))
-         (org-roam-directory (eds/get-org-directory))
-         (file-name (expand-file-name file-base-name org-roam-directory))
-         (title-line (format "#+title: %s\n" subject))
-         (startup-line "#+startup: content\n")
-         (first-heading (format "* %s\n" link)))
-    (find-file file-name)
-    (insert (concat title-line startup-line first-heading))
-    (org-id-get-create)
-    (goto-char (point-max))
-    (save-buffer)
-    (org-roam-db-sync)))
+         (subject (eds/get-subject-from-msg msg)))
+    (eds/ref-link-org-roam subject link)))
 
 (defun eds/get-org-agenda-files ()
   "Return a list of org files containing the :agenda: tag, using grep and shell glob expansion."

@@ -2,22 +2,7 @@
 
 (require 'eds)
 
-(describe "eds/eds-insert-git-branch-name"
-  :var (magit-get-current-branch)
-  (before-each
-    (setq eds-insert-branch-name-p t))
-  (after-each
-    (setq eds-insert-branch-name-p nil))
-
-  (it "it extracts the jira ticket from the branch"
-    (spy-on 'magit-get-current-branch
-            :and-return-value "feature/ABC-123-new-feature")
-    (with-temp-buffer
-      (let ((initial-point (point)))
-        (eds/insert-git-branch-name)
-        (expect (buffer-string) :to-equal "[ABC-123] ")
-        (expect (point) :to-equal (+ initial-point 10))
-        (expect eds-insert-branch-name-p :to-be nil)))))
+;; Basic Utility functions
 
 (describe "eds/kill-word"
   (it "deletes the next word when no region is selected"
@@ -118,6 +103,55 @@
   (it "removes forward slashes"
     (expect (eds/process-title "some/directory/like/thing") :to-equal "somedirectorylikething")))
 
+(describe "eds/filter-for-regex"
+  (it "filters a list of strings based on a regex"
+    (expect (eds/filter-for-regex "foo" '("foobar" "baz" "fool23" "hello"))
+            :to-equal '("foobar" "fool23"))
+    (expect (eds/filter-for-regex "foob" '("foobar" "baz" "fool23" "hello"))
+            :to-equal '("foobar"))
+    (expect (eds/filter-for-regex "foo.[0-9]" '("foobar" "baz" "fool23" "hello"))
+            :to-equal '("fool23"))
+    (expect (eds/filter-for-regex "foo" '("baz" "hello"))
+            :to-be nil)))
+
+;; Github- and Jira-related functions
+
+(describe "eds/eds-insert-git-branch-name"
+  :var (magit-get-current-branch)
+  (before-each
+    (setq eds-insert-branch-name-p t))
+  (after-each
+    (setq eds-insert-branch-name-p nil))
+
+  (it "it extracts the jira ticket from the branch"
+    (spy-on 'magit-get-current-branch
+            :and-return-value "feature/ABC-123-new-feature")
+    (with-temp-buffer
+      (let ((initial-point (point)))
+        (eds/insert-git-branch-name)
+        (expect (buffer-string) :to-equal "[ABC-123] ")
+        (expect (point) :to-equal (+ initial-point 10))
+        (expect eds-insert-branch-name-p :to-be nil)))))
+
+(describe "eds/extract-jira-ticket"
+  (it "extracts things that look like a ticket"
+    (expect (eds/extract-jira-ticket "feature/ABC-123-some-feature") :to-equal "ABC-123")
+    (expect (eds/extract-jira-ticket "PROJECT-123-some-feature") :to-equal "PROJECT-123")
+    (expect (eds/extract-jira-ticket "ABC-4567-fix-bug") :to-equal "ABC-4567")
+    (expect (eds/extract-jira-ticket "XYZ-89-another-task") :to-equal "XYZ-89"))
+  (it "ignores case when spotting a ticket"
+    (expect (eds/extract-jira-ticket "passports-123") :to-equal "PASSPORTS-123")
+    (expect (eds/extract-jira-ticket "PassPorts-123") :to-equal "PASSPORTS-123"))
+  (it "return INNOVATION-DAY with things that start with 'innovation'"
+    (expect (eds/extract-jira-ticket "Innovation-Day") :to-equal "INNOVATION-DAY")
+    (expect (eds/extract-jira-ticket "innovation-day-something") :to-equal "INNOVATION-DAY"))
+  (it "returns COP-DAY for strings that start with 'cop-day"
+    (expect (eds/extract-jira-ticket "cop-day-something") :to-equal "COP-DAY"))
+  (it "returns NO-TICKET when no ticket is found"
+    (expect (eds/extract-jira-ticket "not-a-jira-ticket") :to-equal "NO-TICKET")))
+
+;; Email-related functions
+
 (describe "eds/get-from-field"
   (it "gets the 'from' field from a message"
     (expect (eds/get-from-field '(:from ((:name "User" :email "user@example.com"))))
@@ -151,22 +185,32 @@
       (expect (eds/get-mu4e-from-search-string msg)
               :to-equal "from:niko@example.com"))))
 
-(describe "eds/extract-jira-ticket"
-  (it "extracts things that look like a ticket"
-    (expect (eds/extract-jira-ticket "feature/ABC-123-some-feature") :to-equal "ABC-123")
-    (expect (eds/extract-jira-ticket "PROJECT-123-some-feature") :to-equal "PROJECT-123")
-    (expect (eds/extract-jira-ticket "ABC-4567-fix-bug") :to-equal "ABC-4567")
-    (expect (eds/extract-jira-ticket "XYZ-89-another-task") :to-equal "XYZ-89"))
-  (it "ignores case when spotting a ticket"
-    (expect (eds/extract-jira-ticket "passports-123") :to-equal "PASSPORTS-123")
-    (expect (eds/extract-jira-ticket "PassPorts-123") :to-equal "PASSPORTS-123"))
-  (it "return INNOVATION-DAY with things that start with 'innovation'"
-    (expect (eds/extract-jira-ticket "Innovation-Day") :to-equal "INNOVATION-DAY")
-    (expect (eds/extract-jira-ticket "innovation-day-something") :to-equal "INNOVATION-DAY"))
-  (it "returns COP-DAY for strings that start with 'cop-day"
-    (expect (eds/extract-jira-ticket "cop-day-something") :to-equal "COP-DAY"))
-  (it "returns NO-TICKET when no ticket is found"
-    (expect (eds/extract-jira-ticket "not-a-jira-ticket") :to-equal "NO-TICKET")))
+(describe "eds/get-subject-from-msg"
+  (it "returns the subject"
+    (expect (eds/get-subject-from-msg '(:subject "Test Subject"))
+            :to-equal "Test Subject"))
+  (it "returns \"No Subject\" when no subject is present"
+    (expect (eds/get-subject-from-msg '(:something "else"))
+            :to-equal "No Subject")))
+
+(describe "eds/get-sendmail-extra-args"
+  (it "handles the eamonn.sullivan gmail account"
+    (expect (eds/get-sendmail-extra-args "eamonn.sullivan@gmail.com")
+            :to-equal '("-a" "gmail-eamonn")))
+  (it "handles the svp account"
+    (expect (eds/get-sendmail-extra-args "svpsouthruislip@gmail.com")
+            :to-equal '("-a" "gmail-svp")))
+  (it "handles the fastmail account"
+    (expect (eds/get-sendmail-extra-args "me@eamonnsullivan.co.uk")
+            :to-equal '("-a" "fastmail")))
+  (it "handles other emails send to fastmail"
+    (expect (eds/get-sendmail-extra-args "something@eamonnsullivan.co.uk")
+            :to-equal '("-a" "fastmail")))
+  (it "returns nil for unknown email addresses"
+    (expect (eds/get-sendmail-extra-args "user@example.com")
+            :to-be nil)))
+
+;; Blog and writing related functions
 
 (describe "eds/start-blog-post"
   :var (find-file
@@ -180,7 +224,6 @@
     (fset 'save-buffer (lambda () nil))
     (fset 'magit-branch-create (lambda (branch base) nil))
     (fset 'magit-checkout (lambda (branch) nil)))
-
 
   (it "creates a new blog post file with the correct name and branch"
     (let ((project "/mock/project")
@@ -199,6 +242,20 @@
         (expect 'magit-branch-create :to-have-been-called-with expected-branch "main")
         (expect 'magit-checkout :to-have-been-called-with expected-branch)))))
 
+(describe "eds/link-to-svp-contact-page"
+  (it "inserts a contact link around the provided text"
+    (expect (eds/link-to-svp-contact-page "test")
+            :to-equal "[test](../../pages-output/contact/)")
+    (expect (eds/link-to-svp-contact-page "Hello World")
+            :to-equal "[Hello World](../../pages-output/contact/)"))
+  (it "returns nil for empty or nil input"
+    (expect (eds/link-to-svp-contact-page "")
+            :to-be nil)
+    (expect (eds/link-to-svp-contact-page nil)
+            :to-be nil)))
+
+;; Org and Org-Roam related functions
+
 (describe "eds/get-org-directory"
   :var (file-truename)
   (before-each
@@ -209,17 +266,6 @@
   (it "returns the full path to the org directory"
     (expect (eds/get-org-directory)
             :to-equal "/mock/path/to/org")))
-
-(describe "eds/filter-for-regex"
-  (it "filters a list of strings based on a regex"
-    (expect (eds/filter-for-regex "foo" '("foobar" "baz" "fool23" "hello"))
-            :to-equal '("foobar" "fool23"))
-    (expect (eds/filter-for-regex "foob" '("foobar" "baz" "fool23" "hello"))
-            :to-equal '("foobar"))
-    (expect (eds/filter-for-regex "foo.[0-9]" '("foobar" "baz" "fool23" "hello"))
-            :to-equal '("fool23"))
-    (expect (eds/filter-for-regex "foo" '("baz" "hello"))
-            :to-be nil)))
 
 (describe "eds/get-conflicted-org-files"
   :var (directory-files eds/get-org-directory)
@@ -263,48 +309,75 @@
     (spy-on 'org-set-property)
     (spy-on 'end-of-buffer)
     (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "https://some.ref"))
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]"))
 
   (it "opens a buffer"
     (expect 'find-file :to-have-been-called-times 1))
-
   (it "inserts the title and ref"
     (expect 'insert :to-have-been-called-with "#+title: This is a test\n#+startup: content\n* [[https://some.ref][This is a test]]\n"))
-
   (it "creates a new org-roam id"
     (expect 'org-id-get-create :to-have-been-called-times 1))
-
   (it "sets a ROAM_REFS property with the ref"
     (expect 'org-set-property :to-have-been-called-with "ROAM_REFS" "https://some.ref"))
-
   (it "saves the buffer"
     (expect 'save-buffer :to-have-been-called-times 1)))
 
-(describe "eds/link-to-svp-contact-page"
-  (it "inserts a contact link around the provided text"
-    (expect (eds/link-to-svp-contact-page "test")
-            :to-equal "[test](../../pages-output/contact/)")
-    (expect (eds/link-to-svp-contact-page "Hello World")
-            :to-equal "[Hello World](../../pages-output/contact/)"))
-  (it "returns nil for empty or nil input"
-    (expect (eds/link-to-svp-contact-page "")
+(describe "eds/create-new-note-from-clipboard-link"
+  :var (gui-get-selection
+        eds/make-org-roam-link
+        eds/ref-link-org-roam)
+  (before-all
+    (fset 'gui-get-selection (lambda (type) nil))
+    (fset 'eds/make-org-roam-link (lambda (content title) nil))
+    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+
+  (before-each
+    (spy-on 'gui-get-selection
+            :and-return-value "https://example.com")
+    (spy-on 'eds/make-org-roam-link
+            :and-return-value "[[https://example.com][Sample Title]]")
+    (spy-on 'eds/ref-link-org-roam))
+
+  (it "creates a new note from the clipboard link"
+    (eds/create-new-note-from-clipboard-link "Sample Title")
+    (expect 'gui-get-selection :to-have-been-called-with 'CLIPBOARD)
+    (expect 'eds/make-org-roam-link :to-have-been-called-with "https://example.com" "Sample Title")
+    (expect 'eds/ref-link-org-roam :to-have-been-called-with "Sample Title" "[[https://example.com][Sample Title]]")))
+
+(describe "eds/get-link-from-link"
+  (it "extracts the link URL from an org link"
+    (expect (eds/get-link-from-link "[[https://example.com][Example Site]]")
+            :to-equal "https://example.com")
+    (expect (eds/get-link-from-link "[[file:notes.org][Notes]]")
+            :to-equal "file:notes.org"))
+  (it "returns nil for invalid org links"
+    (expect (eds/get-link-from-link "Not a link")
             :to-be nil)
-    (expect (eds/link-to-svp-contact-page nil)
+    (expect (eds/get-link-from-link "[[Invalid Link]")
             :to-be nil)))
 
-(describe "eds/get-sendmail-extra-args"
-  (it "handles the eamonn.sullivan gmail account"
-    (expect (eds/get-sendmail-extra-args "eamonn.sullivan@gmail.com")
-            :to-equal '("-a" "gmail-eamonn")))
-  (it "handles the svp account"
-    (expect (eds/get-sendmail-extra-args "svpsouthruislip@gmail.com")
-            :to-equal '("-a" "gmail-svp")))
-  (it "handles the fastmail account"
-    (expect (eds/get-sendmail-extra-args "me@eamonnsullivan.co.uk")
-            :to-equal '("-a" "fastmail")))
-  (it "handles other emails send to fastmail"
-    (expect (eds/get-sendmail-extra-args "something@eamonnsullivan.co.uk")
-            :to-equal '("-a" "fastmail")))
-  (it "returns nil for unknown email addresses"
-    (expect (eds/get-sendmail-extra-args "user@example.com")
-            :to-be nil)))
+(describe "eds/orgify-msg"
+  :var (org-store-link
+        eds/get-subject-from-msg
+        eds/ref-link-org-roam)
+  (before-all
+    (fset 'org-store-link (lambda (msg arg) nil))
+    (fset 'eds/get-subject-from-msg (lambda (msg) nil))
+    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+  (before-each
+    (spy-on 'org-store-link
+            :and-return-value "[[https://email.link][RE: what about the 50K?]]")
+    (spy-on 'eds/get-subject-from-msg
+            :and-return-value "RE: what about the 50K?")
+    (spy-on 'eds/ref-link-org-roam))
+
+  (it "creates an org-roam note from an email message"
+    (eds/orgify-msg '(:subject "RE: what about the 50K?"))
+    (expect 'org-store-link
+            :to-have-been-called-with '(:subject "RE: what about the 50K?") nil)
+    (expect 'eds/get-subject-from-msg
+            :to-have-been-called-with '(:subject "RE: what about the 50K?"))
+    (expect 'eds/ref-link-org-roam
+            :to-have-been-called-with
+            "RE: what about the 50K?"
+            "[[https://email.link][RE: what about the 50K?]]")))

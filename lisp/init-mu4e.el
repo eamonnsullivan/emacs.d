@@ -48,33 +48,27 @@
                                   (:maildir "/gmail-svp/[Gmail].All Mail"      :key ?p)
                                   (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x))
         mu4e-bookmarks '((:name "Inbox"
-                                :query "maildir:/fastmail/INBOX"
+                                :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX"
                                 :key ?i
                                 :favorite t)
                          (:name "Sent"
-                                :query "maildir:/fastmail/Sent"
+                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail"
                                 :key ?s)
                          (:name "Unread"
                                 :query "flag:unread and (maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail)"
                                 :key ?u)
-                         (:name "Gmail Inbox"
-                                :query "maildir:/gmail-eamonn/INBOX"
-                                :key ?g)
-                         (:name "Gmail Unread"
-                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND flag:unread"
-                                :key ?r)
                          (:name "Github"
-                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" AND tags:ads/github"
+                                :query "from:github.com"
                                 :key ?h)
-                         (:name "SVP Inbox"
-                                :query "maildir:/gmail-svp/INBOX"
-                                :key ?v)
                          (:name "Food bank"
-                                :query "to:foodbank@svpsouthruislip.org.uk"
+                                :query "to:foodbank@svpsouthruislip.org.uk or cc:foodbank@svpsouthruislip.org.uk"
                                 :key ?f)
                          (:name "SVP Info"
-                                :query "to:info@svpsouthruislip.org.uk"
-                                :key ?n))
+                                :query "to:info@svpsouthruislip.org.uk or cc:info@svpsouthruislip.org.uk"
+                                :key ?n)
+                         (:name "Backups"
+                                :query "to:backup@eamonnsullivan.co.uk"
+                                :key ?b))
         mu4e-contexts `(,(make-mu4e-context
                           :name "personal"
                           :enter-func
