@@ -156,4 +156,6 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
         minimap-minimum-width 20
         minimap-maximum-width 20))
 
+(use-package deadgrep)
+
 (provide 'init-utils)
