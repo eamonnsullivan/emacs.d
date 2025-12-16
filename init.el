@@ -128,7 +128,6 @@
 (require 'init-hydra)
 (require 'init-projectile)
 (require 'init-helm)
-(require 'init-eca)
 (require 'init-mu4e)
 (require 'init-treemacs)
 (require 'init-whatsapp)
