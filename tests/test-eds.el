@@ -256,6 +256,13 @@
 
 ;; Org and Org-Roam related functions
 
+(describe "eds/make-org-link"
+  (it "creates an org link from content and title"
+    (expect (eds/make-org-link "https://example.com" "Example Site")
+            :to-equal "[[https://example.com][Example Site]]")
+    (expect (eds/make-org-link "file:notes.org" "Notes")
+            :to-equal "[[file:notes.org][Notes]]")))
+
 (describe "eds/get-org-directory"
   :var (file-truename)
   (before-each
@@ -324,24 +331,24 @@
 
 (describe "eds/create-new-note-from-clipboard-link"
   :var (gui-get-selection
-        eds/make-org-roam-link
+        eds/make-org-link
         eds/ref-link-org-roam)
   (before-all
     (fset 'gui-get-selection (lambda (type) nil))
-    (fset 'eds/make-org-roam-link (lambda (content title) nil))
+    (fset 'eds/make-org-link (lambda (content title) nil))
     (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
 
   (before-each
     (spy-on 'gui-get-selection
             :and-return-value "https://example.com")
-    (spy-on 'eds/make-org-roam-link
+    (spy-on 'eds/make-org-link
             :and-return-value "[[https://example.com][Sample Title]]")
     (spy-on 'eds/ref-link-org-roam))
 
   (it "creates a new note from the clipboard link"
     (eds/create-new-note-from-clipboard-link "Sample Title")
     (expect 'gui-get-selection :to-have-been-called-with 'CLIPBOARD)
-    (expect 'eds/make-org-roam-link :to-have-been-called-with "https://example.com" "Sample Title")
+    (expect 'eds/make-org-link :to-have-been-called-with "https://example.com" "Sample Title")
     (expect 'eds/ref-link-org-roam :to-have-been-called-with "Sample Title" "[[https://example.com][Sample Title]]")))
 
 (describe "eds/get-link-from-link"

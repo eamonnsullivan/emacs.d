@@ -160,9 +160,9 @@ that don't work in a filename."
           (message "No active selection found!")))))
 
 
-(defun eds/make-org-roam-link (url description)
+(defun eds/make-org-link (url description)
   "Create an org-roam link with the given URL and DESCRIPTION."
-  (org-store-link description url))
+  (format "[[%s][%s]]" url  description))
 
 (defun eds/get-link-line (link)
   "Get an org top-level heading with the provided LINK."
@@ -205,6 +205,8 @@ that don't work in a filename."
          (title-line (eds/get-title-line title))
          (startup-line (eds/get-startup-line))
          (link-line (eds/get-link-line link)))
+    (message "Creating or updating org-roam file: %s" file-name)
+    (message "With link: %s" link)
     (find-file file-name)
     ;; In the new buffer
     (insert (concat title-line startup-line link-line))
@@ -217,7 +219,7 @@ that don't work in a filename."
   "Create or update an org roam node from a (presumable) url in the clipboard."
   (interactive "sTitle: ")
   (let* ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
-         (link (eds/make-org-roam-link clipboard-content title)))
+         (link (eds/make-org-link clipboard-content title)))
     (eds/ref-link-org-roam title link)))
 
 (defun eds/orgify-msg (msg)
