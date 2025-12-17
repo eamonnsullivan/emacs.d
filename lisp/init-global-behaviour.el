@@ -37,6 +37,7 @@
   (show-paren-delay 0)
   (show-paren-style 'mixed)
   (font-lock-maximum-decoration t)
+  (elisp-fontify-semantically t)
   (inhibit-startup-screen t "Don't show splash screen")
   (inhibit-startup-message t "Don't show the message, either")
   (use-dialog-box nil "Disabled non-accessible dialog boxes")
