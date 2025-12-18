@@ -50,6 +50,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(straight-use-package 'org)
 (straight-use-package 'use-package)
 
 (cond
