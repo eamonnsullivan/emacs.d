@@ -43,10 +43,9 @@
                                   (:maildir "/gmail-eamonn/INBOX"              :key ?g)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?e)
                                   (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?r)
-                                  (:maildir "/gmail-eamonn/[Gmail].Starred"    :key ?z)
                                   (:maildir "/gmail-svp/INBOX"                 :key ?v)
-                                  (:maildir "/gmail-svp/[Gmail].All Mail"      :key ?p)
-                                  (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x))
+                                  (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x)
+                                  (:maildir "/gmail-svp/[Gmail].All Mail"      :key ?p))
         mu4e-bookmarks '((:name "Inbox"
                                 :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX"
                                 :key ?i
