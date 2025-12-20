@@ -103,7 +103,7 @@
                             (mu4e-drafts-folder . "/gmail-eamonn/[Gmail].Drafts")
                             (mu4e-sent-folder . "/gmail-eamonn/[Gmail].Sent Mail")
                             (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")
-                            (mu4e-refile-folder . "/archive")))
+                            (mu4e-refile-folder . "/gmail-eamonn/[Gmail].All Mail")))
 
                         ,(make-mu4e-context
                           :name "SVP"
@@ -122,7 +122,7 @@
                             (mu4e-drafts-folder . "/gmail-svp/[Gmail].Drafts")
                             (mu4e-sent-folder . "/gmail-svp/[Gmail].Sent Mail")
                             (mu4e-trash-folder . "/gmail-svp/[Gmail].Trash")
-                            (mu4e-refile-folder . "/archive"))))
+                            (mu4e-refile-folder . "/gmail-svp/[Gmail].All Mail"))))
         mu4e-context-policy 'pick-first
         mu4e-compose-context-policy 'ask
         mu4e-use-fancy-chars t
