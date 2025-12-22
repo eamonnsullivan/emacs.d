@@ -213,15 +213,16 @@ that don't work in a filename."
     (if todo
         (progn
           (insert (concat title-line startup-line agendatag))
-          (insert "\n\n* TODO ")
-          (org-agenda-file-to-front))
+          (insert "\n\n* TODO "))
       (insert (concat title-line startup-line link-line)))
     (org-id-get-create)
     (org-set-property "ROAM_REFS" (or (eds/get-link-from-link link) link))
     (if category
         (org-set-property "CATEGORY" category))
     (end-of-buffer)
-    (save-buffer)))
+    (save-buffer)
+    (if todo
+        (org-agenda-file-to-front))))
 
 (defun eds/create-new-note-from-clipboard-link (title)
   "Create or update an org roam node from a (presumable) url in the clipboard."
