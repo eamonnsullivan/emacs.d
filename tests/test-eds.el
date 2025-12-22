@@ -300,14 +300,16 @@
         org-id-get-create
         org-set-property
         end-of-buffer
-        save-buffer)
+        save-buffer
+        org-agenda-file-to-front)
   (before-all
     (fset 'find-file (lambda (filename) nil))
     (fset 'insert (lambda (str) nil))
     (fset 'org-id-get-create (lambda () nil))
     (fset 'org-set-property (lambda (prop) nil))
     (fset 'end-of-buffer (lambda () nil))
-    (fset 'save-buffer (lambda () nil)))
+    (fset 'save-buffer (lambda () nil))
+    (fset 'org-agenda-file-to-front (lambda () nil)))
 
   (before-each
     (spy-on 'find-file)
@@ -316,18 +318,29 @@
     (spy-on 'org-set-property)
     (spy-on 'end-of-buffer)
     (spy-on 'save-buffer)
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]"))
+    (spy-on 'org-agenda-file-to-front))
 
   (it "opens a buffer"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
     (expect 'find-file :to-have-been-called-times 1))
   (it "inserts the title and ref"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
     (expect 'insert :to-have-been-called-with "#+title: This is a test\n#+startup: content\n* [[https://some.ref][This is a test]]\n"))
   (it "creates a new org-roam id"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
     (expect 'org-id-get-create :to-have-been-called-times 1))
   (it "sets a ROAM_REFS property with the ref"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
     (expect 'org-set-property :to-have-been-called-with "ROAM_REFS" "https://some.ref"))
   (it "saves the buffer"
-    (expect 'save-buffer :to-have-been-called-times 1)))
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
+    (expect 'save-buffer :to-have-been-called-times 1))
+  (it "sets CATEGORY property when provided"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]" "TestCategory")
+    (expect 'org-set-property :to-have-been-called-with "CATEGORY" "TestCategory"))
+  (it "adds file to agenda when TODO is true"
+    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]" nil t)
+    (expect 'org-agenda-file-to-front :to-have-been-called-times 1)))
 
 (describe "eds/create-new-note-from-clipboard-link"
   :var (gui-get-selection
@@ -362,6 +375,43 @@
             :to-be nil)
     (expect (eds/get-link-from-link "[[Invalid Link]")
             :to-be nil)))
+
+(describe "eds/create-todo-from-email"
+  :var (org-store-link
+        org-set-property
+        eds/get-subject-from-msg
+        eds/ref-link-org-roam)
+  (before-all
+    (fset 'org-store-link (lambda (msg arg) nil))
+    (fset 'org-set-property (lambda (prop value) nil))
+    (fset 'eds/get-subject-from-msg (lambda (msg) nil))
+    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+  (before-each
+    (spy-on 'org-store-link
+            :and-return-value "[[mail:email.link][RE: what about the 50K?]]")
+    (spy-on 'eds/get-subject-from-msg
+            :and-return-value "RE: what about the 50K?")
+    (spy-on 'eds/ref-link-org-roam)
+    (spy-on 'org-set-property))
+
+  (it "stores a link to the current message"
+    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
+    (expect 'org-store-link
+            :to-have-been-called-with '(:subject "RE: what about the 50K?") nil))
+
+  (it "retrieves the subject from the message"
+    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
+    (expect 'eds/get-subject-from-msg
+            :to-have-been-called-with '(:subject "RE: what about the 50K?")))
+
+  (it "creates a org-roam note from an email message"
+    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
+    (expect 'eds/ref-link-org-roam
+            :to-have-been-called-with
+            "RE: what about the 50K?"
+            "[[mail:email.link][RE: what about the 50K?]]"
+            "Emails"
+            t)))
 
 (describe "eds/orgify-msg"
   :var (org-store-link

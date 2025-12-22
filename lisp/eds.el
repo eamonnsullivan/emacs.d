@@ -199,19 +199,27 @@ that don't work in a filename."
          (file-base-name (concat time-string "-" slug "." extension)))
     (expand-file-name file-base-name (eds/get-org-directory))))
 
-(defun eds/ref-link-org-roam (title link)
-  "Create or update an org-roam node with the given LINK and TITLE."
+(defun eds/ref-link-org-roam (title link &optional category todo)
+  "Create or update an org-roam node with the given LINK and TITLE.
+   If CATEGORY is provided, set the CATEGORY property. If TODO is provided,
+   create a TODO heading."
   (let* ((file-name (eds/get-org-file-name title))
          (title-line (eds/get-title-line title))
          (startup-line (eds/get-startup-line))
-         (link-line (eds/get-link-line link)))
-    (message "Creating or updating org-roam file: %s" file-name)
-    (message "With link: %s" link)
+         (link-line (eds/get-link-line link))
+         (agendatag "#+filetags: :agenda:\n"))
     (find-file file-name)
     ;; In the new buffer
-    (insert (concat title-line startup-line link-line))
+    (if todo
+        (progn
+          (insert (concat title-line startup-line agendatag))
+          (insert "\n\n* TODO ")
+          (org-agenda-file-to-front))
+      (insert (concat title-line startup-line link-line)))
     (org-id-get-create)
     (org-set-property "ROAM_REFS" (or (eds/get-link-from-link link) link))
+    (if category
+        (org-set-property "CATEGORY" category))
     (end-of-buffer)
     (save-buffer)))
 
@@ -227,6 +235,12 @@ that don't work in a filename."
   (let* ((link (org-store-link msg nil))
          (subject (eds/get-subject-from-msg msg)))
     (eds/ref-link-org-roam subject link)))
+
+(defun eds/create-todo-from-email (msg)
+  "Create a new org-roam TODO from an email message MSG."
+  (let* ((link (org-store-link msg nil))
+         (subject (eds/get-subject-from-msg msg)))
+    (eds/ref-link-org-roam subject link "Emails" t)))
 
 (defun eds/get-org-agenda-files ()
   "Return a list of org files containing the :agenda: tag, using grep and shell glob expansion."

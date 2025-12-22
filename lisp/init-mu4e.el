@@ -145,6 +145,8 @@
                '("Search for sender" . eds/from-search) t)
   (add-to-list 'mu4e-view-actions
                '("Org" . eds/orgify-msg) t)
+  (add-to-list 'mu4e-view-actions
+               '("TODO" . eds/create-todo-from-email) t)
 
   (require 'epa-file)
   (epa-file-enable)
