@@ -31,6 +31,8 @@
         mu4e-change-filenames-when-moving t
         mu4e-search-skip-duplicates t
         mu4e-search-include-related nil
+        mu4e-compose-complete-only-personal t
+        mu4e-compose-complete-only-after "2020-01-01"
         mu4e-sent-messages-behavior
         (lambda ()
           (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
