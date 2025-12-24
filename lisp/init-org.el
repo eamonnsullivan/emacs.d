@@ -127,10 +127,11 @@
                      "\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]"
                      "\n* Actions\n"))
            :unnarrowed t)
-          ("t" "todo" entry "* TODO %?"
+          ("t" "todo" entry "* TODO %?\n%T\n"
            :target (file+head
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
+                             "\n#+filetags: :agenda:"
                              "\n#+startup: content"))
            :unnarrowed t)
           ("x" "training" entry "* ${title} Notes\n%u\n%?"

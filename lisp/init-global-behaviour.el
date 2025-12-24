@@ -72,6 +72,7 @@
   (tramp-verbose 2)
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
+  (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
   :hook
   ((text-mode . visual-line-mode)
    (before-save . delete-trailing-whitespace)))
