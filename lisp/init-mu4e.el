@@ -146,10 +146,9 @@
   (add-to-list 'mu4e-view-actions
                '("Search for sender" . eds/from-search) t)
   (add-to-list 'mu4e-view-actions
-               '("Org" . eds/orgify-msg) t)
+               '("Org" . eds/capture-email) t)
   (add-to-list 'mu4e-view-actions
-               '("TODO" . eds/create-todo-from-email) t)
-
+               '("TODO" . eds/capture-email-todo) t)
   (require 'epa-file)
   (epa-file-enable)
   (setq epa-pinentry-mode 'loopback)

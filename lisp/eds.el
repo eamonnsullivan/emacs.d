@@ -159,26 +159,9 @@ that don't work in a filename."
               (insert (eds/link-to-svp-contact-page yank-text)))
           (message "No active selection found!")))))
 
-
-(defun eds/make-org-link (url description)
-  "Create an org-roam link with the given URL and DESCRIPTION."
-  (format "[[%s][%s]]" url  description))
-
-(defun eds/get-link-line (link)
-  "Get an org top-level heading with the provided LINK."
-  (format "* %s\n" link))
-
-(defun eds/get-title-line (title)
-  "Get the org-roam title line for TITLE."
-  (format "#+title: %s\n" title))
-
 (defun eds/get-time-string ()
   "Get the current time as a string formatted for org-roam filenames."
   (format-time-string "%Y%m%dT%H%M%S"))
-
-(defun eds/get-startup-line ()
-  "Get the org-roam startup line."
-  "#+startup: content\n")
 
 (defun eds/get-subject-from-msg (msg)
   "Return the subject of MSG as a string, or \"No Subject\" if there isn't a subject."
@@ -199,31 +182,6 @@ that don't work in a filename."
          (file-base-name (concat time-string "-" slug "." extension)))
     (expand-file-name file-base-name (eds/get-org-directory))))
 
-(defun eds/ref-link-org-roam (title link &optional category todo)
-  "Create or update an org-roam node with the given LINK and TITLE.
-   If CATEGORY is provided, set the CATEGORY property. If TODO is provided,
-   create a TODO heading."
-  (let* ((file-name (eds/get-org-file-name title))
-         (title-line (eds/get-title-line title))
-         (startup-line (eds/get-startup-line))
-         (link-line (eds/get-link-line link))
-         (agendatag "#+filetags: :agenda:\n"))
-    (find-file file-name)
-    ;; In the new buffer
-    (if todo
-        (progn
-          (insert (concat title-line startup-line agendatag))
-          (insert "\n\n* TODO "))
-      (insert (concat title-line startup-line link-line)))
-    (org-id-get-create)
-    (org-set-property "ROAM_REFS" (or (eds/get-link-from-link link) link))
-    (if category
-        (org-set-property "CATEGORY" category))
-    (end-of-buffer)
-    (save-buffer)
-    (if todo
-        (org-agenda-file-to-front))))
-
 (defun eds/create-new-note-from-clipboard-link (title)
   "Create or update an org roam node from a (presumable) url in the clipboard."
   (interactive "sTitle: ")
@@ -231,11 +189,29 @@ that don't work in a filename."
          (link (eds/make-org-link clipboard-content title)))
     (eds/ref-link-org-roam title link)))
 
-(defun eds/orgify-msg (msg)
-  "Create a new org-roam node from an email message."
+(defun eds/capture-email (msg)
+  "Capture an email message MSG into org-roam."
   (let* ((link (org-store-link msg nil))
-         (subject (eds/get-subject-from-msg msg)))
-    (eds/ref-link-org-roam subject link)))
+         (ref  (eds/get-link-from-link link))
+         (subject (eds/get-subject-from-msg msg))
+         (body (or (gui-get-selection 'CLIPBOARD) "")))
+    (org-roam-protocol-open-ref
+     `(:title ,subject
+       :ref ,ref
+       :body ,body
+       :template "r"))))
+
+(defun eds/capture-email-todo (msg)
+  "Capture an email message MSG into org-roam."
+  (let* ((link (org-store-link msg nil))
+         (ref  (eds/get-link-from-link link))
+         (subject (eds/get-subject-from-msg msg))
+         (body (or (gui-get-selection 'CLIPBOARD) "")))
+    (org-roam-protocol-open-ref
+     `(:title ,subject
+       :ref ,ref
+       :body ,body
+       :template "T"))))
 
 (defun eds/create-todo-from-email (msg)
   "Create a new org-roam TODO from an email message MSG."

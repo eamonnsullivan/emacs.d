@@ -156,6 +156,14 @@
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
             "#+title: ${title}")
+           :unnarrowed t)
+          ("T" "ref" entry "* TODO %?\n%T\n\n${body}\n"
+           :target
+           (file+head
+            "%<%Y%m%d%H%M%S>-${slug}.org"
+            "#+title: ${title}"
+            "\n#+filetags: :agenda:"
+            "\n#+startup: content")
            :unnarrowed t)))
 
   (when (eq system-type 'darwin)

@@ -256,13 +256,6 @@
 
 ;; Org and Org-Roam related functions
 
-(describe "eds/make-org-link"
-  (it "creates an org link from content and title"
-    (expect (eds/make-org-link "https://example.com" "Example Site")
-            :to-equal "[[https://example.com][Example Site]]")
-    (expect (eds/make-org-link "file:notes.org" "Notes")
-            :to-equal "[[file:notes.org][Notes]]")))
-
 (describe "eds/get-org-directory"
   :var (file-truename)
   (before-each
@@ -293,54 +286,6 @@
   (it "returns only files with 'conflicted' in their names"
     (expect (eds/get-conflicted-org-files)
             :to-equal '("meeting-conflicted.org" "project-conflicted-v2.org"))))
-
-(describe "eds/ref-link-org-roam"
-  :var (find-file
-        insert
-        org-id-get-create
-        org-set-property
-        end-of-buffer
-        save-buffer
-        org-agenda-file-to-front)
-  (before-all
-    (fset 'find-file (lambda (filename) nil))
-    (fset 'insert (lambda (str) nil))
-    (fset 'org-id-get-create (lambda () nil))
-    (fset 'org-set-property (lambda (prop) nil))
-    (fset 'end-of-buffer (lambda () nil))
-    (fset 'save-buffer (lambda () nil))
-    (fset 'org-agenda-file-to-front (lambda () nil)))
-
-  (before-each
-    (spy-on 'find-file)
-    (spy-on 'insert)
-    (spy-on 'org-id-get-create)
-    (spy-on 'org-set-property)
-    (spy-on 'end-of-buffer)
-    (spy-on 'save-buffer)
-    (spy-on 'org-agenda-file-to-front))
-
-  (it "opens a buffer"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
-    (expect 'find-file :to-have-been-called-times 1))
-  (it "inserts the title and ref"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
-    (expect 'insert :to-have-been-called-with "#+title: This is a test\n#+startup: content\n* [[https://some.ref][This is a test]]\n"))
-  (it "creates a new org-roam id"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
-    (expect 'org-id-get-create :to-have-been-called-times 1))
-  (it "sets a ROAM_REFS property with the ref"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
-    (expect 'org-set-property :to-have-been-called-with "ROAM_REFS" "https://some.ref"))
-  (it "saves the buffer"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]")
-    (expect 'save-buffer :to-have-been-called-times 1))
-  (it "sets CATEGORY property when provided"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]" "TestCategory")
-    (expect 'org-set-property :to-have-been-called-with "CATEGORY" "TestCategory"))
-  (it "adds file to agenda when TODO is true"
-    (eds/ref-link-org-roam "This is a test" "[[https://some.ref][This is a test]]" nil t)
-    (expect 'org-agenda-file-to-front :to-have-been-called-times 1)))
 
 (describe "eds/create-new-note-from-clipboard-link"
   :var (gui-get-selection
@@ -376,65 +321,116 @@
     (expect (eds/get-link-from-link "[[Invalid Link]")
             :to-be nil)))
 
-(describe "eds/create-todo-from-email"
+(describe "eds/capture-email"
   :var (org-store-link
-        org-set-property
+        eds/get-link-from-link
         eds/get-subject-from-msg
-        eds/ref-link-org-roam)
+        gui-get-selection
+        org-roam-protocol-open-ref)
   (before-all
     (fset 'org-store-link (lambda (msg arg) nil))
-    (fset 'org-set-property (lambda (prop value) nil))
+    (fset 'eds/get-link-from-link (lambda (link) nil))
     (fset 'eds/get-subject-from-msg (lambda (msg) nil))
-    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+    (fset 'gui-get-selection (lambda (type) nil))
+    (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
   (before-each
     (spy-on 'org-store-link
-            :and-return-value "[[mail:email.link][RE: what about the 50K?]]")
+            :and-return-value "[[mail:something][RE: what about the 50K?]]")
+    (spy-on 'eds/get-link-from-link
+            :and-return-value "mail:something")
     (spy-on 'eds/get-subject-from-msg
             :and-return-value "RE: what about the 50K?")
-    (spy-on 'eds/ref-link-org-roam)
-    (spy-on 'org-set-property))
+    (spy-on 'gui-get-selection
+            :and-return-value "This is some text from the email that has been copied to the clipboard.")
+    (spy-on 'org-roam-protocol-open-ref))
 
-  (it "stores a link to the current message"
-    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
-    (expect 'org-store-link
-            :to-have-been-called-with '(:subject "RE: what about the 50K?") nil))
+  (it "captures a link to the  current email"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'org-store-link
+              :to-have-been-called-with msg nil)))
 
-  (it "retrieves the subject from the message"
-    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
-    (expect 'eds/get-subject-from-msg
-            :to-have-been-called-with '(:subject "RE: what about the 50K?")))
+  (it "gets the link to the message"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'eds/get-link-from-link
+              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
 
-  (it "creates a org-roam note from an email message"
-    (eds/create-todo-from-email '(:subject "RE: what about the 50K?"))
-    (expect 'eds/ref-link-org-roam
-            :to-have-been-called-with
-            "RE: what about the 50K?"
-            "[[mail:email.link][RE: what about the 50K?]]"
-            "Emails"
-            t)))
+  (it "gets the subject from the message"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'eds/get-subject-from-msg
+              :to-have-been-called-with msg)))
 
-(describe "eds/orgify-msg"
+  (it "gets clipboard contents"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'gui-get-selection
+              :to-have-been-called)))
+
+  (it "creates a new org-roam note with the email link and clipboard content"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'org-roam-protocol-open-ref
+              :to-have-been-called-with
+              '(:title "RE: what about the 50K?"
+                :ref "mail:something"
+                :body "This is some text from the email that has been copied to the clipboard."
+                :template "r")))))
+
+(describe "eds/capture-email-todo"
   :var (org-store-link
+        eds/get-link-from-link
         eds/get-subject-from-msg
-        eds/ref-link-org-roam)
+        gui-get-selection
+        org-roam-protocol-open-ref)
   (before-all
     (fset 'org-store-link (lambda (msg arg) nil))
+    (fset 'eds/get-link-from-link (lambda (link) nil))
     (fset 'eds/get-subject-from-msg (lambda (msg) nil))
-    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+    (fset 'gui-get-selection (lambda (type) nil))
+    (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
   (before-each
     (spy-on 'org-store-link
-            :and-return-value "[[https://email.link][RE: what about the 50K?]]")
+            :and-return-value "[[mail:something][RE: what about the 50K?]]")
+    (spy-on 'eds/get-link-from-link
+            :and-return-value "mail:something")
     (spy-on 'eds/get-subject-from-msg
             :and-return-value "RE: what about the 50K?")
-    (spy-on 'eds/ref-link-org-roam))
+    (spy-on 'gui-get-selection
+            :and-return-value "This is some text from the email that has been copied to the clipboard.")
+    (spy-on 'org-roam-protocol-open-ref))
 
-  (it "creates an org-roam note from an email message"
-    (eds/orgify-msg '(:subject "RE: what about the 50K?"))
-    (expect 'org-store-link
-            :to-have-been-called-with '(:subject "RE: what about the 50K?") nil)
-    (expect 'eds/get-subject-from-msg
-            :to-have-been-called-with '(:subject "RE: what about the 50K?"))
-    (expect 'eds/ref-link-org-roam
-            :to-have-been-called-with
-            "RE: what about the 50K?"
-            "[[https://email.link][RE: what about the 50K?]]")))
+  (it "captures a link to the  current email"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'org-store-link
+              :to-have-been-called-with msg nil)))
+
+  (it "gets the link to the message"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'eds/get-link-from-link
+              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
+
+  (it "gets the subject from the message"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'eds/get-subject-from-msg
+              :to-have-been-called-with msg)))
+
+  (it "gets clipboard contents"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'gui-get-selection
+              :to-have-been-called)))
+
+  (it "creates a new org-roam note with the email link and clipboard content"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'org-roam-protocol-open-ref
+              :to-have-been-called-with
+              '(:title "RE: what about the 50K?"
+                :ref "mail:something"
+                :body "This is some text from the email that has been copied to the clipboard."
+                :template "T")))))
