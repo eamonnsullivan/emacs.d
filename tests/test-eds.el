@@ -289,25 +289,25 @@
 
 (describe "eds/create-new-note-from-clipboard-link"
   :var (gui-get-selection
-        eds/make-org-link
-        eds/ref-link-org-roam)
+        org-roam-protocol-open-ref)
   (before-all
     (fset 'gui-get-selection (lambda (type) nil))
-    (fset 'eds/make-org-link (lambda (content title) nil))
-    (fset 'eds/ref-link-org-roam (lambda (title link) nil)))
+    (fset 'org-roam-protocol-open-ref (lambda (args) nil)))
 
   (before-each
     (spy-on 'gui-get-selection
             :and-return-value "https://example.com")
-    (spy-on 'eds/make-org-link
-            :and-return-value "[[https://example.com][Sample Title]]")
-    (spy-on 'eds/ref-link-org-roam))
+    (spy-on 'org-roam-protocol-open-ref))
 
   (it "creates a new note from the clipboard link"
     (eds/create-new-note-from-clipboard-link "Sample Title")
     (expect 'gui-get-selection :to-have-been-called-with 'CLIPBOARD)
-    (expect 'eds/make-org-link :to-have-been-called-with "https://example.com" "Sample Title")
-    (expect 'eds/ref-link-org-roam :to-have-been-called-with "Sample Title" "[[https://example.com][Sample Title]]")))
+    (expect 'org-roam-protocol-open-ref
+            :to-have-been-called-with
+            '(:title "Sample Title"
+              :ref "https://example.com"
+              :body ""
+              :template "r"))))
 
 (describe "eds/get-link-from-link"
   (it "extracts the link URL from an org link"

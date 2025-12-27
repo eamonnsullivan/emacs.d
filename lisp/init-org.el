@@ -189,33 +189,6 @@
 
 (require 'org-roam-protocol)
 
-;; (use-package org-mem
-;;   :defer
-;;   :config
-;;   (setq org-mem-do-sync-with-org-id t) ;; Optional
-;;   (setq org-mem-watch-dirs
-;;         (list (eds/get-org-directory))) ;; Your org-roam-directory here
-;;   (org-mem-updater-mode))
-
-;; (use-package org-node
-;;   :init
-;;   ;; Optional key bindings
-;;   (keymap-set global-map "M-o" org-node-global-prefix-map)
-;;   (with-eval-after-load 'org
-;;     (keymap-set org-mode-map "M-o" org-node-org-prefix-map))
-;;   :config
-;;   (setq org-node-creation-fn #'org-node-new-via-roam-capture
-;;         org-node-file-slug-fn #'org-node-slugify-like-roam-default
-;;         org-node-file-timestamp-format "%Y%m%d%H%M%S-"
-;;         org-node-backlink-do-drawers t
-;;         org-node-alter-candidates t
-;;         org-node-display-sort-fn #'org-node-sort-by-mtime-property)
-;;   (org-node-cache-mode)
-;;   (org-node-roam-accelerator-mode)
-;;   (org-node-backlink-mode)
-;;   (setq org-node-display-sort-fn
-;;       #'org-node-sort-by-mtime-property))
-
 (provide 'init-org)
 
 ;;; org.el ends here

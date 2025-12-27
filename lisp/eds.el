@@ -185,9 +185,12 @@ that don't work in a filename."
 (defun eds/create-new-note-from-clipboard-link (title)
   "Create or update an org roam node from a (presumable) url in the clipboard."
   (interactive "sTitle: ")
-  (let* ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty."))
-         (link (eds/make-org-link clipboard-content title)))
-    (eds/ref-link-org-roam title link)))
+  (let* ((clipboard-content (or (gui-get-selection 'CLIPBOARD) "Clipboard is empty.")))
+    (org-roam-protocol-open-ref
+     `(:title ,title
+       :ref ,clipboard-content
+       :body ""
+       :template "r"))))
 
 (defun eds/capture-email (msg)
   "Capture an email message MSG into org-roam."
@@ -213,14 +216,9 @@ that don't work in a filename."
        :body ,body
        :template "T"))))
 
-(defun eds/create-todo-from-email (msg)
-  "Create a new org-roam TODO from an email message MSG."
-  (let* ((link (org-store-link msg nil))
-         (subject (eds/get-subject-from-msg msg)))
-    (eds/ref-link-org-roam subject link "Emails" t)))
-
 (defun eds/get-org-agenda-files ()
-  "Return a list of org files containing the :agenda: tag, using grep and shell glob expansion."
+  "Return a list of org files containing the :agenda: tag, using grep and
+shell glob expansion."
   (let* ((org-directory (eds/get-org-directory))
          (default-directory (concat org-directory "/"))
          (cmd "grep -l ':agenda:' *.org")
