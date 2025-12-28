@@ -127,7 +127,7 @@
                      "\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]"
                      "\n* Actions\n"))
            :unnarrowed t)
-          ("t" "todo" entry "* TODO %?\n%T\n"
+          ("t" "todo" entry "* TODO %?\n%t\n"
            :target (file+head
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
@@ -157,7 +157,7 @@
             "%<%Y%m%d%H%M%S>-${slug}.org"
             "#+title: ${title}")
            :unnarrowed t)
-          ("T" "ref" entry "* TODO %?\n%T\n\n${body}\n"
+          ("T" "ref" entry "* TODO %?\n%t\n\n${body}\n"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
