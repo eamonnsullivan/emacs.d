@@ -16,6 +16,12 @@
         (ns-raise-emacs))))
 
   (add-hook 'after-make-frame-functions 'ns-raise-emacs-with-frame)
+  (setq trash-directory "~/.Trash")
+  ;; See `trash-directory' as it requires defining `system-move-file-to-trash'.
+  (defun system-move-file-to-trash (file)
+    "Use \"trash\" to move FILE to the system trash."
+    (cl-assert (executable-find "trash") nil "'trash' must be installed. Needs \"brew install trash\"")
+    (call-process "trash" nil 0 nil "-F"  file))
 
   (when (display-graphic-p)
     (ns-raise-emacs)))

@@ -151,19 +151,20 @@
                              "\n#+startup: content"
                              "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"))))
         org-roam-capture-ref-templates
-        '(("r" "ref" entry "* ${title}\n${body}\n%?"
+        `(("r" "ref" entry "* ${title}\n${body}\n%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
-            "#+title: ${title}")
+            ,(concat "#+title: ${title}"
+                     "\n#+startup: content"))
            :unnarrowed t)
           ("T" "ref" entry "* TODO %?\n%t\n\n${body}\n"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
-            "#+title: ${title}"
-            "\n#+filetags: :agenda:"
-            "\n#+startup: content")
+            ,(concat "#+title: ${title}"
+                     "\n#+filetags: :agenda:"
+                     "\n#+startup: content"))
            :unnarrowed t)))
 
   (when (eq system-type 'darwin)
