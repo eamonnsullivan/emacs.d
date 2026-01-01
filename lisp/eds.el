@@ -194,10 +194,13 @@ that don't work in a filename."
 
 (defun eds/capture-email (msg)
   "Capture an email message MSG into org-roam."
+  (interactive)
   (let* ((link (org-store-link msg nil))
          (ref  (eds/get-link-from-link link))
          (subject (eds/get-subject-from-msg msg))
-         (body (or (gui-get-selection 'CLIPBOARD) "")))
+         (body (if mark-active
+                   (buffer-substring-no-properties (region-beginning) (region-end))
+                 "")))
     (org-roam-protocol-open-ref
      `(:title ,subject
        :ref ,ref
@@ -206,10 +209,13 @@ that don't work in a filename."
 
 (defun eds/capture-email-todo (msg)
   "Capture an email message MSG into org-roam."
+  (interactive)
   (let* ((link (org-store-link msg nil))
          (ref  (eds/get-link-from-link link))
          (subject (eds/get-subject-from-msg msg))
-         (body (or (gui-get-selection 'CLIPBOARD) "")))
+         (body (if mark-active
+                   (buffer-substring-no-properties (region-beginning) (region-end))
+                  "")))
     (org-roam-protocol-open-ref
      `(:title ,subject
        :ref ,ref

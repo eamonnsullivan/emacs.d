@@ -321,17 +321,23 @@
     (expect (eds/get-link-from-link "[[Invalid Link]")
             :to-be nil)))
 
-(describe "eds/capture-email"
+(describe "eds/capture-email and eds/capture-email-todo"
   :var (org-store-link
         eds/get-link-from-link
         eds/get-subject-from-msg
-        gui-get-selection
+        mark-active
+        region-beginning
+        region-end
+        buffer-substring-no-properties
         org-roam-protocol-open-ref)
   (before-all
     (fset 'org-store-link (lambda (msg arg) nil))
     (fset 'eds/get-link-from-link (lambda (link) nil))
     (fset 'eds/get-subject-from-msg (lambda (msg) nil))
-    (fset 'gui-get-selection (lambda (type) nil))
+    (set 'mark-active t)
+    (fset 'region-beginning (lambda () 1))
+    (fset 'region-end (lambda () 10))
+    (fset 'buffer-substring-no-properties (lambda (beg end) nil))
     (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
   (before-each
     (spy-on 'org-store-link
@@ -340,8 +346,8 @@
             :and-return-value "mail:something")
     (spy-on 'eds/get-subject-from-msg
             :and-return-value "RE: what about the 50K?")
-    (spy-on 'gui-get-selection
-            :and-return-value "This is some text from the email that has been copied to the clipboard.")
+    (spy-on 'buffer-substring-no-properties
+            :and-return-value "This is some text from the email that has been selected.")
     (spy-on 'org-roam-protocol-open-ref))
 
   (it "captures a link to the  current email"
@@ -349,6 +355,18 @@
       (eds/capture-email msg)
       (expect 'org-store-link
               :to-have-been-called-with msg nil)))
+
+  (it "captures a link to the  current email"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'org-store-link
+              :to-have-been-called-with msg nil)))
+
+  (it "gets the link to the message"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'eds/get-link-from-link
+              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
 
   (it "gets the link to the message"
     (let ((msg '(:subject "RE: what about the 50K?")))
@@ -362,75 +380,40 @@
       (expect 'eds/get-subject-from-msg
               :to-have-been-called-with msg)))
 
-  (it "gets clipboard contents"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds/capture-email msg)
-      (expect 'gui-get-selection
-              :to-have-been-called)))
-
-  (it "creates a new org-roam note with the email link and clipboard content"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds/capture-email msg)
-      (expect 'org-roam-protocol-open-ref
-              :to-have-been-called-with
-              '(:title "RE: what about the 50K?"
-                :ref "mail:something"
-                :body "This is some text from the email that has been copied to the clipboard."
-                :template "r")))))
-
-(describe "eds/capture-email-todo"
-  :var (org-store-link
-        eds/get-link-from-link
-        eds/get-subject-from-msg
-        gui-get-selection
-        org-roam-protocol-open-ref)
-  (before-all
-    (fset 'org-store-link (lambda (msg arg) nil))
-    (fset 'eds/get-link-from-link (lambda (link) nil))
-    (fset 'eds/get-subject-from-msg (lambda (msg) nil))
-    (fset 'gui-get-selection (lambda (type) nil))
-    (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
-  (before-each
-    (spy-on 'org-store-link
-            :and-return-value "[[mail:something][RE: what about the 50K?]]")
-    (spy-on 'eds/get-link-from-link
-            :and-return-value "mail:something")
-    (spy-on 'eds/get-subject-from-msg
-            :and-return-value "RE: what about the 50K?")
-    (spy-on 'gui-get-selection
-            :and-return-value "This is some text from the email that has been copied to the clipboard.")
-    (spy-on 'org-roam-protocol-open-ref))
-
-  (it "captures a link to the  current email"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds/capture-email-todo msg)
-      (expect 'org-store-link
-              :to-have-been-called-with msg nil)))
-
-  (it "gets the link to the message"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds/capture-email-todo msg)
-      (expect 'eds/get-link-from-link
-              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
-
   (it "gets the subject from the message"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds/capture-email-todo msg)
       (expect 'eds/get-subject-from-msg
               :to-have-been-called-with msg)))
 
-  (it "gets clipboard contents"
+  (it "gets selected region contents"
     (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds/capture-email-todo msg)
-      (expect 'gui-get-selection
+      (eds/capture-email msg)
+      (expect 'buffer-substring-no-properties
               :to-have-been-called)))
 
-  (it "creates a new org-roam note with the email link and clipboard content"
+  (it "gets selected region contents"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email-todo msg)
+      (expect 'buffer-substring-no-properties
+              :to-have-been-called)))
+
+  (it "creates a new org-roam note with the email link and selected region"
+    (let ((msg '(:subject "RE: what about the 50K?")))
+      (eds/capture-email msg)
+      (expect 'org-roam-protocol-open-ref
+              :to-have-been-called-with
+              '(:title "RE: what about the 50K?"
+                :ref "mail:something"
+                :body "This is some text from the email that has been selected."
+                :template "r"))))
+
+  (it "creates a new org-roam TODO with the email link and selected region"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds/capture-email-todo msg)
       (expect 'org-roam-protocol-open-ref
               :to-have-been-called-with
               '(:title "RE: what about the 50K?"
                 :ref "mail:something"
-                :body "This is some text from the email that has been copied to the clipboard."
+                :body "This is some text from the email that has been selected."
                 :template "T")))))
