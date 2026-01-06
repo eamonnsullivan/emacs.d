@@ -107,6 +107,7 @@
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
   (setq org-roam-directory (eds/get-org-directory)
         org-roam-database-connector 'sqlite-builtin
+        org-roam-completion-everywhere t
         org-roam-graph-executable "dot"
         org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
@@ -117,14 +118,13 @@
                     ,(concat "#+title: ${title}"
                              "\n#+startup: content"))
            :unnarrowed t)
-          ("m" "meeting" entry "* ${title} Notes\n%u\n%?"
+          ("m" "meeting" entry "* ${title} Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
             ,(concat "#+title: ${title}"
                      "\n#+filetags: :meeting:"
                      "\n#+startup: content"
-                     "\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]"
                      "\n* Actions\n"))
            :unnarrowed t)
           ("t" "todo" entry "* TODO %?\n%t\n"
@@ -143,13 +143,12 @@
                      "\n#+startup: content"
                      "\n- [[id:C9EB836D-F0DD-47CE-B8F3-B44FD1A0A0E6][training]]\n"))
            :unnarrowed t)
-          ("i" "idea" entry "* %?\n%u\n"
+          ("i" "idea" entry "* %?\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"
            :target (file+head
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
                              "\n#+filetags: :ideas:"
-                             "\n#+startup: content"
-                             "\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"))))
+                             "\n#+startup: content"))))
         org-roam-capture-ref-templates
         `(("r" "ref" entry "* ${title}\n${body}\n%?"
            :target

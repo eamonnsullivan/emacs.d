@@ -155,7 +155,8 @@
                 ef-autumn
                 ef-night
                 ef-duo-dark
-                ef-symbiosis)
+                ef-symbiosis
+                ef-fig)
                :morning
                (modus-operandi
                 ef-light
@@ -171,6 +172,7 @@
                 ef-maris-light
                 ef-melissa-light
                 ef-trio-light
+                ef-orange
                 ef-reverie)
                :evening
                (modus-vivendi-tinted
@@ -186,7 +188,8 @@
                 ef-night
                 ef-duo-dark
                 ef-symbiosis
-                ef-owl)
+                ef-owl
+                ef-fig)
                :morning
                (ef-light
                 ef-cyprus
