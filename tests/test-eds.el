@@ -206,6 +206,9 @@
   (it "handles other emails send to fastmail"
     (expect (eds/get-sendmail-extra-args "something@eamonnsullivan.co.uk")
             :to-equal '("-a" "fastmail")))
+  (it "handles the SVP account on fastmail"
+    (expect (eds/get-sendmail-extra-args "svp@svpsouthruislip.org.uk")
+            :to-equal '("-a" "svp")))
   (it "returns nil for unknown email addresses"
     (expect (eds/get-sendmail-extra-args "user@example.com")
             :to-be nil)))

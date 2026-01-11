@@ -1,10 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 ;;; mu4e.el -- provide mu4e for email
 
-(defun eds/from-search (msg)
-  "Return a search string for the sender of MSG."
-  (mu4e-search (eds/get-mu4e-from-search-string msg)))
-
 (defun eds/set-msmtp-account ()
   "Set the msmtp account based on the current from."
   (if (message-mail-p)
@@ -38,25 +34,28 @@
           (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
                   (string= (message-sendmail-envelope-from) "svpsouthruislip@gmail.com"))
               'delete 'sent))
-        mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com")
+        mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com" "svp@svpsouthruislip.org.uk")
         mu4e-maildir-shortcuts '( (:maildir "/fastmail/INBOX"                  :key ?i)
                                   (:maildir "/fastmail/Sent"                   :key ?s)
                                   (:maildir "/fastmail/Archive"                :key ?a)
                                   (:maildir "/gmail-eamonn/INBOX"              :key ?g)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?e)
                                   (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?r)
+                                  (:maildir "/SVP/INBOX"                       :key ?V)
+                                  (:maildir "/SVP/Sent"                        :key ?S)
+                                  (:maildir "/SVP/Archive"                     :key ?A)
                                   (:maildir "/gmail-svp/INBOX"                 :key ?v)
                                   (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x)
                                   (:maildir "/gmail-svp/[Gmail].All Mail"      :key ?p))
         mu4e-bookmarks '((:name "Inbox"
-                                :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX"
+                                :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX or maildir:/SVP/INBOX"
                                 :key ?i
                                 :favorite t)
                          (:name "Sent"
-                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail"
+                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail or maildir/SVP/Sent"
                                 :key ?s)
                          (:name "Unread"
-                                :query "flag:unread and (maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail/*)"
+                                :query "flag:unread and (maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail/* OR maildir:/SVP/*)"
                                 :key ?u)
                          (:name "Github"
                                 :query "from:github.com"
@@ -79,7 +78,7 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (mu4e-message-contact-field-matches msg :to "eamonnsullivan.co.uk")))
+                              (eds/msg-contact-matches msg "eamonnsullivan.co.uk")))
                           :vars
                           '((user-mail-address . "me@eamonnsullivan.co.uk")
                             (user-full-name . "Eamonn Sullivan")
@@ -87,25 +86,6 @@
                             (mu4e-sent-folder . "/fastmail/Sent")
                             (mu4e-trash-folder . "/fastmail/Trash")
                             (mu4e-refile-folder . "/fastmail/Archive")))
-
-                        ,(make-mu4e-context
-                          :name "gmail"
-                          :enter-func
-                          (lambda () (mu4e-message "Entering Gmail context"))
-                          :leave-func
-                          (lambda () (mu4e-message "Leaving Gmail context"))
-                          :match-func
-                          (lambda (msg)
-                            (when msg
-                              (or (mu4e-message-contact-field-matches msg :to "eamonn.sullivan@gmail.com")
-                                  (mu4e-message-contact-field-matches msg :cc "eamonn.sullivan@gmail.com"))))
-                          :vars
-                          '((user-mail-address . "eamonn.sullivan@gmail.com")
-                            (user-full-name . "Eamonn Sullivan")
-                            (mu4e-drafts-folder . "/gmail-eamonn/[Gmail].Drafts")
-                            (mu4e-sent-folder . "/gmail-eamonn/[Gmail].Sent Mail")
-                            (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")
-                            (mu4e-refile-folder . "/gmail-eamonn/[Gmail].All Mail")))
 
                         ,(make-mu4e-context
                           :name "SVP"
@@ -116,11 +96,46 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (or (mu4e-message-contact-field-matches msg :to "svpsouthruislip@gmail.com")
-                                  (mu4e-message-contact-field-matches msg :to "svpsouthruislip.org.uk"))))
+                              (eds/msg-contact-matches msg "svpsouthruislip.org.uk")))
+                          :vars
+                          '((user-mail-address . "svp@svpsouthruislip.org.uk")
+                            (user-full-name . "South Ruislip SVP")
+                            (mu4e-drafts-folder . "/SVP/Drafts")
+                            (mu4e-sent-folder . "/SVP/Sent")
+                            (mu4e-trash-folder . "/SVP/Trash")
+                            (mu4e-refile-folder . "/SVP/Archive")))
+
+                        ,(make-mu4e-context
+                          :name "gmail"
+                          :enter-func
+                          (lambda () (mu4e-message "Entering Gmail context"))
+                          :leave-func
+                          (lambda () (mu4e-message "Leaving Gmail context"))
+                          :match-func
+                          (lambda (msg)
+                            (when msg
+                              (eds/msg-contact-matches msg "eamonn.sullivan@gmail.com")))
+                          :vars
+                          '((user-mail-address . "eamonn.sullivan@gmail.com")
+                            (user-full-name . "Eamonn Sullivan")
+                            (mu4e-drafts-folder . "/gmail-eamonn/[Gmail].Drafts")
+                            (mu4e-sent-folder . "/gmail-eamonn/[Gmail].Sent Mail")
+                            (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")
+                            (mu4e-refile-folder . "/gmail-eamonn/[Gmail].All Mail")))
+
+                        ,(make-mu4e-context
+                          :name "XGmailSVP"
+                          :enter-func
+                          (lambda () (mu4e-message "Entering SVP Gmail context"))
+                          :leave-func
+                          (lambda () (mu4e-message "Leaving SVP Gmail context"))
+                          :match-func
+                          (lambda (msg)
+                            (when msg
+                              (eds/msg-contact-matches msg "svpsouthruislip@gmail.com")))
                           :vars
                           '((user-mail-address . "svpsouthruislip@gmail.com")
-                            (user-full-name . "SVP South Ruislip")
+                            (user-full-name . "South Ruislip SVP")
                             (mu4e-drafts-folder . "/gmail-svp/[Gmail].Drafts")
                             (mu4e-sent-folder . "/gmail-svp/[Gmail].Sent Mail")
                             (mu4e-trash-folder . "/gmail-svp/[Gmail].Trash")
@@ -153,5 +168,17 @@
   (epa-file-enable)
   (setq epa-pinentry-mode 'loopback)
   (auth-source-forget-all-cached))
+
+
+(defun eds/from-search (msg)
+  "Return a search string for the sender of MSG."
+  (mu4e-search (eds/get-mu4e-from-search-string msg)))
+
+(defun eds/msg-contact-matches (msg email)
+  "Return t if MSG matches EMAIL in to, cc, or bcc."
+  (or (mu4e-message-contact-field-matches msg :to email)
+      (mu4e-message-contact-field-matches msg :cc email)
+      (mu4e-message-contact-field-matches msg :bcc email)))
+
 
 (provide 'init-mu4e)

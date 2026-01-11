@@ -29,6 +29,7 @@
   (require 'ob-clojure)
   (require 'ob-typescript)
   (require 'ob-go)
+  (require 'ob-http)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)

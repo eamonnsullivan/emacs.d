@@ -251,7 +251,8 @@ shell glob expansion."
          (cond
           ((string-match "eamonn.sullivan@gmail.com" from-email) "gmail-eamonn")
           ((string-match "svpsouthruislip@gmail.com" from-email) "gmail-svp")
-          ((string-match "eamonnsullivan.co.uk" from-email) "fastmail"))))
+          ((string-match "eamonnsullivan.co.uk" from-email) "fastmail")
+          ((string-match "svp@svpsouthruislip.org.uk" from-email) "svp"))))
     (if account
         (list "-a" account)
       nil)))

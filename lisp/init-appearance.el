@@ -179,6 +179,7 @@
                 ef-rosa ef-elea-dark
                 ef-maris-dark
                 ef-melissa-dark
+                ef-fig
                 ef-trio-dark ef-dream)))
            (ef-themes-p
             '( :night
@@ -213,6 +214,7 @@
                 ef-maris-dark
                 ef-melissa-dark
                 ef-trio-dark
+                ef-fig
                 ef-dream)))
            (modus-themes-p
             '( :night
