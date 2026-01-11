@@ -37,16 +37,12 @@
         mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com" "svp@svpsouthruislip.org.uk")
         mu4e-maildir-shortcuts '( (:maildir "/fastmail/INBOX"                  :key ?i)
                                   (:maildir "/fastmail/Sent"                   :key ?s)
-                                  (:maildir "/fastmail/Archive"                :key ?a)
                                   (:maildir "/gmail-eamonn/INBOX"              :key ?g)
                                   (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?e)
-                                  (:maildir "/gmail-eamonn/[Gmail].All Mail"   :key ?r)
                                   (:maildir "/SVP/INBOX"                       :key ?V)
                                   (:maildir "/SVP/Sent"                        :key ?S)
-                                  (:maildir "/SVP/Archive"                     :key ?A)
                                   (:maildir "/gmail-svp/INBOX"                 :key ?v)
-                                  (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x)
-                                  (:maildir "/gmail-svp/[Gmail].All Mail"      :key ?p))
+                                  (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x))
         mu4e-bookmarks '((:name "Inbox"
                                 :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX or maildir:/SVP/INBOX"
                                 :key ?i
@@ -55,8 +51,11 @@
                                 :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail or maildir/SVP/Sent"
                                 :key ?s)
                          (:name "Unread"
-                                :query "flag:unread and (maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail/* OR maildir:/SVP/*)"
+                                :query "flag:unread AND NOT (maildir:\"/gmail-eamonn/[Gmail].Spam\" OR maildir:\"/gmail-svp/[Gmail].Spam\" OR maildir:/fastmail/Spam OR maildir:/SVP/Spam OR flag:trashed)"
                                 :key ?u)
+                         (:name "Archived"
+                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail/Archive OR maildir:/SVP/Archive"
+                                :key ?a)
                          (:name "Github"
                                 :query "from:github.com"
                                 :key ?h)
