@@ -48,7 +48,7 @@
                                 :key ?i
                                 :favorite t)
                          (:name "Sent"
-                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail or maildir/SVP/Sent"
+                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail or maildir:/SVP/Sent"
                                 :key ?s)
                          (:name "Unread"
                                 :query "flag:unread AND NOT (maildir:\"/gmail-eamonn/[Gmail].Spam\" OR maildir:\"/gmail-svp/[Gmail].Spam\" OR maildir:/fastmail/Spam OR maildir:/SVP/Spam OR flag:trashed)"
