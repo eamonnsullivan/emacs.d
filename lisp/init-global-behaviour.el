@@ -247,4 +247,26 @@
 
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 
+(use-package unfill)
+
+(defvar fill-paragraph-state nil
+  "The way the paragraph was filled the last time.")
+
+(defun eds/fill-paragraph-toggle ()
+  "Fill and unfill the current paragraph, depending on what was done last time."
+  (interactive)
+  (unless (eq last-command this-command)
+    (setq fill-paragraph-state nil))
+  (let (deactivate-mark)
+    (cl-case fill-paragraph-state
+      ('fill-paragraph
+       (call-interactively 'unfill-paragraph)
+       (setq fill-paragraph-state 'unfill-paragraph))
+      (t
+       (call-interactively 'fill-paragraph)
+       (setq fill-paragraph-state 'fill-paragraph)))))
+
+(global-unset-key (kbd "M-q"))
+(global-set-key (kbd "M-q") 'eds/fill-paragraph-toggle)
+
 (provide 'init-global-behaviour)
