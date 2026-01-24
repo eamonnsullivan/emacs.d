@@ -13,9 +13,8 @@
   "Returns t if the line appears to already have a type annotation. Nil otherwise."
   (string-match-p "\:[^)]+\=" line))
 
-(use-package scala-ts-mode
-  :straight
-  (scala-ts-mode :type git :host github :repo "KaranAhlawat/scala-ts-mode"))
+(use-package scala-mode
+  :interpreter ("scala" . scala-mode))
 
 (use-package sbt-mode
   :straight
@@ -23,11 +22,11 @@
   :commands sbt-start sbt-command
   :bind (("C-c C-b" . sbt-hydra))
   :config
+  ;; WORKAROUND allows using SPACE when in the minibuffer
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
-   minibuffer-local-completion-map)
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+   minibuffer-local-completion-map))
 
 ;; feature-mode
 (use-package feature-mode

@@ -5,9 +5,6 @@
 (use-package eglot
   :config
   (setq eglot-autoshutdown t)
-  (add-to-list 'eglot-server-programs
-               `((scala-mode scala-ts-mode)
-                 . ,(alist-get 'scala-mode eglot-server-programs)))
   :hook ((prog-mode . eglot-ensure))
   :bind (("C-c C-l r" . eglot-rename)
          ("C-c C-l o" . eglot-code-action-organize-imports)

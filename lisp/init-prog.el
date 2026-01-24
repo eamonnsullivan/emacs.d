@@ -90,8 +90,7 @@ programming."
    (go-mode . go-ts-mode)
    (json-mode . json-ts-mode)
    (css-mode . css-ts-mode)
-   (python-mode . python-ts-mode)
-   (scala-mode . scala-ts-mode)))
+   (python-mode . python-ts-mode)))
 
 (setq treesit-font-lock-level 4)
 
