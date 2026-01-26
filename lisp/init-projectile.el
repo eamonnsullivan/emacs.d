@@ -19,7 +19,9 @@
   (projectile-mode t)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
   (add-to-list 'projectile-globally-ignored-files "node-modules")
-  :bind   (("s-F" . helm-projectile-grep)
+  (add-to-list 'projectile-globally-ignored-files "*.semanticdb")
+  (add-to-list 'projectile-globally-ignored-files "*.db")
+  :bind   (("s-F" . helm-projectile-rg)
            ("C-c p h" . helm-projectile-find-file)))
 
 (provide 'init-projectile)
