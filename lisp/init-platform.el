@@ -26,7 +26,7 @@
   (when (display-graphic-p)
     (ns-raise-emacs))
 
-  (setenv "SBT_OPTS" "-Xmx2G -Xms512M -Xss4M -XX:+UseG1GC -XX:+UseStringDeduplication -Dmetals.client=emacs -Djavax.net.ssl.trustStore=/etc/pki/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStore=/etc/pki/tls/private/client.p12 -Djavax.net.ssl.keyStorePassword=client -Djavax.net.ssl.keyStoreType=PKCS12 -Dfile.encoding=UTF-8 -Djsse.enableSNIExtension=false"))
+  (setenv "SBT_OPTS" "-Xmx2G -Xms512M -Xss4M -XX:+UseG1GC -XX:+UseStringDeduplication -Dmetals.client=emacs -Djavax.net.ssl.trustStore=/etc/pki/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStore=/etc/pki/tls/private/client.p12 -Djavax.net.ssl.keyStorePassword=client -Djavax.net.ssl.keyStoreType=PKCS12 -Dfile.encoding=UTF-8"))
 
 
 

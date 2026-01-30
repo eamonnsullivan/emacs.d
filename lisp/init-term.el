@@ -33,16 +33,4 @@
   :config
   (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key))
 
-(straight-use-package
- '(eat :type git
-       :host codeberg
-       :repo "akib/emacs-eat"
-       :files ("*.el" ("term" "term/*.el") "*.texi"
-               "*.ti" ("terminfo/e" "terminfo/e/*")
-               ("terminfo/65" "terminfo/65/*")
-               ("integration" "integration/*")
-               (:exclude ".dir-locals.el" "*-tests.el"))))
-
-;; (global-set-key (kbd "C-<f2>") 'eat)
-
 (provide 'init-term)
