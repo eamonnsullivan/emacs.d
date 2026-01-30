@@ -18,7 +18,7 @@
       (setq flycheck-javascript-eslint-executable "/Users/sullie09/.nvm/versions/node/v16.19.1/bin/eslint_d")
     (setq flycheck-javascript-eslint-executable "/home/eamonn/.nvm/versions/node/v16.19.1/bin/eslint_d"))
   ;; add scalastyle for scala mode.
-  (flycheck-add-mode 'scala-scalastyle 'scala-mode)
+  (flycheck-add-mode 'scala-scalastyle 'scala-ts-mode)
   ;; customize flycheck temp file prefix
   (setq-default flycheck-temp-prefix ".flycheck")
   ;; disable json-jsonlist checking for json files

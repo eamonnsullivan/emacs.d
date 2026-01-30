@@ -70,6 +70,9 @@ programming."
 (straight-use-package 'yapfify)
 (add-hook 'python-ts-mode-hook 'yapf-mode)
 
+
+(require 'treesit)
+
 ;; (when (and
 ;;        (not (string= system-name "blueberry"))
 ;;        (not (string= system-name "pineapple")))
@@ -90,6 +93,7 @@ programming."
    (go-mode . go-ts-mode)
    (json-mode . json-ts-mode)
    (css-mode . css-ts-mode)
+   (scala-mode . scala-ts-mode)
    (python-mode . python-ts-mode)))
 
 (setq treesit-font-lock-level 4)

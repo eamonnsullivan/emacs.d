@@ -7,7 +7,7 @@
   :ensure t
   :hook
   ((typescript-ts-base-mode . copilot-mode)
-   (scala-mode . copilot-mode)
+   (scala-ts-mode . copilot-mode)
    (go-ts-mode . copilot-mode)
    (emacs-lisp-mode . copilot-mode)
    (python-ts-mode . copilot-mode)

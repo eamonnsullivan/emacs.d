@@ -17,7 +17,7 @@
   sp-restrict-to-pairs-interactive
   sp-local-pair
   :diminish smartparens-mode
-  :hook ((scala-mode . smartparens-mode)
+  :hook ((scala-ts-mode . smartparens-mode)
          (python-ts-mode . smartparens-mode)
          (java-mode . smartparens-mode)
          (js2-mode . smartparens-mode)
@@ -32,8 +32,8 @@
 
     (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
     (sp-local-pair 'web-mode "<" nil :when '(my/sp-web-mode-is-code-context))
-    (sp-local-pair 'scala-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
-    (sp-local-pair 'scala-mode "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC")))
+    (sp-local-pair 'scala-ts-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair 'scala-ts-mode "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC")))
 
     (defun sp-restrict-c (sym)
       "Smartparens restriction on `SYM' for C-derived parenthesis."

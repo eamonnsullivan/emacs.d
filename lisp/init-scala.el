@@ -13,8 +13,8 @@
   "Returns t if the line appears to already have a type annotation. Nil otherwise."
   (string-match-p "\:[^)]+\=" line))
 
-(use-package scala-mode
-  :interpreter ("scala" . scala-mode))
+(use-package scala-ts-mode
+  :mode (("\.scala$" . scala-ts-mode)))
 
 (use-package sbt-mode
   :straight
