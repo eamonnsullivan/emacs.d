@@ -137,101 +137,42 @@
       (modus-themes-load-theme 'modus-vivendi-tinted)
     (modus-themes-load-theme 'modus-operandi-tinted)))
 
-;;;; Theme buffet
-(use-package theme-buffet
+(use-package circadian
   :straight t
-  :after (:any modus-themes ef-themes)
-  :defer 1
+  :ensure t
   :config
-  (let ((modus-themes-p (featurep 'modus-themes))
-        (ef-themes-p (featurep 'ef-themes)))
-    (setq theme-buffet-menu 'end-user)
-    (setq theme-buffet-end-user
-          (cond
-           ((and modus-themes-p ef-themes-p)
-            '( :night
-               (modus-vivendi
-                ef-dark ef-winter
-                ef-autumn
-                ef-night
-                ef-duo-dark
-                ef-symbiosis
-                ef-fig)
-               :morning
-               (modus-operandi
-                ef-light
-                ef-cyprus
-                ef-spring
-                ef-frost
-                ef-duo-light)
-               :afternoon
-               (modus-operandi-tinted
-                ef-arbutus ef-day
-                ef-kassio ef-summer
-                ef-elea-light
-                ef-maris-light
-                ef-melissa-light
-                ef-trio-light
-                ef-orange
-                ef-reverie)
-               :evening
-               (modus-vivendi-tinted
-                ef-rosa ef-elea-dark
-                ef-maris-dark
-                ef-melissa-dark
-                ef-fig
-                ef-trio-dark ef-dream)))
-           (ef-themes-p
-            '( :night
-               (ef-dark
-                ef-winter
-                ef-autumn
-                ef-night
-                ef-duo-dark
-                ef-symbiosis
-                ef-owl
-                ef-fig)
-               :morning
-               (ef-light
-                ef-cyprus
-                ef-spring
-                ef-frost
-                ef-duo-light
-                ef-eagle)
-               :afternoon
-               (ef-arbutus
-                ef-day
-                ef-kassio
-                ef-summer
-                ef-elea-light
-                ef-maris-light
-                ef-melissa-light
-                ef-trio-light
-                ef-reverie)
-               :evening
-               (ef-rosa
-                ef-elea-dark
-                ef-maris-dark
-                ef-melissa-dark
-                ef-trio-dark
-                ef-fig
-                ef-dream)))
-           (modus-themes-p
-            '( :night
-               (modus-vivendi
-                modus-vivendi-tinted)
-               :morning
-               (modus-operandi
-                modus-operandi-tinted)
-               :afternoon
-               (modus-operandi
-                modus-operandi-tinted)
-               :evening
-               (modus-vivendi
-                modus-vivendi-tinted)))))
+  (setq circadian-themes '((:sunrise . (ef-cyprus
+                                        ef-spring
+                                        ef-light
+                                        ef-frost
+                                        ef-duo-light))
+                           ("13:00" . (ef-maris-light
+                                       ef-arbutus
+                                       ef-day
+                                       ef-kassio
+                                       ef-summer
+                                       ef-elea-light
+                                       ef-melissa-light
+                                       ef-trio-light
+                                       ef-reverie
+                                       ef-orange
+                                       ef-reverie))
+                           (:sunset . (ef-rosa
+                                       ef-elea-dark
+                                       ef-maris-dark
+                                       ef-melissa-dark
+                                       ef-trio-dark
+                                       ef-fig
+                                       ef-dream))
+                           ("22:00" . (ef-winter
+                                       ef-autumn
+                                       ef-night
+                                       ef-duo-dark
+                                       ef-symbiosis
+                                       ef-owl
+                                       ef-fig))))
+  (circadian-setup))
 
-    (when (or modus-themes-p ef-themes-p)
-      (theme-buffet-timer-hours 1))))
 
 (defun disable-all-themes ()
   (interactive)
@@ -251,6 +192,6 @@
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))
-    (theme-buffet-a-la-carte)))
+    (circadian-setup)))
 
 (provide 'init-appearance)
