@@ -30,6 +30,7 @@
   (info-initialize)
   (push "/opt/homebrew/share/info/" Info-directory-list)
   (add-to-list 'Info-default-directory-list "/opt/homebrew/share/info")
+  (setq-default visual-fill-column-width 120)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -74,7 +75,10 @@
   (auth-source "~/.authinfo.gpg")
   (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
   :hook
-  ((text-mode . visual-line-mode)
+  ((text-mode . (lambda ()
+                  (visual-line-mode 1)
+                  (visual-fill-column-mode 1)
+                  (visual-fill-column-toggle-center-text)))
    (before-save . delete-trailing-whitespace)))
 
 (require 'init-mu4e)
