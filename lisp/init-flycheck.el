@@ -33,6 +33,14 @@
     '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
   :init   (global-flycheck-mode))
 
+(use-package flycheck-eglot
+  :straight
+  (:host github :repo "flycheck/flycheck-eglot" :files ("*.el"))
+  :after (flycheck eglot)
+  :custom (flycheck-eglot-exclusive nil)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (use-package flycheck-clj-kondo
   :if (executable-find "clj-kondo")
   :after clojure-mode
