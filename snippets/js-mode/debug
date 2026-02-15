@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+# name: debug
+# key: _edb
+# --
+console.log('EAMONN DEBUG ${1:description}: \$\{$0\}');

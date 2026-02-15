@@ -50,18 +50,6 @@
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "(println \"EAMONN DEBUG:\" " _ " )")
 
-(define-skeleton eds-edump-expansion-javascript
-  "Insert a skeleton for a debugging console log statement. With stringify."
-  > "console.log(`EAMONN DEBUG: ${JSON.stringify(" _ ")}`);")
-
-(define-skeleton eds-eobj-expansion-javascript
-  "Insert a skeleton for a debugging console log statement. With stringify."
-  > "console.log('EAMONN DEBUG:', " _ ");")
-
-(define-skeleton eds-edeb-expansion-javascript
-  "Insert a skeleton for a debugging console log statement."
-  > "console.log(`EAMONN DEBUG: ${" _ "}`);")
-
 (define-skeleton eds-edeb-expansion-java
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "System.out.println(\"EAMONN DEBUG: " _ "\")")
