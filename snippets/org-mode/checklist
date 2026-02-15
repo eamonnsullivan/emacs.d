@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: checklist
+# key: check_
+# --
+* TODO ${1:Main todo title} [/]
+  `(format-time-string "<%Y-%m-%d %a>" (current-time))`
+  - [ ] ${2:first checklist item}$0

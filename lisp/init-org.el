@@ -185,6 +185,7 @@
          ("C-c n r" . eds/create-new-note-from-clipboard-link)
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
          ("C-c n A" . org-roam-alias-add) ; add an alias to the current node
+         ("C-c n P" . org-set-property) ; set a prop on the current node (usually category)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 
