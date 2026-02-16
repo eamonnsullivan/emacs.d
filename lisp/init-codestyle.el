@@ -7,7 +7,7 @@
 
 (straight-use-package 'dtrt-indent)
 (require 'dtrt-indent)
-(setq dtrt-indent-global-mode t)
+(setopt dtrt-indent-global-mode t)
 
 (use-package smartparens
   :straight

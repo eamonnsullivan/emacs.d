@@ -2,7 +2,7 @@
 ;;; init-web.el --- stuff related to web
 
 (defun my/web-mode-hook ()
-  (setq web-mode-enable-auto-pairing nil))
+  (setopt web-mode-enable-auto-pairing nil))
 
 (defun my/sp-web-mode-is-code-context (id action context)
   (when (and (eq action 'insert)
@@ -14,10 +14,10 @@
   :mode "\\.html?\\'"
   :config
   (progn
-    (setq web-mode-markup-indent-offset 2)
-    (setq web-mode-code-indent-offset 2)
-    (setq web-mode-enable-current-element-highlight t)
-    (setq web-mode-ac-sources-alist
+    (setopt web-mode-markup-indent-offset 2)
+    (setopt web-mode-code-indent-offset 2)
+    (setopt web-mode-enable-current-element-highlight t)
+    (setopt web-mode-ac-sources-alist
           '(("css" . (ac-source-css-property))
             ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
           )))

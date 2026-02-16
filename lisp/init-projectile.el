@@ -7,7 +7,7 @@
   :demand
   :diminish projectile-mode
   :init
-  (setq projectile-completion-system 'helm
+  (setopt projectile-completion-system 'helm
         projectile-switch-project-action 'projectile-find-file
         projectile-indexing-method 'alien)
   (use-package helm-projectile

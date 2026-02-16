@@ -84,23 +84,23 @@
 (require 'init-mu4e)
 (set-variable 'mail-user-agent 'mu4e-user-agent)
 (set-variable 'read-mail-command 'mu4e)
-(setq package-install-upgrade-built-in t)
+(setopt package-install-upgrade-built-in t)
 
 ;; Turn off the annoying default backup behaviour
 (let ((backup-dir (concat (file-name-directory user-init-file) "backup")))
   (if (file-directory-p backup-dir)
-      (setq backup-directory-alist `((".*" . ,backup-dir))
-            auto-save-file-name-transforms `((".*" ,backup-dir t))
-            backup-by-copying t         ; Don't delink hardlinks
-            version-control t           ; Use version numbers on backups
-            delete-old-versions t       ; Automatically delete excess backups
-            kept-new-versions 20        ; how many of the newest versions to keep
-            kept-old-versions 5         ; and how many of the old
-            delete-by-moving-to-trash t
-            create-lockfiles nil        ; don't create lockfiles
-            view-read-only t            ; use view mode on read-only buffers.
-            sentence-end-double-space nil
-            )
+      (setopt backup-directory-alist `((".*" . ,backup-dir))
+              auto-save-file-name-transforms `((".*" ,backup-dir t))
+              backup-by-copying t         ; Don't delink hardlinks
+              version-control t           ; Use version numbers on backups
+              delete-old-versions t       ; Automatically delete excess backups
+              kept-new-versions 20        ; how many of the newest versions to keep
+              kept-old-versions 5         ; and how many of the old
+              delete-by-moving-to-trash t
+              create-lockfiles nil        ; don't create lockfiles
+              view-read-only t            ; use view mode on read-only buffers.
+              sentence-end-double-space nil
+              )
     (message (format "Directory does not exist: %s" backup-dir))))
 
 ;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
@@ -160,39 +160,39 @@
 
 (use-package use-package-chords
   :init
-  (setq key-chord-two-keys-delay 0.05)
+  (setopt key-chord-two-keys-delay 0.05)
   :config
   (key-chord-mode 1)
   (require 'eds)
   (key-chord-define-global "JJ" 'eds/switch-to-previous-buffer))
 
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(setopt uniquify-buffer-name-style 'forward)
 
 (use-package hippie-exp                 ; Powerful expansion and completion
   :bind (([remap dabbrev-expand] . hippie-expand))
   :config
   (progn
-    (setq hippie-expand-try-functions-list
-          '(try-expand-dabbrev
-            try-expand-dabbrev-all-buffers
-            try-expand-dabbrev-from-kill
-            try-complete-file-name-partially
-            try-complete-file-name
-            try-expand-all-abbrevs
-            try-expand-list
-            try-complete-lisp-symbol-partially
-            try-complete-lisp-symbol))))
+    (setopt hippie-expand-try-functions-list
+            '(try-expand-dabbrev
+              try-expand-dabbrev-all-buffers
+              try-expand-dabbrev-from-kill
+              try-complete-file-name-partially
+              try-complete-file-name
+              try-expand-all-abbrevs
+              try-expand-list
+              try-complete-lisp-symbol-partially
+              try-complete-lisp-symbol))))
 
 (use-package autorevert ; Auto-revert buffers of changed files
   :init (global-auto-revert-mode)
   :config
-  (setq auto-revert-verbose nil
-        global-auto-revert-non-file-buffers t)
+  (setopt auto-revert-verbose nil
+          global-auto-revert-non-file-buffers t)
 
   (when (eq system-type 'darwin)
     ;; File notifications aren't supported on OS X
-    (setq auto-revert-use-notify nil))
+    (setopt auto-revert-use-notify nil))
   :diminish (auto-revert-mode . " Ⓐ"))
 
 ;; Display available keybindings in popup
@@ -212,10 +212,10 @@
   :init
   (dashboard-setup-startup-hook)
   :config
-  (setq dashboard-projects-backend 'projectile
-        dashboard-items '((recents   . 5)
-                          (projects  . 5)
-                          (agenda    . 5)))
+  (setopt dashboard-projects-backend 'projectile
+          dashboard-items '((recents   . 5)
+                            (projects  . 5)
+                            (agenda    . 5)))
   (require 'eds)
   (add-to-list 'dashboard-item-generators  '(custom . eds/dashboard-custom-conflicted-files))
   (add-to-list 'dashboard-items '(custom) t))
@@ -227,17 +227,17 @@
 
 (use-package eldoc
   :config
-  (setq eldoc-echo-area-use-multiline-p t))
+  (setopt eldoc-echo-area-use-multiline-p t))
 
 (use-package pomidor
   :bind (("<f12>" . pomidor))
-  :config (setq pomidor-sound-tick nil
-                pomidor-sound-tack nil
-                pomidor-sound-overwork (expand-file-name (concat pomidor-dir "overwork.wav")))
+  :config (setopt pomidor-sound-tick nil
+                  pomidor-sound-tack nil
+                  pomidor-sound-overwork (expand-file-name (concat pomidor-dir "overwork.wav")))
   :hook (pomidor-mode . (lambda ()
                           (display-line-numbers-mode -1) ; Emacs 26.1+
-                          (setq left-fringe-width 0 right-fringe-width 0)
-                          (setq left-margin-width 2 right-margin-width 0)
+                          (setopt left-fringe-width 0 right-fringe-width 0)
+                          (setopt left-margin-width 2 right-margin-width 0)
                           ;; force fringe update
                           (set-window-buffer nil (current-buffer)))))
 
@@ -246,8 +246,8 @@
   :diminish super-save-mode
   :config
   (super-save-mode +1)
-  (setq super-save-exclude '("\\*dashboard\\*"))
-  (setq super-save-auto-save-when-idle t))
+  (setopt super-save-exclude '("\\*dashboard\\*"))
+  (setopt super-save-auto-save-when-idle t))
 
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 
@@ -260,15 +260,15 @@
   "Fill and unfill the current paragraph, depending on what was done last time."
   (interactive)
   (unless (eq last-command this-command)
-    (setq fill-paragraph-state nil))
+    (setopt fill-paragraph-state nil))
   (let (deactivate-mark)
     (cl-case fill-paragraph-state
       ('fill-paragraph
        (call-interactively 'unfill-paragraph)
-       (setq fill-paragraph-state 'unfill-paragraph))
+       (setopt fill-paragraph-state 'unfill-paragraph))
       (t
        (call-interactively 'fill-paragraph)
-       (setq fill-paragraph-state 'fill-paragraph)))))
+       (setopt fill-paragraph-state 'fill-paragraph)))))
 
 (global-unset-key (kbd "M-q"))
 (global-set-key (kbd "M-q") 'eds/fill-paragraph-toggle)

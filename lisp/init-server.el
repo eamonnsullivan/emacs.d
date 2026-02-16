@@ -37,6 +37,6 @@
                                  (require 'org-protocol)
                                  ;; apply my display preferences to the first frame
                                  (my-appearance-settings t))
-                               (setq server-raise-frame t))))
+                               (setopt server-raise-frame t))))
 
 (provide 'init-server)

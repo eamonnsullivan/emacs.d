@@ -10,7 +10,7 @@
 (add-hook 'c-mode-common-hook (lambda ()
                                 (c-set-style "bsd")
                                 (defvar c-basic-offset 4)
-                                (setq indent-tabs-mode nil)
+                                (setopt indent-tabs-mode nil)
                                 (font-lock-add-keywords nil
                                                         '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))
                                 (auto-fill-mode 1)

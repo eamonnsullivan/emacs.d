@@ -4,7 +4,7 @@
 
 (use-package eglot
   :config
-  (setq eglot-autoshutdown t)
+  (setopt eglot-autoshutdown t)
   (add-to-list 'eglot-server-programs
                `((scala-mode scala-ts-mode)
                  . ,(alist-get 'scala-mode eglot-server-programs)))

@@ -21,9 +21,9 @@
   :config
   (require 'flycheck-clj-kondo)
   (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
-    (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
+    (setopt flycheck-checkers (cons checker (delq checker flycheck-checkers))))
   (require 'init-org)
-  (setq org-babel-clojure-backend 'cider
+  (setopt org-babel-clojure-backend 'cider
         cider-prompt-for-symbol nil
         cider-save-file-on-load t
         cider-font-lock-dynamically '(macro core function var)
@@ -44,7 +44,7 @@
          (clojure-mode . yas-minor-mode))
   :config
   (cljr-add-keybindings-with-prefix "C-c r")
-  (setq cljr-warn-on-eval nil))
+  (setopt cljr-warn-on-eval nil))
 
 ;; (use-package cljr-helm
 ;;   :after clojure-mode)

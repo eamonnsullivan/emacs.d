@@ -25,7 +25,7 @@
       (set-mark (point))
       (insert text)
       (exchange-point-and-mark)
-      (setq deactivate-mark nil)))
+      (setopt deactivate-mark nil)))
    (t
     (let ((column (current-column)))
       (beginning-of-line)
@@ -129,8 +129,8 @@
   :commands (show-font-select-preview show-font-list show-font-tabulated)
   :config
   ;; These are the defaults, but I keep them here for easier access.
-  (setq show-font-pangram 'prot)
-  (setq show-font-character-sample
+  (setopt show-font-pangram 'prot)
+  (setopt show-font-character-sample
         "
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 abcdefghijklmnopqrstuvwxyz
@@ -141,7 +141,7 @@ abcdefghijklmnopqrstuvwxyz
 !ij c¢ 5$Ss 7Z2z 9gqp nmMNNMW uvvwWuuw
 x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 ")
-  (setq show-font-display-buffer-action-alist '(display-buffer-full-frame)))
+  (setopt show-font-display-buffer-action-alist '(display-buffer-full-frame)))
 
 (use-package pdf-tools
   :straight t
@@ -151,7 +151,7 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 (use-package minimap
   :straight t
   :config
-  (setq minimap-update-delay 0.1
+  (setopt minimap-update-delay 0.1
         minimap-width-fraction 0.02
         minimap-minimum-width 20
         minimap-maximum-width 20))

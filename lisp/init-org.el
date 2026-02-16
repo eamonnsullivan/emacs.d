@@ -43,42 +43,42 @@
      (dot . t)
      (plantuml . t)
      (http . t)))
-  (setq org-directory (eds/get-org-directory)
-        org-default-notes-file (concat org-directory "/notes.org")
-        eds-org-index-file (concat org-directory "/index.org")
-        eds-org-personal-file (concat org-directory "/personal.org")
-        eds-org-calendar-file (concat org-directory "/calendar.org")
-        org-agenda-files (eds/get-org-agenda-files)
-	org-refile-targets '((org-agenda-files :maxlevel . 5))
-        org-src-fontify-natively t
-        org-log-into-drawer t
-        org-hide-emphasis-markers t
-        org-agenda-include-diary t
-        org-timer-default-timer 25
-        org-plantuml-executable-path "/opt/homebrew/bin/plantuml"
-        org-plantuml-exec-mode 'plantuml
-        org-capture-use-agenda-date t
-        org-confirm-babel-evaluate nil
-        org-agenda-start-on-weekday nil
-        org-agenda-dim-blocked-tasks nil
-        org-agenda-inhibit-startup t
-        org-agenda-ignore-drawer-properties '(effort appt)
-        org-agenda-skip-scheduled-repeats-after-deadline t
-        org-agenda-skip-deadline-prewarning-if-scheduled t
-        org-fold-catch-invisible-edits t
-        org-startup-folded 'content
-        org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
-                                 "* TODO %?\n SCHEDULED: %t\n %a")
-                                ("w" "Work note" entry (file org-default-notes-file)
-                                 "* %?\n %U\n %a")
-                                ("p" "Personal note" entry (file eds-org-personal-file)
-                                 "* %?\n %U\n %a"))
-        org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)"))
-        org-agenda-custom-commands '(("ha" tags-todo "homeautomation|home-it")
-                                     ("hg" tags-todo "gardening")
-                                     ("pt" tags-todo "personal")
-                                     ("ps" tags-todo "shopping")
-                                     ("ww" tags-todo "work")))
+  (setopt org-directory (eds/get-org-directory)
+          org-default-notes-file (concat org-directory "/notes.org")
+          eds-org-index-file (concat org-directory "/index.org")
+          eds-org-personal-file (concat org-directory "/personal.org")
+          eds-org-calendar-file (concat org-directory "/calendar.org")
+          org-agenda-files (eds/get-org-agenda-files)
+	  org-refile-targets '((org-agenda-files :maxlevel . 5))
+          org-src-fontify-natively t
+          org-log-into-drawer t
+          org-hide-emphasis-markers t
+          org-agenda-include-diary t
+          org-timer-default-timer "25"
+          org-plantuml-executable-path "/opt/homebrew/bin/plantuml"
+          org-plantuml-exec-mode 'plantuml
+          org-capture-use-agenda-date t
+          org-confirm-babel-evaluate nil
+          org-agenda-start-on-weekday nil
+          org-agenda-dim-blocked-tasks nil
+          org-agenda-inhibit-startup t
+          org-agenda-ignore-drawer-properties '(effort appt)
+          org-agenda-skip-scheduled-repeats-after-deadline t
+          org-agenda-skip-deadline-prewarning-if-scheduled t
+          org-fold-catch-invisible-edits 'smart
+          org-startup-folded 'content
+          org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
+                                   "* TODO %?\n SCHEDULED: %t\n %a")
+                                  ("w" "Work note" entry (file org-default-notes-file)
+                                   "* %?\n %U\n %a")
+                                  ("p" "Personal note" entry (file eds-org-personal-file)
+                                   "* %?\n %U\n %a"))
+          org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)"))
+          org-agenda-custom-commands '(("ha" tags-todo "homeautomation|home-it")
+                                       ("hg" tags-todo "gardening")
+                                       ("pt" tags-todo "personal")
+                                       ("ps" tags-todo "shopping")
+                                       ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
   (add-to-list 'org-agenda-files eds-org-calendar-file)
   (add-hook 'org-clock-in-hook (lambda ()
@@ -168,7 +168,7 @@
            :unnarrowed t)))
 
   (when (eq system-type 'darwin)
-    (setq org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
+    (setopt org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
 
   (defun eds/org-roam-graph-small ()
     (interactive)

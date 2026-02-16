@@ -10,7 +10,7 @@
                      (message-narrow-to-headers)
                      (message-fetch-field "From")))
              (args (eds/get-sendmail-extra-args from)))
-          (setq message-sendmail-extra-arguments args)))))
+          (setopt message-sendmail-extra-arguments args)))))
 
 (use-package mu4e
   :straight
@@ -19,7 +19,7 @@
   :commands (mu4e)
   :config
   (require 'eds)
-  (setq mu4e-mu-binary (executable-find "mu")
+  (setopt mu4e-mu-binary (executable-find "mu")
         mu4e-maildir "~/.maildir"
         mu4e-get-mail-command "~/bin/sync-mailboxes.sh"
         mu4e-update-interval 300
@@ -165,7 +165,7 @@
                '("TODO" . eds/capture-email-todo) t)
   (require 'epa-file)
   (epa-file-enable)
-  (setq epa-pinentry-mode 'loopback)
+  (setopt epa-pinentry-mode 'loopback)
   (auth-source-forget-all-cached))
 
 

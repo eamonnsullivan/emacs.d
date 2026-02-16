@@ -1,6 +1,6 @@
 ;;; eds.el --- Library of small functions and tweaks to various packages  -*- lexical-binding:t -*-
 
-;; Copyright (C) 2025 Eamonnn Sullivan
+;; Copyright (C) 2026 Eamonnn Sullivan
 
 
 ;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
@@ -23,7 +23,7 @@
 We use this to make the jira tickets easy to spot in the commit messages."
   (interactive)
   (when eds-insert-branch-name-p
-    (setq eds-insert-branch-name-p nil)
+    (setopt eds-insert-branch-name-p nil)
     (insert
      "["
      (eds/extract-jira-ticket

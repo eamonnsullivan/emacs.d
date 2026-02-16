@@ -7,7 +7,7 @@
 (define-derived-mode cfn-json-mode js-mode
     "CFN-JSON"
     "Simple mode to edit CloudFormation template in JSON format."
-    (setq js-indent-level 2))
+    (setopt js-indent-level 2))
 
 (add-to-list 'magic-mode-alist
              '("\\({\n *\\)? *[\"']AWSTemplateFormatVersion" . cfn-json-mode))

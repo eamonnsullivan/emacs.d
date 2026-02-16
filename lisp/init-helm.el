@@ -33,7 +33,7 @@
 
 (use-package helm-ag
   :init
-  (setq helm-ag-use-grep-ignore-list t
+  (setopt helm-ag-use-grep-ignore-list t
         helm-ag-use-agignore t
         helm-ag-base-command "ag --nocolor --nogroup --ignore-case"
         helm-ag-command-option "--all-text"

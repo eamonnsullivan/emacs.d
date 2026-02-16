@@ -16,7 +16,7 @@
         (ns-raise-emacs))))
 
   (add-hook 'after-make-frame-functions 'ns-raise-emacs-with-frame)
-  (setq trash-directory "~/.Trash")
+  (setopt trash-directory "~/.Trash")
   ;; See `trash-directory' as it requires defining `system-move-file-to-trash'.
   (defun system-move-file-to-trash (file)
     "Use \"trash\" to move FILE to the system trash."
@@ -42,7 +42,7 @@
   (exec-path-from-shell-initialize))
 
 ;; garbage collection tweaks
-;; (setq gc-cons-threshold (* 128 1024 1024))
-;; (setq read-process-output-max (* 1024 1024))
+;; (setopt gc-cons-threshold (* 128 1024 1024))
+;; (setopt read-process-output-max (* 1024 1024))
 
 (provide 'init-platform)

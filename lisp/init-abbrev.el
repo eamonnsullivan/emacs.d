@@ -156,9 +156,9 @@
 -2"</documentation>"\n
 -2"</annotation>")
 
-(setq skeleton-end-hook nil)
+(setopt skeleton-end-hook nil)
 
 ;; preserve case when using dabbrev
-(setq dabbrev-case-replace nil)
+(setopt dabbrev-case-replace nil)
 
 (provide 'init-abbrev)

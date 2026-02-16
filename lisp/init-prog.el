@@ -6,27 +6,27 @@
 
 ;; comint
 (require 'comint)
-(setq ansi-color-for-comint-mode t)
+(setopt ansi-color-for-comint-mode t)
 (defun eds/init-comint ()
   ;; Don't jump around when output in a buffer happens
   (set (make-local-variable 'scroll-conservatively) 1000))
 (add-hook 'comint-mode-hook 'eds/init-comint)
 
 (use-package idle-highlight-mode
-  :config (setq idle-highlight-idle-time 0.2))
+  :config (setopt idle-highlight-idle-time 0.2))
 
 (use-package typescript-ts-mode
   :mode (("\.ts$" . typescript-ts-mode))
   :config (add-hook 'typescript-ts-base-mode-hook
                     (lambda()
-                      (setq typescript-indent-level 2))))
+                      (setopt typescript-indent-level 2))))
 
 (use-package groovy-mode
   :mode (("\.groovy$" . groovy-mode))
   :hook
   (groovy-mode . (lambda() (inf-groovy-keys)))
   :config
-  (setq groovysh "/usr/local/bin/groovysh"
+  (setopt groovysh "/usr/local/bin/groovysh"
         groovy-indent-offset 2)
   (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy process")
   (autoload 'inf-groovy-keys "inf-groovy" "Set local key defs for inf-groovy in groovy-mode"))
@@ -52,7 +52,7 @@ programming."
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
   :config
-  (setq plantuml-jar-path "/usr/local/bin/plantuml"
+  (setopt plantuml-jar-path "/usr/local/bin/plantuml"
         plantuml-default-exec-mode 'executable))
 
 (use-package yaml-mode
@@ -85,17 +85,15 @@ programming."
 
 (use-package haskell-mode)
 
-(setq major-mode-remap-alist
- '((yaml-mode . yaml-ts-mode)
-   (bash-mode . bash-ts-mode)
-   (js2-mode . js-ts-mode)
-   (typescript-mode . typescript-ts-mode)
-   (go-mode . go-ts-mode)
-   (json-mode . json-ts-mode)
-   (css-mode . css-ts-mode)
-   (scala-mode . scala-ts-mode)
-   (python-mode . python-ts-mode)))
+(use-package treesit-auto
+  :straight (treesit-auto
+             :type git
+             :host github
+             :repo "renzmann/treesit-auto"
+             :fork ( :host github
+                     :repo "noctuid/treesit-auto"
+                     :branch "bind-around-set-auto-mode-0")))
 
-(setq treesit-font-lock-level 4)
+(setopt treesit-font-lock-level 4)
 
 (provide 'init-prog)

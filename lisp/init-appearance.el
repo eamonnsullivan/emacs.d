@@ -5,7 +5,7 @@
 (use-package fontaine
   :straight t
   :config
-  (setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld")
+  (setopt fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld")
         fontaine-presets
         '((small
            :default-family "Aporetic Serif Mono"
@@ -89,7 +89,7 @@
   :ensure t
   :demand t
   :config
-  (setq modus-themes-custom-auto-reload nil
+  (setopt modus-themes-custom-auto-reload nil
         ;; modus-themes-to-toggle '(modus-operandi modus-vivendi)
         modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted)
         ;; modus-themes-to-toggle '(modus-operandi-deuteranopia modus-vivendi-deuteranopia)
@@ -115,7 +115,7 @@
   :ensure t
   :demand t
   :config
-  (setq ef-themes-variable-pitch-ui t
+  (setopt ef-themes-variable-pitch-ui t
         ef-themes-mixed-fonts t
         ef-themes-to-rotate ef-themes-items
         ef-themes-headings ; read the manual's entry of the doc string
@@ -141,7 +141,7 @@
   :straight t
   :ensure t
   :config
-  (setq circadian-themes '((:sunrise . (ef-cyprus
+  (setopt circadian-themes '((:sunrise . (ef-cyprus
                                         ef-spring
                                         ef-light
                                         ef-frost
@@ -188,7 +188,7 @@
       (toggle-scroll-bar -1))
     (line-number-mode t)
     (display-time-mode t)
-    (setq display-time-24hr-format t)
+    (setopt display-time-24hr-format t)
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))

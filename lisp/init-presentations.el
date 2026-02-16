@@ -33,7 +33,7 @@
   :config
   ;; Fancy mode uses margins and fringes to create vertical
   ;; blocks on either sides of the content.
-  (setq olivetti-style 'fancy)
+  (setopt olivetti-style 'fancy)
   (setq-default olivetti-body-width 0.4)
   (add-hook 'olivetti-mode-on-hook
 			(lambda ()
