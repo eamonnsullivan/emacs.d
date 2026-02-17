@@ -21,6 +21,7 @@
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook (lambda () (flycheck-mode -1)))
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
@@ -99,18 +100,16 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
-  (setq org-roam-mode-sections
-        (list #'org-roam-backlinks-section
-              #'org-roam-reflinks-section
-              #'org-roam-unlinked-references-section
-              ))
+  (setopt org-roam-mode-sections
+          (list #'org-roam-backlinks-section
+                #'org-roam-reflinks-section
+                #'org-roam-unlinked-references-section))
 
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
-  (setq org-roam-directory (eds/get-org-directory)
-        org-roam-database-connector 'sqlite-builtin
-        org-roam-completion-everywhere t
+  ;; (setq org-roam-db-gc-threshold most-positive-fixnum)
+  (setopt org-roam-directory (eds/get-org-directory)
+        org-roam-completion-everywhere nil
         org-roam-graph-executable "dot"
-        org-roam-db-gc-threshold most-positive-fixnum
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
         org-roam-capture-templates
         `(("d" "default" entry "* ${title}\n%?"

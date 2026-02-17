@@ -11,6 +11,9 @@
 
 ;;; Commentary:
 
+
+;;; Code:
+
 (defun eds/extract-jira-ticket (input)
   (cond
    ((string-match "[A-Za-z]+-[0-9]+" input) (upcase (match-string 0 input)))
