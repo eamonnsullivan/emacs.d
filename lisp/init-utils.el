@@ -143,19 +143,6 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 ")
   (setopt show-font-display-buffer-action-alist '(display-buffer-full-frame)))
 
-(use-package pdf-tools
-  :straight t
-  :config
-  (pdf-tools-install))
-
-(use-package minimap
-  :straight t
-  :config
-  (setopt minimap-update-delay 0.1
-        minimap-width-fraction 0.02
-        minimap-minimum-width 20
-        minimap-maximum-width 20))
-
 (use-package deadgrep)
 
 (provide 'init-utils)

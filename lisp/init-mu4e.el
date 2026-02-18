@@ -19,6 +19,11 @@
   :commands (mu4e)
   :config
   (require 'eds)
+  (setq mu4e-sent-messages-behavior
+        (lambda ()
+          (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
+                  (string= (message-sendmail-envelope-from) "svpsouthruislip@gmail.com"))
+              'delete 'sent)))
   (setopt mu4e-mu-binary (executable-find "mu")
         mu4e-maildir "~/.maildir"
         mu4e-get-mail-command "~/bin/sync-mailboxes.sh"
@@ -29,11 +34,6 @@
         mu4e-search-include-related nil
         mu4e-compose-complete-only-personal t
         mu4e-compose-complete-only-after "2020-01-01"
-        mu4e-sent-messages-behavior
-        (lambda ()
-          (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
-                  (string= (message-sendmail-envelope-from) "svpsouthruislip@gmail.com"))
-              'delete 'sent))
         mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com" "svp@svpsouthruislip.org.uk")
         mu4e-maildir-shortcuts '( (:maildir "/fastmail/INBOX"                  :key ?i)
                                   (:maildir "/fastmail/Sent"                   :key ?s)

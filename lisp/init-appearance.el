@@ -142,35 +142,35 @@
   :ensure t
   :config
   (setopt circadian-themes '((:sunrise . (ef-cyprus
-                                        ef-spring
-                                        ef-light
-                                        ef-frost
-                                        ef-duo-light))
-                           ("13:00" . (ef-maris-light
-                                       ef-arbutus
-                                       ef-day
-                                       ef-kassio
-                                       ef-summer
-                                       ef-elea-light
-                                       ef-melissa-light
-                                       ef-trio-light
-                                       ef-reverie
-                                       ef-orange
-                                       ef-reverie))
-                           (:sunset . (ef-rosa
-                                       ef-elea-dark
-                                       ef-maris-dark
-                                       ef-melissa-dark
-                                       ef-trio-dark
-                                       ef-fig
-                                       ef-dream))
-                           ("22:00" . (ef-winter
-                                       ef-autumn
-                                       ef-night
-                                       ef-duo-dark
-                                       ef-symbiosis
-                                       ef-owl
-                                       ef-fig))))
+                                          ef-spring
+                                          ef-light
+                                          ef-frost
+                                          ef-duo-light))
+                             ("13:00" . (ef-maris-light
+                                         ef-arbutus
+                                         ef-day
+                                         ef-kassio
+                                         ef-summer
+                                         ef-elea-light
+                                         ef-melissa-light
+                                         ef-trio-light
+                                         ef-reverie
+                                         ef-orange
+                                         ef-reverie))
+                             (:sunset . (ef-rosa
+                                         ef-elea-dark
+                                         ef-maris-dark
+                                         ef-melissa-dark
+                                         ef-trio-dark
+                                         ef-fig
+                                         ef-dream))
+                             ("22:00" . (ef-winter
+                                         ef-autumn
+                                         ef-night
+                                         ef-duo-dark
+                                         ef-symbiosis
+                                         ef-owl
+                                         ef-fig))))
   (circadian-setup))
 
 
