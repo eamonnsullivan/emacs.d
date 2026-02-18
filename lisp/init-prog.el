@@ -21,17 +21,6 @@
                     (lambda()
                       (setopt typescript-indent-level 2))))
 
-(use-package groovy-mode
-  :mode (("\.groovy$" . groovy-mode))
-  :hook
-  (groovy-mode . (lambda() (inf-groovy-keys)))
-  :config
-  (setopt groovysh "/usr/local/bin/groovysh"
-        groovy-indent-offset 2)
-  (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy process")
-  (autoload 'inf-groovy-keys "inf-groovy" "Set local key defs for inf-groovy in groovy-mode"))
-(use-package groovy-imports)
-
 ;; enable colour in compile and sbt modes (this doesn't work for cucumber)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
@@ -72,16 +61,6 @@ programming."
 
 
 (require 'treesit)
-
-;; (when (and
-;;        (not (string= system-name "blueberry"))
-;;        (not (string= system-name "pineapple")))
-;;   (progn
-;;    (use-package tree-sitter)
-;;    (use-package tree-sitter-langs)
-;;    (require 'tree-sitter)
-;;    (require 'tree-sitter-langs)
-;;    (global-tree-sitter-mode)))
 
 (use-package haskell-mode)
 

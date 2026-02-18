@@ -16,7 +16,4 @@
   :bind (("C-c r" . json-pretty-print)
          ("C-c C-f" . json-pretty-print-buffer)))
 
-;; (use-package json-navigator
-;;   :after json-mode)
-
 (provide 'init-json)

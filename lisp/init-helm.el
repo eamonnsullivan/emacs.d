@@ -31,13 +31,4 @@
 
   (helm-mode 1))
 
-(use-package helm-ag
-  :init
-  (setopt helm-ag-use-grep-ignore-list t
-        helm-ag-use-agignore t
-        helm-ag-base-command "ag --nocolor --nogroup --ignore-case"
-        helm-ag-command-option "--all-text"
-        helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "\\.class\\'")
-        helm-ag-insert-at-point 'symbol))
-
 (provide 'init-helm)

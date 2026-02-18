@@ -29,7 +29,6 @@
   (setenv "SBT_OPTS" "-Xmx2G -Xms512M -Xss4M -XX:+UseG1GC -XX:+UseStringDeduplication -Dmetals.client=emacs -Djavax.net.ssl.trustStore=/etc/pki/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStore=/etc/pki/tls/private/client.p12 -Djavax.net.ssl.keyStorePassword=client -Djavax.net.ssl.keyStoreType=PKCS12 -Dfile.encoding=UTF-8"))
 
 
-
 (use-package exec-path-from-shell
   :config
   (message "Initializing path from shell")
@@ -40,9 +39,5 @@
                  ))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
-
-;; garbage collection tweaks
-;; (setopt gc-cons-threshold (* 128 1024 1024))
-;; (setopt read-process-output-max (* 1024 1024))
 
 (provide 'init-platform)

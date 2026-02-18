@@ -30,9 +30,6 @@ With PRUNE, prune the build cache and the build directory."
     (when (y-or-n-p "Update all available packages?")
       (straight-pull-all))))
 
-;; (eval-after-load 'js2-mode
-;;   '(key-chord-define js2-mode-map "MM" 'hydra-my-javascript-macros/body))
-
 (defhydra hydra-straight-helper (:hint nil)
   "
 _c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all
@@ -82,33 +79,6 @@ _q_: quit this menu                         _r_: restart emacs
    ("r" stop-and-restart-emacs)
    ("u" eds-straight-pull-or-prune)
    ("o" eds/open-buffer-on-desktop)
-   ("q" nil)))
-
-(global-set-key
- (kbd "C-c C-o")
- (defhydra hydra-global-org-menu (:color blue :hint nil)
-   "
-^Org File^                       ^Actions^        ^Incoming^
-^^^^^^^^^^------------------------------------------------------
-_n_: General (work) notes       _c_: Capture      _i_: Inbox
-_p_: General (personal) notes   _F_: Find
-_t_: General tasks              _a_: Agenda
-_f_: Foodbank
-_s_: SVP
-_r_: Repeating events
-
-_q_: quit this menu
-"
-   ("n" (find-file (concat (eds/get-org-directory) "/notes.org")))
-   ("p" (find-file (concat (eds/get-org-directory) "/personal.org")))
-   ("t" (find-file (concat (eds/get-org-directory) "/tasks.org")))
-   ("f" (find-file (concat (eds/get-org-directory) "/foodbank.org")))
-   ("s" (find-file (concat (eds/get-org-directory) "/SVP.org")))
-   ("i" (find-file (concat (eds/get-org-directory) "/inbox.org")))
-   ("r" (find-file (concat (eds/get-org-directory) "/agenda.org")))
-   ("c" (org-roam-capture))
-   ("F" (org-roam-node-find))
-   ("a" (org-agenda))
    ("q" nil)))
 
 (hydra-set-property 'hydra-global-menu :verbosity 1)
