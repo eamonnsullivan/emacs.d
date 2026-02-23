@@ -42,10 +42,6 @@
 "Insert my standard debugging message in C++."
 > "std::cerr << \"EAMONN DEBUG: " _ "\" << std::endl;")
 
-(define-skeleton eds-edeb-expansion-scala
-  "Insert a skeleton for a debugging print statement. Leave point in the string."
-  > "println(s\"EAMONN DEBUG: " _ "\")")
-
 (define-skeleton eds-edeb-expansion-clojure
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "(println \"EAMONN DEBUG:\" " _ " )")
@@ -53,10 +49,6 @@
 (define-skeleton eds-edeb-expansion-java
   "Insert a skeleton for a debugging print statement. Leave point in the string."
   > "System.out.println(\"EAMONN DEBUG: " _ "\")")
-
-(define-skeleton eds-edeb-expansion-python
-  "Insert a skeleton for a debugging print statement. Leave point in the string."
-  > "print(\"EAMONN DEBUG:\", " _ ")")
 
 (setopt skeleton-end-hook nil)
 

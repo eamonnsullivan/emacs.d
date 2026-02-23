@@ -37,15 +37,3 @@
   '(
     ("edeb" "" eds-edeb-expansion-java :count 0)
    ))
-
-(define-abbrev-table 'python-ts-mode-abbrev-table
-  '(
-    ("edeb" "" eds-edeb-expansion-python :count 0)
-   ))
-
-(define-abbrev-table 'scala-ts-mode-abbrev-table
-  '(
-    ("edeb" "" eds-edeb-expansion-scala :count 0)
-    ("edocs" "" eds-short-documentation-block-scala :count 0)
-   ))
-
