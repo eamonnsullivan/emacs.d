@@ -8,14 +8,14 @@
   :straight t
   :config
   (flycheck-add-mode 'scala-scalastyle 'scala-ts-mode)
+  (setq-default flycheck-disabled-checkers '(org-lint))
   :init
-  (global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package flycheck-eglot
   :straight
   (:host github :repo "flycheck/flycheck-eglot" :files ("*.el"))
   :after (flycheck eglot)
-  :custom (flycheck-eglot-exclusive nil)
   :config
   (global-flycheck-eglot-mode 1))
 
