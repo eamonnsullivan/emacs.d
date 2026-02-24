@@ -195,6 +195,17 @@ that don't work in a filename."
        :body ""
        :template "r"))))
 
+(defun eds/set-category-value (value)
+  "Set the CATEGORY property of the current node to VALUE."
+  (interactive (list nil))
+  (let ((value (or value (org-read-property-value "CATEGORY"))))
+    (setq org-last-set-property "CATEGORY")
+    (setq org-last-set-property-value (concat "CATEGORY: " value))
+    (unless (equal (org-entry-get nil "CATEGORY") value)
+      (save-excursion
+        (beginning-of-buffer)
+        (org-entry-put nil "CATEGORY" value)))))
+
 (defun eds/capture-email (msg)
   "Capture an email message MSG into org-roam."
   (interactive)
@@ -260,4 +271,4 @@ shell glob expansion."
         (list "-a" account)
       nil)))
 
-  (provide 'eds)
+(provide 'eds)

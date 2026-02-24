@@ -312,6 +312,31 @@
               :body ""
               :template "r"))))
 
+(describe "eds/set-category-value"
+  :var (org-read-property-value
+        org-entry-get
+        org-entry-put)
+  (before-all
+    (fset 'org-read-property-value (lambda (property) nil))
+    (fset 'org-entry-get (lambda (entry property) nil))
+    (fset 'org-entry-put (lambda (entry property value) nil)))
+
+  (before-each
+    (spy-on 'org-read-property-value
+            :and-return-value "Old Category")
+    (spy-on 'org-entry-get
+            :and-return-value "Old Category")
+    (spy-on 'org-entry-put))
+
+  (it "sets the CATEGORY property to the provided value"
+    (eds/set-category-value "New Category")
+    (expect 'org-entry-put
+            :to-have-been-called-with nil "CATEGORY" "New Category"))
+
+  (it "doesn't change the CATEGORY property if the value is the same"
+    (eds/set-category-value "Old Category")
+    (expect 'org-entry-put :not :to-have-been-called)))
+
 (describe "eds/get-link-from-link"
   (it "extracts the link URL from an org link"
     (expect (eds/get-link-from-link "[[https://example.com][Example Site]]")
