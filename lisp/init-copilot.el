@@ -1,19 +1,20 @@
-;;; -*- lexical-binding: t -*-
-;;; init-copilot.el --- stuff related to Microsoft CoPilot
+;;; package -- init-copilot.el -*- lexical-binding: t -*-
+;;; Copyright (c) 2026 Eamonn Sullivan
+;;; Commentary:
+;;; Microsoft CoPilot-related packages
+;;;
+;;; Code:
+
 
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
-  :bind (("C-c C-c" . copilot-accept-completion))
   :ensure t
-  :hook
-  ((typescript-ts-base-mode . copilot-mode)
-   (scala-ts-mode . copilot-mode)
-   (go-ts-mode . copilot-mode)
-   (emacs-lisp-mode . copilot-mode)
-   (python-ts-mode . copilot-mode)
-   (bash-ts-mode . copilot-mode)
-   (java-ts-mode . copilot-mode)
-   (clojure-ts-mode . copilot-mode))
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("C-c C-c" . copilot-accept-completion)
+              ("C-c C-c" . copilot-accept-completion)
+              ("C-n" . copilot-next-completion)
+              ("C-p" . copilot-previous-completion))
   :config
   ;; Remap for copilot, since I don't actually use this key in python
   ;; much.
@@ -23,7 +24,6 @@
   (add-to-list 'copilot-indentation-alist '(text-mode 2))
   (add-to-list 'copilot-indentation-alist '(closure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
-
 
 (use-package copilot-chat
   :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))

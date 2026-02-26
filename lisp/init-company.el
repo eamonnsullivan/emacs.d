@@ -13,4 +13,7 @@
         company-tooltip-align-annotations t)
   (add-to-list 'company-backends 'company-capf))
 
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 (provide 'init-company)
