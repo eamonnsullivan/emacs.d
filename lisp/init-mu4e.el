@@ -1,24 +1,13 @@
 ;;; -*- lexical-binding: t -*-
 ;;; mu4e.el -- provide mu4e for email
 
-(defun eds/set-msmtp-account ()
-  "Set the msmtp account based on the current from."
-  (if (message-mail-p)
-      (save-excursion
-        (let*
-            ((from (save-excursion
-                     (message-narrow-to-headers)
-                     (message-fetch-field "From")))
-             (args (eds/get-sendmail-extra-args from)))
-          (setopt message-sendmail-extra-arguments args)))))
-
 (use-package mu4e
   :straight
   (:local-repo "/opt/homebrew/share/emacs/site-lisp/mu/mu4e"
                :type built-in)
   :commands (mu4e)
   :config
-  (require 'eds)
+  (require 'eds-email)
   (setq mu4e-sent-messages-behavior
         (lambda ()
           (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
@@ -77,7 +66,7 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds/msg-contact-matches msg "eamonnsullivan.co.uk")))
+                              (eds-email/msg-contact-matches msg "eamonnsullivan.co.uk")))
                           :vars
                           '((user-mail-address . "me@eamonnsullivan.co.uk")
                             (user-full-name . "Eamonn Sullivan")
@@ -95,7 +84,7 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds/msg-contact-matches msg "svpsouthruislip.org.uk")))
+                              (eds-email/msg-contact-matches msg "svpsouthruislip.org.uk")))
                           :vars
                           '((user-mail-address . "svp@svpsouthruislip.org.uk")
                             (user-full-name . "South Ruislip SVP")
@@ -113,7 +102,7 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds/msg-contact-matches msg "eamonn.sullivan@gmail.com")))
+                              (eds-email/msg-contact-matches msg "eamonn.sullivan@gmail.com")))
                           :vars
                           '((user-mail-address . "eamonn.sullivan@gmail.com")
                             (user-full-name . "Eamonn Sullivan")
@@ -131,7 +120,7 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds/msg-contact-matches msg "svpsouthruislip@gmail.com")))
+                              (eds-email/msg-contact-matches msg "svpsouthruislip@gmail.com")))
                           :vars
                           '((user-mail-address . "svpsouthruislip@gmail.com")
                             (user-full-name . "South Ruislip SVP")
@@ -156,28 +145,16 @@
         mu4e-headers-show-threads nil
         mu4e-confirm-quit nil)
   (add-hook 'mu4e-compose-mode-hook 'company-mode)
-  (add-hook 'message-send-mail-hook 'eds/set-msmtp-account)
+  (add-hook 'message-send-mail-hook 'eds-email/set-msmtp-account)
   (add-to-list 'mu4e-view-actions
-               '("Search for sender" . eds/from-search) t)
+               '("Search for sender" . eds-email/from-search) t)
   (add-to-list 'mu4e-view-actions
-               '("Org" . eds/capture-email) t)
+               '("Org" . eds-org/capture-email) t)
   (add-to-list 'mu4e-view-actions
-               '("TODO" . eds/capture-email-todo) t)
+               '("TODO" . eds-org/capture-email-todo) t)
   (require 'epa-file)
   (epa-file-enable)
   (setopt epa-pinentry-mode 'loopback)
   (auth-source-forget-all-cached))
-
-
-(defun eds/from-search (msg)
-  "Return a search string for the sender of MSG."
-  (mu4e-search (eds/get-mu4e-from-search-string msg)))
-
-(defun eds/msg-contact-matches (msg email)
-  "Return t if MSG matches EMAIL in to, cc, or bcc."
-  (or (mu4e-message-contact-field-matches msg :to email)
-      (mu4e-message-contact-field-matches msg :cc email)
-      (mu4e-message-contact-field-matches msg :bcc email)))
-
 
 (provide 'init-mu4e)

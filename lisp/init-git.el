@@ -1,12 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-git.el --- stuff related to git
 
-(require 'eds)
-
-
-(defun seq-keep (function sequence)
-  "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
-  (delq nil (seq-map function sequence)))
+(require 'eds-utils)
 
 (use-package seq)
 (use-package transient)
@@ -26,7 +21,7 @@
     ;; toggle it on. My function will run only if this is true and
     ;; immediately set it to nil.
     (setopt eds-insert-branch-name-p t))
-  (add-hook 'git-commit-setup-hook 'eds/insert-git-branch-name)
+  (add-hook 'git-commit-setup-hook 'eds-utils/insert-git-branch-name)
   (advice-add 'magit-commit :after 'use-insert-branch-name))
 
 (use-package git-gutter

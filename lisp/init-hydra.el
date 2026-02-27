@@ -4,7 +4,8 @@
 (straight-use-package 'hydra)
 
 (require 'init-global-behaviour)
-(require 'eds)
+(require 'eds-blog)
+(require 'eds-utils)
 
 (defvar hydra-stack nil)
 
@@ -78,7 +79,7 @@ _q_: quit this menu                         _r_: restart emacs
    ("l" global-display-line-numbers-mode)
    ("r" stop-and-restart-emacs)
    ("u" eds-straight-pull-or-prune)
-   ("o" eds/open-buffer-on-desktop)
+   ("o" eds-utils/open-buffer-on-desktop)
    ("q" nil)))
 
 (hydra-set-property 'hydra-global-menu :verbosity 1)
@@ -89,8 +90,8 @@ _q_: quit this menu                         _r_: restart emacs
    "
 _c_reate new personal blog post | _C_reate new SVP blog post | _q_uit |
 "
-   ("c" eds/start-personal-blog-post)
-   ("C" eds/start-svp-blog-post)
+   ("c" eds-blog/start-personal-blog-post)
+   ("C" eds-blog/start-svp-blog-post)
    ("q" nil)))
 
 (provide 'init-hydra)
