@@ -118,6 +118,38 @@ Remove characters that don't work in a filename."
   "Get the current time as a string formatted for org-roam filenames."
   (format-time-string "%Y%m%dT%H%M%S"))
 
+(defun eds-utils/kill-emacs ()
+  (if (daemonp)
+      (save-buffers-kill-emacs)
+    (save-buffers-kill-terminal)))
+
+(defun eds-utils/restart-emacs (arg)
+  "Close EMACS. With a prefix ARG, restart it."
+  (interactive "P")
+  (let ((confirm-kill-emacs (unless arg 'y-or-n-p))
+        (kill-emacs-query-functions
+         (if arg
+             (append (list
+                      (lambda ()
+                        (when (y-or-n-p (format "Really restart %s? "
+                                                (capitalize invocation-name)))
+                          (add-hook 'kill-emacs-hook
+                                    (lambda ()
+                                      (call-process-shell-command
+                                       (format "(%s &)"
+                                               (or (executable-find "emacs")
+                                                   (executable-find "remacs")))))
+                                    t))))
+                     kill-emacs-query-functions)
+           kill-emacs-query-functions)))
+    (eds-utils/kill-emacs)))
+
+(defun eds-utils/filter-buffer-list
+    (buflist)
+  (let ((buffers-to-keep '("*scratch*" "*pomidor*" "*dashboard*")))
+    (seq-filter (lambda (buf)
+                  (not (member (buffer-name buf) buffers-to-keep)))
+                buflist)))
 
 (provide 'eds-utils)
 ;;; eds-utils.el ends here

@@ -5,36 +5,28 @@
 (global-set-key "\C-z" nil)
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)
-;; backward-kill-word, restart-emacs
 (require 'eds-utils)
+(require 'init-utils)
 (require 'init-hydra)
 (require 'init-org)
 (global-unset-key (kbd "M-<backspace>"))
 (global-set-key (kbd "M-<backspace>") 'eds-utils/backward-kill-word)
 
-(require 'init-utils)
 (global-set-key (kbd "M-<up>") 'move-text-up)
 (global-set-key (kbd "M-<down>") 'move-text-down)
 
 
-(defun eds/filter-buffer-list
-    (buflist)
-  (let ((buffers-to-keep '("*scratch*" "*pomidor*" "*dashboard*")))
-    (seq-filter (lambda (buf)
-                  (not (member (buffer-name buf) buffers-to-keep)))
-                buflist)))
-
 (defun kill-all-buffers ()
-  "Kill all buffers"
+  "Kill all buffers."
   (interactive)
   (switch-to-buffer "*scratch*")
   (save-some-buffers t)
-  (mapc 'kill-buffer (eds/filter-buffer-list (buffer-list))))
+  (mapc 'kill-buffer (eds-utils/filter-buffer-list (buffer-list))))
 
 (defun stop-and-restart-emacs ()
-  "Restarts emacs"
+  "Restarts EMACS."
   (interactive)
-  (eds/restart-emacs t))
+  (eds-utils/restart-emacs t))
 
 ;; (global-set-key (kbd "RET") 'newline-and-indent)
 (autoload 'zap-up-to-char "misc"
