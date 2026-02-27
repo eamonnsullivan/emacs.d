@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-markdown.el --- settings related to markdown mode
 
-(require 'eds)
+(require 'eds-blog)
 
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -10,7 +10,7 @@
          ("\\.markdown\\'" . markdown-mode))
   :init
   (setopt markdown-command "pandoc")
-  :bind (("C-c C-e s" . eds/make-svp-contact-link))
+  :bind (("C-c C-e s" . eds-blog/make-svp-contact-link))
   :config
   (add-hook 'markdown-mode-hook 'flyspell-mode))
 

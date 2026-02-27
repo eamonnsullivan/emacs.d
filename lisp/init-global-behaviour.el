@@ -1,6 +1,8 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-global-behavior.el --- Things I always want, no matter the mode
 
+(require 'eds-utils)
+
 (use-package crux
   :bind (("C-k"                          . crux-smart-kill-line)
          ([(control shift return)]       . crux-smart-open-line-above)
@@ -163,8 +165,7 @@
   (setopt key-chord-two-keys-delay 0.05)
   :config
   (key-chord-mode 1)
-  (require 'eds)
-  (key-chord-define-global "JJ" 'eds/switch-to-previous-buffer))
+  (key-chord-define-global "JJ" 'eds-utils/switch-to-previous-buffer))
 
 (require 'uniquify)
 (setopt uniquify-buffer-name-style 'forward)
@@ -201,8 +202,7 @@
           dashboard-items '((recents   . 5)
                             (projects  . 5)
                             (agenda    . 5)))
-  (require 'eds)
-  (add-to-list 'dashboard-item-generators  '(custom . eds/dashboard-custom-conflicted-files))
+  (add-to-list 'dashboard-item-generators  '(custom . eds-utils/dashboard-custom-conflicted-files))
   (add-to-list 'dashboard-items '(custom) t))
 
 

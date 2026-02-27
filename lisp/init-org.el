@@ -8,7 +8,7 @@
  '(edraw-org :type git :host github :repo "misohena/el-easydraw"))
 (use-package ob-http)
 
-(require 'eds)
+(require 'eds-org)
 
 (use-package org-modern
   :after org
@@ -44,12 +44,12 @@
      (dot . t)
      (plantuml . t)
      (http . t)))
-  (setopt org-directory (eds/get-org-directory)
+  (setopt org-directory (eds-org/get-org-directory)
           org-default-notes-file (concat org-directory "/notes.org")
           eds-org-index-file (concat org-directory "/index.org")
           eds-org-personal-file (concat org-directory "/personal.org")
           eds-org-calendar-file (concat org-directory "/calendar.org")
-          org-agenda-files (eds/get-org-agenda-files)
+          org-agenda-files (eds-org/get-org-agenda-files)
 	  org-refile-targets '((org-agenda-files :maxlevel . 5))
           org-src-fontify-natively t
           org-log-into-drawer t
@@ -107,7 +107,7 @@
 
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
   ;; (setq org-roam-db-gc-threshold most-positive-fixnum)
-  (setopt org-roam-directory (eds/get-org-directory)
+  (setopt org-roam-directory (eds-org/get-org-directory)
         org-roam-completion-everywhere nil
         org-roam-graph-executable "dot"
         org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
@@ -169,22 +169,18 @@
   (when (eq system-type 'darwin)
     (setopt org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
 
-  (defun eds/org-roam-graph-small ()
-    (interactive)
-    (org-roam-graph 2 (org-roam-node-at-point)))
-
   (org-roam-db-autosync-mode)
   (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . eds/org-roam-graph-small)
+         ("C-c n g" . eds-org/org-roam-graph-small)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ("C-c n a" . org-roam-tag-add)
-         ("C-c n r" . eds/create-new-note-from-clipboard-link)
+         ("C-c n r" . eds-org/create-new-note-from-clipboard-link)
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
          ("C-c n A" . org-roam-alias-add) ; add an alias to the current node
-         ("C-c n P" . eds/set-category-value) ; set the CATEGORY property of the current node
+         ("C-c n P" . eds-org/set-category-value) ; set the CATEGORY property of the current node
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today)))
 

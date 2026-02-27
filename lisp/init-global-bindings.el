@@ -6,11 +6,11 @@
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 ;; backward-kill-word, restart-emacs
-(require 'eds)
+(require 'eds-utils)
 (require 'init-hydra)
 (require 'init-org)
 (global-unset-key (kbd "M-<backspace>"))
-(global-set-key (kbd "M-<backspace>") 'eds/backward-kill-word)
+(global-set-key (kbd "M-<backspace>") 'eds-utils/backward-kill-word)
 
 (require 'init-utils)
 (global-set-key (kbd "M-<up>") 'move-text-up)
