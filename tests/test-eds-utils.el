@@ -160,5 +160,16 @@
   (it "returns NO-TICKET when no ticket is found"
     (expect (eds-utils/extract-jira-ticket "not-a-jira-ticket") :to-equal "NO-TICKET")))
 
+(describe "eds-utils/filter-buffer-list"
+  (before-each
+    (if (get-buffer "*temp-buffer1*") (kill-buffer "*temp-buffer1*"))
+    (if (get-buffer "*temp-buffer2*") (kill-buffer "*temp-buffer2*")))
+  (it "filters out promidor buffer"
+    (let ((buffers (list (generate-new-buffer "*temp-buffer1*")
+                         (generate-new-buffer "*temp-buffer2*")
+                         (generate-new-buffer "*pomidor*"))))
+      (expect (mapcar #'buffer-name (eds-utils/filter-buffer-list buffers))
+              :to-equal '("*temp-buffer1*" "*temp-buffer2*")))))
+
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here

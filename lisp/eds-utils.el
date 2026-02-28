@@ -119,12 +119,13 @@ Remove characters that don't work in a filename."
   (format-time-string "%Y%m%dT%H%M%S"))
 
 (defun eds-utils/kill-emacs ()
+  "Kill EMACS."
   (if (daemonp)
       (save-buffers-kill-emacs)
     (save-buffers-kill-terminal)))
 
 (defun eds-utils/restart-emacs (arg)
-  "Close EMACS. With a prefix ARG, restart it."
+  "Close EMACS, asking for confirmation. With a prefix ARG, restart it."
   (interactive "P")
   (let ((confirm-kill-emacs (unless arg 'y-or-n-p))
         (kill-emacs-query-functions
@@ -138,14 +139,14 @@ Remove characters that don't work in a filename."
                                       (call-process-shell-command
                                        (format "(%s &)"
                                                (or (executable-find "emacs")
-                                                   (executable-find "remacs")))))
+                                                   (executable-find "Emacs")))))
                                     t))))
                      kill-emacs-query-functions)
            kill-emacs-query-functions)))
     (eds-utils/kill-emacs)))
 
-(defun eds-utils/filter-buffer-list
-    (buflist)
+(defun eds-utils/filter-buffer-list (buflist)
+  "Filter BUFLIST to exclude buffers I want to keep when clearing all buffers.."
   (let ((buffers-to-keep '("*scratch*" "*pomidor*" "*dashboard*")))
     (seq-filter (lambda (buf)
                   (not (member (buffer-name buf) buffers-to-keep)))
