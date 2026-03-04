@@ -187,6 +187,10 @@
   :bind (:map help-map ("C-h" . which-key-C-h-dispatch))
   :init (add-hook 'after-init-hook #'which-key-mode))
 
+(use-package which-key-posframe
+  :config
+  (which-key-posframe-mode 1))
+
 (use-package discover-my-major
   :bind (("C-h M-m" . discover-my-major)
          ("C-h M-M" . discover-my-mode)))
