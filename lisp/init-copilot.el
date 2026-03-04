@@ -9,7 +9,9 @@
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :ensure t
-  :hook (prog-mode . copilot-mode)
+  :hook
+  (prog-mode . copilot-mode)
+  (prog-mode . copilot-nes-mode)
   :bind (:map copilot-completion-map
               ("C-c C-c" . copilot-accept-completion)
               ("C-c C-c" . copilot-accept-completion)

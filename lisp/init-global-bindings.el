@@ -33,9 +33,11 @@
   "Kill up to, but not including ARGth occurrence of CHAR." t)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 
-(use-package expand-region
-  :bind (("C-=" . er/expand-region)
-         ("C--" . er/contract-region)))
+(use-package expreg
+  :config
+  (setopt expreg-restore-point-on-quit t)
+  :bind (("C-=" . expreg-expand)
+         ("C--" . expreg-contract)))
 
 
 (global-set-key (kbd "C-c l") #'org-store-link)
