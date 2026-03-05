@@ -21,7 +21,6 @@
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
-  ;; (add-hook 'org-mode-hook (lambda () (flycheck-mode -1)))
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
@@ -80,7 +79,6 @@
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
-  ;; (add-to-list 'org-agenda-files eds-org-calendar-file)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
                                      (org-timer-set-timer '(25)))))
