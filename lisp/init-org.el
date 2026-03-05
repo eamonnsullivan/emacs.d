@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-org.el --- org mode stuff
 
-
 (use-package ob-typescript)
 (use-package ob-go)
 (straight-use-package
@@ -16,12 +15,12 @@
   (with-eval-after-load 'org (global-org-modern-mode)))
 
 (use-package org
+  :straight t
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
-  ;; (add-hook 'org-mode-hook (lambda () (flycheck-mode -1)))
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
   :diminish org-indent-mode
@@ -49,7 +48,6 @@
           eds-org-index-file (concat org-directory "/index.org")
           eds-org-personal-file (concat org-directory "/personal.org")
           eds-org-calendar-file (concat org-directory "/calendar.org")
-          org-agenda-files (eds-org/get-org-agenda-files)
 	  org-refile-targets '((org-agenda-files :maxlevel . 5))
           org-src-fontify-natively t
           org-log-into-drawer t
@@ -81,7 +79,6 @@
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
-  (add-to-list 'org-agenda-files eds-org-calendar-file)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
                                      (org-timer-set-timer '(25)))))
@@ -99,6 +96,8 @@
 (use-package org-roam
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
+  :hook
+  (after-init . eds-org/update-agenda-files)
   :config
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
@@ -106,7 +105,6 @@
                 #'org-roam-unlinked-references-section))
 
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
-  ;; (setq org-roam-db-gc-threshold most-positive-fixnum)
   (setopt org-roam-directory (eds-org/get-org-directory)
         org-roam-completion-everywhere nil
         org-roam-graph-executable "dot"
@@ -170,22 +168,21 @@
     (setopt org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))
 
   (org-roam-db-autosync-mode)
-  (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . eds-org/org-roam-graph-small)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n a" . org-roam-tag-add)
-         ("C-c n r" . eds-org/create-new-note-from-clipboard-link)
-         ("C-c n n" . org-id-get-create) ; useful for making a heading a node
-         ("C-c n A" . org-roam-alias-add) ; add an alias to the current node
-         ("C-c n P" . eds-org/set-category-value) ; set the CATEGORY property of the current node
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today)))
+  (define-key org-roam-mode-map [mouse-1] #'org-roam-preview-visit))
 
 (require 'org-roam-protocol)
 
+(use-package org-roam-ui
+  :straight
+    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    :after org-roam
+    :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start nil))
+
 (provide 'init-org)
 
-;;; org.el ends here
+;;; init-org.el ends here

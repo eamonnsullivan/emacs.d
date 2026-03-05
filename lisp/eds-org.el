@@ -100,6 +100,28 @@
     (mapcar (lambda (file) (expand-file-name file org-directory))
             (split-string output "\n" t))))
 
+;; Got this idea (slightly modified) from https://github.com/jwiegley/dot-emacs
+(defun eds-org/query-for-agenda-tagged-files ()
+  "Return a list of note files containing `agenda' tag." ;
+  (seq-uniq
+   (seq-map
+    #'car
+    (org-roam-db-query
+     [:select [nodes:file]
+              :from tags
+              :left-join nodes
+              :on (= tags:node-id nodes:id)
+              :where (like tag (quote "%\"agenda\"%"))]))))
+
+(defun eds-org/update-agenda-files (&rest _)
+  "Update the value of `org-agenda-files'."
+  (interactive)
+  (let* ((org-directory (eds-org/get-org-directory))
+         (eds-org-calendar-file (concat org-directory "/calendar.org")))
+    (setq org-agenda-files (eds-org/query-for-agenda-tagged-files))
+    (add-to-list 'org-agenda-files eds-org-calendar-file)
+    (message "Updated org-agenda-files: %s" (length org-agenda-files))))
+
 (defun eds-org/org-roam-graph-small ()
   (interactive)
   (org-roam-graph 2 (org-roam-node-at-point)))

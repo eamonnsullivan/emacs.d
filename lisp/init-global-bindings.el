@@ -36,6 +36,9 @@
 (use-package expreg
   :config
   (setopt expreg-restore-point-on-quit t)
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (add-to-list 'expreg-functions #'expreg--sentence)))
   :bind (("C-=" . expreg-expand)
          ("C--" . expreg-contract)))
 

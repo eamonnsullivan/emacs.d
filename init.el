@@ -125,6 +125,7 @@
 (require 'init-crypt)
 (require 'init-copilot)
 (require 'init-org)
+(require 'init-vulpea)
 (require 'init-global-bindings)
 (require 'init-hydra)
 (require 'init-projectile)
