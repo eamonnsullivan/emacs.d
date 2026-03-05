@@ -29,16 +29,16 @@
                                       (cons "CATEGORY" "Note"))))))
   (vulpea-db-autosync-mode +1)
   (add-to-list 'org-capture-templates
-               '("v" "vulpea" entry
+               '("m" "meeting" entry
                  (file (lambda ()
                          (vulpea-note-path
                           (vulpea-create
-                           "Test Vulpea note"
+                           "Meeting notes"
                            nil
-                           :tags '("test" "vulpea")
+                           :tags '("meetings")
                            :properties (list (cons "CREATED" (format-time-string "%FT%T%z"))
-                                             (cons "CATEGORY" "Vulpea Note"))))))
-                 "* %?\n%U\n%a\n"))
+                                             (cons "CATEGORY" "Meeting"))))))
+                 "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
   :bind (("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n f" . vulpea-find)
          ("C-c n b" . vulpea-find-backlink)
