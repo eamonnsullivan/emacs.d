@@ -1,7 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 ;;; init-org.el --- org mode stuff
 
-
 (use-package ob-typescript)
 (use-package ob-go)
 (straight-use-package
@@ -16,6 +15,7 @@
   (with-eval-after-load 'org (global-org-modern-mode)))
 
 (use-package org
+  :straight t
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
@@ -49,7 +49,6 @@
           eds-org-index-file (concat org-directory "/index.org")
           eds-org-personal-file (concat org-directory "/personal.org")
           eds-org-calendar-file (concat org-directory "/calendar.org")
-          org-agenda-files (eds-org/get-org-agenda-files)
 	  org-refile-targets '((org-agenda-files :maxlevel . 5))
           org-src-fontify-natively t
           org-log-into-drawer t
@@ -81,7 +80,7 @@
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
   (add-to-list 'org-modules 'org-timer)
-  (add-to-list 'org-agenda-files eds-org-calendar-file)
+  ;; (add-to-list 'org-agenda-files eds-org-calendar-file)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
                                      (org-timer-set-timer '(25)))))
@@ -99,6 +98,8 @@
 (use-package org-roam
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
+  :hook
+  (after-init . eds-org/update-agenda-files)
   :config
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
@@ -106,7 +107,6 @@
                 #'org-roam-unlinked-references-section))
 
   (define-key org-roam-mode-map [mouse-1] #'org-roam-visit-thing)
-  ;; (setq org-roam-db-gc-threshold most-positive-fixnum)
   (setopt org-roam-directory (eds-org/get-org-directory)
         org-roam-completion-everywhere nil
         org-roam-graph-executable "dot"
@@ -184,7 +184,6 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start nil))
-
 
 (provide 'init-org)
 
