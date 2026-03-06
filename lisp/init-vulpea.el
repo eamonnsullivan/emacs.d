@@ -57,7 +57,13 @@
 (use-package vulpea-journal
   :after (vulpea vulpea-ui)
   :config
-  (vulpea-journal-setup))
+  (vulpea-journal-setup)
+  (setq vulpea-journal-default-template
+      (vulpea-journal-template-daily
+       :file-name "journal/%Y-%m-%d.org"
+       :title "%A, %B %d, %Y"
+       :tags '("journal")
+       :body "\n%?\n* Gratitude practice\n")))
 
 
 (provide 'init-vulpea)
