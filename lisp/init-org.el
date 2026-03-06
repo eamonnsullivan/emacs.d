@@ -96,8 +96,6 @@
 (use-package org-roam
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
-  :hook
-  (after-init . eds-org/update-agenda-files)
   :config
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section

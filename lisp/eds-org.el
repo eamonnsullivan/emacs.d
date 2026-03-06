@@ -14,9 +14,6 @@
 ;;
 ;;; Code:
 
-;; (require 'eds-utils)
-;; (require 'eds-email)
-
 (defun eds-org/get-org-directory ()
   "The location of my org directory varies by computer."
   (file-truename "~/Dropbox/org"))
@@ -105,13 +102,8 @@
   "Return a list of note files containing `agenda' tag." ;
   (seq-uniq
    (seq-map
-    #'car
-    (org-roam-db-query
-     [:select [nodes:file]
-              :from tags
-              :left-join nodes
-              :on (= tags:node-id nodes:id)
-              :where (like tag (quote "%\"agenda\"%"))]))))
+    #'vulpea-note-path
+    (vulpea-db-query-by-tags-some '("agenda")))))
 
 (defun eds-org/update-agenda-files (&rest _)
   "Update the value of `org-agenda-files'."

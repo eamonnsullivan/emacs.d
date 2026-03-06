@@ -9,6 +9,8 @@
 
 (use-package vulpea
   :straight t
+  :hook
+  (after-init . eds-org/update-agenda-files)
   :config
   (setopt vulpea-db-sync-directories (list (eds-org/get-org-directory))
           vulpea-buffer-alias-property "ROAM_ALIASES"
@@ -39,6 +41,7 @@
                            :properties (list (cons "CREATED" (format-time-string "%FT%T%z"))
                                              (cons "CATEGORY" "Meeting"))))))
                  "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
+  (add-hook 'org-mode-hook #'vulpea-title-change-detection-mode)
   :bind (("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n f" . vulpea-find)
          ("C-c n b" . vulpea-find-backlink)
