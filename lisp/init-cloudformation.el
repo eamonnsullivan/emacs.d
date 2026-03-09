@@ -1,5 +1,37 @@
-;;; -*- lexical-binding: t -*-
-;;; init-cloudformation.el --- stuff related to editing AWS Cloudformation templates
+;;; init-cloudformation.el --- AWS CloudFormation mode initialisation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
+;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2022-02-15
+;; Version: 0.1
+;; Package-Requires: ((emacs "31.0"))
+;; Keywords: aws, cloudformation, languages, tools
+;; URL: https://github.com/eamonnsullivan/init-cloudformation
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;; This file provides initialisation and configuration for AWS CloudFormation mode
+;; in Emacs, supporting editing, validation, and workflow for infrastructure as code.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
+
 
 (require 'init-json)
 
@@ -45,3 +77,4 @@ See `https://github.com/aws-cloudformation/cfn-python-lint'."
   (add-hook 'cfn-yaml-mode-hook 'flycheck-mode))
 
 (provide 'init-cloudformation)
+;;; init-cloudformation.el ends here

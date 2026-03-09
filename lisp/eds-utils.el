@@ -1,18 +1,36 @@
-;;; eds-utils.el --- Library of small functions, mostly used by my own stuff  -*- lexical-binding:t -*-
-;;
-;; Copyright (C) 2026 Eamonnn Sullivan
-;;
-;;
+;;; eds-utils.el --- Utility functions and initialisation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
 ;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
-;; Version: 1.0
-;; Keywords: emacs utils
-;; URL: https://eamonnsullivan.co.uk
-;;
-;;
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2024-03-15
+;; Version: 0.1
+;; Package-Requires: ((emacs "31.0"))
+;; Keywords: convenience, tools, utilities
+;; URL: https://github.com/eamonnsullivan/eds-utils
+
+;; This file is not part of GNU Emacs.
+
 ;;; Commentary:
-;;
-;;
-;;; Code:
+
+;; This file provides initialisation and a collection of utility functions
+;; for Emacs, enhancing convenience and workflow.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 (require 'eds-org)
 

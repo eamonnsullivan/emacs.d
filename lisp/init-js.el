@@ -1,5 +1,36 @@
-;;; -*- lexical-binding: t -*-
-;;; init-js.el --- stuff related to Javascript/Typescript/TSX
+;;; init-js.el --- JavaScript mode initialisation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
+;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2018-05-05
+;; Version: 0.1
+;; Package-Requires: ((emacs "31.0"))
+;; Keywords: javascript, languages, tools
+;; URL: https://github.com/eamonnsullivan/init-js
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;; This file provides initialisation and configuration for JavaScript mode,
+;; supporting editing, syntax highlighting, and workflow enhancements for JavaScript programming in Emacs.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 (use-package nvm
   :commands (nvm-use nvm-use-for nvm--installed-versions))
@@ -43,3 +74,4 @@
 
 
 (provide 'init-js)
+;;; init-js.el ends here

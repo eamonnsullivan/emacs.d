@@ -1,18 +1,38 @@
-;;; eds-email.el --- Library of small functions for dealing with email  -*- lexical-binding:t -*-
-;;
-;; Copyright (C) 2026 Eamonnn Sullivan
-;;
-;;
+;;; eds-email.el --- Email management and initialisation -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
 ;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
-;; Version: 1.0
-;; Keywords: emacs email
-;; URL: https://eamonnsullivan.co.uk
-;;
-;;
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2026-02-27
+;; Version: 0.1
+;; Package-Requires: ((emacs "31.0"))
+;; Keywords: email, communication, tools
+;; URL: https://github.com/eamonnsullivan/eds-email
+
+;; This file is not part of GNU Emacs.
+
 ;;; Commentary:
-;;
-;;
-;;; Code:
+
+;; This file provides initialisation and configuration for email management
+;; in Emacs, supporting workflows for sending, receiving, and organising messages.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; eds-email.el ends here
 
 (defun eds-email/get-subject-from-msg (msg)
   "Return the subject of MSG as a string, or \"No Subject\" if there isn't a subject."

@@ -1,17 +1,47 @@
-;;; -*- lexical-binding: t -*-
-;;; init-global-bindings.el --- keys available in all modes
+;;; init-global-bindings.el --- Global key bindings initialisation -*- lexical-binding: t; -*-
 
-;; global key bindings
-(global-set-key "\C-z" nil)
-;; alternative to the Alt key
-(global-set-key "\C-x\C-m" 'execute-extended-command)
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
+;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2017-01-02
+;; Version: 0.1
+;; Package-Requires: ((emacs "24.4"))
+;; Keywords: bindings, keys, convenience, hydra
+;; URL: https://github.com/eamonnsullivan/init-global-bindings
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;; This file provides initialisation and configuration for global key bindings
+;; in Emacs, including support for hydra and improved workflow.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
+
 (require 'eds-utils)
 (require 'init-utils)
 (require 'init-hydra)
 (require 'init-org)
+
+(global-set-key "\C-z" nil)
+;; alternative to the Alt key
+(global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-unset-key (kbd "M-<backspace>"))
 (global-set-key (kbd "M-<backspace>") 'eds-utils/backward-kill-word)
-
 (global-set-key (kbd "M-<up>") 'move-text-up)
 (global-set-key (kbd "M-<down>") 'move-text-down)
 
@@ -86,3 +116,4 @@ _SPC_ cancel
 
 
 (provide 'init-global-bindings)
+;;; init-global-bindings.el ends here

@@ -1,6 +1,36 @@
-;;; -*- lexical-binding: t -*-
-;;; init-appearance.el --- Code related to the look of emacs
+;;; init-appearance.el --- Appearance customisation initialisation -*- lexical-binding: t; -*-
 
+;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
+
+;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
+;; Created: 2017-01-02
+;; Version: 0.1
+;; Package-Requires: ((emacs "31.0"))
+;; Keywords: appearance, theme, faces, convenience
+;; URL: https://github.com/eamonnsullivan/init-appearance
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;; This file provides initialisation and configuration for appearance customisation
+;; in Emacs, including themes, faces, and visual enhancements.
+
+;;; Licence:
+
+;; This programme is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public Licence as published by
+;; the Free Software Foundation, either version 3 of the Licence, or
+;; (at your option) any later version.
+
+;; This programme is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public Licence for more details.
+
+;; You should have received a copy of the GNU General Public Licence
+;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 (use-package fontaine
   :straight t
@@ -196,3 +226,4 @@
     (circadian-setup)))
 
 (provide 'init-appearance)
+;;; init-appearance.el ends here
