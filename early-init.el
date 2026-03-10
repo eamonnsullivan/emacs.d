@@ -17,3 +17,6 @@
           (width . 120)
           (left . 100)
           (top . 20)))
+
+;; Single VC backend inscreases booting speed
+(setq vc-handled-backends '(Git))

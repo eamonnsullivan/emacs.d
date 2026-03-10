@@ -86,11 +86,6 @@
  ((string= user-login-name "sullie09")
   (setq user-mail-address "eamonn.sullivan@bbc.co.uk")))
 
-;; my location
-(setq calendar-latitude 51.5)
-(setq calendar-longitude -0.12)
-(setq calendar-location-name "London, England")
-
 (use-package vc
   :config
   (setq vc-follow-symlinks t))
@@ -127,7 +122,6 @@
 (require 'init-flycheck)
 (require 'init-json)
 (require 'init-cloudformation)
-(require 'init-kbd-macros)
 (require 'init-yasnippet)
 (require 'init-codestyle)
 (require 'init-haskell)
@@ -142,7 +136,6 @@
 (require 'init-mu4e)
 (require 'init-treemacs)
 (require 'init-whatsapp)
-(require 'init-presentations)
 (require 'init-testing)
 (require 'init-blogging)
 (provide 'init)

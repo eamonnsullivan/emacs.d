@@ -50,6 +50,19 @@
   (defalias 'rename-file-and-buffer #'crux-rename-file-and-buffer))
 
 (use-package emacs
+  :bind  ; NOTE: M-x describe-personal-bindings (for all use-packge binds)
+  (("M-o" . other-window)
+   ("M-j" . duplicate-dwim)
+   ("M-s g" . grep)
+   ("C-x ;" . comment-line)
+   ("C-x w t"  . window-layout-transpose)            ; EMACS-31
+   ("C-x w r"  . window-layout-rotate-clockwise)     ; EMACS-31
+   ("C-x w f h"  . window-layout-flip-leftright)     ; EMACS-31
+   ("C-x w f v"  . window-layout-flip-topdown)       ; EMACS-31
+   ("C-x 5 l"  . select-frame-by-name)
+   ("C-x 5 s"  . set-frame-name)
+   ("RET" . newline-and-indent)
+   ("C-M-z" . delete-pair))
   :config
   (global-font-lock-mode)
   (size-indication-mode)
@@ -68,6 +81,16 @@
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   :custom
+  (recentf-max-saved-items 300) ; default is 20
+  (recentf-max-menu-items 15)
+  (recentf-auto-cleanup (if (daemonp) 300 'never))
+  (recentf-exclude (list "^/\\(?:ssh\\|su\\|sudo\\)?:"))
+  (recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory))
+  (treesit-auto-install-grammar t) ; EMACS-31
+  (treesit-enabled-modes t)        ; EMACS-31
+  (calendar-latitude 51.5)
+  (calendar-longitude -0.12)
+  (calendar-location-name "London, England")
   (show-paren-delay 0)
   (show-paren-style 'mixed)
   (font-lock-maximum-decoration t)
