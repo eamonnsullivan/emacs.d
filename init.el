@@ -74,6 +74,7 @@
   `(when (fboundp ,func) ,foo))
 
 (prefer-coding-system 'utf-8-unix)
+(modify-coding-system-alist 'file "" 'utf-8)
 (set-language-environment "UTF-8")
 
 (setq custom-file (make-temp-file "emacs-custom")) ;; Disable the auto-generated customize section.

@@ -37,7 +37,6 @@
 (require 'init-hydra)
 (require 'init-org)
 
-(global-set-key "\C-z" nil)
 ;; alternative to the Alt key
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-unset-key (kbd "M-<backspace>"))
