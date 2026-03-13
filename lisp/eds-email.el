@@ -53,6 +53,7 @@
          (email (eds-email/get-contact-email contact)))
     (concat "from:" email)))
 
+;;;###autoload
 (defun eds-email/get-sendmail-extra-args (from-email)
   "Get the extra args we need to send an email from FROM-EMAIL."
   (let ((account
@@ -65,6 +66,7 @@
         (list "-a" account)
       nil)))
 
+;;;###autoload
 (defun eds-email/set-msmtp-account ()
   "Set the msmtp account based on the current from."
   (if (message-mail-p)
@@ -76,6 +78,7 @@
              (args (eds-email/get-sendmail-extra-args from)))
           (setopt message-sendmail-extra-arguments args)))))
 
+;;;###autoload
 (defun eds-email/from-search (msg)
   "Return a search string for the sender of MSG."
   (mu4e-search (eds-email/get-mu4e-from-search-string msg)))

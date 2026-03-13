@@ -46,6 +46,7 @@
           vulpea-buffer-alias-property "ROAM_ALIASES"
           vulpea-db-sync-scan-on-enable 'async
           vulpea-db-sync-external-method 'auto
+          vulpea-db-sync-scan-on-enable 'async
           vulpea-create-default-function
           (lambda (title)
             (list :file-name (format "%s_%s.org"
@@ -59,8 +60,9 @@
                                         (cons "CATEGORY" "Meeting"))
                                 (list (cons "CREATED" (format-time-string "%FT%T%z"))
                                       (cons "CATEGORY" "Note")))
-                  :body (when (string-match-p "meeting" title)
-                            "\n\n* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))))
+                  :body (if (string-match-p "meeting" title)
+                            "\n\n* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"
+                          "\n\n* %?\n"))))
   (vulpea-db-autosync-mode +1)
   (add-to-list 'org-capture-templates
                '("m" "meeting" entry
@@ -98,7 +100,7 @@
        :file-name "journal/%Y-%m-%d.org"
        :title "%A, %B %d, %Y"
        :tags '("journal")
-       :body "\n%?\n* Gratitude practice\n")))
+       :body "\n\n* Gratitude practice\n")))
 
 
 (provide 'init-vulpea)

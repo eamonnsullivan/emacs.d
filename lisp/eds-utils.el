@@ -42,6 +42,7 @@
    ((string-match "^cop-" input) "COP-DAY")
    (t "NO-TICKET")))
 
+;;;###autoload
 (defun eds-utils/insert-git-branch-name ()
   "Insert the current git branch name at point, surrounded by square brackets.
 We use this to make the jira tickets easy to spot in the commit messages."
@@ -54,6 +55,7 @@ We use this to make the jira tickets easy to spot in the commit messages."
       (magit-get-current-branch))
      "] ")))
 
+;;;###autoload
 (defun eds-utils/kill-word (arg)
   "Delete chars forward until the end of a word. With ARG, do this that many times."
   (interactive "p")
@@ -67,11 +69,13 @@ We use this to make the jira tickets easy to spot in the commit messages."
        (forward-word arg)
        (point)))))
 
+;;;###autoload
 (defun eds-utils/backward-kill-word (arg)
   "Delete chars backward until the end of a word. With ARG, do it that many times."
   (interactive "p")
   (eds-utils/kill-word (- arg)))
 
+;;;###autoload
 (defun eds-utils/switch-to-previous-buffer ()
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
@@ -136,12 +140,14 @@ Remove characters that don't work in a filename."
   "Get the current time as a string formatted for org-roam filenames."
   (format-time-string "%Y%m%dT%H%M%S"))
 
+;;;###autoload
 (defun eds-utils/kill-emacs ()
   "Kill EMACS."
   (if (daemonp)
       (save-buffers-kill-emacs)
     (save-buffers-kill-terminal)))
 
+;;;###autoload
 (defun eds-utils/restart-emacs (arg)
   "Close EMACS, asking for confirmation. With a prefix ARG, restart it."
   (interactive "P")

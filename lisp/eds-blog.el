@@ -49,11 +49,13 @@
     (magit-branch-create branch "main")
     (magit-checkout branch)))
 
+;;;###autoload
 (defun eds-blog/start-personal-blog-post (title)
   "Create a new post on my personal blog with TITLE."
   (interactive "sTitle: ")
   (eds-blog/start-blog-post "~/git/eamonnsullivan.co.uk" title))
 
+;;;###autoload
 (defun eds-blog/start-svp-blog-post (title)
   "Create a new post on the svp blog with TITLE."
   (interactive "sTitle: ")
@@ -65,6 +67,7 @@
       (format "[%s](../../pages-output/contact/)" selected-text)
     nil))
 
+;;;###autoload
 (defun eds-blog/make-svp-contact-link ()
   "Make a link to the SVP's contact page from the current selection."
   (interactive)
