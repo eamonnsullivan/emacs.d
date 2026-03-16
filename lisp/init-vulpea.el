@@ -87,6 +87,7 @@
          ("C-c n n" . org-id-get-create) ; useful for making a heading a node
          ("C-c n A" . vulpea-buffer-alias-add) ; add an alias to the current node
          ("C-c n P" . eds-org/set-category-value) ; set the CATEGORY property of the current node
+         ("C-c n R" . org-roam-refile)
          ("C-c n t" . eds-org/update-agenda-files) ; update list of agenda files, manually
          ;; Dailies
          ("C-c n j" . vulpea-journal)))

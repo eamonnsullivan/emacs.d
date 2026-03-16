@@ -131,6 +131,8 @@
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
   (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
+  (use-short-answers t)
+  (isearch-lazy-count t)
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)

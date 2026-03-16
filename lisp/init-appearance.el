@@ -175,7 +175,11 @@
                                           ef-spring
                                           ef-light
                                           ef-frost
-                                          ef-duo-light))
+                                          ef-duo-light
+                                          ef-deuteranopia-light
+                                          ef-eagle
+                                          ef-kassio
+                                          ef-tritanopia-light))
                              ("13:00" . (ef-maris-light
                                          ef-arbutus
                                          ef-day
@@ -192,15 +196,21 @@
                                          ef-maris-dark
                                          ef-melissa-dark
                                          ef-trio-dark
+                                         ef-tritanopia-dark
                                          ef-fig
-                                         ef-dream))
+                                         ef-dream
+                                         ef-autumn
+                                         ef-cherie
+                                         ef-deuteranopia-dark))
                              ("22:00" . (ef-winter
                                          ef-autumn
                                          ef-night
                                          ef-duo-dark
                                          ef-symbiosis
                                          ef-owl
-                                         ef-fig))))
+                                         ef-fig
+                                         ef-bio
+                                         ef-dark))))
   (circadian-setup))
 
 
