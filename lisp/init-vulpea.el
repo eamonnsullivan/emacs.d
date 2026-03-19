@@ -61,8 +61,8 @@
                                 (list (cons "CREATED" (format-time-string "%FT%T%z"))
                                       (cons "CATEGORY" "Note")))
                   :body (if (string-match-p "meeting" title)
-                            "\n\n* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"
-                          "\n\n* %?\n"))))
+                            "\n\n* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n"
+                          "\n\n* ${title}\n"))))
   (vulpea-db-autosync-mode +1)
   (add-to-list 'org-capture-templates
                '("m" "meeting" entry

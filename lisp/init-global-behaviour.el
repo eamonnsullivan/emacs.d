@@ -133,6 +133,7 @@
   (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
   (use-short-answers t)
   (isearch-lazy-count t)
+  (auto-save-default nil)
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)
@@ -288,12 +289,12 @@
                           (set-window-buffer nil (current-buffer)))))
 
 (use-package super-save
-  :defer 1
-  :diminish super-save-mode
+  :straight t
   :config
   (super-save-mode +1)
-  (setopt super-save-exclude '("\\*dashboard\\*"))
-  (setopt super-save-auto-save-when-idle t))
+  :custom
+  (super-save-exclude '("\\*dashboard\\*"))
+  (super-save-auto-save-when-idle t))
 
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 
