@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (use-package ob-typescript)
 (use-package ob-go)
 (straight-use-package
@@ -39,6 +41,11 @@
 (use-package ob-http)
 
 (require 'eds-org)
+
+(defun my-insert-template (title)
+  "Insert a template for an org-roam capture with TITLE."
+  (let ((new-title (eds-org/modify-captured-title title)))
+    (format "#+title: %s\n" new-title)))
 
 (use-package org-modern
   :after org
@@ -180,8 +187,8 @@
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
-            ,(concat "#+title: ${title}"
-                     "\n#+startup: content"))
+            "%(concat (my-insert-template \"${title}\")
+                     \"#+startup: content\n\")")
            :unnarrowed t)
           ("T" "ref" entry "* TODO %?\n%t\n\n${body}\n"
            :target

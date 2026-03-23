@@ -145,6 +145,16 @@
   (interactive)
   (org-roam-graph 2 (org-roam-node-at-point)))
 
+(defun eds-org/modify-captured-title (title)
+  "Strip some extraneous suffixes and prefixes from TITLE."
+  (progn
+    (message "Modify captured title: Original title: %s" title)
+    (thread-last title
+         (replace-regexp-in-string " - Dropbox Paper$" "")
+         (replace-regexp-in-string " - BBC Jira Cloud$" "")
+         (replace-regexp-in-string " - Passports - Confluence$" "")
+         (replace-regexp-in-string "^Richard Rohr’s Daily Meditation: " ""))))
+
 (provide 'eds-org)
 
 ;;; eds-org.el ends here

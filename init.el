@@ -91,6 +91,9 @@
   :config
   (setq vc-follow-symlinks t))
 
+
+(set-default-toplevel-value 'lexical-binding t)
+
 (straight-use-package 'flymake)
 (straight-use-package 'use-package)
 (straight-use-package 'project)

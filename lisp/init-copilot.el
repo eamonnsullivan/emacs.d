@@ -36,11 +36,12 @@
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :ensure t
+  :custom
+  (copilot-completion-model  "gpt-41-copilot")
   :hook
   (prog-mode . copilot-mode)
   (prog-mode . copilot-nes-mode)
   :bind (:map copilot-completion-map
-              ("C-c C-c" . copilot-accept-completion)
               ("C-c C-c" . copilot-accept-completion)
               ("C-n" . copilot-next-completion)
               ("C-p" . copilot-previous-completion))

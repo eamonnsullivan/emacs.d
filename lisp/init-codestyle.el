@@ -40,16 +40,16 @@
 (require 'dtrt-indent)
 (setopt dtrt-indent-global-mode t)
 
-(use-package paredit
-  :straight t
-  :commands
-  paredit-mode
-  :diminish paredit-mode
-  :hook ((lisp-interaction-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode)
-         (lisp-mode . paredit-mode)
-         (scheme-mode . paredit-mode)
-         (clojure-mode . paredit-mode)))
+;; (use-package paredit
+;;   :straight t
+;;   :commands
+;;   paredit-mode
+;;   :diminish paredit-mode
+;;   :hook ((lisp-interaction-mode . paredit-mode)
+;;          (emacs-lisp-mode . paredit-mode)
+;;          (lisp-mode . paredit-mode)
+;;          (scheme-mode . paredit-mode)
+;;          (clojure-mode . paredit-mode)))
 
 (use-package smartparens
   :straight
@@ -61,6 +61,11 @@
   :diminish smartparens-mode
   :hook ((scala-ts-mode . smartparens-mode)
          (python-ts-mode . smartparens-mode)
+         (emacs-lisp-mode . smartparens-mode)
+         (lisp-mode . smartparens-mode)
+         (scheme-mode . smartparens-mode)
+         (clojure-mode . smartparens-mode)
+         (lisp-interaction-mode . smartparens-mode)
          (java-mode . smartparens-mode)
          (js2-mode . smartparens-mode)
          (markdown-mode . smartparens-mode)
