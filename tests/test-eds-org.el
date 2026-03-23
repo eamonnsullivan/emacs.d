@@ -174,23 +174,23 @@
 
 (describe "eds-org/remove-title-boilerplate"
   (it "removes the dropbox paper suffix from the title"
-    (expect (eds-org/modify-captured-title "Document Title - Dropbox Paper"))
+    (expect (eds-org/remove-title-boilerplate "Document Title - Dropbox Paper"))
             :to-equal "Document Title")
 
   (it "removes the Jira suffix from the title"
-    (expect (eds-org/modify-captured-title "Issue Title - BBC Jira Cloud")
+    (expect (eds-org/remove-title-boilerplate "Issue Title - BBC Jira Cloud")
             :to-equal "Issue Title"))
 
   (it "doesn't remove the suffix if it doesn't appear at the end"
-    (expect (eds-org/modify-captured-title "Document Title - Dropbox Paper - Notes")
+    (expect (eds-org/remove-title-boilerplate "Document Title - Dropbox Paper - Notes")
             :to-equal "Document Title - Dropbox Paper - Notes"))
 
   (it "removes the Confluence suffix from the title"
-    (expect (eds-org/modify-captured-title "Page Title - Passports - Confluence")
+    (expect (eds-org/remove-title-boilerplate "Page Title - Passports - Confluence")
             :to-equal "Page Title"))
 
   (it "removes the Richard Rohr prefix from the title"
-    (expect (eds-org/modify-captured-title "Richard Rohr’s Daily Meditation: Meditation Title")
+    (expect (eds-org/remove-title-boilerplate "Richard Rohr’s Daily Meditation: Meditation Title")
             :to-equal "Meditation Title")))
 
 

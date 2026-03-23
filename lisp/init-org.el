@@ -42,11 +42,6 @@
 
 (require 'eds-org)
 
-(defun my-insert-template (title)
-  "Insert a template for an org-roam capture with TITLE."
-  (let ((new-title (eds-org/remote-title-boilerplate title)))
-    (format "#+title: %s\n" new-title)))
-
 (use-package org-modern
   :after org
   :config
@@ -183,12 +178,15 @@
                              "\n#+filetags: :ideas:"
                              "\n#+startup: content"))))
         org-roam-capture-ref-templates
-        `(("r" "ref" entry "* ${title}\n${body}\n%?"
+        `(("r" "ref" plain "%?"
            :target
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
-            "%(concat (my-insert-template \"${title}\")
-                     \"#+startup: content\n\")")
+            "%(concat \"#+title: \"
+                      (eds-org/remove-title-boilerplate \"${title}\")
+                      \"\n#+filetags: :reference:\"
+                      \"\n#+startup: content\n\"
+                      \"\n${body}\n\")")
            :unnarrowed t)
           ("T" "ref" entry "* TODO %?\n%t\n\n${body}\n"
            :target

@@ -151,6 +151,7 @@
     (message "Modify captured title: Original title: %s" title)
     (thread-last title
          (replace-regexp-in-string " - Dropbox Paper$" "")
+         (replace-regexp-in-string " – Dropbox Paper$" "")
          (replace-regexp-in-string " - BBC Jira Cloud$" "")
          (replace-regexp-in-string " - Passports - Confluence$" "")
          (replace-regexp-in-string "^Richard Rohr’s Daily Meditation: " ""))))
