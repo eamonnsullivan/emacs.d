@@ -44,7 +44,7 @@
 
 (defun my-insert-template (title)
   "Insert a template for an org-roam capture with TITLE."
-  (let ((new-title (eds-org/modify-captured-title title)))
+  (let ((new-title (eds-org/remote-title-boilerplate title)))
     (format "#+title: %s\n" new-title)))
 
 (use-package org-modern

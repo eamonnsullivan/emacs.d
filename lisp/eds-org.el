@@ -145,7 +145,7 @@
   (interactive)
   (org-roam-graph 2 (org-roam-node-at-point)))
 
-(defun eds-org/modify-captured-title (title)
+(defun eds-org/remove-title-boilerplate (title)
   "Strip some extraneous suffixes and prefixes from TITLE."
   (progn
     (message "Modify captured title: Original title: %s" title)

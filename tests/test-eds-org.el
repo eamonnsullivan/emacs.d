@@ -172,7 +172,7 @@
                 :body "This is some text from the email that has been selected."
                 :template "T")))))
 
-(describe "eds-org/modify-captured-title"
+(describe "eds-org/remove-title-boilerplate"
   (it "removes the dropbox paper suffix from the title"
     (expect (eds-org/modify-captured-title "Document Title - Dropbox Paper"))
             :to-equal "Document Title")
