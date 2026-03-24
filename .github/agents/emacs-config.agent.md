@@ -166,20 +166,30 @@ initialises belong here (GC threshold, disabling UI chrome, frame geometry,
 
 1. Create `lisp/eds-foo.el` with proper header, `;;; Code:` section, and footer.
 2. Write functions with proper docstrings.
-3. Create a corresponding `tests/test-eds-foo.el` with ERT tests.
+3. Create a corresponding `tests/test-eds-foo.el` with buttercup tests.
 4. Require the library from an appropriate `init-*.el` module.
 
-### ERT test conventions
+### Test conventions
 
+There is a test initialisation file that requires buttercup:
+
+```
+(require 'buttercup)
+```
+
+And individual test files, grouped by library.
 ```emacs-lisp
 ;;; test-eds-foo.el --- Tests for eds-foo  -*- lexical-binding: t; -*-
 
-(require 'ert)
 (require 'eds-foo)
 
-(ert-deftest eds-foo-test-something ()
-  "Test that something works."
-  (should (equal (eds-foo-function input) expected-output)))
+(describe "eds-utils/kill-word"
+  (it "deletes the next word when no region is selected"
+    (with-temp-buffer
+      (insert "Hello World!")
+      (goto-char (point-min))
+      (eds-utils/kill-word 1)
+      (expect (buffer-string) :to-equal " World!"))))
 
 ;;; test-eds-foo.el ends here
 ```
