@@ -52,9 +52,8 @@
             (list :file-name (format "%s_%s.org"
                                      (format-time-string "%Y%m%d%H%M%S")
                                      (vulpea-title-to-slug title))
-                  :tags (if (string-match-p "meeting" title)
-                            '("meeting")
-                          '("note"))
+                  :tags (when (string-match-p "meeting" title)
+                            '("meeting"))
                   :properties (if (string-match-p "meeting" title)
                                   (list (cons "CREATED" (format-time-string "%FT%T%z"))
                                         (cons "CATEGORY" "Meeting"))
@@ -62,7 +61,7 @@
                                       (cons "CATEGORY" "Note")))
                   :body (if (string-match-p "meeting" title)
                             "\n\n* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n"
-                          "\n\n* ${title}\n"))))
+                          "\n"))))
   (vulpea-db-autosync-mode +1)
   (add-to-list 'org-capture-templates
                '("m" "meeting" entry

@@ -36,8 +36,8 @@
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :ensure t
-  :custom
-  (copilot-completion-model  "gpt-41-copilot")
+  ;; :custom
+  ;; (copilot-completion-model  "auto")
   :hook
   (prog-mode . copilot-mode)
   (prog-mode . copilot-nes-mode)
