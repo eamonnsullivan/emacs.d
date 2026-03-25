@@ -102,7 +102,6 @@
 ;; (setq debug-on-error t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path "/opt/homebrew/share/emacs/site-lisp/mu/mu4e")
-(require 'ert)
 (require 'init-git)
 (require 'init-elpa)
 (require 'init-utils)

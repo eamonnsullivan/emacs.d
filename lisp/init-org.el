@@ -115,7 +115,8 @@
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
                                      (org-timer-set-timer '(25)))))
-  (add-to-list 'org-modules 'org-habit))
+  (add-to-list 'org-modules 'org-habit)
+  (add-hook 'auto-save-hook 'org-save-all-org-buffers))
 
 (with-eval-after-load 'org
   (require 'edraw-org)

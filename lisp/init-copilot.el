@@ -36,8 +36,8 @@
 (use-package copilot
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :ensure t
-  ;; :custom
-  ;; (copilot-completion-model  "auto")
+  :custom
+  (copilot-completion-model "gtp-4o-copilot")
   :hook
   (prog-mode . copilot-mode)
   (prog-mode . copilot-nes-mode)
@@ -54,16 +54,6 @@
   (add-to-list 'copilot-indentation-alist '(text-mode 2))
   (add-to-list 'copilot-indentation-alist '(closure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2)))
-
-(use-package copilot-chat
-  :straight (:host github :repo "chep/copilot-chat.el" :files ("*.el"))
-  :config
-  (global-unset-key (kbd "C-c i"))
-  :bind (("C-c i" . copilot-chat-goto-input))
-  :after (request org markdown-mode))
-
-;; (add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
-
 
 (provide 'init-copilot)
 ;;; init-copilot.el ends here
