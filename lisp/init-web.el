@@ -53,10 +53,5 @@
             ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
           )))
 
-(use-package rainbow-mode
-  :config
-  (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
-                (add-hook hook 'rainbow-mode)))
-
 (provide 'init-web)
 ;;; init-web.el ends here

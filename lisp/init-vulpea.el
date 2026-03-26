@@ -36,6 +36,9 @@
 
 (use-package vulpea-ui
   :straight t)
+  ;; :config
+  ;; workaround for https://github.com/d12frosted/vulpea-ui/issues/21
+  ;; (vulpea-ui-unregister-widget 'outline))
 
 (use-package vulpea
   :straight t
@@ -47,6 +50,7 @@
           vulpea-db-sync-scan-on-enable 'async
           vulpea-db-sync-external-method 'auto
           vulpea-db-sync-scan-on-enable 'async
+          vulpea-ui-fast-parse t
           vulpea-create-default-function
           (lambda (title)
             (list :file-name (format "%s_%s.org"

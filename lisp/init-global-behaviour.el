@@ -112,7 +112,6 @@
   (save-interprogram-paste-before-kill t)
   (make-pointer-invisible t)
   (mouse-drag-copy-region t)
-  (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
   (mouse-wheel-progressive-speed nil)
   (mouse-wheel-follow-mouse t)
   (ring-bell-function 'ignore)
@@ -122,12 +121,8 @@
   (warning-suppress-log-types '((comp)))
   (package-install-upgrade-built-in t)
   (calendar-date-style 'european)
-  (tramp-default-method "ssh")
   (remote-file-name-inhibit-locks t)
-  (tramp-use-scp-direct-remote-copying t)
   (remote-file-name-inhibit-auto-save-visited t)
-  (tramp-copy-size-limit (* 1024 1024))
-  (tramp-verbose 2)
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
   (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
@@ -319,6 +314,14 @@
 
 (global-unset-key (kbd "M-q"))
 (global-set-key (kbd "M-q") 'eds/fill-paragraph-toggle)
+
+;; nice scrolling
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
+
+;; enable smooth pixel scrolling on graphical displays
+(pixel-scroll-precision-mode t)
 
 (provide 'init-global-behaviour)
 ;;; init-global-behaviour.el ends here

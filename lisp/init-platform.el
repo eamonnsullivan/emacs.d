@@ -55,10 +55,32 @@
     (call-process "trash" nil 0 nil "-F"  file))
 
   (when (display-graphic-p)
-    (ns-raise-emacs))
+    (ns-raise-emacs)
+    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
+
+  ;; I may regret this, but let's try and join the crowd and swap the
+  ;; key on the mac. It's all in the Meta. I got this and the function from
+  ;; https://github.com/bbatsov/prelude/blob/master/core/prelude-macos.el
+  (setq ns-function-modifier 'hyper)
+
+  (defun prelude-swap-meta-and-super ()
+    "Swap the mapping of Meta and Super.
+Very useful for people using their Mac with a
+Windows external keyboard from time to time."
+    (interactive)
+    (if (eq mac-command-modifier 'super)
+        (progn
+          (setq mac-command-modifier 'meta)
+          (setq mac-option-modifier 'super)
+          (message "Command is now bound to META and Option is bound to SUPER."))
+      (setq mac-command-modifier 'super)
+      (setq mac-option-modifier 'meta)
+      (message "Command is now bound to SUPER and Option is bound to META.")))
+
+  ;; Let me change my mind, or while using my ergonomic keyboard.
+  (global-set-key (kbd "C-c w") 'prelude-swap-meta-and-super)
 
   (setenv "SBT_OPTS" "-Xmx2G -Xms512M -Xss4M -XX:+UseG1GC -XX:+UseStringDeduplication -Dmetals.client=emacs -Djavax.net.ssl.trustStore=/etc/pki/jssecacerts -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.keyStore=/etc/pki/tls/private/client.p12 -Djavax.net.ssl.keyStorePassword=client -Djavax.net.ssl.keyStoreType=PKCS12 -Dfile.encoding=UTF-8"))
-
 
 (use-package exec-path-from-shell
   :config
@@ -70,6 +92,9 @@
                  ))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
+
+
+
 
 (provide 'init-platform)
 ;;; init-platform.el ends here

@@ -141,5 +141,6 @@
 (require 'init-whatsapp)
 (require 'init-testing)
 (require 'init-blogging)
+(require 'init-elisp)
 (provide 'init)
 ;;; init.el ends here

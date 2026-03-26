@@ -34,14 +34,18 @@
 
 (use-package company
   :demand t
+  :diminish company-mode
   :commands company-mode
   :config
   (global-company-mode)
   (setopt company-global-modes '(not term-mode)
-        company-minimum-prefix-length 2
-        company-selection-wrap-around t
-        company-show-numbers t
-        company-tooltip-align-annotations t)
+          company-minimum-prefix-length 2
+          company-selection-wrap-around t
+          company-show-numbers t
+          company-tooltip-align-annotations t
+          company-idle-delay 0.5
+          company-tooltip-limit 10
+          company-tooltip-flip-when-above t)
   (add-to-list 'company-backends 'company-capf))
 
 (use-package company-box

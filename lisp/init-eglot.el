@@ -35,8 +35,7 @@
 (use-package eglot
   :config
   (setopt eglot-autoshutdown t
-          eglot-extend-to-xref t
-          eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider :documentRangeFormattingProvider))
+          eglot-extend-to-xref t)
   ;; Needed for scala/metals only. See https://github.com/scalameta/metals/issues/8198
   ;; eglot-ignored-server-capabilites '(:documentOnTypeFormattingProvider :documentRangeFormattingProvider)
   (add-to-list 'eglot-server-programs

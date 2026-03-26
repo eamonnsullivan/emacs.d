@@ -1,4 +1,4 @@
-;;; init-js.el --- JavaScript mode initialisation -*- lexical-binding: t; -*-
+;;; init-js.el --- JavaScript and Typescript mode initialisation -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
 
@@ -71,6 +71,11 @@
 
 (use-package eslintd-fix
   :hook ((typescript-ts-base-mode . eslintd-fix-mode)))
+
+(defun eds/js-ts-defaults ()
+  "Set up defaults for JavaScript editing."
+  (subword-mode +1)
+  (rainbow-mode +1))
 
 
 (provide 'init-js)

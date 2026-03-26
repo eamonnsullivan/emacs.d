@@ -154,6 +154,7 @@
          (replace-regexp-in-string " – Dropbox Paper$" "") ;; some titles have an en dash instead of a hyphen
          (replace-regexp-in-string " - BBC Jira Cloud$" "")
          (replace-regexp-in-string " - Passports - Confluence$" "")
+         (replace-regexp-in-string " - Product Group - Confluence$" "")
          (replace-regexp-in-string "^Richard Rohr’s Daily Meditation: " ""))))
 
 (provide 'eds-org)

@@ -176,5 +176,36 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 
 (use-package deadgrep)
 
+(use-package tramp
+  :defer t
+  :init
+  (setq tramp-default-method "ssh"))
+
+;; Got the search functions and macro from https://github.com/bbatsov/prelude/blob/master/core/prelude-core.el
+(defun search-internet (query-url prompt)
+  "Open the search url constructed with the QUERY-URL.
+PROMPT sets the `read-string prompt."
+  (browse-url
+   (concat query-url
+           (url-hexify-string
+            (if mark-active
+                (buffer-substring (region-beginning) (region-end))
+              (read-string prompt))))))
+
+(defmacro install-search-engine (search-engine-name search-engine-url search-engine-prompt)
+  "Given some information regarding a search engine, install the interactive command to search through them"
+  `(defun ,(intern (format "search-%s" search-engine-name)) ()
+       ,(format "Search %s with a query or region if any." search-engine-name)
+       (interactive)
+       (search-internet ,search-engine-url ,search-engine-prompt)))
+
+(install-search-engine "wikipedia"  "http://en.wikipedia.org/wiki/Special:Search/" "Wikipedia: ")
+(install-search-engine "kagi"       "http://www.kagi.com/search?q="                "Kagi: ")
+(install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
+
+(global-set-key (kbd "C-c C-/ k") 'search-kagi)
+(global-set-key (kbd "C-c C-/ g") 'search-github)
+(global-set-key (kbd "C-c C-/ w") 'search-wikipedia)
+
 (provide 'init-utils)
 ;;; init-utils.el ends here
