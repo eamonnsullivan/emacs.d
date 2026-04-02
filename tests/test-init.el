@@ -12,5 +12,9 @@
 (load-file "./tests/undercover-init.el")
 
 (require 'buttercup)
+(require 'test-eds-blog)
+(require 'test-eds-email)
+(require 'test-eds-org)
+(require 'test-eds-utils)
 
 ;;; test-init.el ends here

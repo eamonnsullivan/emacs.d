@@ -14,8 +14,6 @@
 ;;
 ;;; Code:
 
-(load-file "./tests/undercover-init.el")
-
 (require 'eds-org)
 
 (describe "eds-org/create-new-note-from-clipboard-link"
