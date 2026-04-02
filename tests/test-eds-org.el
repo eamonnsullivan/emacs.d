@@ -14,6 +14,8 @@
 ;;
 ;;; Code:
 
+(load-file "./tests/undercover-init.el")
+
 (require 'eds-org)
 
 (describe "eds-org/create-new-note-from-clipboard-link"
@@ -110,7 +112,7 @@
       (expect 'org-store-link
               :to-have-been-called-with msg nil)))
 
-  (it "captures a link to the  current email"
+  (it "captures a todo link to the  current email"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds-org/capture-email-todo msg)
       (expect 'org-store-link
@@ -122,19 +124,13 @@
       (expect 'eds-org/get-link-from-link
               :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
 
-  (it "gets the link to the message"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'eds-org/get-link-from-link
-              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
-
   (it "gets the subject from the message"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds-org/capture-email msg)
       (expect 'eds-email/get-subject-from-msg
               :to-have-been-called-with msg)))
 
-  (it "gets the subject from the message"
+  (it "gets the subject from the todo message"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds-org/capture-email-todo msg)
       (expect 'eds-email/get-subject-from-msg
@@ -146,7 +142,7 @@
       (expect 'buffer-substring-no-properties
               :to-have-been-called)))
 
-  (it "gets selected region contents"
+  (it "gets selected region contents for todo"
     (let ((msg '(:subject "RE: what about the 50K?")))
       (eds-org/capture-email-todo msg)
       (expect 'buffer-substring-no-properties

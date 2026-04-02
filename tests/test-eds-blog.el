@@ -14,6 +14,8 @@
 ;;
 ;;; Code:
 
+(load-file "./tests/undercover-init.el")
+
 (require 'eds-blog)
 
 (describe "eds-blog/start-blog-post"

@@ -37,7 +37,7 @@
   :straight (:host github :repo "copilot-emacs/copilot.el" :files ("*.el"))
   :ensure t
   :custom
-  (copilot-completion-model "gtp-4o-copilot")
+  (copilot-chat-model "auto")
   :hook
   (prog-mode . copilot-mode)
   (prog-mode . copilot-nes-mode)

@@ -14,6 +14,7 @@
 ;;
 ;;; Code:
 
+(load-file "./tests/undercover-init.el")
 
 (require 'eds-email)
 

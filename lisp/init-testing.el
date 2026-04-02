@@ -33,6 +33,11 @@
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 (use-package buttercup)
+(use-package undercover
+  :config
+  (undercover "lisp/eds-*.el" "tests/*.el"))
+
+(use-package coverage)
 
 (use-package el-mock)
 

@@ -35,7 +35,7 @@
 (require 'init-org)
 
 (use-package vulpea-ui
-  :straight t)
+  :straight (:host github :repo "d12frosted/vulpea-ui" :branch "master"))
   ;; :config
   ;; workaround for https://github.com/d12frosted/vulpea-ui/issues/21
   ;; (vulpea-ui-unregister-widget 'outline))

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-eask test buttercup
+UNDERCOVER_FORCE=true eask test buttercup
