@@ -14,6 +14,15 @@
 ;;
 ;;; Code:
 
+(setq undercover-force-coverage t)
+(when (require 'undercover nil t)
+  (undercover "lisp/eds-*.el"
+              (:report-file "coverage/.resultset.json")
+              (:report-format 'simplecov)
+              (:send-report nil)))
+
+(require 'eds-blog)
+
 (describe "eds-blog/start-blog-post"
   :var (find-file
         eds-blog/insert-skeleton-blog-post

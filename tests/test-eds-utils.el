@@ -14,6 +14,15 @@
 ;;
 ;;; Code:
 
+(setq undercover-force-coverage t)
+(when (require 'undercover nil t)
+  (undercover "lisp/eds-*.el"
+              (:report-file "coverage/.resultset.json")
+              (:report-format 'simplecov)
+              (:send-report nil)))
+
+(require 'eds-utils)
+
 (describe "eds-utils/kill-word"
   (it "deletes the next word when no region is selected"
     (with-temp-buffer
