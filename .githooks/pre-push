@@ -9,7 +9,7 @@ echo "--- Running pre-push tests ---"
 # even if you are in a subdirectory when you run 'git push'.
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-YOUR_TEST_COMMAND="eask test buttercup"
+YOUR_TEST_COMMAND="UNDERCOVER_FORCE=true eask test buttercup"
 
 # Execute the test command
 eval "$YOUR_TEST_COMMAND"
