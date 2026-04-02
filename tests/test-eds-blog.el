@@ -14,8 +14,6 @@
 ;;
 ;;; Code:
 
-(require 'eds-blog)
-
 (describe "eds-blog/start-blog-post"
   :var (find-file
         eds-blog/insert-skeleton-blog-post

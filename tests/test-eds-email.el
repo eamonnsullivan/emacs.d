@@ -14,8 +14,6 @@
 ;;
 ;;; Code:
 
-(require 'eds-email)
-
 (describe "eds-email/get-from-field"
   (it "gets the 'from' field from a message"
     (expect (eds-email/get-from-field '(:from ((:name "User" :email "user@example.com"))))

@@ -14,8 +14,6 @@
 ;;
 ;;; Code:
 
-(require 'eds-org)
-
 (describe "eds-org/create-new-note-from-clipboard-link"
   :var (gui-get-selection
         org-roam-protocol-open-ref)

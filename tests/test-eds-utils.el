@@ -14,8 +14,6 @@
 ;;
 ;;; Code:
 
-(require 'eds-utils)
-
 (describe "eds-utils/kill-word"
   (it "deletes the next word when no region is selected"
     (with-temp-buffer
