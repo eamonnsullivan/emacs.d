@@ -7,6 +7,8 @@
 (website-url "https://github.com/eamonnsullivan/emacs.d")
 (keywords "emacs" "config" "personal")
 
+(load-paths "." "./lisp/")
+
 (source "gnu")
 (source "melpa")
 
