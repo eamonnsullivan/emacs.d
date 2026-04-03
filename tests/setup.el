@@ -4,8 +4,8 @@
 ;;
 ;;
 ;; Author: Eamonn Sullivan <me@eamonnsullivan.co.uk>
-;; Version: 1.0
-;; Keywords: emacs org-mode
+;; Version: 0.1
+;; Keywords: emacs buttercup testing coverage
 ;; URL: https://eamonnsullivan.co.uk
 ;;
 ;;
