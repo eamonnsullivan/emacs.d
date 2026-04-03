@@ -11,3 +11,4 @@ authinfo
 
 .cider-repl-history
 coverage/
+.log/

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-UNDERCOVER_FORCE=true eask -q test buttercup
-# UNDERCOVER_FORCE=true eask -q exec buttercup -L .
+UNDERCOVER_FORCE=true eask -q --log-file --verbose 5 test buttercup
+# UNDERCOVER_FORCE=true eask -q  exec buttercup -L .

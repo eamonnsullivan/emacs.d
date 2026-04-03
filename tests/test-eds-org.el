@@ -14,14 +14,7 @@
 ;;
 ;;; Code:
 
-(setq undercover-force-coverage t)
-(when (require 'undercover nil t)
-  (undercover "lisp/eds-*.el"
-              (:report-file "coverage/.resultset.json")
-              (:report-format 'simplecov)
-              (:send-report nil)))
-
-(require 'eds-org)
+(load-file "tests/setup.el")
 
 (describe "eds-org/create-new-note-from-clipboard-link"
   :var (gui-get-selection

@@ -14,14 +14,7 @@
 ;;
 ;;; Code:
 
-(setq undercover-force-coverage t)
-(when (require 'undercover nil t)
-  (undercover "lisp/eds-*.el"
-              (:report-file "coverage/.resultset.json")
-              (:report-format 'simplecov)
-              (:send-report nil)))
-
-(require 'eds-email)
+(load-file "tests/setup.el")
 
 (describe "eds-email/get-from-field"
   (it "gets the 'from' field from a message"
