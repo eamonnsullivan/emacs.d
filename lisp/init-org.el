@@ -97,6 +97,8 @@
           org-agenda-ignore-drawer-properties '(effort appt)
           org-agenda-skip-scheduled-repeats-after-deadline t
           org-agenda-skip-deadline-prewarning-if-scheduled t
+          org-fontify-quote-and-verse-blocks t
+          org-fontify-whole-block-delimiter-lines t
           org-fold-catch-invisible-edits 'smart
           org-startup-folded 'content
           org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
