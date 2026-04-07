@@ -147,6 +147,7 @@
   :config
   (setopt ef-themes-variable-pitch-ui t
         ef-themes-mixed-fonts t
+        ef-themes-take-over-modus-themes-mode t
         ef-themes-to-rotate ef-themes-items
         ef-themes-headings ; read the manual's entry of the doc string
         '((0 . (variable-pitch light 1.9))
@@ -160,12 +161,6 @@
           (agenda-date . (semilight 1.5))
           (agenda-structure . (variable-pitch light 1.9))
           (t . (variable-pitch 1.1)))))
-
-
-(defun modus-themes-toggle ()
-  (if (eq (car custom-enabled-themes) 'modus-operandi-tinted)
-      (modus-themes-load-theme 'modus-vivendi-tinted)
-    (modus-themes-load-theme 'modus-operandi-tinted)))
 
 (use-package circadian
   :straight t
@@ -234,6 +229,9 @@
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
         (message "Font Aporetic Sans Mono not found, using default font settings"))
     (circadian-setup)))
+
+(global-set-key (kbd "C-<f5>") 'modus-themes-load-random-dark)
+(global-set-key (kbd "C-<f6>") 'modus-themes-load-random-light)
 
 (provide 'init-appearance)
 ;;; init-appearance.el ends here

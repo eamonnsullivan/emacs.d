@@ -12,11 +12,26 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(setopt default-frame-alist
-        '((height . 60)
-          (width . 120)
-          (left . 100)
-          (top . 20)))
+(setopt initial-frame-alist `((horizontal-scroll-bars . nil)
+                              (menu-bar-lines . 0)
+                              (tool-bar-lines . 0)
+                              (vertical-scroll-bars . nil)
+                              (width . (text-pixels . 800))
+                              (height . (text-pixels . 900))
+                              (list '(undecorated . t))
+                              (border-width . 0)))
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (setopt default-frame-alist `((horizontal-scroll-bars . nil)
+                                          (menu-bar-lines . 0)
+                                          (tool-bar-lines . 0)
+                                          (vertical-scroll-bars . nil)
+                                          (width . (text-pixels . 800))
+                                          (height . (text-pixels . 900))
+                                          (list '(undecorated . t))
+                                          (border-width . 0)))))
 
 ;; Single VC backend inscreases booting speed
 (setq vc-handled-backends '(Git))
+;; (setopt user-lisp-directory (locate-user-emacs-file "eds-lisp/"))

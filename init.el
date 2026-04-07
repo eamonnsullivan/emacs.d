@@ -68,6 +68,8 @@
   (setq straight-find-executable "/opt/homebrew/opt/findutils/libexec/gnubin/find")))
 
 (setq load-prefer-newer t) ;; load newest of byte-compiled/text
+(when (native-comp-available-p)
+  (setq native-comp-async-report-warnings-errors 'silent))
 
 (defmacro when-available (func foo)
   "*Do something if FUNCTION is available."

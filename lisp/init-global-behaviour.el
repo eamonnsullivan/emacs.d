@@ -73,6 +73,8 @@
   (electric-pair-mode)
   (global-subword-mode)
   (delete-selection-mode)
+  (setopt savehist-additional-variables
+          '(search-ring regexp-search-ring kill-ring))
   (require 'info)
   (info-initialize)
   (push "/opt/homebrew/share/info/" Info-directory-list)
@@ -129,6 +131,11 @@
   (use-short-answers t)
   (isearch-lazy-count t)
   (auto-save-default nil)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (save-interprogram-paste-before-kill t)
+  (redisplay-skip-fontification-on-input t)
+  (kill-do-not-save-duplicates t)
+  (window-combination-resize t)
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)

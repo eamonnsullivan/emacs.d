@@ -62,6 +62,11 @@ With PRUNE, prune the build cache and the build directory."
     (when (y-or-n-p "Update all available packages?")
       (straight-pull-all))))
 
+(defun eds/reset-face-height ()
+  "Reset the default face height to the default value."
+  (interactive)
+  (global-text-scale-adjust--default-height (face-attribute 'default :height)))
+
 (defhydra hydra-straight-helper (:hint nil)
   "
 _c_heck all       |_f_etch all     |_m_erge all      |_n_ormalize all   |p_u_sh all
@@ -104,8 +109,8 @@ _s_: zoom-out    _o_: open buffer on desktop  _l_: display line numbers
 
 _q_: quit this menu                         _r_: restart emacs
 "
-   ("g" default-text-scale-increase)
-   ("s" default-text-scale-decrease)
+   ("g" text-scale-increase)
+   ("s" text-scale-decrease)
    ("d" kill-all-buffers)
    ("l" global-display-line-numbers-mode)
    ("r" stop-and-restart-emacs)

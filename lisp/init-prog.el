@@ -113,5 +113,8 @@ programming."
   (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook el-mode-hook js-mode-hook ts-mode-hook))
                 (add-hook hook 'rainbow-mode)))
 
+(add-hook 'after-save-hook
+          #'executable-make-buffer-file-executable-if-script-p)
+
 (provide 'init-prog)
 ;;; init-prog.el ends here
