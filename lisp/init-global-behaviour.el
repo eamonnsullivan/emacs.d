@@ -136,6 +136,7 @@
   (redisplay-skip-fontification-on-input t)
   (kill-do-not-save-duplicates t)
   (window-combination-resize t)
+  (world-clock-time-format "%z %R	%a %d %b (%Z)")
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)
@@ -321,6 +322,15 @@
 
 (global-unset-key (kbd "M-q"))
 (global-set-key (kbd "M-q") 'eds/fill-paragraph-toggle)
+
+(setopt world-clock-list
+        '(("Europe/London" "London")
+          ("America/New_York" "Boston")
+          ("UTC" "UTC")
+          ("Europe/Paris" "Berlin")
+          ("America/Los_Angeles" "San Francisco")
+          ("Asia/Tokyo" "Tokyo")
+          ("Australia/Sydney" "Sydney")))
 
 ;; nice scrolling
 (setq scroll-margin 0
