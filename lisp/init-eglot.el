@@ -34,8 +34,8 @@
 
 (use-package eglot
   :config
-  (setopt read-process-output-max (* 4 1024 1024)) ; 4MB
   (setopt eglot-autoshutdown t
+          read-process-output-max (* 4 1024 1024) ; 4MB
           eglot-extend-to-xref t)
   ;; Needed for scala/metals only. See https://github.com/scalameta/metals/issues/8198
   ;; eglot-ignored-server-capabilites '(:documentOnTypeFormattingProvider :documentRangeFormattingProvider)

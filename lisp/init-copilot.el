@@ -38,6 +38,7 @@
   :ensure t
   :custom
   (copilot-chat-model "auto")
+  (copilot-chat-use-agent-mode t)
   :hook
   (prog-mode . copilot-mode)
   (prog-mode . copilot-nes-mode)

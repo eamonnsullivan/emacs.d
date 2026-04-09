@@ -1,13 +1,16 @@
 ;; -*- mode: elisp-byte-code-mode; lexical-binding: t -*-
 
-(package "init"
+(package "eds"
          "0.1"
-         "Initialization code for emacs")
+         "My small library of util code for emacs")
 
 (website-url "https://github.com/eamonnsullivan/emacs.d")
 (keywords "emacs" "config" "personal")
 
-(load-paths "." "./lisp/")
+(files "lisp/eds-blog.el"
+       "lisp/eds-email.el"
+       "lisp/eds-org.el"
+       "lisp/eds-utils.el")
 
 (source "gnu")
 (source "melpa")

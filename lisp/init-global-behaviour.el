@@ -141,6 +141,9 @@
   (kill-do-not-save-duplicates t)
   (window-combination-resize t)
   (world-clock-time-format "%z %R	%a %d %b (%Z)")
+  (reb-re-syntax 'string)
+  (help-window-select t)
+  (repeat-mode t)
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)
