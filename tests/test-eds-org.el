@@ -183,6 +183,10 @@
     (expect (eds-org/remove-title-boilerplate "Page Title - Passports - Confluence")
             :to-equal "Page Title"))
 
+  (it "removes the Miro suffix from the title"
+    (expect (eds-org/remove-title-boilerplate "Board Title - Miro")
+            :to-equal "Board Title")))
+
   (it "removes the Richard Rohr prefix from the title"
     (expect (eds-org/remove-title-boilerplate "Richard Rohr’s Daily Meditation: Meditation Title")
             :to-equal "Meditation Title")))
