@@ -185,7 +185,7 @@
 
   (it "removes the Miro suffix from the title"
     (expect (eds-org/remove-title-boilerplate "Board Title - Miro")
-            :to-equal "Board Title")))
+            :to-equal "Board Title"))
 
   (it "removes the Richard Rohr prefix from the title"
     (expect (eds-org/remove-title-boilerplate "Richard Rohr’s Daily Meditation: Meditation Title")
