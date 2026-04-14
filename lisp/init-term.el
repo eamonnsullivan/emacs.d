@@ -32,27 +32,20 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-;; visit-term
-;;
-;; I'm using libvterm now, which basically breaks this
+;; I'm using libvterm, which basically breaks this
 ;; functionality. You can't run C-<f2> again while in a vterm window.
+;; You have to rename the buffer first.
+
 (defun visit-term ()
-  "If the current buffer is:
-     1) a running vterm named vterm, rename it.
-     3) a non vterm, go to an already running vterm
-        or start a new one."
+  "If current buffer is the default `*vterm*`, prompt to rename it.
+Otherwise, create a new vterm buffer with the default base name."
   (interactive)
-  (let ((is-term (string= "vterm-mode" major-mode))
-        (anon-term (get-buffer "vterm")))
-    (if is-term
-        (if (string= "vterm" (buffer-name))
-            (call-interactively 'rename-buffer)
-          (if anon-term
-              (switch-to-buffer "vterm")
-            (vterm)))
-      (if anon-term
-          (switch-to-buffer "vterm")
-        (vterm)))))
+  (if (and (derived-mode-p 'vterm-mode)
+           (string= (buffer-name) "*vterm*"))
+      (let ((new-name (read-string "Rename *vterm* to: ")))
+        (unless (string-empty-p new-name)
+          (rename-buffer new-name t)))
+    (vterm)))
 
 (global-set-key (kbd "C-<f2>") 'visit-term)
 
