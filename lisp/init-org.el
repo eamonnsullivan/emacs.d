@@ -49,6 +49,7 @@
 
 (use-package org
   :straight t
+  :bind (("C-c u" . org-timestamp-inactive))
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
