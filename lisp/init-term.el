@@ -36,18 +36,9 @@
 ;; functionality. You can't run C-<f2> again while in a vterm window.
 ;; You have to rename the buffer first.
 
-(defun visit-term ()
-  "If current buffer is the default `*vterm*`, prompt to rename it.
-Otherwise, create a new vterm buffer with the default base name."
-  (interactive)
-  (if (and (derived-mode-p 'vterm-mode)
-           (string= (buffer-name) "*vterm*"))
-      (let ((new-name (read-string "Rename *vterm* to: ")))
-        (unless (string-empty-p new-name)
-          (rename-buffer new-name t)))
-    (vterm)))
+(require 'eds-utils)
 
-(global-set-key (kbd "C-<f2>") 'visit-term)
+(global-set-key (kbd "C-<f2>") 'eds-utils/visit-term)
 
 (use-package vterm
   :straight

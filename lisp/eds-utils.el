@@ -176,5 +176,16 @@ Remove characters that don't work in a filename."
                   (not (member (buffer-name buf) buffers-to-keep)))
                 buflist)))
 
+(defun eds-utils/visit-term ()
+  "If current buffer is the default `*vterm*`, prompt to rename it.
+Otherwise, create a new vterm buffer with the default base name."
+  (interactive)
+  (if (and (derived-mode-p 'vterm-mode)
+           (string= (buffer-name) "*vterm*"))
+      (let ((new-name (read-string "Rename *vterm* to: ")))
+        (unless (string-empty-p new-name)
+          (rename-buffer new-name t)))
+    (vterm)))
+
 (provide 'eds-utils)
 ;;; eds-utils.el ends here

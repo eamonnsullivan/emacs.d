@@ -171,5 +171,38 @@
       (expect (mapcar #'buffer-name (eds-utils/filter-buffer-list buffers))
               :to-equal '("*temp-buffer1*" "*temp-buffer2*")))))
 
+(describe "eds-utils/visit-term"
+  :var (vterm
+        derived-mode-p
+        buffer-name
+        read-string
+        rename-buffer)
+  (before-each
+    (fset vterm nil)
+    (fset derived-mode-p nil)
+    (fset buffer-name nil)
+    (fset read-string nil)
+    (fset rename-buffer nil))
+
+  (it "opens a new vterm buffer"
+    (spy-on 'vterm)
+    (eds-utils/visit-term)
+    (expect 'vterm :to-have-been-called))
+
+  (it "prompts for a buffer name if already in a vterm buffer"
+    (spy-on 'derived-mode-p :and-return-value t)
+    (spy-on 'buffer-name :and-return-value "*vterm*")
+    (spy-on 'read-string :and-return-value "my-term")
+    (spy-on 'rename-buffer)
+    (eds-utils/visit-term)
+    (expect 'read-string :to-have-been-called-with "Rename *vterm* to: ")
+    (expect 'rename-buffer :to-have-been-called-with "my-term" t))
+
+  (it "switches to the vterm buffer if it exists and we're not already in it"
+    (spy-on 'derived-mode-p :and-return-value nil)
+    (spy-on 'vterm)
+    (eds-utils/visit-term)
+    (expect 'vterm :to-have-been-called)))
+
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here
