@@ -36,15 +36,17 @@
 ;; functionality. You can't run C-<f2> again while in a vterm window.
 ;; You have to rename the buffer first.
 
-(require 'eds-utils)
+;;; Code:
 
-(global-set-key (kbd "C-<f2>") 'eds-utils/visit-term)
+(require 'eds-utils)
 
 (use-package vterm
   :straight
   (vterm :type git :host github :repo "akermu/emacs-libvterm")
   :bind
-  (("C-q" . vterm-send-next-key)))
+  (("C-q" . vterm-send-next-key)
+   ("C-c t n" . eds-utils/visit-term)
+   ("C-c t s" . eds-utils/ssh-term)))
 
 (provide 'init-term)
 ;;; init-term.el ends here

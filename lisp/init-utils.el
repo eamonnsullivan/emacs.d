@@ -185,7 +185,7 @@ x×X .,·°;:¡!¿?`'‘’   ÄAÃÀ TODO
 (defun search-internet (query-url prompt)
   "Open the search url constructed with the QUERY-URL.
 PROMPT sets the `read-string prompt."
-  (browse-url
+  (eww
    (concat query-url
            (url-hexify-string
             (if mark-active
@@ -199,10 +199,12 @@ PROMPT sets the `read-string prompt."
        (interactive)
        (search-internet ,search-engine-url ,search-engine-prompt)))
 
+(install-search-engine "duckduckgo" "https://duckduckgo.com/?q="                   "DuckDuckGo: ")
 (install-search-engine "wikipedia"  "http://en.wikipedia.org/wiki/Special:Search/" "Wikipedia: ")
 (install-search-engine "kagi"       "http://www.kagi.com/search?q="                "Kagi: ")
 (install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
 
+(global-set-key (kbd "C-c C-/ d") 'search-duckduckgo)
 (global-set-key (kbd "C-c C-/ k") 'search-kagi)
 (global-set-key (kbd "C-c C-/ g") 'search-github)
 (global-set-key (kbd "C-c C-/ w") 'search-wikipedia)

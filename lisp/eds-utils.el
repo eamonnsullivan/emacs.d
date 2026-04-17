@@ -187,5 +187,13 @@ Otherwise, create a new vterm buffer with the default base name."
           (rename-buffer new-name t)))
     (vterm)))
 
+(defun eds-utils/ssh-term (host)
+  "Open a new vterm buffer and ssh into HOST."
+  (interactive "sSSH to host: ")
+  (let ((buffer-name (format "*ssh-%s*" host)))
+    (vterm buffer-name)
+    (vterm-send-string (format "ssh %s" host))
+    (vterm-send-return)))
+
 (provide 'eds-utils)
 ;;; eds-utils.el ends here

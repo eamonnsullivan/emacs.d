@@ -213,5 +213,23 @@
     (expect 'read-string :to-have-been-called-with "Rename *vterm* to: ")
     (expect 'rename-buffer :not :to-have-been-called)))
 
+(describe "eds-utils/ssh-term"
+  :var (vterm
+        vterm-send-string
+        vterm-send-return)
+  (before-each
+    (fset vterm nil)
+    (fset vterm-send-string nil)
+    (fset vterm-send-return nil))
+
+  (it "opens a new vterm buffer with the ssh command"
+    (spy-on 'vterm)
+    (spy-on 'vterm-send-string)
+    (spy-on 'vterm-send-return)
+    (eds-utils/ssh-term "example.com")
+    (expect 'vterm :to-have-been-called)
+    (expect 'vterm-send-string :to-have-been-called-with "ssh example.com")
+    (expect 'vterm-send-return :to-have-been-called)))
+
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here
