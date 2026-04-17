@@ -44,9 +44,7 @@
   :straight
   (vterm :type git :host github :repo "akermu/emacs-libvterm")
   :bind
-  (("C-<f2>" . visit-term))
-  :config
-  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key))
+  (("C-q" . vterm-send-next-key)))
 
 (provide 'init-term)
 ;;; init-term.el ends here

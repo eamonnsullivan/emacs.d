@@ -202,7 +202,16 @@
     (spy-on 'derived-mode-p :and-return-value nil)
     (spy-on 'vterm)
     (eds-utils/visit-term)
-    (expect 'vterm :to-have-been-called)))
+    (expect 'vterm :to-have-been-called))
+
+  (it "doesn't rename buffer if user doesn't input a name"
+    (spy-on 'derived-mode-p :and-return-value t)
+    (spy-on 'buffer-name :and-return-value "*vterm*")
+    (spy-on 'read-string :and-return-value "")
+    (spy-on 'rename-buffer)
+    (eds-utils/visit-term)
+    (expect 'read-string :to-have-been-called-with "Rename *vterm* to: ")
+    (expect 'rename-buffer :not :to-have-been-called)))
 
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here
