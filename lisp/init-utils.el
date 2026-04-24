@@ -209,5 +209,95 @@ PROMPT sets the `read-string prompt."
 (global-set-key (kbd "C-c C-/ g") 'search-github)
 (global-set-key (kbd "C-c C-/ w") 'search-wikipedia)
 
+(use-package trust-manager
+  :straight t
+  :if (display-graphic-p)
+  :commands (trust-manager-list trust-manager-add trust-manager-remove trust-manager-clear))
+
+(use-package kirigami
+  :commands (kirigami-open-fold
+             kirigami-open-fold-rec
+             kirigami-close-fold
+             kirigami-toggle-fold
+             kirigami-open-folds
+             kirigami-close-folds-except-current
+             kirigami-close-folds)
+
+  :bind
+  ;; Vanilla Emacs keybindings
+  (("C-c z o" . kirigami-open-fold)          ; Open fold at point
+   ("C-c z O" . kirigami-open-fold-rec)      ; Open fold recursively
+   ("C-c z r" . kirigami-open-folds)         ; Open all folds
+   ("C-c z c" . kirigami-close-fold)         ; Close fold at point
+   ("C-c z m" . kirigami-close-folds)        ; Close all folds
+   ("C-c z a" . kirigami-toggle-fold)))      ; Toggle fold at point
+
+(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
+(add-hook 'conf-mode-hook #'outline-minor-mode)
+
+(use-package treesit-fold
+  :commands (treesit-fold-close
+             treesit-fold-close-all
+             treesit-fold-open
+             treesit-fold-toggle
+             treesit-fold-open-all
+             treesit-fold-mode
+             global-treesit-fold-mode
+             treesit-fold-open-recursively
+             treesit-fold-line-comment-mode)
+
+  :custom
+  (treesit-fold-line-count-show t)
+  (treesit-fold-line-count-format " ▼")
+
+  :config
+  (set-face-attribute 'treesit-fold-replacement-face nil
+                      :foreground "#808080"
+                      :box nil
+                      :weight 'bold))
+
+(use-package outline-indent
+  :commands outline-indent-minor-mode
+  :custom
+  (outline-indent-ellipsis " ▼"))
+
+;; Python
+(add-hook 'python-mode-hook #'outline-indent-minor-mode)
+(add-hook 'python-ts-mode-hook #'outline-indent-minor-mode)
+
+;; Yaml
+(add-hook 'yaml-mode-hook #'outline-indent-minor-mode)
+(add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode)
+
+;; Haskell
+(add-hook 'haskell-mode-hook #'outline-indent-minor-mode)
+
+;; Hooks
+(add-hook 'markdown-mode-hook #'outline-minor-mode)
+
+;; Systems and General Purpose
+(add-hook 'c-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'c++-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'java-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'rust-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'go-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'ruby-ts-mode-hook #'treesit-fold-mode)
+
+;; Web and Frontend
+(add-hook 'js-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'typescript-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'tsx-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'css-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'html-ts-mode-hook #'treesit-fold-mode)
+
+;; Scripting and Infrastructure
+(add-hook 'bash-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'cmake-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'dockerfile-ts-mode-hook #'treesit-fold-mode)
+
+;; Data and Configuration
+(add-hook 'json-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'toml-ts-mode-hook #'treesit-fold-mode)
+
 (provide 'init-utils)
 ;;; init-utils.el ends here

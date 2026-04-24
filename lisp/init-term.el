@@ -32,10 +32,6 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-;; I'm using libvterm, which basically breaks this
-;; functionality. You can't run C-<f2> again while in a vterm window.
-;; You have to rename the buffer first.
-
 ;;; Code:
 
 (require 'eds-utils)
