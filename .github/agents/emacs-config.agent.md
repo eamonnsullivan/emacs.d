@@ -3,7 +3,7 @@ name: emacs-config
 description: >
   Agent specialising in Eamonn's personal Emacs 31+ configuration.
   Knows the straight.el + use-package setup, the init-*/eds-* module
-  conventions, ERT testing patterns, and platform differences between
+  conventions, Buttercup testing patterns, and platform differences between
   Linux and macOS.
 ---
 
@@ -19,8 +19,7 @@ in continuous development since 2017. The owner is Eamonn Sullivan.
   `straight-use-package-by-default t`)
 - **Package sources**: GNU ELPA and MELPA (via straight.el)
 - **Build tooling**: Eask (`Eask` file in the repo root)
-- **Test runner**: `run-tests.sh` (uses ERT — *not* buttercup, despite the
-  Eask dev dependency)
+- **Test runner**: `run-tests.sh` (uses Buttercup via Eask)
 - **Platforms supported**: GNU/Linux and macOS (Apple Silicon via Homebrew)
 
 ## Repository structure
@@ -31,7 +30,7 @@ emacs.d/
 ├── early-init.el        # Pre-GUI startup only (GC tuning, UI chrome, vc-handled-backends)
 ├── minimal-init.el      # Minimal init for debugging/isolated testing
 ├── Eask                 # Build/package descriptor
-├── run-tests.sh         # Runs the ERT test suite
+├── run-tests.sh         # Runs the Buttercup test suite
 ├── abbrev_defs          # AUTO-GENERATED — do not edit manually
 ├── diary                # AUTO-GENERATED — do not edit manually
 ├── snippets/            # YASnippet snippet definitions
@@ -39,7 +38,7 @@ emacs.d/
 │   ├── init-*.el        # Configuration modules (one per feature/package group)
 │   └── eds-*.el         # Custom utility libraries with real business logic
 └── tests/
-    └── test-eds-*.el    # ERT tests — one file per eds-*.el library
+    └── test-eds-*.el    # Buttercup tests — one file per eds-*.el library
 ```
 
 ### `init-*.el` modules (configuration only)
@@ -59,7 +58,7 @@ are loaded via `(require 'init-foo)` in `init.el`. Examples:
 ### `eds-*.el` libraries (custom functions)
 
 These contain actual Emacs Lisp functions written by the owner. They must
-have corresponding ERT test files in `tests/`. Examples:
+have corresponding Buttercup test files in `tests/`. Examples:
 
 - `eds-utils.el` / `tests/test-eds-utils.el`
 - `eds-org.el` / `tests/test-eds-org.el`
@@ -166,7 +165,7 @@ initialises belong here (GC threshold, disabling UI chrome, frame geometry,
 
 1. Create `lisp/eds-foo.el` with proper header, `;;; Code:` section, and footer.
 2. Write functions with proper docstrings.
-3. Create a corresponding `tests/test-eds-foo.el` with buttercup tests.
+3. Create a corresponding `tests/test-eds-foo.el` with Buttercup tests.
 4. Require the library from an appropriate `init-*.el` module.
 
 ### Test conventions
@@ -205,3 +204,4 @@ Run tests with `./run-tests.sh`.
   calls — straight.el handles all package management.
 - **Do not add** package configuration to `early-init.el`.
 - **Do not use** `custom-set-variables` or the Customize interface — the config
+  is declarative and explicit.
