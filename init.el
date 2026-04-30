@@ -110,6 +110,7 @@
 (require 'init-platform)
 (require 'init-appearance)
 (require 'init-global-behaviour)
+(require 'init-completion)
 (require 'init-corfu)
 (require 'init-prog)
 (require 'init-clojure)

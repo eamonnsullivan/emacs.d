@@ -154,6 +154,7 @@
                (replace-regexp-in-string " - Passports - Confluence$" "")
                (replace-regexp-in-string " - Product Group - Confluence$" "")
                (replace-regexp-in-string " - Miro$" "")
+               (replace-regexp-in-string " - Passports - BBC Confluence Cloud$" "")
                (replace-regexp-in-string "^Richard Rohr’s Daily Meditation: " "")))
 
 (provide 'eds-org)

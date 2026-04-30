@@ -249,5 +249,5 @@
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
 )
 
-(provide 'init-global-behaviour)
-;;; init-global-behaviour.el ends here
+(provide 'init-completion)
+;;; init-completion.el ends here

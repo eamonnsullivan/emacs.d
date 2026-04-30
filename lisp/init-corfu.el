@@ -46,8 +46,7 @@
   :init
   (global-corfu-mode)
   (corfu-history-mode)
-  (corfu-popupinfo-mode)
-  )
+  (corfu-popupinfo-mode))
 
 (use-package cape
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
@@ -67,8 +66,9 @@
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
   (add-hook 'completion-at-point-functions #'cape-history)
-  ;; ...
-)
+  (add-hook 'completion-at-point-functions
+  (mapcar #'cape-company-to-capf
+    (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (provide 'init-corfu)
 ;;; init-corfu.el ends here
