@@ -43,6 +43,10 @@
   (corfu-preview-current nil)    ;; Disable current candidate preview
   (corfu-preselect 'prompt)      ;; Preselect the prompt
   (corfu-on-exact-match 'insert) ;; Configure handling of exact matches
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-trigger ".") ;; Custom trigger characters
+  (corfu-quit-no-match 'separator) ;; or t
   :init
   (global-corfu-mode)
   (corfu-history-mode)

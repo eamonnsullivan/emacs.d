@@ -113,9 +113,14 @@
   :init
   (marginalia-mode))
 
-(straight-use-package 'prescient)
-(straight-use-package 'corfu-prescient)
-(straight-use-package 'vertico-prescient)
+(use-package prescient)
+(use-package corfu-prescient
+  :init
+  (corfu-prescient-mode))
+
+(use-package vertico-prescient
+  :init
+  (vertico-prescient-mode))
 
 (use-package embark
   :bind
