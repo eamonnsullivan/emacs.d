@@ -44,7 +44,6 @@
 ;; (use-package package-lint)
 
 (require 'init-flycheck)
-(require 'init-helm)
 
 (use-package
   cider
@@ -77,12 +76,6 @@
   :config
   (cljr-add-keybindings-with-prefix "C-c r")
   (setopt cljr-warn-on-eval nil))
-
-;; (use-package cljr-helm
-;;   :after clojure-mode)
-
-;; (use-package helm-cider
-;;   :hook ((cider-mode . helm-cider-mode)))
 
 (use-package cider-hydra
   :hook ((cider-mode . cider-hydra-mode))
