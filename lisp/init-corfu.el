@@ -38,41 +38,24 @@
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect 'prompt)      ;; Preselect the prompt
-  (corfu-on-exact-match 'insert) ;; Configure handling of exact matches
   (corfu-auto t)
   (corfu-auto-delay 0.2)
-  (corfu-auto-trigger ".") ;; Custom trigger characters
-  (corfu-quit-no-match 'separator) ;; or t
+  (corfu-quit-no-match 'separator)
   :init
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode))
 
 (use-package cape
-  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
-  ;; Press C-c p ? to for help.
-  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
-  ;; Alternatively bind Cape commands individually.
-  ;; :bind (("C-c p d" . cape-dabbrev)
-  ;;        ("C-c p h" . cape-history)
-  ;;        ("C-c p f" . cape-file)
-  ;;        ...)
+  :bind ("C-c p" . cape-prefix-map)
   :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.  The order of the functions matters, the
-  ;; first function returning a result wins.  Note that the list of buffer-local
-  ;; completion functions takes precedence over the global list.
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
   (add-hook 'completion-at-point-functions #'cape-history)
   (add-hook 'completion-at-point-functions
-  (mapcar #'cape-company-to-capf
-    (list #'company-files #'company-keywords #'company-dabbrev))))
+            (mapcar #'cape-company-to-capf
+                    (list #'company-files #'company-keywords #'company-dabbrev))))
 
 (provide 'init-corfu)
 ;;; init-corfu.el ends here
