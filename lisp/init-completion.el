@@ -36,9 +36,9 @@
 
 (use-package vertico
   :custom
-  (vertico-count 20)
-  (vertico-resize t)
-  (vertico-cycle t)
+  ;; (vertico-count 20)
+  ;; (vertico-resize t)
+  ;; (vertico-cycle t)
   (vertico-multiform-commands
    '((embark-act grid)
      (consult-line buffer)
@@ -85,18 +85,8 @@
   (orderless-define-completion-style +orderless-with-initialism
     (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
 
-  ;; Certain dynamic completion tables (completion-table-dynamic) do not work
-  ;; properly with orderless. One can add basic as a fallback.  Basic will only
-  ;; be used when orderless fails, which happens only for these special
-  ;; tables. Also note that you may want to configure special styles for special
-  ;; completion categories, e.g., partial-completion for files.
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        ;;; Enable partial-completion for files.
-        ;;; Either give orderless precedence or partial-completion.
-        ;;; Note that completion-category-overrides is not really an override,
-        ;;; but rather prepended to the default completion-styles.
-        ;; completion-category-overrides '((file (styles orderless partial-completion))) ;; orderless is tried first
         completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
                                         ;; enable initialism by default for symbols
                                         (command (styles +orderless-with-initialism))
@@ -132,30 +122,15 @@
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
 
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
   (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
   ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
   (context-menu-mode 1)
-  (add-hook 'context-menu-functions #'embark-context-menu 100)
+  (add-hook 'context-menu-functions #'embark-context-menu 100))
 
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
-;; Consult users will also want the embark-consult package.
 (use-package embark-consult)
 
-;; Example configuration for Consult
 (use-package consult
   ;; Replace bindings. Lazily loaded by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
@@ -195,7 +170,7 @@
          ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
-         ;; ("s-F"   . consult-git-grep)
+         ("s-F"   . consult-ripgrep)
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
@@ -213,48 +188,21 @@
          ("M-s" . consult-history)                 ;; orig. next-matching-history-element
          ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
-  ;; The :init configuration is always executed (Not lazy)
   :init
-
-  ;; Tweak the register preview for `consult-register-load',
-  ;; `consult-register-store' and the built-in commands.  This improves the
-  ;; register formatting, adds thin separator lines, register sorting and hides
-  ;; the window mode line.
-  (advice-add #'register-preview :override #'consult-register-window)
-  (setq register-preview-delay 0.5)
-
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-
-  ;; Configure other variables and modes in the :config section,
-  ;; after lazily loading the package.
   :config
-
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key "M-.")
-  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (setq consult-preview-key 'any)
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep consult-man
    consult-bookmark consult-recent-file consult-xref
    consult-source-bookmark consult-source-file-register
    consult-source-recent-file consult-source-project-recent-file
-   ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
 
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; "C-+"
-
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
-)
+  (setq consult-narrow-key "<"))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here
