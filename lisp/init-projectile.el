@@ -32,28 +32,21 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-(require 'helm)
-
 (use-package projectile
   :demand
   :diminish projectile-mode
   :init
-  (setopt projectile-completion-system 'helm
+  (setopt projectile-completion-system 'default
         projectile-switch-project-action 'projectile-find-file
         projectile-indexing-method 'alien)
-  (use-package helm-projectile
-    :after projectile
-    :config
-    (helm-projectile-on)
-    :bind (("C-c p p" . helm-projectile-switch-project)))
   :config
   (projectile-mode t)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
   (add-to-list 'projectile-globally-ignored-files "node-modules")
   (add-to-list 'projectile-globally-ignored-files "*.semanticdb")
   (add-to-list 'projectile-globally-ignored-files "*.db")
-  :bind   (("s-F" . helm-projectile-rg)
-           ("C-c p h" . helm-projectile-find-file)))
+  :bind   (("C-c p h" . projectile-find-file)
+           ("C-c p p". projectile-switch-project)))
 
 (provide 'init-projectile)
 ;;; init-projectile.el ends here

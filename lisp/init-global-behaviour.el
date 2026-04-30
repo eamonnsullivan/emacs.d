@@ -144,6 +144,15 @@
   (reb-re-syntax 'string)
   (help-window-select t)
   (repeat-mode t)
+  (context-menu-mode t)
+  (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  (tab-always-indent 'complete)
+  (text-mode-ispell-word-completion nil)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)
