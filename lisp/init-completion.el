@@ -41,10 +41,8 @@
   (vertico-cycle t)
   (vertico-multiform-commands
    '((embark-act grid)
-     (consult-line grid)
-     (consult-ripgrep grid)
-     (consult-grep grid)
-     (consult-git-grep grid)))
+     (consult-line buffer)
+     (consult-ripgrep buffer)))
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
