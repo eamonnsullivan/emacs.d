@@ -39,10 +39,12 @@
   (vertico-count 20)
   (vertico-resize t)
   (vertico-cycle t)
-  (vertico-multiform-categories
-   '((file (:keymap . vertico-directory-map)))
-   '((consult-grep buffer))
-   '((consult-git-grep buffer)))
+  (vertico-multiform-commands
+   '((embark-act grid)
+     (consult-line grid)
+     (consult-ripgrep grid)
+     (consult-grep grid)
+     (consult-git-grep grid)))
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
@@ -50,8 +52,8 @@
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :init
-  (vertico-mode)
-  (vertico-multiform-mode))
+  (vertico-multiform-mode)
+  (vertico-mode))
 
 (use-package savehist
   :init
@@ -113,19 +115,21 @@
   :init
   (marginalia-mode))
 
-(use-package prescient)
-(use-package corfu-prescient
-  :init
-  (corfu-prescient-mode))
+(use-package prescient
+  :custom
+  (prescient-filter-method '(literal regexp initialism fuzzy))
+  (prescient-persist-mode t))
 
-(use-package vertico-prescient
-  :init
-  (vertico-prescient-mode))
+(use-package corfu-prescient)
+
+(use-package vertico-prescient)
 
 (use-package embark
+  :custom
+  (embark-help-key "?")
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-;" . embark-dwim)
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
