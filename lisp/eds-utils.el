@@ -195,5 +195,24 @@ Otherwise, create a new vterm buffer with the default base name."
     (vterm-send-string (format "ssh %s" host))
     (vterm-send-return)))
 
+;; Got this from Postelaos: https://protesilaos.com/codelog/2026-04-30-emacs-decent-default-sacha-chua/
+(defun eds-utils/keyboard-quit-dwim ()
+    "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+
+- When the region is active, disable it.
+- When a minibuffer is open, but not focused, close the minibuffer.
+- When the Completions buffer is selected, close it.
+- In every other case use the regular `keyboard-quit'."
+    (interactive)
+    (cond
+     ((region-active-p)
+      (keyboard-quit))
+     ((derived-mode-p 'completion-list-mode)
+      (delete-completion-window))
+     ((> (minibuffer-depth) 0)
+      (abort-recursive-edit))
+     (t
+      (keyboard-quit))))
+
 (provide 'eds-utils)
 ;;; eds-utils.el ends here

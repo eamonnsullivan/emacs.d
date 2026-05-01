@@ -54,6 +54,7 @@
   (("M-o" . other-window)
    ("M-j" . duplicate-dwim)
    ("M-s g" . grep)
+   ("C-g" . eds-utils/keyboard-quit-dwim)
    ("C-x ;" . comment-line)
    ("C-x w t"  . window-layout-transpose)            ; EMACS-31
    ("C-x w r"  . window-layout-rotate-clockwise)     ; EMACS-31
@@ -133,6 +134,7 @@
   (auth-source "~/.authinfo.gpg")
   (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
   (use-short-answers t)
+  (read-answer-short t)
   (isearch-lazy-count t)
   (auto-save-default nil)
   (read-extended-command-predicate #'command-completion-default-include-p)
@@ -153,6 +155,19 @@
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
+  (custom-safe-themes t)
+  (find-library-include-other-files nil)
+  (dired-kill-when-opening-new-dired-buffer t)
+  (dired-auto-revert-buffer #'dired-directory-changed-p) ; also see `dired-do-revert-buffer'
+  (dired-clean-up-buffers-too t)
+  (dired-clean-confirm-killing-deleted-buffers t)
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  (delete-by-moving-to-trash t)
+  (dired-create-destination-dirs 'ask)
+  (dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
+  (wdired-create-parent-directories t)
+
   :hook
   ((text-mode . (lambda ()
                   (visual-line-mode 1)
@@ -181,6 +196,74 @@
               sentence-end-double-space nil
               )
     (message (format "Directory does not exist: %s" backup-dir))))
+
+;;;; Diff
+(use-package diff
+  :ensure
+  :config
+  ;; You cannot expect the syntax highlighting of themes to look
+  ;; equally readabable against what typically are red and green
+  ;; backgrounds.  This should be opt-in by default, not opt-out.
+  (setq diff-font-lock-syntax nil))
+
+;;;; Ediff
+(use-package ediff
+  :ensure nil
+  :config
+  ;; Ediff is virtually unusable without those.  Especially on tiling
+  ;; window managers.  But even on a regular desktop environment it is
+  ;; confusing and cumbersome to have the control panel in another
+  ;; frame.
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
+;;;; SHR
+(use-package shr
+  :ensure nil
+  :config
+  ;; t is bad for accessibility and generally awkward for HTML email
+  ;; (especially with dark themes).
+  (setq shr-use-colors nil)
+  ;; This option should not exist, given `variable-pitch-mode'.
+  ;; Furthermore, its default value runs counter to almost everything
+  ;; else in Emacs which just uses the `default' face.
+  (setq shr-use-fonts nil))
+
+;; Always focus common ancillary windows.  Place them in a window
+;; already occupied by their respective major mode or below the
+;; current window.
+(add-to-list 'display-buffer-alist
+             '((or . ((derived-mode . occur-mode)
+                      (derived-mode . grep-mode)
+                      (derived-mode . Buffer-menu-mode)
+                      (derived-mode . log-view-mode)
+                      (derived-mode . help-mode)))
+               (display-buffer-reuse-mode-window display-buffer-below-selected)
+               (body-function . select-window)))
+
+(add-to-list 'display-buffer-alist
+             '("\\`\\*\\(Org \\(Select\\|Note\\)\\|Agenda Commands\\)\\*\\'" ; the `org-capture' key selection, `org-add-log-note', and agenda dispatcher
+               (display-buffer-in-side-window)
+               (dedicated . t)
+               (side . bottom)
+               (slot . 0)
+               (window-parameters . ((mode-line-format . none)))))
+
+(add-to-list 'display-buffer-alist
+             '((derived-mode . calendar-mode)
+               (display-buffer-reuse-mode-window display-buffer-below-selected)
+               (mode . (calendar-mode bookmark-edit-annotation-mode ert-results-mode))
+               (inhibit-switch-frame . t)
+               (dedicated . t)
+               (window-height . fit-window-to-buffer)))
+
+(add-to-list 'display-buffer-alist
+             '((derived-mode . reb-mode) ; M-x re-builder
+               (display-buffer-reuse-mode-window display-buffer-below-selected)
+               (inhibit-switch-frame . t)
+               (window-height . 4) ; note this is literal lines, not relative
+               (dedicated . t)
+               (preserve-size . (t . t))))
 
 ;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
 (use-package flyspell

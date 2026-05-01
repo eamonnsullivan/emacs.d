@@ -41,8 +41,10 @@
   (corfu-auto t)
   (corfu-auto-delay 0.2)
   (corfu-quit-no-match 'separator)
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
   :init
-  (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode))
 
