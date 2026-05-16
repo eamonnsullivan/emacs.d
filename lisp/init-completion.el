@@ -106,7 +106,9 @@
 (use-package prescient
   :custom
   (prescient-filter-method '(literal regexp initialism fuzzy))
-  (prescient-persist-mode t))
+  (prescient-persist-mode t)
+  (prescient-use-case-folding 'smart)
+  (prescient-character-folding t))
 
 (use-package corfu-prescient)
 

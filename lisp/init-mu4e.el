@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (use-package mu4e
   :straight
   (:local-repo "/opt/homebrew/share/emacs/site-lisp/mu/mu4e"

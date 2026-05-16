@@ -111,6 +111,7 @@ _SPC_ cancel
 
 (key-chord-define-global "XX" 'calendar)
 (key-chord-define-global "II" 'mu4e)
+(key-chord-define-global "FF" 'elfeed)
 
 
 (provide 'init-global-bindings)

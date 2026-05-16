@@ -144,5 +144,6 @@
 (require 'init-testing)
 (require 'init-blogging)
 (require 'init-elisp)
+(require 'init-elfeed)
 (provide 'init)
 ;;; init.el ends here
