@@ -159,6 +159,19 @@
                (replace-regexp-in-string " - Passports - BBC Confluence Cloud$" "")
                (replace-regexp-in-string "^Richard Rohr’s Daily Meditation: " "")))
 
+(defun eds-org/maybe-add-filetags (key url)
+  "Add some tags to the capture buffer based on the KEY for the template
+being used and the URL that we're capturing."
+  (message "Key: %s, URL: %s" key url)
+  (when (equal key "r")
+    (when-let* ((tags (cond
+                      ((string-match-p "bbc.atlassian.net/browse" url) '("jira"))
+                      ((string-match-p "dropbox.com" url) '("docs"))
+                      ((string-match-p "miro.com/app/board" url) '("miro")))))
+      (save-excursion
+        (goto-char (point-min))
+        (vulpea-buffer-tags-add tags)))))
+
 (provide 'eds-org)
 
 ;;; eds-org.el ends here

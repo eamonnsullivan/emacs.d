@@ -133,6 +133,14 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
+  ;; I want to add filetags to capture templates, but not sure what
+  ;; hook to use. There's a prepare, before and after version of this
+  ;; hook. I've tried all three and the all seem to work roughly the
+  ;; same, so I'll stick with it for now.
+  (add-hook 'org-capture-before-finalize-hook
+            (lambda ()
+              (eds-org/maybe-add-filetags (plist-get org-capture-plist :key)
+                                          (plist-get org-capture-plist :annotation))))
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
                 #'org-roam-reflinks-section

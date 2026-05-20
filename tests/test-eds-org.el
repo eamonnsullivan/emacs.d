@@ -191,6 +191,33 @@
     (expect (eds-org/remove-title-boilerplate "Richard Rohr’s Daily Meditation: Meditation Title")
             :to-equal "Meditation Title")))
 
+(describe "eds-org/maybe-add-filetags"
+  :var (vulpea-buffer-tags-add)
+  (before-all
+    (fset 'vulpea-buffer-tags-add (lambda (tags) nil)))
+
+  (before-each
+    (spy-on 'vulpea-buffer-tags-add))
+
+  (it "adds 'jira' tag when the capture key is 'r' and the URL looks like a Jira ticket"
+    (eds-org/maybe-add-filetags "r" "https://bbc.atlassian.net/browse/PROJ-123")
+    (expect 'vulpea-buffer-tags-add :to-have-been-called-with '("jira")))
+
+  (it "adds 'docs' tag when the capture key is 'r' and the URL looks like a Dropbox link"
+    (eds-org/maybe-add-filetags "r" "https://www.dropbox.com/s/example/document")
+    (expect 'vulpea-buffer-tags-add :to-have-been-called-with '("docs")))
+
+  (it "adds 'miro' tag when the capture key is 'r' and the URL looks like a Miro link"
+    (eds-org/maybe-add-filetags "r" "https://miro.com/app/board/uXjVOVtZz3I=/")
+    (expect 'vulpea-buffer-tags-add :to-have-been-called-with '("miro")))
+
+  (it "doesn't add tags when the capture key is 'r' but the URL doesn't match known patterns"
+    (eds-org/maybe-add-filetags "r" "https://example.com/some-page")
+    (expect 'vulpea-buffer-tags-add :not :to-have-been-called))
+
+  (it "doesn't add tags when the capture key is not 'r'"
+    (eds-org/maybe-add-filetags "x" "https://bbc.atlassian.net/browse/PROJ-123")
+    (expect 'vulpea-buffer-tags-add :not :to-have-been-called)))
 
 (provide 'test-eds-org)
 ;;; test-eds-org.el ends here
