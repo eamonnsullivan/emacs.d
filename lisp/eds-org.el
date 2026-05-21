@@ -166,6 +166,7 @@ being used and the URL that we're capturing."
   (when (equal key "r")
     (when-let* ((tags (cond
                       ((string-match-p "bbc.atlassian.net/browse" url) '("jira"))
+                      ((string-match-p "bbc.atlassian.net/wiki" url) '("confluence"))
                       ((string-match-p "dropbox.com" url) '("docs"))
                       ((string-match-p "miro.com/app/board" url) '("miro")))))
       (save-excursion
