@@ -351,10 +351,6 @@
   :config
   (which-key-posframe-mode 1))
 
-(use-package discover-my-major
-  :bind (("C-h M-m" . discover-my-major)
-         ("C-h M-M" . discover-my-mode)))
-
 ;; font scaling
 (use-package default-text-scale)
 

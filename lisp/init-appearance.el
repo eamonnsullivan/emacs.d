@@ -174,6 +174,7 @@
                                           ef-deuteranopia-light
                                           ef-eagle
                                           ef-kassio
+                                          ef-arcadia
                                           ef-tritanopia-light))
                              ("13:00" . (ef-maris-light
                                          ef-arbutus
@@ -195,6 +196,7 @@
                                          ef-fig
                                          ef-dream
                                          ef-autumn
+                                         ef-atlantis
                                          ef-cherie
                                          ef-deuteranopia-dark))
                              ("22:00" . (ef-winter
