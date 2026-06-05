@@ -124,7 +124,7 @@
   (ring-bell-function 'ignore)
   (track-eol t)
   (line-move-visual nil)
-  (visible-bell)
+  (visible-bell t)
   (warning-suppress-log-types '((comp)))
   (package-install-upgrade-built-in t)
   (calendar-date-style 'european)
@@ -376,15 +376,14 @@
 
 (use-package pomidor
   :bind (("<f12>" . pomidor))
-  :config (setopt pomidor-sound-tick nil
-                  pomidor-sound-tack nil
-                  pomidor-sound-overwork (expand-file-name (concat pomidor-dir "overwork.wav")))
-  :hook (pomidor-mode . (lambda ()
-                          (display-line-numbers-mode -1) ; Emacs 26.1+
-                          (setopt left-fringe-width 0 right-fringe-width 0)
-                          (setopt left-margin-width 2 right-margin-width 0)
-                          ;; force fringe update
-                          (set-window-buffer nil (current-buffer)))))
+  :config (setq pomidor-sound-tick nil
+                pomidor-sound-tack nil
+                pomidor-play-sound-file
+                (lambda (file)
+                  (start-process "my-pomidor-play-sound"
+                                 nil
+                                 "mplayer"
+                                 file))))
 
 (use-package super-save
   :straight t
