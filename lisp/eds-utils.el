@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (require 'eds-org)
 
 (defun eds-utils/extract-jira-ticket (input)

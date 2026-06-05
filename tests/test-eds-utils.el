@@ -231,5 +231,49 @@
     (expect 'vterm-send-string :to-have-been-called-with "ssh example.com")
     (expect 'vterm-send-return :to-have-been-called)))
 
+(describe "eds-utils/keyboard-quit-dwim"
+  :var (region-active-p
+        keyboard-quit
+        derived-mode-p
+        delete-completion-window
+        minibuffer-depth
+        abort-recursive-edit)
+  (before-each
+    ;; Ensure all symbols are fbound for spying.
+    (fset region-active-p nil)
+    (fset keyboard-quit nil)
+    (fset derived-mode-p nil)
+    (fset delete-completion-window nil)
+    (fset minibuffer-depth nil)
+    (fset abort-recursive-edit nil))
+
+  (it "calls `keyboard-quit' when the region is active"
+    (spy-on 'region-active-p :and-return-value t)
+    (spy-on 'keyboard-quit)
+    (eds-utils/keyboard-quit-dwim)
+    (expect 'keyboard-quit :to-have-been-called)
+    ;; Ensure we don't take other branches.
+    (expect 'delete-completion-window :not :to-have-been-called)
+    (expect 'abort-recursive-edit :not :to-have-been-called))
+
+  (it "deletes the completion window when in `completion-list-mode'"
+    (spy-on 'region-active-p :and-return-value nil)
+    (spy-on 'derived-mode-p :and-call-fake (lambda (mode) (eq mode 'completion-list-mode)))
+    (spy-on 'delete-completion-window)
+    (eds-utils/keyboard-quit-dwim)
+    (expect 'delete-completion-window :to-have-been-called)
+    (expect 'abort-recursive-edit :not :to-have-been-called)
+    (expect 'keyboard-quit :not :to-have-been-called))
+
+  (it "aborts recursive edit when minibuffer depth is greater than zero"
+    (spy-on 'region-active-p :and-return-value nil)
+    (spy-on 'derived-mode-p :and-return-value nil)
+    (spy-on 'minibuffer-depth :and-return-value 1)
+    (spy-on 'abort-recursive-edit)
+    (eds-utils/keyboard-quit-dwim)
+    (expect 'abort-recursive-edit :to-have-been-called)
+    (expect 'delete-completion-window :not :to-have-been-called)
+    (expect 'keyboard-quit :not :to-have-been-called)))
+
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here
