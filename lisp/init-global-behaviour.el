@@ -407,7 +407,7 @@
     (setopt fill-paragraph-state nil))
   (let (deactivate-mark)
     (cl-case fill-paragraph-state
-      ('fill-paragraph
+      (fill-paragraph
        (call-interactively 'unfill-paragraph)
        (setopt fill-paragraph-state 'unfill-paragraph))
       (t
