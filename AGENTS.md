@@ -4,8 +4,7 @@ Short guide for automated agents working on this repo.
 
 Build / test / lint:
 - Run full test suite: ./run-tests.sh
-- Run a single test file: ./run-tests.sh tests/test-eds-foo.el  # replace filename
-- Byte-compile & check: emacs -Q --batch -f batch-byte-compile lisp/*.el
+- Run a subset of tests by name pattern: ./run-tests.sh <pattern>  # e.g. ./run-tests.sh eds-utils
 
 Style rules (quick):
 - Files: header with "-*- lexical-binding: t; -*-" and trailing provide + footer.

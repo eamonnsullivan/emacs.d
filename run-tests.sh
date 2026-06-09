@@ -1,4 +1,12 @@
 #!/bin/sh
 
-UNDERCOVER_FORCE=true eask -q --log-file --verbose 5 test buttercup
-# UNDERCOVER_FORCE=true eask -q  exec buttercup -L .
+# Usage: ./run-tests.sh [pattern]
+# If a pattern is provided, it will be forwarded to buttercup's --pattern option.
+
+PATTERN="$1"
+
+if [ -n "$PATTERN" ]; then
+  UNDERCOVER_FORCE=true eask -g exec buttercup --pattern "$PATTERN" -L .
+else
+  UNDERCOVER_FORCE=true eask -g exec buttercup -L .
+fi
