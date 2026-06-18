@@ -36,14 +36,22 @@
 
 (require 'eds-utils)
 
-(use-package vterm
-  :straight
-  (vterm :type git :host github :repo "akermu/emacs-libvterm")
-  :bind
-  (("C-c t n" . eds-utils/visit-term)
-   ("C-c t s" . eds-utils/ssh-term))
+(use-package ghostel
+  :vc (:url "https://github.com/dakra/ghostel"
+       :rev :newest)
+  :bind (("C-c t n" . eds-utils/visit-term)
+         ("C-c t s" . eds-utils/ssh-term)
+         :map ghostel-semi-char-mode-map
+         ("C-s"  . consult-line)
+         ("M-<backspace>" . ghostel-backward-kill-word))
   :config
-  (define-key vterm-mode-map (kbd "C-q") #'vterm-send-next-key))
+  (setq ghostel-tramp-shell-integration t)
+  (defun ghostel-send-C-k-and-kill ()
+    "Send `C-k' to ghostel.
+Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+    (interactive)
+    (kill-ring-save (point) (line-end-position))
+    (ghostel-send-key "k" "ctrl")))
 
 (provide 'init-term)
 ;;; init-term.el ends here

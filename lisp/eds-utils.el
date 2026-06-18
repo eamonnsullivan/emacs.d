@@ -182,20 +182,20 @@ Remove characters that don't work in a filename."
   "If current buffer is the default `*vterm*`, prompt to rename it.
 Otherwise, create a new vterm buffer with the default base name."
   (interactive)
-  (if (and (derived-mode-p 'vterm-mode)
-           (string= (buffer-name) "*vterm*"))
-      (let ((new-name (read-string "Rename *vterm* to: ")))
+  (if (and (derived-mode-p 'ghostel-mode)
+           (string= (buffer-name) "*ghostel*"))
+      (let ((new-name (read-string "Rename *ghostel* to: ")))
         (unless (string-empty-p new-name)
           (rename-buffer new-name t)))
-    (vterm)))
+    (ghostel)))
 
 (defun eds-utils/ssh-term (host)
   "Open a new vterm buffer and ssh into HOST."
   (interactive "sSSH to host: ")
   (let ((buffer-name (format "*ssh-%s*" host)))
-    (vterm buffer-name)
-    (vterm-send-string (format "ssh %s" host))
-    (vterm-send-return)))
+    (ghostel buffer-name)
+    (ghostel-send-string (format "ssh %s" host))
+    (ghostel-send-key "return")))
 
 ;; Got this from Postelaos: https://protesilaos.com/codelog/2026-04-30-emacs-decent-default-sacha-chua/
 (defun eds-utils/keyboard-quit-dwim ()
