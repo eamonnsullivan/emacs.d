@@ -34,32 +34,9 @@
 
 (require 'eds-blog)
 
-(use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init
-  (setopt markdown-command "pandoc")
-  :bind (("C-c C-e s" . eds-blog/make-svp-contact-link))
-  :config
-  (add-hook 'markdown-mode-hook 'flyspell-mode))
-
-;; from http://yummymelon.com/devnull/import-markdown-to-org-with-the-clipboard-in-emacs.html
-(defun cc/yank-markdown-as-org ()
-  "Yank Markdown text as Org.
-
-This command will convert Markdown text in the top of the `kill-ring'
-and convert it to Org using the pandoc utility."
-  (interactive)
-  (save-excursion
-    (with-temp-buffer
-      (yank)
-      (shell-command-on-region
-       (point-min) (point-max)
-       "pandoc -f markdown -t org --wrap=preserve" t t)
-      (kill-region (point-min) (point-max)))
-    (yank)))
+(use-package markdown-ts-mode
+  :straight t
+  :defer t)
 
 (provide 'init-markdown)
 ;;; init-markdown.el ends here

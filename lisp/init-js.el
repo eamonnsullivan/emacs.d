@@ -67,7 +67,7 @@
   :hook
   (typescript-ts-mode . prettier-mode)
   :config
-  (setopt prettier-mode-sync-config-flag nil))
+  (setopt prettier-mode-sync-config-flag t))
 
 (use-package eslintd-fix
   :hook ((typescript-ts-base-mode . eslintd-fix-mode)))

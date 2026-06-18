@@ -90,19 +90,7 @@ programming."
 (straight-use-package 'yapfify)
 (add-hook 'python-ts-mode-hook 'yapf-mode)
 
-
-(require 'treesit)
-
 (use-package haskell-mode)
-
-(use-package treesit-auto
-  :straight (treesit-auto
-             :type git
-             :host github
-             :repo "renzmann/treesit-auto"
-             :fork ( :host github
-                     :repo "noctuid/treesit-auto"
-                     :branch "bind-around-set-auto-mode-0")))
 
 (setopt treesit-font-lock-level 4)
 

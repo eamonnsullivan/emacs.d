@@ -92,6 +92,10 @@
   (recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory))
   (treesit-auto-install-grammar t) ; EMACS-31
   (treesit-enabled-modes t)        ; EMACS-31
+  (eldoc-help-at-pt t)             ; EMACS-31
+  (completion-eager-update t)               ;; EMACS-31
+  (completion-eager-display 'auto)          ;; EMACS-31
+  (minibuffer-visible-completions 'up-down) ;; EMACS-31
   (calendar-latitude 51.5)
   (calendar-longitude -0.12)
   (calendar-location-name "London, England")
@@ -424,7 +428,8 @@
           ("Europe/Paris" "Berlin")
           ("America/Los_Angeles" "San Francisco")
           ("Asia/Tokyo" "Tokyo")
-          ("Australia/Sydney" "Sydney")))
+          ("Australia/Sydney" "Sydney"))
+        world-clock-sort-order "%FT%T")
 
 ;; nice scrolling
 (setq scroll-margin 0
