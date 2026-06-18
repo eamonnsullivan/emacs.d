@@ -122,7 +122,6 @@
 (require 'init-abbrev)
 (require 'init-term)
 (require 'init-mc)
-(require 'init-markdown)
 (require 'init-server)
 (require 'init-eglot)
 (require 'init-flycheck)

@@ -32,9 +32,14 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+(require 'eds-blog)
 
 (use-package ox-hugo
   :after ox)
+
+(add-hook 'markdown-ts-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c C-e s") #'eds-blog/make-svp-contact-link)))
 
 (defun markdown-convert-buffer-to-org ()
   "Convert the current buffer's content from markdown to orgmode format and save it with the current buffer's file name but with .org extension."
