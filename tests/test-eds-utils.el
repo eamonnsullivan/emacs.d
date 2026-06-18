@@ -172,64 +172,64 @@
               :to-equal '("*temp-buffer1*" "*temp-buffer2*")))))
 
 (describe "eds-utils/visit-term"
-  :var (vterm
+  :var (ghostel
         derived-mode-p
         buffer-name
         read-string
         rename-buffer)
   (before-each
-    (fset vterm nil)
+    (fset ghostel nil)
     (fset derived-mode-p nil)
     (fset buffer-name nil)
     (fset read-string nil)
     (fset rename-buffer nil))
 
-  (it "opens a new vterm buffer"
-    (spy-on 'vterm)
+  (it "opens a new ghostel buffer"
+    (spy-on 'ghostel)
     (eds-utils/visit-term)
-    (expect 'vterm :to-have-been-called))
+    (expect 'ghostel :to-have-been-called))
 
-  (it "prompts for a buffer name if already in a vterm buffer"
+  (it "prompts for a buffer name if already in a ghostel buffer"
     (spy-on 'derived-mode-p :and-return-value t)
-    (spy-on 'buffer-name :and-return-value "*vterm*")
+    (spy-on 'buffer-name :and-return-value "*ghostel*")
     (spy-on 'read-string :and-return-value "my-term")
     (spy-on 'rename-buffer)
     (eds-utils/visit-term)
-    (expect 'read-string :to-have-been-called-with "Rename *vterm* to: ")
+    (expect 'read-string :to-have-been-called-with "Rename *ghostel* to: ")
     (expect 'rename-buffer :to-have-been-called-with "my-term" t))
 
-  (it "switches to the vterm buffer if it exists and we're not already in it"
+  (it "switches to the ghostel buffer if it exists and we're not already in it"
     (spy-on 'derived-mode-p :and-return-value nil)
-    (spy-on 'vterm)
+    (spy-on 'ghostel)
     (eds-utils/visit-term)
-    (expect 'vterm :to-have-been-called))
+    (expect 'ghostel :to-have-been-called))
 
   (it "doesn't rename buffer if user doesn't input a name"
     (spy-on 'derived-mode-p :and-return-value t)
-    (spy-on 'buffer-name :and-return-value "*vterm*")
+    (spy-on 'buffer-name :and-return-value "*ghostel*")
     (spy-on 'read-string :and-return-value "")
     (spy-on 'rename-buffer)
     (eds-utils/visit-term)
-    (expect 'read-string :to-have-been-called-with "Rename *vterm* to: ")
+    (expect 'read-string :to-have-been-called-with "Rename *ghostel* to: ")
     (expect 'rename-buffer :not :to-have-been-called)))
 
 (describe "eds-utils/ssh-term"
-  :var (vterm
-        vterm-send-string
-        vterm-send-return)
+  :var (ghostel
+        ghostel-send-string
+        ghostel-send-key)
   (before-each
-    (fset vterm nil)
-    (fset vterm-send-string nil)
-    (fset vterm-send-return nil))
+    (fset ghostel nil)
+    (fset ghostel-send-string nil)
+    (fset ghostel-send-key nil))
 
-  (it "opens a new vterm buffer with the ssh command"
-    (spy-on 'vterm)
-    (spy-on 'vterm-send-string)
-    (spy-on 'vterm-send-return)
+  (it "opens a new ghostel buffer with the ssh command"
+    (spy-on 'ghostel)
+    (spy-on 'ghostel-send-string)
+    (spy-on 'ghostel-send-key)
     (eds-utils/ssh-term "example.com")
-    (expect 'vterm :to-have-been-called)
-    (expect 'vterm-send-string :to-have-been-called-with "ssh example.com")
-    (expect 'vterm-send-return :to-have-been-called)))
+    (expect 'ghostel :to-have-been-called)
+    (expect 'ghostel-send-string :to-have-been-called-with "ssh example.com")
+    (expect 'ghostel-send-key :to-have-been-called-with "return")))
 
 (describe "eds-utils/keyboard-quit-dwim"
   :var (region-active-p
