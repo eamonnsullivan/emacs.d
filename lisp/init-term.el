@@ -37,15 +37,15 @@
 (require 'eds-utils)
 
 (use-package ghostel
-  :vc (:url "https://github.com/dakra/ghostel"
-       :rev :newest)
+  :straight (:host github :repo "dakra/ghostel")
   :bind (("C-c t n" . eds-utils/visit-term)
          ("C-c t s" . eds-utils/ssh-term)
          :map ghostel-semi-char-mode-map
          ("C-s"  . consult-line)
          ("M-<backspace>" . ghostel-backward-kill-word))
   :config
-  (setq ghostel-tramp-shell-integration t)
+  (setopt ghostel-tramp-shell-integration t
+          ghostel-module-auto-install 'download)
   (defun ghostel-send-C-k-and-kill ()
     "Send `C-k' to ghostel.
 Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."

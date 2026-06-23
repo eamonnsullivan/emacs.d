@@ -36,7 +36,5 @@
 (use-package undercover)
 (use-package coverage)
 
-(use-package el-mock)
-
 (provide 'init-testing)
 ;;; init-testing.el ends here

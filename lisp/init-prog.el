@@ -84,13 +84,8 @@ programming."
 
 (use-package graphql-mode)
 
-(use-package jupyter
-  :straight t)
-
 (straight-use-package 'yapfify)
 (add-hook 'python-ts-mode-hook 'yapf-mode)
-
-(use-package haskell-mode)
 
 (setopt treesit-font-lock-level 4)
 
