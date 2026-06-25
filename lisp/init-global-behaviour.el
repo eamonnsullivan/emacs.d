@@ -174,9 +174,7 @@
 
   :hook
   ((text-mode . (lambda ()
-                  (visual-line-mode 1)
-                  (visual-fill-column-mode 1)
-                  (visual-fill-column-toggle-center-text)))
+                  (visual-line-mode 1)))
    (before-save . delete-trailing-whitespace)))
 
 (require 'init-mu4e)
