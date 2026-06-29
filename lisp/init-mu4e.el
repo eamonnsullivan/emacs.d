@@ -177,7 +177,6 @@
         mu4e-headers-include-related nil
         mu4e-headers-show-threads nil
         mu4e-confirm-quit nil)
-  (add-hook 'completion-at-point-functions #'mu4e-complete-contact)
   (add-hook 'mu4e-compose-mode-hook 'corfu-mode)
   (add-hook 'message-send-mail-hook 'eds-email/set-msmtp-account)
   (add-to-list 'mu4e-view-actions

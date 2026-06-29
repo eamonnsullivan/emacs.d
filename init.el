@@ -130,6 +130,7 @@
 (require 'init-codestyle)
 (require 'init-crypt)
 (require 'init-eca)
+;; (require 'init-copilot)
 (require 'init-org)
 (require 'init-vulpea)
 (require 'init-global-bindings)
