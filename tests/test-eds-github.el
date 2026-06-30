@@ -79,15 +79,36 @@
 
   (describe "eds-github/--fetch-runs"
     (it "calls gh CLI and parses JSON output"
-      (spy-on 'shell-command-to-string
-              :and-return-value "[{\"databaseId\":1,\"name\":\"CI\",\"status\":\"completed\",\"conclusion\":\"success\",\"headBranch\":\"main\",\"event\":\"push\",\"startedAt\":\"2025-01-15T10:00:00Z\"}]")
-      (let ((runs (eds-github/--fetch-runs "owner/repo")))
+      (spy-on 'process-file
+              :and-call-fake
+              (lambda (&rest _args)
+                (insert "[{\"databaseId\":1,\"name\":\"CI\",\"status\":\"completed\",\"conclusion\":\"success\",\"headBranch\":\"main\",\"event\":\"push\",\"startedAt\":\"2025-01-15T10:00:00Z\"}]")
+                0))
+      (let* ((eds-github/run-limit 7)
+             (runs (eds-github/--fetch-runs "owner/repo")))
+        (expect 'process-file :to-have-been-called-with
+                "gh" nil t nil
+                "run" "list"
+                "--repo" "owner/repo"
+                "--json" "databaseId,name,status,conclusion,headBranch,event,startedAt"
+                "--limit" "7")
         (expect (length runs) :to-equal 1)
         (expect (alist-get 'name (aref runs 0)) :to-equal "CI")))
 
     (it "signals an error on empty output"
-      (spy-on 'shell-command-to-string :and-return-value "")
-      (expect (eds-github/--fetch-runs "owner/repo") :to-throw 'error)))
+      (spy-on 'process-file :and-return-value 0)
+      (expect (eds-github/--fetch-runs "owner/repo") :to-throw 'error))
+
+    (it "signals an error with gh output when gh fails"
+      (spy-on 'process-file
+              :and-call-fake
+              (lambda (&rest _args)
+                (insert "authentication failed")
+                1))
+      (condition-case err
+          (eds-github/--fetch-runs "owner/repo")
+        (error
+         (expect (error-message-string err) :to-match "authentication failed")))))
 
   (describe "eds-github/view-run-at-point"
     (it "opens the run in a browser via gh"
@@ -97,6 +118,14 @@
         (eds-github/view-run-at-point)
         (expect 'shell-command :to-have-been-called-with
                 "gh run view 42 --repo owner/repo --web")))
+
+    (it "escapes any dangerous characters in the shell command"
+      (spy-on 'tabulated-list-get-id :and-return-value 42)
+      (spy-on 'shell-command)
+      (let ((eds-github/--current-repo "owner/repo;evil"))
+        (eds-github/view-run-at-point)
+        (expect 'shell-command :to-have-been-called-with
+                "gh run view 42 --repo owner/repo\\;evil --web")))
 
     (it "signals an error when no run is at point"
       (spy-on 'tabulated-list-get-id :and-return-value nil)
@@ -123,6 +152,16 @@
         (eds-github/rerun-at-point)
         (expect 'shell-command :not :to-have-been-called)
         (expect 'revert-buffer :not :to-have-been-called)))
+
+    (it "escapes any dangerous characters in the shell command"
+      (spy-on 'tabulated-list-get-id :and-return-value 77)
+      (spy-on 'yes-or-no-p :and-return-value t)
+      (spy-on 'shell-command)
+      (spy-on 'revert-buffer)
+      (let ((eds-github/--current-repo "owner/repo;evil"))
+        (eds-github/rerun-at-point)
+        (expect 'shell-command :to-have-been-called-with
+                "gh run rerun 77 --repo owner/repo\\;evil")))
 
     (it "signals an error when no run is at point"
       (spy-on 'tabulated-list-get-id :and-return-value nil)
@@ -159,6 +198,16 @@
         (eds-github/cancel-at-point nil)
         (expect 'shell-command :not :to-have-been-called)
         (expect 'revert-buffer :not :to-have-been-called)))
+
+    (it "escapes any dangerous characters in the shell command"
+      (spy-on 'tabulated-list-get-id :and-return-value 55)
+      (spy-on 'yes-or-no-p :and-return-value t)
+      (spy-on 'shell-command)
+      (spy-on 'revert-buffer)
+      (let ((eds-github/--current-repo "owner/repo;evil"))
+        (eds-github/cancel-at-point nil)
+        (expect 'shell-command :to-have-been-called-with
+                "gh run cancel 55 --repo owner/repo\\;evil")))
 
     (it "signals an error when no run is at point"
       (spy-on 'tabulated-list-get-id :and-return-value nil)

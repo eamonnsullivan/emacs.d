@@ -26,6 +26,7 @@
 ;;; Code:
 
 (require 'json)
+(require 'subr-x)
 (require 'tabulated-list)
 
 (defvar eds-github/--current-repo nil
@@ -74,13 +75,18 @@
 (defun eds-github/--fetch-runs (repo)
   "Fetch workflow runs for REPO using the gh CLI.
 Returns a parsed JSON vector of run objects."
-  (let* ((cmd (format "gh run list --repo %s --json databaseId,name,status,conclusion,headBranch,event,startedAt --limit %d"
-                      (shell-quote-argument repo)
-                      eds-github/run-limit))
-         (output (shell-command-to-string cmd)))
-    (if (string-empty-p output)
-        (error "No output from gh CLI — is it installed and authenticated?")
-      (json-parse-string output :object-type 'alist))))
+  (with-temp-buffer
+    (let ((exit-code (process-file "gh" nil t nil
+                                   "run" "list"
+                                   "--repo" repo
+                                   "--json" "databaseId,name,status,conclusion,headBranch,event,startedAt"
+                                   "--limit" (number-to-string eds-github/run-limit)))
+          (output (string-trim (buffer-string))))
+      (unless (zerop exit-code)
+        (error "GitHub CLI run list failed: %s" output))
+      (if (string-empty-p output)
+          (error "No output from gh CLI — is it installed and authenticated?")
+        (json-parse-string output :object-type 'alist)))))
 
 (defun eds-github/--format-entry (run)
   "Format a single RUN alist into a `tabulated-list-entries' row."

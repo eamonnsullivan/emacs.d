@@ -69,7 +69,7 @@
   :bind ("C-c G h" . github-browse-file)
   :defer t)
 
-(require 'eds-github)
+(autoload 'eds-github/list-runs "eds-github" nil t)
 (global-set-key (kbd "C-c G a") #'eds-github/list-runs)
 
 (provide 'init-git)
