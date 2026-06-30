@@ -176,11 +176,10 @@ With prefix argument FORCE, pass --force to cancel even if completed."
 
 (defun eds-github/--default-repo ()
   "Attempt to determine the repo from the current git remote."
-  (require 'magit-git nil t)
-  (when (fboundp 'magit-get)
-    (let ((url (magit-get "remote" "origin" "url")))
-      (when (and url (string-match "github\\.com[:/]\\(.+?\\)\\(?:\\.git\\)?$" url))
-        (match-string 1 url)))))
+  (let ((url (ignore-errors
+               (car (process-lines "git" "config" "--get" "remote.origin.url")))))
+    (when (and url (string-match "github\\.com[:/]\\(.+?\\)\\(?:\\.git\\)?$" url))
+      (match-string 1 url))))
 
 ;;;###autoload
 (defun eds-github/list-runs (repo)
