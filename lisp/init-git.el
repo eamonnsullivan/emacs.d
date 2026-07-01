@@ -72,5 +72,8 @@
 (autoload 'eds-github/list-runs "eds-github" nil t)
 (global-set-key (kbd "C-c G a") #'eds-github/list-runs)
 
+(autoload 'eds-github/list-prs "eds-github" nil t)
+(global-set-key (kbd "C-c G p") #'eds-github/list-prs)
+
 (provide 'init-git)
 ;;; init-git.el ends here
