@@ -6,8 +6,7 @@
 
 ;;; Code:
 
-(require 'buttercup)
-(require 'eds-github)
+(load-file "tests/setup.el")
 
 (describe "eds-github"
 
