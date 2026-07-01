@@ -1,4 +1,4 @@
-;;; eds-github.el --- GitHub Actions integration -*- lexical-binding: t; -*-
+;;; eds-github.el --- GitHub integration -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026 Eamonn Sullivan <me@eamonnsullivan.co.uk>
 
@@ -6,7 +6,7 @@
 ;; Maintainer: Eamonn Sullivan <me@eamonnsullivan.co.uk>
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "28.1"))
-;; Keywords: tools, github, ci
+;; Keywords: tools, github, ci, pull-requests
 ;; URL: https://github.com/eamonnsullivan/emacs.d
 
 ;; This file is not part of GNU Emacs.
@@ -14,6 +14,7 @@
 ;;; Commentary:
 
 ;; List GitHub Actions workflow runs in a tabulated buffer.
+;; View and filter pull requests with in-buffer narrowing.
 ;; Requires the `gh` CLI tool to be installed and authenticated.
 
 ;;; Licence:
@@ -46,7 +47,7 @@
   :group 'eds-github)
 
 (defface eds-github/in-progress-face
-  '((t :foreground "#f1fa8c" :weight bold))
+  '((t :foreground "#ffc04d" :weight bold))
   "Face for in-progress workflow runs."
   :group 'eds-github)
 
@@ -196,6 +197,192 @@ Defaults to the current repository's GitHub remote if available."
       (eds-github/runs-mode)
       (setq-local eds-github/--current-repo repo)
       (eds-github/--refresh)
+      (tabulated-list-print t))
+    (pop-to-buffer buf)))
+
+;;; -----------------------------------------------------------------
+;;; Pull Requests
+;;; -----------------------------------------------------------------
+
+(defvar eds-github/pr-limit 30
+  "Maximum number of pull requests to fetch.")
+
+(defvar eds-github/pr-default-state "open"
+  "Default state filter for pull requests (\"open\", \"closed\", or \"all\").")
+
+(defvar-local eds-github/--pr-repo nil
+  "The repository currently displayed in the PRs buffer.")
+
+(defvar-local eds-github/--pr-state nil
+  "Current state filter for the PRs buffer.")
+
+(defvar-local eds-github/--pr-author nil
+  "Current author filter for the PRs buffer (nil means all).")
+
+(defface eds-github/pr-open-face
+  '((t :foreground "#50fa7b" :weight bold))
+  "Face for open pull requests."
+  :group 'eds-github)
+
+(defface eds-github/pr-closed-face
+  '((t :foreground "#ff5555" :weight bold))
+  "Face for closed pull requests."
+  :group 'eds-github)
+
+(defface eds-github/pr-merged-face
+  '((t :foreground "#bd93f9" :weight bold))
+  "Face for merged pull requests."
+  :group 'eds-github)
+
+(defun eds-github/--pr-state-face (state)
+  "Return a face for the given PR STATE string."
+  (cond
+   ((string= state "OPEN") 'eds-github/pr-open-face)
+   ((string= state "CLOSED") 'eds-github/pr-closed-face)
+   ((string= state "MERGED") 'eds-github/pr-merged-face)
+   (t 'default)))
+
+(defun eds-github/--fetch-prs (repo state &optional author)
+  "Fetch pull requests for REPO filtered by STATE and optionally AUTHOR.
+STATE should be \"open\", \"closed\", or \"all\".
+Returns a parsed JSON vector of PR objects."
+  (with-temp-buffer
+    (let* ((args (list "pr" "list"
+                       "--repo" repo
+                       "--json" "number,title,state,author,headRefName,createdAt,updatedAt"
+                       "--state" state
+                       "--limit" (number-to-string eds-github/pr-limit)))
+           (args (if (and author (not (string-empty-p author)))
+                     (append args (list "--author" author))
+                   args))
+           (exit-code (apply #'process-file "gh" nil t nil args))
+           (output (string-trim (buffer-string))))
+      (unless (zerop exit-code)
+        (error "GitHub CLI pr list failed: %s" output))
+      (if (string-empty-p output)
+          (error "No output from gh CLI — is it installed and authenticated?")
+        (json-parse-string output :object-type 'alist)))))
+
+(defun eds-github/--format-pr-entry (pr)
+  "Format a single PR alist into a `tabulated-list-entries' row."
+  (let* ((number (alist-get 'number pr))
+         (title (or (alist-get 'title pr) ""))
+         (state (or (alist-get 'state pr) ""))
+         (author-obj (alist-get 'author pr))
+         (author (if (consp author-obj)
+                     (or (alist-get 'login author-obj) "")
+                   ""))
+         (branch (or (alist-get 'headRefName pr) ""))
+         (updated (eds-github/--format-time (or (alist-get 'updatedAt pr) "")))
+         (face (eds-github/--pr-state-face state)))
+    (list number
+          (vector (number-to-string number)
+                  (propertize state 'face face)
+                  title
+                  author
+                  branch
+                  updated))))
+
+(defun eds-github/--pr-header-line ()
+  "Build a header-line string showing active PR filters."
+  (let ((parts (list (format "PRs for %s" eds-github/--pr-repo))))
+    (when eds-github/--pr-state
+      (push (format "state: %s" eds-github/--pr-state) parts))
+    (when eds-github/--pr-author
+      (push (format "author: %s" eds-github/--pr-author) parts))
+    (if (= (length parts) 1)
+        (car parts)
+      (format "%s [%s]"
+              (car (last parts))
+              (string-join (butlast parts) ", ")))))
+
+(defun eds-github/--refresh-prs ()
+  "Refresh the pull requests list using current filters."
+  (let ((prs (eds-github/--fetch-prs eds-github/--pr-repo
+                                      (or eds-github/--pr-state
+                                          eds-github/pr-default-state)
+                                      eds-github/--pr-author)))
+    (setq tabulated-list-entries
+          (mapcar #'eds-github/--format-pr-entry
+                  (append prs nil)))
+    (setq header-line-format (eds-github/--pr-header-line))))
+
+(defun eds-github/pr-filter-state (state)
+  "Filter pull requests by STATE and refresh the list.
+STATE should be \"open\", \"closed\", or \"all\"."
+  (interactive
+   (list (completing-read "PR state: " '("open" "closed" "all") nil t)))
+  (setq-local eds-github/--pr-state state)
+  (revert-buffer))
+
+(defun eds-github/pr-filter-author (author)
+  "Filter pull requests by AUTHOR and refresh the list.
+If AUTHOR is empty, clear the author filter."
+  (interactive (list (read-string "Author (blank to clear): ")))
+  (setq-local eds-github/--pr-author
+              (if (string-empty-p author) nil author))
+  (revert-buffer))
+
+(defun eds-github/pr-clear-filters ()
+  "Clear all PR filters and refresh the list."
+  (interactive)
+  (setq-local eds-github/--pr-state eds-github/pr-default-state)
+  (setq-local eds-github/--pr-author nil)
+  (revert-buffer))
+
+(defun eds-github/pr-view-at-point ()
+  "Open the pull request at point in the browser."
+  (interactive)
+  (let ((number (tabulated-list-get-id)))
+    (if number
+        (shell-command
+         (format "gh pr view %d --repo %s --web"
+                 number
+                 (shell-quote-argument eds-github/--pr-repo)))
+      (user-error "No PR at point"))))
+
+(defvar eds-github/prs-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "RET") #'eds-github/pr-view-at-point)
+    (define-key map (kbd "/ s") #'eds-github/pr-filter-state)
+    (define-key map (kbd "/ a") #'eds-github/pr-filter-author)
+    (define-key map (kbd "/ /") #'eds-github/pr-clear-filters)
+    map)
+  "Keymap for `eds-github/prs-mode'.")
+
+(define-derived-mode eds-github/prs-mode tabulated-list-mode "GH-PRs"
+  "Major mode for listing GitHub pull requests."
+  (setq tabulated-list-format
+        [("Num" 6 t)
+         ("State" 8 t)
+         ("Title" 45 t)
+         ("Author" 16 t)
+         ("Branch" 25 t)
+         ("Updated" 16 t)])
+  (setq tabulated-list-padding 2)
+  (setq tabulated-list-sort-key '("Updated" . t))
+  (add-hook 'tabulated-list-revert-hook #'eds-github/--refresh-prs nil t)
+  (tabulated-list-init-header))
+
+;;;###autoload
+(defun eds-github/list-prs (repo)
+  "List GitHub pull requests for REPO.
+REPO should be in owner/name format (e.g. \"bbc/arco\").
+Defaults to the current repository's GitHub remote if available.
+Use \\`/ s' to filter by state, \\`/ a' to filter by author,
+and \\`/ /' to clear all filters."
+  (interactive
+   (list (read-string "Repository (owner/name): "
+                      (eds-github/--default-repo))))
+  (when (string-empty-p repo)
+    (user-error "Repository name is required"))
+  (let ((buf (get-buffer-create (format "*GitHub PRs: %s*" repo))))
+    (with-current-buffer buf
+      (eds-github/prs-mode)
+      (setq-local eds-github/--pr-repo repo)
+      (setq-local eds-github/--pr-state eds-github/pr-default-state)
+      (setq-local eds-github/--pr-author nil)
+      (eds-github/--refresh-prs)
       (tabulated-list-print t))
     (pop-to-buffer buf)))
 
