@@ -46,7 +46,8 @@
   (add-to-list 'projectile-globally-ignored-files "*.semanticdb")
   (add-to-list 'projectile-globally-ignored-files "*.db")
   :bind   (("C-c p h" . projectile-find-file)
-           ("C-c p p". projectile-switch-project)))
+           ("C-c p p". projectile-switch-project)
+           ("C-c p m" . projectile-dispatch)))
 
 (provide 'init-projectile)
 ;;; init-projectile.el ends here
