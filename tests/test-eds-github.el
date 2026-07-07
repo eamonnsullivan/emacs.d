@@ -392,7 +392,70 @@
           (eds-github/pr-clear-filters)
           (expect eds-github/--pr-state :to-equal "open")
           (expect eds-github/--pr-author :to-be nil)
-          (expect 'revert-buffer :to-have-been-called))))))
+          (expect 'revert-buffer :to-have-been-called)))))
+
+  (describe "eds-github/--fetch-my-prs"
+    (it "calls gh search with correct arguments for open PRs"
+      (spy-on 'process-file
+              :and-call-fake
+              (lambda (&rest _args)
+                (insert "[{\"number\":7,\"title\":\"Add search\",\"state\":\"open\",\"repository\":{\"nameWithOwner\":\"owner/repo\"},\"updatedAt\":\"2025-01-15T14:30:00Z\",\"url\":\"https://github.com/owner/repo/pull/7\"}]")
+                0))
+      (let* ((eds-github/pr-limit 25)
+             (prs (eds-github/--fetch-my-prs "open")))
+        (expect 'process-file :to-have-been-called-with
+                "gh" nil t nil
+                "search" "prs"
+                "--author" "@me"
+                "--json" "number,title,state,repository,updatedAt,url"
+                "--limit" "25"
+                "--state" "open")
+        (expect (length prs) :to-equal 1)
+        (expect (alist-get 'title (aref prs 0)) :to-equal "Add search")))
+
+    (it "omits --state when state is \"all\""
+      (spy-on 'process-file
+              :and-call-fake
+              (lambda (&rest _args)
+                (insert "[]")
+                0))
+      (let ((eds-github/pr-limit 10))
+        (eds-github/--fetch-my-prs "all")
+        (let ((args (spy-calls-args-for 'process-file 0)))
+          (expect (member "--state" args) :to-be nil))))
+
+    (it "signals an error when gh fails"
+      (spy-on 'process-file
+              :and-call-fake
+              (lambda (&rest _args)
+                (insert "not authenticated")
+                1))
+      (condition-case err
+          (eds-github/--fetch-my-prs "open")
+        (error
+         (expect (error-message-string err) :to-match "not authenticated")))))
+
+  (describe "eds-github/--format-my-pr-entry"
+    (it "produces a row with the repo, url id, and normalized state"
+      (let* ((pr '((number . 7)
+                   (title . "Add search")
+                   (state . "open")
+                   (repository . ((nameWithOwner . "owner/repo")))
+                   (updatedAt . "2025-01-15T14:30:00Z")
+                   (url . "https://github.com/owner/repo/pull/7")))
+             (entry (eds-github/--format-my-pr-entry pr)))
+        (expect (car entry) :to-equal "https://github.com/owner/repo/pull/7")
+        (expect (aref (cadr entry) 0) :to-equal "owner/repo")
+        (expect (aref (cadr entry) 1) :to-equal "7")
+        (expect (aref (cadr entry) 2) :to-equal "OPEN")
+        (expect (aref (cadr entry) 3) :to-equal "Add search")))
+
+    (it "handles a missing repository gracefully"
+      (let* ((pr '((number . 5)
+                   (repository . :null)
+                   (url . "https://github.com/x/y/pull/5")))
+             (entry (eds-github/--format-my-pr-entry pr)))
+        (expect (aref (cadr entry) 0) :to-equal "")))))
 
 (provide 'test-eds-github)
 ;;; test-eds-github.el ends here

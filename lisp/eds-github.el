@@ -386,5 +386,119 @@ and \\`/ /' to clear all filters."
       (tabulated-list-print t))
     (pop-to-buffer buf)))
 
+;;; My pull requests (across all repositories)
+
+(defun eds-github/--fetch-my-prs (state)
+  "Fetch the authenticated user's pull requests filtered by STATE.
+STATE should be \"open\", \"closed\", or \"all\".  When STATE is
+\"all\", no state qualifier is passed to `gh search'.
+Returns a parsed JSON vector of PR objects."
+  (with-temp-buffer
+    (let* ((args (list "search" "prs"
+                       "--author" "@me"
+                       "--json" "number,title,state,repository,updatedAt,url"
+                       "--limit" (number-to-string eds-github/pr-limit)))
+           (args (if (and state (not (string= state "all")))
+                     (append args (list "--state" state))
+                   args))
+           (exit-code (apply #'process-file "gh" nil t nil args))
+           (output (string-trim (buffer-string))))
+      (unless (zerop exit-code)
+        (error "GitHub CLI search prs failed: %s" output))
+      (if (string-empty-p output)
+          (error "No output from gh CLI — is it installed and authenticated?")
+        (json-parse-string output :object-type 'alist)))))
+
+(defun eds-github/--format-my-pr-entry (pr)
+  "Format a single PR alist from `gh search prs' into a row.
+The row id is the PR URL so it can be opened across repositories."
+  (let* ((number (alist-get 'number pr))
+         (title (or (alist-get 'title pr) ""))
+         (state (upcase (or (alist-get 'state pr) "")))
+         (repo-obj (alist-get 'repository pr))
+         (repo (if (consp repo-obj)
+                   (or (alist-get 'nameWithOwner repo-obj) "")
+                 ""))
+         (updated (eds-github/--format-time (or (alist-get 'updatedAt pr) "")))
+         (url (or (alist-get 'url pr) ""))
+         (face (eds-github/--pr-state-face state)))
+    (list url
+          (vector repo
+                  (if number (number-to-string number) "")
+                  (propertize state 'face face)
+                  title
+                  updated))))
+
+(defun eds-github/--my-pr-header-line ()
+  "Build a header-line string showing the active my-PRs filter."
+  (format "My PRs [state: %s]"
+          (or eds-github/--pr-state eds-github/pr-default-state)))
+
+(defun eds-github/--refresh-my-prs ()
+  "Refresh the my-pull-requests list using the current state filter."
+  (let ((prs (eds-github/--fetch-my-prs
+              (or eds-github/--pr-state eds-github/pr-default-state))))
+    (setq tabulated-list-entries
+          (mapcar #'eds-github/--format-my-pr-entry
+                  (append prs nil)))
+    (setq header-line-format (eds-github/--my-pr-header-line))))
+
+(defun eds-github/my-pr-filter-state (state)
+  "Filter the my-pull-requests list by STATE and refresh.
+STATE should be \"open\", \"closed\", or \"all\"."
+  (interactive
+   (list (completing-read "PR state: " '("open" "closed" "all") nil t)))
+  (setq-local eds-github/--pr-state state)
+  (revert-buffer))
+
+(defun eds-github/my-pr-clear-filters ()
+  "Reset the my-pull-requests state filter to the default and refresh."
+  (interactive)
+  (setq-local eds-github/--pr-state eds-github/pr-default-state)
+  (revert-buffer))
+
+(defun eds-github/my-pr-view-at-point ()
+  "Open the pull request at point in the browser."
+  (interactive)
+  (let ((url (tabulated-list-get-id)))
+    (if (and url (not (string-empty-p url)))
+        (browse-url url)
+      (user-error "No PR at point"))))
+
+(defvar eds-github/my-prs-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "RET") #'eds-github/my-pr-view-at-point)
+    (define-key map (kbd "/ s") #'eds-github/my-pr-filter-state)
+    (define-key map (kbd "/ /") #'eds-github/my-pr-clear-filters)
+    map)
+  "Keymap for `eds-github/my-prs-mode'.")
+
+(define-derived-mode eds-github/my-prs-mode tabulated-list-mode "GH-MyPRs"
+  "Major mode for listing the authenticated user's pull requests."
+  (setq tabulated-list-format
+        [("Repo" 30 t)
+         ("Num" 6 t)
+         ("State" 8 t)
+         ("Title" 50 t)
+         ("Updated" 16 t)])
+  (setq tabulated-list-padding 2)
+  (setq tabulated-list-sort-key '("Updated" . t))
+  (add-hook 'tabulated-list-revert-hook #'eds-github/--refresh-my-prs nil t)
+  (tabulated-list-init-header))
+
+;;;###autoload
+(defun eds-github/list-my-prs ()
+  "List the authenticated user's open GitHub pull requests across all repos.
+Uses `gh search prs --author @me'.  Use \\`/ s' to filter by state
+and \\`/ /' to reset the filter."
+  (interactive)
+  (let ((buf (get-buffer-create "*GitHub My PRs*")))
+    (with-current-buffer buf
+      (eds-github/my-prs-mode)
+      (setq-local eds-github/--pr-state eds-github/pr-default-state)
+      (eds-github/--refresh-my-prs)
+      (tabulated-list-print t))
+    (pop-to-buffer buf)))
+
 (provide 'eds-github)
 ;;; eds-github.el ends here
