@@ -45,8 +45,7 @@
 
 (require 'init-flycheck)
 
-(use-package
-  cider
+(use-package cider
   :hook ((clojure-mode . turn-on-eldoc-mode)
          (clojure-mode . cider-mode))
   :config

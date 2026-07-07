@@ -226,6 +226,7 @@
       (tool-bar-mode -1))
     (line-number-mode t)
     (display-time-mode t)
+    (menu-bar-mode t)
     (setopt display-time-24hr-format t)
 
     (if (not (find-font (font-spec :name "Aporetic Sans Mono")))
