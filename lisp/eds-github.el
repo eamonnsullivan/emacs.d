@@ -37,22 +37,22 @@
   "Maximum number of workflow runs to fetch.")
 
 (defface eds-github/success-face
-  '((t :foreground "#50fa7b" :weight bold))
+  '((t :inherit success :weight bold))
   "Face for successful workflow runs."
   :group 'eds-github)
 
 (defface eds-github/failure-face
-  '((t :foreground "#ff5555" :weight bold))
+  '((t :inherit error :weight bold))
   "Face for failed workflow runs."
   :group 'eds-github)
 
 (defface eds-github/in-progress-face
-  '((t :foreground "#ffc04d" :weight bold))
+  '((t :inherit warning :weight bold))
   "Face for in-progress workflow runs."
   :group 'eds-github)
 
 (defface eds-github/cancelled-face
-  '((t :foreground "#6272a4"))
+  '((t :inherit shadow))
   "Face for cancelled workflow runs."
   :group 'eds-github)
 
@@ -220,17 +220,17 @@ Defaults to the current repository's GitHub remote if available."
   "Current author filter for the PRs buffer (nil means all).")
 
 (defface eds-github/pr-open-face
-  '((t :foreground "#50fa7b" :weight bold))
+  '((t :inherit success :weight bold))
   "Face for open pull requests."
   :group 'eds-github)
 
 (defface eds-github/pr-closed-face
-  '((t :foreground "#ff5555" :weight bold))
+  '((t :inherit error :weight bold))
   "Face for closed pull requests."
   :group 'eds-github)
 
 (defface eds-github/pr-merged-face
-  '((t :foreground "#bd93f9" :weight bold))
+  '((t :inherit font-lock-keyword-face :weight bold))
   "Face for merged pull requests."
   :group 'eds-github)
 
