@@ -85,7 +85,7 @@ ERROR-PREFIX is used when the gh CLI exits non-zero."
   "Return nested string VALUE-KEY from OBJECT-KEY in ALIST, or empty string."
   (let ((object (alist-get object-key alist)))
     (if (consp object)
-        (or (alist-get value-key object) "")
+        (eds-github/--alist-string value-key object)
       "")))
 
 (defun eds-github/--number-string (number)
