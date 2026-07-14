@@ -131,7 +131,8 @@
   (context-menu-mode 1)
   (add-hook 'context-menu-functions #'embark-context-menu 100))
 
-(use-package embark-consult)
+(use-package embark-consult
+  :hook (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package consult
   ;; Replace bindings. Lazily loaded by `use-package'.

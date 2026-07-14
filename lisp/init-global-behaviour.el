@@ -136,7 +136,7 @@
   (remote-file-name-inhibit-auto-save-visited t)
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
-  (mode-line-collapse-minor-modes '(auto-fill-mode flyspell-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
+  (mode-line-collapse-minor-modes '(auto-fill-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
   (use-short-answers t)
   (read-answer-short t)
   (isearch-lazy-count t)
@@ -267,60 +267,12 @@
                (dedicated . t)
                (preserve-size . (t . t))))
 
-;; from http://www.coli.uni-saarland.de/~slemaguer/emacs/main.html
-(use-package flyspell
-  :config
-
-  ;; Set programms
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (setq-default ispell-program-name "aspell")
-  (setq-default ispell-list-command "--list")
-
-  ;; Refresh flyspell after directory change
-  (defun flyspell-buffer-after-pdict-save (&rest _)
-    (flyspell-buffer))
-  (advice-add 'ispell-pdict-save :after #'flyspell-buffer-after-pdict-save)
-
-  ;; Popup
-  (defun flyspell-emacs-popup-textual (event poss word)
-    "A textual flyspell popup menu."
-    (require 'popup)
-    (let* ((corrects (if flyspell-sort-corrections
-                         (sort (car (cdr (cdr poss))) 'string<)
-                       (car (cdr (cdr poss)))))
-           (cor-menu (if (consp corrects)
-                         (mapcar (lambda (correct)
-                                   (list correct correct))
-                                 corrects)
-                       '()))
-           (affix (car (cdr (cdr (cdr poss)))))
-           show-affix-info
-           (base-menu  (let ((save (if (and (consp affix) show-affix-info)
-                                       (list
-                                        (list (concat "Save affix: " (car affix))
-                                              'save)
-                                        '("Accept (session)" session)
-                                        '("Accept (buffer)" buffer))
-                                     '(("Save word" save)
-                                       ("Accept (session)" session)
-                                       ("Accept (buffer)" buffer)))))
-                         (if (consp cor-menu)
-                             (append cor-menu (cons "" save))
-                           save)))
-           (menu (mapcar
-                  (lambda (arg) (if (consp arg) (car arg) arg))
-                  base-menu)))
-      (cadr (assoc (popup-menu* menu :scroll-bar t) base-menu))))
-
-
-  (defun flyspell-emacs-popup-choose (org-fun event poss word)
-    (if (window-system)
-        (funcall org-fun event poss word)
-      (flyspell-emacs-popup-textual event poss word)))
-
-  (eval-after-load "flyspell"
-    '(progn
-       (advice-add 'flyspell-emacs-popup :around #'flyspell-emacs-popup-choose))))
+(use-package jinx
+  :straight t
+  :init
+  (setopt jinx-languages "en_GB")
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("C-$" . jinx-correct)))
 
 (use-package use-package-chords
   :init

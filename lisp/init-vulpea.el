@@ -48,6 +48,7 @@
   (setopt vulpea-db-sync-directories (list (eds-org/get-org-directory))
           vulpea-buffer-alias-property "ROAM_ALIASES"
           vulpea-db-sync-scan-on-enable 'async
+          vulpea-db-async-extraction 'full ; experimental
           vulpea-db-sync-external-method 'auto
           vulpea-db-sync-scan-on-enable 'async
           vulpea-ui-fast-parse t
