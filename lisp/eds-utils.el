@@ -55,7 +55,11 @@ We use this to make the jira tickets easy to spot in the commit messages."
      "["
      (eds-utils/extract-jira-ticket
       (magit-get-current-branch))
-     "] ")))
+     "] ")
+    (let ((message-start (point)))
+      (when (y-or-n-p "Did Copilot contribute to this code? ")
+        (insert " [copilot]")
+        (goto-char message-start)))))
 
 ;;;###autoload
 (defun eds-utils/kill-word (arg)
