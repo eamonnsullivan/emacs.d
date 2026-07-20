@@ -92,6 +92,8 @@
           org-plantuml-exec-mode 'plantuml
           org-capture-use-agenda-date t
           org-confirm-babel-evaluate nil
+          org-agenda-span 6
+          org-agenda-start-day "-2d"
           org-agenda-start-on-weekday nil
           org-agenda-dim-blocked-tasks nil
           org-agenda-inhibit-startup t

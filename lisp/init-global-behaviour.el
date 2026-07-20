@@ -171,6 +171,7 @@
   (dired-create-destination-dirs 'ask)
   (dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
   (wdired-create-parent-directories t)
+  (flymake-show-diagnostic-at-end-of-line t) ; Emacs 30
 
   :hook
   ((text-mode . (lambda ()
