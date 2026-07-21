@@ -136,7 +136,21 @@
   (remote-file-name-inhibit-auto-save-visited t)
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
-  (mode-line-collapse-minor-modes '(auto-fill-mode eldoc-mode abbrev-mode copilot-mode yasnippet-mode))
+  (mode-line-collapse-minor-modes
+   '(auto-fill-mode
+     eldoc-mode abbrev-mode
+     copilot-mode
+     flycheck-mode
+     org-roam-ui-mode
+     dtrt-indent-mode
+     jinx-mode
+     rainbow-mode
+     outline-mode
+     helpful-mode
+     git-gutter-mode
+     super-save-mode
+     eca-completion-mode
+     yasnippet-mode))
   (use-short-answers t)
   (read-answer-short t)
   (isearch-lazy-count t)
@@ -172,6 +186,14 @@
   (dired-create-destination-dirs-on-trailing-dirsep t) ; Emacs 29
   (wdired-create-parent-directories t)
   (flymake-show-diagnostic-at-end-of-line t) ; Emacs 30
+  (mode-line-format
+   '(" %e"
+     mode-line-buffer-identification
+     mode-line-format-right-align
+     mode-line-position
+     " "
+     mode-line-modes
+     mode-line-misc-info))
 
   :hook
   ((text-mode . (lambda ()
