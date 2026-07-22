@@ -136,21 +136,7 @@
   (remote-file-name-inhibit-auto-save-visited t)
   (find-file-visit-truename t)
   (auth-source "~/.authinfo.gpg")
-  (mode-line-collapse-minor-modes
-   '(auto-fill-mode
-     eldoc-mode abbrev-mode
-     copilot-mode
-     flycheck-mode
-     org-roam-ui-mode
-     dtrt-indent-mode
-     jinx-mode
-     rainbow-mode
-     outline-mode
-     helpful-mode
-     git-gutter-mode
-     super-save-mode
-     eca-completion-mode
-     yasnippet-mode))
+  (mode-line-collapse-minor-modes '(not))
   (use-short-answers t)
   (read-answer-short t)
   (isearch-lazy-count t)
