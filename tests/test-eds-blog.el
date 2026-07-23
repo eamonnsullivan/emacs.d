@@ -46,6 +46,50 @@
         (expect 'magit-branch-create :to-have-been-called-with expected-branch "main")
         (expect 'magit-checkout :to-have-been-called-with expected-branch)))))
 
+(describe "eds-blog/start-personal-blog-post"
+  :var (eds-blog/start-blog-post)
+  (before-all
+    (fset 'eds-blog/start-blog-post
+          (lambda (project title &optional author) nil)))
+
+  (it "passes title and author to the personal blog project"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-personal-blog-post "My Personal Post" "Eamonn Sullivan")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
+                                     "My Personal Post"
+                                     "Eamonn Sullivan"))
+
+  (it "passes nil author to the personal blog project when author is omitted"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-personal-blog-post "My Personal Post")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
+                                     "My Personal Post"
+                                     nil)))
+
+(describe "eds-blog/start-svp-blog-post"
+  :var (eds-blog/start-blog-post)
+  (before-all
+    (fset 'eds-blog/start-blog-post
+          (lambda (project title &optional author) nil)))
+
+  (it "passes title and author to the SVP blog project"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-svp-blog-post "My SVP Post" "Paul O'Regan")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/svpsouthruislip.org.uk"
+                                     "My SVP Post"
+                                     "Paul O'Regan"))
+
+  (it "passes nil author to the SVP blog project when author is omitted"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-svp-blog-post "My SVP Post")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/svpsouthruislip.org.uk"
+                                     "My SVP Post"
+                                     nil)))
+
 (describe "eds-blog/link-to-svp-contact-page"
   (it "inserts a contact link around the provided text"
     (expect (eds-blog/link-to-svp-contact-page "test")
