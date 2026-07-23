@@ -53,7 +53,6 @@
   :init
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :diminish visual-line-mode
@@ -229,6 +228,11 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start nil))
+
+(use-package org-contrib
+  :straight t)
+
+(require 'org-checklist)
 
 (provide 'init-org)
 

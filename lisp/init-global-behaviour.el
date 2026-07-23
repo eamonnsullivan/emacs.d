@@ -183,8 +183,7 @@
 
   :hook
   ((text-mode . (lambda ()
-                  (visual-line-mode 1)))
-   (before-save . delete-trailing-whitespace)))
+                  (visual-line-mode 1)))))
 
 (require 'init-mu4e)
 (set-variable 'mail-user-agent 'mu4e-user-agent)

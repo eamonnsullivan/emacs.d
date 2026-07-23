@@ -41,10 +41,47 @@
           eglot-extend-to-xref t)
   ;; Needed for scala/metals only. See https://github.com/scalameta/metals/issues/8198
   ;; eglot-ignored-server-capabilites '(:documentOnTypeFormattingProvider :documentRangeFormattingProvider)
-  (add-to-list 'eglot-server-programs
-               `((scala-mode scala-ts-mode)
-                 . ,(alist-get 'scala-mode eglot-server-programs)))
-  :hook ((prog-mode . eglot-ensure))
+  (setq eglot-server-programs (assq-delete-all 'scala-mode eglot-server-programs))
+  (add-to-list 'eglot-server-programs `(scala-ts-mode . ("metals"
+                                                         "-Xmx4G"
+                                                         "-XX:+UseZGC"
+                                                         "-Dmetals.http=true"
+                                                         :initializationOptions (:isHttpEnabled t))))
+  (setq-default eglot-workspace-configuration
+              '(
+                :metals ( :autoImportBuild "all"
+                          :isHttpEnabled t
+                          :superMethodLensesEnabled t
+                          :showInferredType t
+                          :enableSemanticHighlighting t
+                          :inlayHints ( :inferredTypes (:enable t )
+                                        :implicitArguments (:enable nil)
+                                        :implicitConversions (:enable nil )
+                                        :typeParameters (:enable t )
+                                        :hintsInPatternMatch (:enable nil ))
+                          :bloopJvmProperties ["-Xmx4G"])
+                :typescript (:format (:baseIndentSize 0
+                                                      :convertTabsToSpaces t
+                                                      :indentSize 2
+                                                      :semicolons "always"
+                                                      :tabSize 2))
+                :javascript (:format (:baseIndentSize 0
+                                                      :convertTabsToSpaces t
+                                                      :indentSize 2
+                                                      :semicolons "always"
+                                                      :tabSize 2))))
+
+  (add-hook 'eglot-managed-mode-hook
+          (lambda ()
+            ;; Show flymake diagnostics first.
+            (setq eldoc-documentation-functions
+                  (cons #'flymake-eldoc-function
+                        (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+            ;; Show all eldoc feedback.
+            (setq eldoc-documentation-strategy #'eldoc-documentation-compose)))
+
+  :hook ((prog-mode . eglot-ensure)
+         (before-save . eglot-format-buffer))
   :bind (("C-c C-l r" . eglot-rename)
          ("C-c C-l o" . eglot-code-action-organize-imports)
          ("C-c C-l q" . eglot-code-action-quickfix)
