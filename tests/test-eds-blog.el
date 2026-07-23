@@ -47,13 +47,9 @@
         (expect 'magit-checkout :to-have-been-called-with expected-branch)))))
 
 (describe "eds-blog/start-personal-blog-post"
-  :var (eds-blog/start-blog-post)
-  (before-all
-    (fset 'eds-blog/start-blog-post
-          (lambda (project title &optional author) nil)))
-
   (it "passes title and author to the personal blog project"
-    (spy-on 'eds-blog/start-blog-post)
+    (spy-on 'eds-blog/start-blog-post
+            :and-call-fake (lambda (&rest _) nil))
     (eds-blog/start-personal-blog-post "My Personal Post" "Eamonn Sullivan")
     (expect 'eds-blog/start-blog-post
             :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
@@ -61,7 +57,8 @@
                                      "Eamonn Sullivan"))
 
   (it "passes nil author to the personal blog project when author is omitted"
-    (spy-on 'eds-blog/start-blog-post)
+    (spy-on 'eds-blog/start-blog-post
+            :and-call-fake (lambda (&rest _) nil))
     (eds-blog/start-personal-blog-post "My Personal Post")
     (expect 'eds-blog/start-blog-post
             :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
