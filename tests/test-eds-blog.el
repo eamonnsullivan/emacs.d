@@ -24,7 +24,7 @@
         magit-checkout)
   (before-all
     (fset 'find-file (lambda (filename) nil))
-    (fset 'eds-blog/insert-skeleton-blog-post (lambda (title) nil))
+    (fset 'eds-blog/insert-skeleton-blog-post (lambda (title &optional author) nil))
     (fset 'save-buffer (lambda () nil))
     (fset 'magit-branch-create (lambda (branch base) nil))
     (fset 'magit-checkout (lambda (branch) nil)))
@@ -44,7 +44,20 @@
         (expect 'eds-blog/insert-skeleton-blog-post :to-have-been-called-with title)
         (expect 'save-buffer :to-have-been-called)
         (expect 'magit-branch-create :to-have-been-called-with expected-branch "main")
-        (expect 'magit-checkout :to-have-been-called-with expected-branch)))))
+        (expect 'magit-checkout :to-have-been-called-with expected-branch))))
+
+  (it "passes author to the skeleton blog post"
+    (let ((project "/mock/project")
+          (title "My First Blog Post")
+          (author "Eamonn Sullivan"))
+      (spy-on 'find-file)
+      (spy-on 'eds-blog/insert-skeleton-blog-post)
+      (spy-on 'save-buffer)
+      (spy-on 'magit-branch-create)
+      (spy-on 'magit-checkout)
+      (eds-blog/start-blog-post project title author)
+      (expect 'eds-blog/insert-skeleton-blog-post
+              :to-have-been-called-with title author))))
 
 (describe "eds-blog/start-personal-blog-post"
   (it "passes title and author to the personal blog project"
