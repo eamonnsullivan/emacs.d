@@ -35,6 +35,8 @@
 
 (require 'eds-utils)
 (require 'subr-x)
+(require 'widget)
+(require 'wid-edit)
 
 (defun eds-blog/insert-skeleton-blog-post (title &optional author)
   "Insert a basic skeleton for a blog post with TITLE.
