@@ -24,7 +24,7 @@
         magit-checkout)
   (before-all
     (fset 'find-file (lambda (filename) nil))
-    (fset 'eds-blog/insert-skeleton-blog-post (lambda (title) nil))
+    (fset 'eds-blog/insert-skeleton-blog-post (lambda (title &optional author) nil))
     (fset 'save-buffer (lambda () nil))
     (fset 'magit-branch-create (lambda (branch base) nil))
     (fset 'magit-checkout (lambda (branch) nil)))
@@ -44,7 +44,61 @@
         (expect 'eds-blog/insert-skeleton-blog-post :to-have-been-called-with title)
         (expect 'save-buffer :to-have-been-called)
         (expect 'magit-branch-create :to-have-been-called-with expected-branch "main")
-        (expect 'magit-checkout :to-have-been-called-with expected-branch)))))
+        (expect 'magit-checkout :to-have-been-called-with expected-branch))))
+
+  (it "passes author to the skeleton blog post"
+    (let ((project "/mock/project")
+          (title "My First Blog Post")
+          (author "Eamonn Sullivan"))
+      (spy-on 'find-file)
+      (spy-on 'eds-blog/insert-skeleton-blog-post)
+      (spy-on 'save-buffer)
+      (spy-on 'magit-branch-create)
+      (spy-on 'magit-checkout)
+      (eds-blog/start-blog-post project title author)
+      (expect 'eds-blog/insert-skeleton-blog-post
+              :to-have-been-called-with title author))))
+
+(describe "eds-blog/start-personal-blog-post"
+  (it "passes title and author to the personal blog project"
+    (spy-on 'eds-blog/start-blog-post
+            :and-call-fake (lambda (&rest _) nil))
+    (eds-blog/start-personal-blog-post "My Personal Post" "Eamonn Sullivan")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
+                                     "My Personal Post"
+                                     "Eamonn Sullivan"))
+
+  (it "passes nil author to the personal blog project when author is omitted"
+    (spy-on 'eds-blog/start-blog-post
+            :and-call-fake (lambda (&rest _) nil))
+    (eds-blog/start-personal-blog-post "My Personal Post")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/eamonnsullivan.co.uk"
+                                     "My Personal Post"
+                                     nil)))
+
+(describe "eds-blog/start-svp-blog-post"
+  :var (eds-blog/start-blog-post)
+  (before-all
+    (fset 'eds-blog/start-blog-post
+          (lambda (project title &optional author) nil)))
+
+  (it "passes title and author to the SVP blog project"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-svp-blog-post "My SVP Post" "Paul O'Regan")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/svpsouthruislip.org.uk"
+                                     "My SVP Post"
+                                     "Paul O'Regan"))
+
+  (it "passes nil author to the SVP blog project when author is omitted"
+    (spy-on 'eds-blog/start-blog-post)
+    (eds-blog/start-svp-blog-post "My SVP Post")
+    (expect 'eds-blog/start-blog-post
+            :to-have-been-called-with "~/git/svpsouthruislip.org.uk"
+                                     "My SVP Post"
+                                     nil)))
 
 (describe "eds-blog/link-to-svp-contact-page"
   (it "inserts a contact link around the provided text"

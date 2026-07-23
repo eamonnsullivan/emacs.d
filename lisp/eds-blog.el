@@ -31,35 +31,101 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (require 'eds-utils)
+(require 'subr-x)
+(require 'widget)
+(require 'wid-edit)
 
-(defun eds-blog/insert-skeleton-blog-post (title)
-  "Insert a basic skeleton for a blog post with TITLE."
+(defun eds-blog/insert-skeleton-blog-post (title &optional author)
+  "Insert a basic skeleton for a blog post with TITLE.
+When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (goto-char (point-min))
-  (insert (format "{:title \"%s\"\n :layout :post\n :tags []}\n\n" title)))
+  (insert (format "{:title \"%s\"\n :layout :post\n%s :tags []}\n\n"
+                  title
+                  (if (and author (not (string-empty-p author)))
+                      (format " :author \"%s\"\n" author)
+                    ""))))
 
-(defun eds-blog/start-blog-post (project title)
-  "Create a new post for PROJECT with TITLE ande today's date on a new branch."
+(defun eds-blog/start-blog-post (project title &optional author)
+  "Create a new post for PROJECT with TITLE and today's date on a new branch.
+When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (let* ((title-name (eds-utils/process-title title))
          (branch (concat (format-time-string "%Y-%m-%d") "-" title-name))
-         (filename (concat project "/content/md/posts/" branch ".md")))
-    (find-file filename)
-    (eds-blog/insert-skeleton-blog-post title)
-    (save-buffer)
+         (filename (concat project "/content/md/posts/" branch ".md"))
+         (default-directory (file-name-as-directory (expand-file-name project))))
     (magit-branch-create branch "main")
-    (magit-checkout branch)))
+    (magit-checkout branch)
+    (find-file filename)
+    (if (and author (not (string-empty-p author)))
+        (eds-blog/insert-skeleton-blog-post title author)
+      (eds-blog/insert-skeleton-blog-post title))
+    (save-buffer)))
+
+(defun eds/launch-blog-ux ()
+  "Open a panel to start a blog post."
+  (interactive)
+  (let* ((buffer (get-buffer-create "*Blog*"))
+         (window (display-buffer-in-side-window buffer '((side . bottom)
+                                                         (slot . 0)
+                                                         (window-height . 12)))))
+    (select-window window)
+    (kill-all-local-variables)
+    (let ((inhibit-read-only t))
+      (erase-buffer)))
+  (remove-overlays)
+  (widget-insert "Start a blog post:\n\n")
+  (let* ((project (widget-create 'radio-button-choice
+                                 :tag "Project: "
+                                 :value "~/git/svpsouthruislip.org.uk"
+                                 '(item :tag "SVP" "~/git/svpsouthruislip.org.uk")
+                                 '(item :tag "Personal" "~/git/eamonnsullivan.co.uk")))
+         (title (widget-create 'editable-field
+                               :format "Title: %v\n"
+                               ""))
+         (author (widget-create 'editable-field
+                                :format "Author: %v\n"
+                                "Paul O'Regan")))
+    (widget-put project
+                :notify
+                (lambda (widget &rest _)
+                  (pcase (widget-value widget)
+                    ("~/git/svpsouthruislip.org.uk"
+                     (widget-apply author :value-set "Paul O'Regan"))
+                    ("~/git/eamonnsullivan.co.uk"
+                     (widget-apply author :value-set "Eamonn Sullivan")))))
+
+    (widget-create 'push-button
+                   :notify (lambda (&rest _) (kill-buffer))
+                   "Cancel")
+    (widget-insert " ")
+    (widget-create 'push-button
+                   :notify (lambda (&rest _)
+                             (let ((project-value (widget-value project))
+                                   (title-value (widget-value title))
+                                   (author-value (widget-value author)))
+                               (kill-buffer)
+                               (eds-blog/start-blog-post project-value title-value author-value)))
+                   "Create")
+    (use-local-map widget-keymap)
+    (widget-setup)
+    (goto-char (widget-get title :from))
+    (widget-forward 1)))
 
 ;;;###autoload
-(defun eds-blog/start-personal-blog-post (title)
-  "Create a new post on my personal blog with TITLE."
+(defun eds-blog/start-personal-blog-post (title &optional author)
+  "Create a new post on my personal blog with TITLE.
+When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (interactive "sTitle: ")
-  (eds-blog/start-blog-post "~/git/eamonnsullivan.co.uk" title))
+  (eds-blog/start-blog-post "~/git/eamonnsullivan.co.uk" title author))
 
 ;;;###autoload
-(defun eds-blog/start-svp-blog-post (title)
-  "Create a new post on the svp blog with TITLE."
+(defun eds-blog/start-svp-blog-post (title &optional author)
+  "Create a new post on the svp blog with TITLE.
+When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (interactive "sTitle: ")
-  (eds-blog/start-blog-post "~/git/svpsouthruislip.org.uk" title))
+  (eds-blog/start-blog-post "~/git/svpsouthruislip.org.uk" title author))
 
 (defun eds-blog/link-to-svp-contact-page (selected-text)
   "Make a link to the SVP's contact page from SELECTED-TEXT."

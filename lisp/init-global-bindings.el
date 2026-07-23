@@ -32,6 +32,7 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+(require 'eds-blog)
 (require 'eds-utils)
 (require 'init-utils)
 (require 'init-hydra)
@@ -75,6 +76,7 @@
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "<f5>") #'eds/launch-blog-ux)
 
 ;; (global-set-key (kbd "C-c i b") #'copilot-chat-add-current-buffer)
 
