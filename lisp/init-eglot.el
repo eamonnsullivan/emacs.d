@@ -89,5 +89,13 @@
          ("C-c C-l i" . eglot-code-action-inline)
          ("C-c C-l f" . eglot-format)))
 
+(use-package eglotx
+  :straight (:host github :repo "cxa/eglotx" :files ("*.el"))
+  :config
+  (eglotx-presets-mode 1))
+
+(require 'eglotx-eglot)
+
+
 (provide 'init-eglot)
 ;;; init-eglot.el ends here

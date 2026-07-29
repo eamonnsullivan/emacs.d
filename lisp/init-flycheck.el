@@ -32,23 +32,21 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (use-package flycheck-pos-tip
   :after flycheck)
 
 (use-package flycheck
   :straight t
   :config
-  (flycheck-add-mode 'scala-scalastyle 'scala-ts-mode)
+  (global-flycheck-mode 1)
+  (global-flycheck-eglot-mode 1)
+  (global-flycheck-annotate-mode 1)
+  (setq flycheck-annotate-background t)
   (setq-default flycheck-disabled-checkers '(org-lint))
-  :init
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package flycheck-eglot
-  :straight
-  (:host github :repo "flycheck/flycheck-eglot" :files ("*.el"))
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
+  :hook ((after-init . global-flycheck-mode)
+         (after-init . global-flycheck-annotate-mode)))
 
 (use-package flycheck-clj-kondo
   :if (executable-find "clj-kondo")
@@ -56,4 +54,5 @@
   :hook (clojure-mode . (lambda () (require 'flycheck-clj-kondo))))
 
 (provide 'init-flycheck)
+
 ;;; init-flycheck.el ends here
