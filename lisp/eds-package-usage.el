@@ -94,7 +94,7 @@ Both build and repository paths are recognised."
     (when (stringp file)
       (if (file-name-absolute-p file)
           file
-        (locate-library file))))
+        (locate-library file)))))
 
 (defun eds-package-usage--command-package (command)
   "Return the straight package attributed to COMMAND, or nil."
