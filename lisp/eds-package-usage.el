@@ -158,9 +158,10 @@ Invalid or unsupported state is ignored without interrupting startup."
   (interactive)
   (when (file-readable-p eds-package-usage-state-file)
     (condition-case err
-        (let ((state (with-temp-buffer
-                       (insert-file-contents eds-package-usage-state-file)
-                       (read (current-buffer)))))
+(let ((state (with-temp-buffer
+               (insert-file-contents eds-package-usage-state-file)
+               (let ((read-eval nil))
+                 (read (current-buffer))))))
           (when (equal (plist-get state :version)
                        eds-package-usage--state-version)
             (clrhash eds-package-usage--records)
