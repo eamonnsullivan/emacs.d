@@ -10,6 +10,7 @@
 (files "lisp/eds-blog.el"
        "lisp/eds-email.el"
        "lisp/eds-org.el"
+       "lisp/eds-package-usage.el"
        "lisp/eds-utils.el")
 
 (source "gnu")
