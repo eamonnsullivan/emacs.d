@@ -37,7 +37,8 @@
       (require 'eds-email)
       (require 'eds-org)
       (require 'eds-utils)
-      (require 'eds-github))))
+      (require 'eds-github)
+      (require 'eds-package-usage))))
 
 (eds-initialize-test-environment)
 
