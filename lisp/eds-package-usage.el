@@ -67,11 +67,15 @@ Both build and repository paths are recognised."
 
 (defun eds-package-usage--command-file (command)
   "Return the source or autoload file associated with COMMAND."
-  (or (symbol-file command 'defun)
-      (let ((definition (and (fboundp command)
-                             (symbol-function command))))
-        (when (autoloadp definition)
-          (nth 1 definition)))))
+  (let ((file (or (symbol-file command 'defun)
+                  (let ((definition (and (fboundp command)
+                                         (symbol-function command))))
+                    (when (autoloadp definition)
+                      (nth 1 definition))))))
+    (when (stringp file)
+      (if (file-name-absolute-p file)
+          file
+        (locate-library file))))
 
 (defun eds-package-usage--command-package (command)
   "Return the straight package attributed to COMMAND, or nil."
