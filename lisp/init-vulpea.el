@@ -105,7 +105,8 @@
        :file-name "journal/%Y-%m-%d.org"
        :title "%A, %B %d, %Y"
        :tags '("journal")
-       :body "\n\n* Gratitude practice\n")))
+       :body (concat "\n\n* Done today"
+                     "\n\n* Gratitude practice\n"))))
 
 
 (provide 'init-vulpea)
