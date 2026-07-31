@@ -101,7 +101,16 @@
       (expect (funcall (eds-package-usage--make-column-sorter 1) two ten)
               :to-be-truthy)
       (expect (funcall (eds-package-usage--make-column-sorter 2) two ten)
-              :to-be-truthy))))
+              :to-be-truthy)))
+
+  (it "sorts the report using its installed numeric column callbacks"
+    (with-temp-buffer
+      (eds-package-usage-report-mode)
+      (setq tabulated-list-entries
+            '(("ten" ["ten" "10" "3" "never" "" "observed"])
+              ("two" ["two" "2" "1" "never" "" "observed"])))
+      (tabulated-list-print)
+      (expect (tabulated-list-sort 1) :not :to-throw))))
 
 (provide 'test-eds-package-usage)
 

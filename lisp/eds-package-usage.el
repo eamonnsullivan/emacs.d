@@ -277,12 +277,12 @@ Invalid or unsupported state is ignored without interrupting startup."
   "Package Usage"
   "Display aggregate use of straight.el packages."
   (setq tabulated-list-format
-        [("Package" 28 t)
-         ("Calls" 10 (eds-package-usage--make-column-sorter 1) :right-align t)
-         ("Days" 8 (eds-package-usage--make-column-sorter 2) :right-align t)
-         ("Last used" 12 t)
-         ("Example commands" 42 t)
-         ("Status" 10 t)])
+        `[("Package" 28 t)
+          ("Calls" 10 ,(eds-package-usage--make-column-sorter 1) :right-align t)
+          ("Days" 8 ,(eds-package-usage--make-column-sorter 2) :right-align t)
+          ("Last used" 12 t)
+          ("Example commands" 42 t)
+          ("Status" 10 t)])
   (setq tabulated-list-padding 2)
   (setq tabulated-list-sort-key '("Last used" . nil))
   (add-hook 'tabulated-list-revert-hook
