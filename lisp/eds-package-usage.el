@@ -239,8 +239,7 @@ Invalid or unsupported state is ignored without interrupting startup."
 (defun eds-package-usage--report-entries ()
   "Return tabulated entries for installed and observed packages."
   (let ((summary (eds-package-usage--package-summary))
-        packages)
-    (setq packages (eds-package-usage--installed-packages))
+        (packages (eds-package-usage--installed-packages)))
     (maphash (lambda (package _record)
                (push package packages))
              summary)
