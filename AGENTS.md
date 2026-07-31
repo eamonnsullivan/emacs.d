@@ -15,6 +15,10 @@ Style rules (quick):
 - Error handling: prefer `condition-case` for recoverable errors; signal programmer errors.
 - Tests: Buttercup tests, keep each file focused on one eds-*.el library.
 
+Git:
+- Use one-line commit messages (no body).
+- Append `[copilot]` to any commit that includes generated or modified code.
+
 Quick dos and don'ts:
 - Do keep `early-init.el` minimal (no package setup).
 - Do include docstrings and `(provide 'feature)` at EOF.
