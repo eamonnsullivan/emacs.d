@@ -268,21 +268,18 @@ Invalid or unsupported state is ignored without interrupting startup."
   (< (string-to-number (aref (cadr left) column))
      (string-to-number (aref (cadr right) column))))
 
-(defun eds-package-usage--calls-less-p (left right)
-  "Return non-nil when LEFT has fewer calls than RIGHT."
-  (eds-package-usage--numeric-column-less-p left right 1))
-
-(defun eds-package-usage--days-less-p (left right)
-  "Return non-nil when LEFT has fewer distinct days than RIGHT."
-  (eds-package-usage--numeric-column-less-p left right 2))
+(defun eds-package-usage--make-column-sorter (column)
+  "Return a comparator that sorts by numeric COLUMN."
+  (lambda (left right)
+    (eds-package-usage--numeric-column-less-p left right column)))
 
 (define-derived-mode eds-package-usage-report-mode tabulated-list-mode
   "Package Usage"
   "Display aggregate use of straight.el packages."
   (setq tabulated-list-format
         [("Package" 28 t)
-         ("Calls" 10 eds-package-usage--calls-less-p :right-align t)
-         ("Days" 8 eds-package-usage--days-less-p :right-align t)
+         ("Calls" 10 (eds-package-usage--make-column-sorter 1) :right-align t)
+         ("Days" 8 (eds-package-usage--make-column-sorter 2) :right-align t)
          ("Last used" 12 t)
          ("Example commands" 42 t)
          ("Status" 10 t)])
@@ -318,6 +315,12 @@ modes, hooks, themes, integrations, and dependencies before removal."
     (eds-package-usage-save)
     (message "Package usage history reset")))
 
+(defun eds-package-usage--cancel-save-timer ()
+  "Cancel the periodic save timer if active."
+  (when (timerp eds-package-usage--save-timer)
+    (cancel-timer eds-package-usage--save-timer))
+  (setq eds-package-usage--save-timer nil))
+
 ;;;###autoload
 (define-minor-mode eds-package-usage-mode
   "Globally record aggregate use of straight.el package commands."
@@ -328,16 +331,13 @@ modes, hooks, themes, integrations, and dependencies before removal."
         (eds-package-usage-load)
         (add-hook 'pre-command-hook #'eds-package-usage--pre-command)
         (add-hook 'kill-emacs-hook #'eds-package-usage-save)
-        (when (timerp eds-package-usage--save-timer)
-          (cancel-timer eds-package-usage--save-timer))
+        (eds-package-usage--cancel-save-timer)
         (setq eds-package-usage--save-timer
               (run-with-idle-timer eds-package-usage-save-interval t
                                    #'eds-package-usage-save)))
     (remove-hook 'pre-command-hook #'eds-package-usage--pre-command)
     (remove-hook 'kill-emacs-hook #'eds-package-usage-save)
-    (when (timerp eds-package-usage--save-timer)
-      (cancel-timer eds-package-usage--save-timer))
-    (setq eds-package-usage--save-timer nil)
+    (eds-package-usage--cancel-save-timer)
     (eds-package-usage-save)))
 
 (provide 'eds-package-usage)

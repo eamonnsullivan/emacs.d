@@ -98,8 +98,10 @@
   (it "sorts usage columns numerically"
     (let ((two '("two" ["two" "2" "1" "never" "" "observed"]))
           (ten '("ten" ["ten" "10" "3" "never" "" "observed"])))
-      (expect (eds-package-usage--calls-less-p two ten) :to-be-truthy)
-      (expect (eds-package-usage--days-less-p two ten) :to-be-truthy))))
+      (expect (funcall (eds-package-usage--make-column-sorter 1) two ten)
+              :to-be-truthy)
+      (expect (funcall (eds-package-usage--make-column-sorter 2) two ten)
+              :to-be-truthy))))
 
 (provide 'test-eds-package-usage)
 
