@@ -55,8 +55,6 @@
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
-  :diminish visual-line-mode
-  :diminish org-indent-mode
   :config
   (require 'ox-latex)
   (require 'ob-clojure)

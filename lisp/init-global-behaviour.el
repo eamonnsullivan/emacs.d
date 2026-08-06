@@ -64,7 +64,6 @@
    ("C-x w f v"  . window-layout-flip-topdown)       ; EMACS-31
    ("C-x 5 l"  . select-frame-by-name)
    ("C-x 5 s"  . set-frame-name)
-   ("RET" . newline-and-indent)
    ("C-z" . nil)
    ("C-M-z" . delete-pair))
   :config
@@ -399,7 +398,7 @@
 ;; enable smooth pixel scrolling on graphical displays
 (pixel-scroll-precision-mode t)
 
-(desktop-save-mode 1)
+;; (desktop-save-mode 1)
 
 (provide 'init-global-behaviour)
 ;;; init-global-behaviour.el ends here
