@@ -44,7 +44,7 @@
   (global-flycheck-eglot-mode 1)
   (global-flycheck-annotate-mode 1)
   (setq flycheck-annotate-background t)
-  (setq-default flycheck-disabled-checkers '(org-lint))
+  ;; (setq-default flycheck-disabled-checkers '(org-lint))
   :hook ((after-init . global-flycheck-mode)
          (after-init . global-flycheck-annotate-mode)))
 
