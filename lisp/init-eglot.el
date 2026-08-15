@@ -78,7 +78,7 @@
                   (cons #'flymake-eldoc-function
                         (remove #'flymake-eldoc-function eldoc-documentation-functions)))
             ;; Show all eldoc feedback.
-            (setq eldoc-documentation-strategy #'eldoc-documentation-compose)))
+            (setq eldoc-documentation-strategy #'eldoc-documentation-default)))
 
   :hook ((prog-mode . eglot-ensure)
          (before-save . eglot-format-buffer))
