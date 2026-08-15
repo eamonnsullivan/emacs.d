@@ -54,6 +54,7 @@
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  (add-hook 'completion-at-point-functions #'yasnippet-capf)
   (add-hook 'completion-at-point-functions #'cape-history))
   ;; (add-hook 'completion-at-point-functions
   ;;           (mapcar #'cape-company-to-capf

@@ -187,7 +187,7 @@ Remove characters that don't work in a filename."
 Otherwise, create a new vterm buffer with the default base name."
   (interactive)
   (if (and (derived-mode-p 'ghostel-mode)
-           (string= (buffer-name) "*ghostel*"))
+           (string-prefix-p "*ghostel" (buffer-name)))
       (let ((new-name (read-string "Rename *ghostel* to: ")))
         (unless (string-empty-p new-name)
           (rename-buffer new-name t)))

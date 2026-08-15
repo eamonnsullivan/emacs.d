@@ -44,9 +44,9 @@
 (use-package eca
   :straight (:host github :repo "editor-code-assistant/eca-emacs")
   :commands (eca)
-  :hook
-  (prog-mode . eca-completion-mode)
-  :bind (("C-c C-c" . eca-completion-accept))
+  ;; :hook
+  ;; (prog-mode . eca-completion-mode)
+  ;; :bind (("C-c C-c" . eca-completion-accept))
   :custom
   (eca-max-response-kb 2048)
   (eca-provider 'gh-copilot)

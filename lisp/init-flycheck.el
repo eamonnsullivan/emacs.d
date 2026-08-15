@@ -42,11 +42,10 @@
   :config
   (global-flycheck-mode 1)
   (global-flycheck-eglot-mode 1)
-  (global-flycheck-annotate-mode 1)
+  ;; (global-flycheck-annotate-mode 1)
   (setq flycheck-annotate-background t)
-  ;; (setq-default flycheck-disabled-checkers '(org-lint))
-  :hook ((after-init . global-flycheck-mode)
-         (after-init . global-flycheck-annotate-mode)))
+  :hook ((after-init . global-flycheck-mode)))
+         ;; (after-init . global-flycheck-annotate-mode)))
 
 (use-package flycheck-clj-kondo
   :if (executable-find "clj-kondo")

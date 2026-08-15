@@ -36,10 +36,14 @@
 
 (require 'eds-utils)
 
+
 (use-package ghostel
   :straight (:host github :repo "dakra/ghostel")
   :bind (("C-c t n" . eds-utils/visit-term)
          ("C-c t s" . eds-utils/ssh-term)
+         ("C-c t o" . (lambda ()
+                        (interactive)
+                        (ghostel t)))
          :map ghostel-semi-char-mode-map
          ("C-s"  . consult-line)
          ("M-<backspace>" . ghostel-backward-kill-word))

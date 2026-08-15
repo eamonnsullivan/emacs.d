@@ -64,8 +64,8 @@
    (add-hook 'tsx-ts-mode-hook 'add-node-modules-path))
 
 (use-package prettier
-  :hook
-  (typescript-ts-mode . prettier-mode)
+  ;; :hook
+  ;; (typescript-ts-mode . prettier-mode)
   :config
   (setopt prettier-mode-sync-config-flag t))
 

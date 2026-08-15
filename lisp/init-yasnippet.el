@@ -36,12 +36,29 @@
   :diminish (yas-minor-mode . " Ⓨ")
   :hook ((prog-mode) . yas-minor-mode)
   :config
-  (use-package yasnippet-snippets :after yasnippet :demand t)
+  ;; (use-package yasnippet-snippets :after yasnippet :demand t)
   (add-to-list 'yas-snippet-dirs "~/.config/emacs/snippets")
   (yas-global-mode 1)
   (with-eval-after-load 'company-mode
     (add-to-list 'company-backends '(company-yasnippet)))
   (yas-reload-all))
+
+(use-package yasnippet-capf
+  :ensure t
+  :after cape
+  :config
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+(defun eds/eglot-capf-with-yasnippet ()
+  "Integrate yasnippet into eglot."
+  (setq-local completion-at-point-functions
+              (list
+               (cape-capf-super
+                #'eglot-completion-at-point
+                #'yasnippet-capf))))
+
+(with-eval-after-load 'eglot
+  (add-hook 'eglot-managed-mode-hook #'eds/eglot-capf-with-yasnippet))
 
 (provide 'init-yasnippet)
 ;;; init-yasnippet.el ends here
