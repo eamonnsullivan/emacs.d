@@ -47,38 +47,41 @@
                                                          "-XX:+UseZGC"
                                                          "-Dmetals.http=true"
                                                          :initializationOptions (:isHttpEnabled t))))
+  ;; for typescript 7
+  ;; '((js-mode js-ts-mode rjsx-mode typescript-mode tsx-ts-mode typescript-ts-mode)
+  ;;   . ("tsc" "--lsp" "--stdio"))
   (setq-default eglot-workspace-configuration
-              '(
-                :metals ( :autoImportBuild "all"
-                          :isHttpEnabled t
-                          :superMethodLensesEnabled t
-                          :showInferredType t
-                          :enableSemanticHighlighting t
-                          :inlayHints ( :inferredTypes (:enable t )
-                                        :implicitArguments (:enable nil)
-                                        :implicitConversions (:enable nil )
-                                        :typeParameters (:enable t )
-                                        :hintsInPatternMatch (:enable nil ))
-                          :bloopJvmProperties ["-Xmx4G"])
-                :typescript (:format (:baseIndentSize 0
-                                                      :convertTabsToSpaces t
-                                                      :indentSize 2
-                                                      :semicolons "always"
-                                                      :tabSize 2))
-                :javascript (:format (:baseIndentSize 0
-                                                      :convertTabsToSpaces t
-                                                      :indentSize 2
-                                                      :semicolons "always"
-                                                      :tabSize 2))))
+                '(
+                  :metals ( :autoImportBuild "all"
+                            :isHttpEnabled t
+                            :superMethodLensesEnabled t
+                            :showInferredType t
+                            :enableSemanticHighlighting t
+                            :inlayHints ( :inferredTypes (:enable t )
+                                          :implicitArguments (:enable nil)
+                                          :implicitConversions (:enable nil )
+                                          :typeParameters (:enable t )
+                                          :hintsInPatternMatch (:enable nil ))
+                            :bloopJvmProperties ["-Xmx4G"])
+                  :typescript (:format (:baseIndentSize 0
+                                                        :convertTabsToSpaces t
+                                                        :indentSize 2
+                                                        :semicolons "always"
+                                                        :tabSize 2))
+                  :javascript (:format (:baseIndentSize 0
+                                                        :convertTabsToSpaces t
+                                                        :indentSize 2
+                                                        :semicolons "always"
+                                                        :tabSize 2))))
 
   (add-hook 'eglot-managed-mode-hook
-          (lambda ()
-            ;; Show flymake diagnostics first.
-            (setq eldoc-documentation-functions
-                  (cons #'flymake-eldoc-function
-                        (remove #'flymake-eldoc-function eldoc-documentation-functions)))
-            ;; Show all eldoc feedback.
-            (setq eldoc-documentation-strategy #'eldoc-documentation-default)))
+            (lambda ()
+              ;; Show flymake diagnostics first.
+              (setq eldoc-documentation-functions
+                    (cons #'flymake-eldoc-function
+                          (remove #'flymake-eldoc-function eldoc-documentation-functions)))
+              ;; Show all eldoc feedback.
+              (setq eldoc-documentation-strategy #'eldoc-documentation-default)))
 
   :hook ((prog-mode . eglot-ensure)
          (before-save . eglot-format-buffer))

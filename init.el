@@ -103,8 +103,6 @@
 ;; The rest of my init file, broken up into libraries in the lisp directory
 ;; (setq debug-on-error t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'eds-package-usage)
-(eds-package-usage-mode 1)
 (add-to-list 'load-path "/opt/homebrew/share/emacs/site-lisp/mu/mu4e")
 (require 'init-git)
 (require 'init-elpa)

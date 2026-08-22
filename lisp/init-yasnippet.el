@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (use-package yasnippet
   :diminish (yas-minor-mode . " Ⓨ")
   :hook ((prog-mode) . yas-minor-mode)
@@ -48,17 +50,6 @@
   :after cape
   :config
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
-(defun eds/eglot-capf-with-yasnippet ()
-  "Integrate yasnippet into eglot."
-  (setq-local completion-at-point-functions
-              (list
-               (cape-capf-super
-                #'eglot-completion-at-point
-                #'yasnippet-capf))))
-
-(with-eval-after-load 'eglot
-  (add-hook 'eglot-managed-mode-hook #'eds/eglot-capf-with-yasnippet))
 
 (provide 'init-yasnippet)
 ;;; init-yasnippet.el ends here
