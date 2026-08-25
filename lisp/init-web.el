@@ -32,15 +32,6 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-(defun my/web-mode-hook ()
-  (setopt web-mode-enable-auto-pairing nil))
-
-(defun my/sp-web-mode-is-code-context (id action context)
-  (when (and (eq action 'insert)
-             (not (or (get-text-property (point) 'part-side)
-                      (get-text-property (point) 'block-side))))
-    t))
-
 (use-package web-mode
   :mode "\\.html?\\'"
   :config

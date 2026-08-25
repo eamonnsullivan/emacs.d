@@ -32,30 +32,17 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-(defvar imenu-auto-rescan t)
-
-
-;; comint
-(require 'comint)
-(setopt ansi-color-for-comint-mode t)
-(defun eds/init-comint ()
-  ;; Don't jump around when output in a buffer happens
-  (set (make-local-variable 'scroll-conservatively) 1000))
-(add-hook 'comint-mode-hook 'eds/init-comint)
+;;; Code:
 
 (use-package idle-highlight-mode
-  :config (setopt idle-highlight-idle-time 0.2))
+  :config (setopt idle-highlight-idle-time 0.2)
+  :hook ((prog-mode text-mode) . idle-highlight-mode))
 
 (use-package typescript-ts-mode
   :mode (("\.ts$" . typescript-ts-mode))
   :config (add-hook 'typescript-ts-base-mode-hook
                     (lambda()
                       (setopt typescript-indent-level 2))))
-
-;; enable colour in compile and sbt modes (this doesn't work for cucumber)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-hook 'sbt-mode-hook 'ansi-color-for-comint-mode-on)
-(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 
 ;; Highlight Comment Annotations
 ;; from: https://gitlab.com/psachin/emacs.d/blob/master/custom_functions.org
@@ -67,25 +54,6 @@ programming."
    nil '(("\\<\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
-
-(use-package plantuml-mode
-  :mode (("\\.puml\\'" . plantuml-mode)
-         ("\\.plantuml\\'" . plantuml-mode))
-  :config
-  (setopt plantuml-jar-path "/usr/local/bin/plantuml"
-        plantuml-default-exec-mode 'executable))
-
-(use-package yaml-mode
-  :mode ("\\.yml\\'" . yaml-mode)
-  :hook
-  (yaml-mode . (lambda () (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
-
-(add-to-list 'auto-mode-alist '("\\.service\\'" . conf-unix-mode))
-
-(use-package graphql-mode)
-
-(straight-use-package 'yapfify)
-(add-hook 'python-ts-mode-hook 'yapf-mode)
 
 (setopt treesit-font-lock-level 4)
 

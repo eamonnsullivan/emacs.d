@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (require 'eds-utils)
 
 (use-package seq)
@@ -63,11 +65,6 @@
   (setopt git-gutter:modified-sign "▌")
   :config
   (global-git-gutter-mode 't))
-
-(use-package github-browse-file
-  :commands (github-browse-file)
-  :bind ("C-c G h" . github-browse-file)
-  :defer t)
 
 (autoload 'eds-github/list-runs "eds-github" nil t)
 (global-set-key (kbd "C-c G a") #'eds-github/list-runs)

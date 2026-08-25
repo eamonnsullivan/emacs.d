@@ -398,7 +398,5 @@
 ;; enable smooth pixel scrolling on graphical displays
 (pixel-scroll-precision-mode t)
 
-;; (desktop-save-mode 1)
-
 (provide 'init-global-behaviour)
 ;;; init-global-behaviour.el ends here
