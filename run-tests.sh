@@ -3,10 +3,13 @@
 # Usage: ./run-tests.sh [pattern]
 # If a pattern is provided, it will be forwarded to buttercup's --pattern option.
 
-PATTERN="$1"
+set -eu
+
+PATTERN="${1:-}"
 
 if [ -n "$PATTERN" ]; then
-  UNDERCOVER_FORCE=true eask -g exec buttercup --pattern "$PATTERN" -L .
+  eask emacs --batch -L . -L tests -l buttercup -f buttercup-run-discover \
+    -- --pattern "$PATTERN"
 else
-  UNDERCOVER_FORCE=true eask -g exec buttercup -L .
+  eask emacs --batch -L . -L tests -l buttercup -f buttercup-run-discover
 fi

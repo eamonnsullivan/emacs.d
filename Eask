@@ -9,6 +9,7 @@
 
 (files "lisp/eds-blog.el"
        "lisp/eds-email.el"
+       "lisp/eds-github.el"
        "lisp/eds-org.el"
        "lisp/eds-utils.el")
 

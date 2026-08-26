@@ -9,7 +9,8 @@
 
 ;;; Commentary:
 
-;; Test bootstrap for Buttercup + Undercover.
+;; Test bootstrap for Buttercup + Undercover.  Coverage is collected when
+;; Undercover detects CI or the UNDERCOVER_FORCE environment variable is set.
 
 ;;; Code:
 
@@ -21,15 +22,13 @@
   (unless eds-testing-setup
     (setq eds-testing-setup t)
 
-    ;; Must be set before loading Undercover/instrumented files.
-    (setq undercover-force-coverage t
-          undercover--verbosity 7)
-
-    (when (require 'undercover nil t)
-      (undercover "lisp/eds-*.el"
-                  (:report-file "coverage/.resultset.json")
-                  (:report-format 'simplecov)
-                  (:send-report nil)))
+    ;; Undercover must be configured before loading instrumented files.
+    (require 'undercover)
+    (undercover "lisp/eds-*.el"
+                (:report-file "coverage/.resultset.json")
+                (:report-format 'simplecov)
+                (:send-report nil)
+                (:merge-report nil))
 
     ;; Load instrumented libraries after Undercover is initialized.
     (let ((load-prefer-newer t))

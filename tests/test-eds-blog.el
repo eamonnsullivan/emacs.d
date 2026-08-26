@@ -17,18 +17,6 @@
 (load-file "tests/setup.el")
 
 (describe "eds-blog/start-blog-post"
-  :var (find-file
-        eds-blog/insert-skeleton-blog-post
-        save-buffer
-        magit-branch-create
-        magit-checkout)
-  (before-all
-    (fset 'find-file (lambda (filename) nil))
-    (fset 'eds-blog/insert-skeleton-blog-post (lambda (title &optional author) nil))
-    (fset 'save-buffer (lambda () nil))
-    (fset 'magit-branch-create (lambda (branch base) nil))
-    (fset 'magit-checkout (lambda (branch) nil)))
-
   (it "creates a new blog post file with the correct name and branch"
     (let ((project "/mock/project")
           (title "My First Blog Post"))
@@ -79,11 +67,6 @@
                                      nil)))
 
 (describe "eds-blog/start-svp-blog-post"
-  :var (eds-blog/start-blog-post)
-  (before-all
-    (fset 'eds-blog/start-blog-post
-          (lambda (project title &optional author) nil)))
-
   (it "passes title and author to the SVP blog project"
     (spy-on 'eds-blog/start-blog-post)
     (eds-blog/start-svp-blog-post "My SVP Post" "Paul O'Regan")
