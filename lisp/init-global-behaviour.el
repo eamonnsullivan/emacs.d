@@ -81,6 +81,7 @@
   (info-initialize)
   (push "/opt/homebrew/share/info/" Info-directory-list)
   (add-to-list 'Info-default-directory-list "/opt/homebrew/share/info")
+  (make-directory (expand-file-name "cache" user-emacs-directory) t)
   (setq-default visual-fill-column-width 120)
   :init
   (put 'narrow-to-region 'disabled nil)
@@ -335,7 +336,8 @@
 
 (use-package eldoc
   :config
-  (setopt eldoc-echo-area-use-multiline-p t))
+  (setopt eldoc-echo-area-use-multiline-p t)
+  (setq eldoc-display-functions '(eldoc-display-in-echo-area)))
 
 (use-package pomidor
   :bind (("<f12>" . pomidor))

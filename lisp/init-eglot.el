@@ -32,6 +32,8 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
+;;; Code:
+
 (use-package eglot
   :config
   (setopt eglot-autoshutdown t
@@ -76,6 +78,9 @@
 
   (add-hook 'eglot-managed-mode-hook
             (lambda ()
+              (if (bound-and-true-p eglot-managed-mode)
+                  (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+                (remove-hook 'before-save-hook #'eglot-format-buffer t))
               ;; Show flymake diagnostics first.
               (setq eldoc-documentation-functions
                     (cons #'flymake-eldoc-function
@@ -83,8 +88,7 @@
               ;; Show all eldoc feedback.
               (setq eldoc-documentation-strategy #'eldoc-documentation-default)))
 
-  :hook ((prog-mode . eglot-ensure)
-         (before-save . eglot-format-buffer))
+  :hook (prog-mode . eglot-ensure)
   :bind (("C-c C-l r" . eglot-rename)
          ("C-c C-l o" . eglot-code-action-organize-imports)
          ("C-c C-l q" . eglot-code-action-quickfix)
