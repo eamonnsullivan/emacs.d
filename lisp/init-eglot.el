@@ -40,7 +40,9 @@
           read-process-output-max (* 4 1024 1024) ; 4MB
           eglot-documentation-renderer 'markdown-ts-view-mode
           eglot-code-actions-indications nil
-          eglot-extend-to-xref t)
+          eglot-extend-to-xref t
+          eglot-sync-connect nil
+          eglot-events-buffer-config '(:size 0 :format short))
   ;; Needed for scala/metals only. See https://github.com/scalameta/metals/issues/8198
   ;; eglot-ignored-server-capabilites '(:documentOnTypeFormattingProvider :documentRangeFormattingProvider)
   (setq eglot-server-programs (assq-delete-all 'scala-mode eglot-server-programs))

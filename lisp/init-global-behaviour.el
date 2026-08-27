@@ -393,9 +393,25 @@
         world-clock-sort-order "%FT%T")
 
 ;; nice scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+;; https://www.jamescherti.com/emacs-scrolling-better-performance-usability/
+(setq scroll-margin 3
+      scroll-conservatively 20
+      scroll-preserve-screen-position 1
+      redisplay-skip-fontification-on-input t
+      scroll-preserve-screen-position t
+      fast-but-imprecise-scrolling t
+      isearch-allow-scroll 'unlimited
+      mouse-wheel-scroll-amount
+      '(1
+        ((shift) . hscroll) ((meta))
+        ((control meta) . global-text-scale)
+        ((control) . text-scale))
+      mouse-wheel-progressive-speed nil
+      pixel-scroll-precision-mode 1)
+(setq-default scroll-up-aggressively 0.01
+              scroll-down-aggressively 0.01
+              comint-scroll-to-bottom-on-input t
+              comint-scroll-to-bottom-on-output nil)
 
 ;; enable smooth pixel scrolling on graphical displays
 (pixel-scroll-precision-mode t)
