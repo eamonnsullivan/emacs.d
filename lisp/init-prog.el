@@ -36,7 +36,7 @@
 
 (use-package idle-highlight-mode
   :config (setopt idle-highlight-idle-time 0.2)
-  :hook ((prog-mode text-mode) . idle-highlight-mode))
+  :hook ((prog-mode) . idle-highlight-mode))
 
 (use-package typescript-ts-mode
   :mode (("\.ts$" . typescript-ts-mode))
