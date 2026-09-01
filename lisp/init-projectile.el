@@ -37,9 +37,10 @@
   :diminish projectile-mode
   :init
   (setopt projectile-completion-system 'default
-        projectile-switch-project-action 'projectile-find-file
-        projectile-indexing-method 'alien)
+          projectile-switch-project-action 'projectile-find-file
+          projectile-indexing-method 'alien)
   :config
+  (add-hook 'project-find-functions #'project-projectile)
   (projectile-mode t)
   (add-to-list 'projectile-globally-ignored-directories "node-modules")
   (add-to-list 'projectile-globally-ignored-files "node-modules")

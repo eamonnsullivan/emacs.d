@@ -67,15 +67,6 @@
 
 (use-package clojure-mode-extra-font-locking)
 
-(use-package clj-refactor
-  :straight
-  (clj-refactor :type git :host github :repo "clojure-emacs/clj-refactor.el" :branch "master")
-  :hook ((clojure-mode . clj-refactor-mode)
-         (clojure-mode . yas-minor-mode))
-  :config
-  (cljr-add-keybindings-with-prefix "C-c r")
-  (setopt cljr-warn-on-eval nil))
-
 (use-package cider-hydra
   :hook ((cider-mode . cider-hydra-mode))
   :bind ("C-c e" . cider-hydra-eval/body))

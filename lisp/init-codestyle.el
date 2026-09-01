@@ -40,17 +40,6 @@
 (require 'dtrt-indent)
 (setopt dtrt-indent-global-mode t)
 
-;; (use-package paredit
-;;   :straight t
-;;   :commands
-;;   paredit-mode
-;;   :diminish paredit-mode
-;;   :hook ((lisp-interaction-mode . paredit-mode)
-;;          (emacs-lisp-mode . paredit-mode)
-;;          (lisp-mode . paredit-mode)
-;;          (scheme-mode . paredit-mode)
-;;          (clojure-mode . paredit-mode)))
-
 (use-package smartparens
   :straight
   (smartparens :type git :host github :repo "Fuco1/smartparens")
