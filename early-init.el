@@ -34,4 +34,9 @@
 
 ;; Single VC backend inscreases booting speed
 (setq vc-handled-backends '(Git))
+
+(setq gnutls-verify-error t)
+(setq tls-checktrust t)
+(setq gnutls-min-prime-bits 3072)
+
 ;; (setopt user-lisp-directory (locate-user-emacs-file "eds-lisp/"))

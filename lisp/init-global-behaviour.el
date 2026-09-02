@@ -83,6 +83,7 @@
   (add-to-list 'Info-default-directory-list "/opt/homebrew/share/info")
   (make-directory (expand-file-name "cache" user-emacs-directory) t)
   (setq-default visual-fill-column-width 120)
+  (add-to-list 'safe-local-variable-directories user-emacs-directory)
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -183,6 +184,7 @@
      " "
      mode-line-modes
      mode-line-misc-info))
+  (enable-local-variables :safe)
 
   :hook
   ((text-mode . (lambda ()
