@@ -59,6 +59,7 @@
           lsp-log-io nil
           lsp-modeline-code-actions-enable nil
           lsp-modeline-diagnostics-enable t
+          lsp-warn-no-matched-clients nil
           lsp-restart 'auto-restart
           lsp-signature-auto-activate nil)
   :bind (("C-c C-l r" . lsp-rename)
