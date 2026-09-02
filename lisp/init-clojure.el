@@ -74,11 +74,11 @@
 (use-package kibit-helper)
 
 (defun find-definition ()
-  "Try to find definition of cursor via LSP otherwise fallback to cider."
+  "Try to find definition at point via LSP, otherwise fall back to CIDER."
   (interactive)
   (let ((cursor (point))
         (buffer (current-buffer)))
-    (eglot-find-declaration)
+    (xref-find-definitions (thing-at-point 'symbol t))
     (when (and (eq buffer (current-buffer))
                (eq cursor (point)))
       (cider-find-var))))

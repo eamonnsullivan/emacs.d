@@ -100,6 +100,10 @@
 (straight-use-package 'use-package)
 (straight-use-package 'project)
 
+(defvar eds-lsp-client 'lsp-mode
+  "Language Server Protocol client to use.
+Set this to `eglot' for Eglot with Eglotx, or `lsp-mode' for lsp-mode.")
+
 ;; The rest of my init file, broken up into libraries in the lisp directory
 ;; (setq debug-on-error t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
@@ -122,7 +126,10 @@
 (require 'init-term)
 (require 'init-mc)
 (require 'init-server)
-(require 'init-eglot)
+(pcase eds-lsp-client
+  ('eglot (require 'init-eglot))
+  ('lsp-mode (require 'init-lsp-mode))
+  (_ (error "Unsupported LSP client: %S" eds-lsp-client)))
 (require 'init-flycheck)
 (require 'init-json)
 (require 'init-cloudformation)

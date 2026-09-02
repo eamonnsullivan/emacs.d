@@ -41,7 +41,8 @@
   :straight t
   :config
   (global-flycheck-mode 1)
-  (global-flycheck-eglot-mode 1)
+  (when (eq eds-lsp-client 'eglot)
+    (global-flycheck-eglot-mode 1))
   (setq flycheck-annotate-background t)
   :hook ((after-init . global-flycheck-mode)))
 
