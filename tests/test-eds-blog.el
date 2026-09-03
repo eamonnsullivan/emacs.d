@@ -16,6 +16,43 @@
 
 (load-file "tests/setup.el")
 
+(describe "eds-blog/insert-skeleton-blog-post"
+  (it "inserts Hugo front matter without an author"
+    (with-temp-buffer
+      (cl-letf (((symbol-function 'format-time-string)
+                 (lambda (&rest _) "2026-03-19")))
+        (eds-blog/insert-skeleton-blog-post "My First Blog Post")
+        (expect (buffer-string)
+                :to-equal
+                (concat "---\n"
+                        "title: \"My First Blog Post\"\n"
+                        "date: \"2026-03-19T00:00:00+00:00\"\n"
+                        "url: \"/posts-output/2026-03-19-my-first-blog-post/\"\n"
+                        "tags: []\n"
+                        "---\n\n")))))
+
+  (it "includes a non-empty author in Hugo front matter"
+    (with-temp-buffer
+      (cl-letf (((symbol-function 'format-time-string)
+                 (lambda (&rest _) "2026-03-19")))
+        (eds-blog/insert-skeleton-blog-post "SVP News" "Paul O'Regan")
+        (expect (buffer-string)
+                :to-equal
+                (concat "---\n"
+                        "title: \"SVP News\"\n"
+                        "date: \"2026-03-19T00:00:00+00:00\"\n"
+                        "url: \"/posts-output/2026-03-19-svp-news/\"\n"
+                        "author: \"Paul O'Regan\"\n"
+                        "tags: []\n"
+                        "---\n\n")))))
+
+  (it "omits an empty author from Hugo front matter"
+    (with-temp-buffer
+      (cl-letf (((symbol-function 'format-time-string)
+                 (lambda (&rest _) "2026-03-19")))
+        (eds-blog/insert-skeleton-blog-post "Personal News" "")
+        (expect (buffer-string) :not :to-match "author:")))))
+
 (describe "eds-blog/start-blog-post"
   (it "creates a new blog post file with the correct name and branch"
     (let ((project "/mock/project")
@@ -27,7 +64,7 @@
       (spy-on 'magit-checkout)
       (eds-blog/start-blog-post project title)
       (let* ((expected-branch (concat (format-time-string "%Y-%m-%d") "-my-first-blog-post"))
-             (expected-filename (concat project "/content/md/posts/" expected-branch ".md")))
+             (expected-filename (concat project "/content/posts/" expected-branch ".md")))
         (expect 'find-file :to-have-been-called-with expected-filename)
         (expect 'eds-blog/insert-skeleton-blog-post :to-have-been-called-with title)
         (expect 'save-buffer :to-have-been-called)

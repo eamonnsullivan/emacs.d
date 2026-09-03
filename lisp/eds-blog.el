@@ -34,26 +34,33 @@
 ;;; Code:
 
 (require 'eds-utils)
+(require 'json)
 (require 'subr-x)
 (require 'widget)
 (require 'wid-edit)
 
 (defun eds-blog/insert-skeleton-blog-post (title &optional author)
-  "Insert a basic skeleton for a blog post with TITLE.
+  "Insert Hugo front matter for a blog post with TITLE.
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
-  (goto-char (point-min))
-  (insert (format "{:title \"%s\"\n :layout :post\n%s :tags []}\n\n"
-                  title
-                  (if (and author (not (string-empty-p author)))
-                      (format " :author \"%s\"\n" author)
-                    ""))))
+  (let* ((date (format-time-string "%Y-%m-%d"))
+         (slug (eds-utils/process-title title))
+         (url (format "/posts-output/%s-%s/" date slug)))
+    (goto-char (point-min))
+    (insert (format "---\ntitle: %s\ndate: \"%sT00:00:00+00:00\"\nurl: %s\n%s"
+                    (json-encode-string title)
+                    date
+                    (json-encode-string url)
+                    (if (and author (not (string-empty-p author)))
+                        (format "author: %s\n" (json-encode-string author))
+                      ""))
+            "tags: []\n---\n\n")))
 
 (defun eds-blog/start-blog-post (project title &optional author)
   "Create a new post for PROJECT with TITLE and today's date on a new branch.
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (let* ((title-name (eds-utils/process-title title))
          (branch (concat (format-time-string "%Y-%m-%d") "-" title-name))
-         (filename (concat project "/content/md/posts/" branch ".md"))
+         (filename (concat project "/content/posts/" branch ".md"))
          (default-directory (file-name-as-directory (expand-file-name project))))
     (magit-branch-create branch "main")
     (magit-checkout branch)
