@@ -86,9 +86,9 @@
 (describe "eds-blog/link-to-svp-contact-page"
   (it "inserts a contact link around the provided text"
     (expect (eds-blog/link-to-svp-contact-page "test")
-            :to-equal "[test](../../pages-output/contact/)")
+            :to-equal "[test](/pages-output/contact/)")
     (expect (eds-blog/link-to-svp-contact-page "Hello World")
-            :to-equal "[Hello World](../../pages-output/contact/)"))
+            :to-equal "[Hello World](/pages-output/contact/)"))
   (it "returns nil for empty or nil input"
     (expect (eds-blog/link-to-svp-contact-page "")
             :to-be nil)

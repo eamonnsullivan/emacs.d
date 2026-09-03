@@ -130,7 +130,7 @@ When AUTHOR is non-nil and non-empty, include it in the post metadata."
 (defun eds-blog/link-to-svp-contact-page (selected-text)
   "Make a link to the SVP's contact page from SELECTED-TEXT."
   (if (> (length selected-text) 0)
-      (format "[%s](../../pages-output/contact/)" selected-text)
+      (format "[%s](/pages-output/contact/)" selected-text)
     nil))
 
 ;;;###autoload
