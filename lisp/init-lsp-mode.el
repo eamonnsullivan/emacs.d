@@ -73,5 +73,8 @@
   :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode))
 
+(use-package lsp-biome
+  :straight (:host github :repo "cxa/lsp-biome" :files ("*.el")))
+
 (provide 'init-lsp-mode)
 ;;; init-lsp-mode.el ends here
