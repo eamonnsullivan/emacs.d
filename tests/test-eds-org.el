@@ -91,7 +91,6 @@
     (set 'mark-active t)
     (fset 'region-beginning (lambda () 1))
     (fset 'region-end (lambda () 10))
-    (fset 'buffer-substring-no-properties (lambda (beg end) nil))
     (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
   (before-each
     (spy-on 'org-store-link
@@ -253,6 +252,30 @@
       (eds-org/sync-agenda-filetag)
       (expect (buffer-string)
               :not :to-match "#\\+filetags:")))
+
+  (it "ignores filetags text inside source and example blocks"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+filetags: :agenda:\n"
+              "#+begin_src org\n#+filetags: :source:\n#+end_src\n"
+              "#+begin_example\n#+filetags: :example:\n#+end_example\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :source:")
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :example:")
+      (expect (buffer-string)
+              :not :to-match "#\\+filetags: :agenda:")))
+
+  (it "ignores filetags keywords beneath headings"
+    (with-temp-buffer
+      (org-mode)
+      (insert "* Notes\n#+filetags: :nested:\n* TODO Pending\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :agenda:")
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :nested:")))
 
   (it "installs a buffer-local save hook"
     (with-temp-buffer

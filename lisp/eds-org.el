@@ -183,26 +183,37 @@ being used and the URL that we're capturing."
           (throw 'active-todo t)))
       nil)))
 
+(defun eds-org/top-level-filetag-keywords ()
+  "Return FILETAGS keyword elements from current Org buffer's preamble."
+  (let* ((document (org-element-parse-buffer))
+         (first-element (car (org-element-contents document))))
+    (when (eq (org-element-type first-element) 'section)
+      (seq-filter
+       (lambda (element)
+         (and (eq (org-element-type element) 'keyword)
+              (string-equal (org-element-property :key element) "FILETAGS")))
+       (org-element-contents first-element)))))
+
 (defun eds-org/sync-agenda-filetag ()
   "Keep current Org buffer's `agenda' filetag in sync with active TODOs."
   (when (derived-mode-p 'org-mode)
     (save-excursion
       (save-restriction
         (widen)
-        (let ((case-fold-search t)
-              (has-active-todo (eds-org/has-active-todo-p))
-              filetags-position
-              tags)
-          (goto-char (point-min))
-          (while (re-search-forward "^[ \t]*#\\+filetags:[ \t]*" nil t)
-            (let ((filetags (buffer-substring (point) (line-end-position))))
-              (unless filetags-position
-                (setq filetags-position (line-beginning-position)))
-              (setq tags
-                    (append tags
-                            (split-string filetags "[ :\t]+" t)))
-              (delete-region (line-beginning-position)
-                             (min (point-max) (1+ (line-end-position))))))
+        (let* ((has-active-todo (eds-org/has-active-todo-p))
+               (keywords (eds-org/top-level-filetag-keywords))
+               (filetags-position
+                (when keywords
+                  (org-element-property :begin (car keywords))))
+               tags)
+          (dolist (keyword keywords)
+            (setq tags
+                  (append tags
+                          (split-string (org-element-property :value keyword)
+                                        "[ :\t]+" t))))
+          (dolist (keyword (reverse keywords))
+            (delete-region (org-element-property :begin keyword)
+                           (org-element-property :end keyword)))
           (setq tags (delete-dups (delete "agenda" tags)))
           (when has-active-todo
             (setq tags (append tags '("agenda"))))
