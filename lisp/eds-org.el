@@ -173,6 +173,58 @@ being used and the URL that we're capturing."
         (goto-char (point-min))
         (vulpea-buffer-tags-add tags)))))
 
+(defun eds-org/has-active-todo-p ()
+  "Return non-nil when current Org buffer contains an unfinished TODO heading."
+  (save-excursion
+    (goto-char (point-min))
+    (catch 'active-todo
+      (while (re-search-forward org-heading-regexp nil t)
+        (when (member (org-get-todo-state) org-not-done-keywords)
+          (throw 'active-todo t)))
+      nil)))
+
+(defun eds-org/top-level-filetag-keywords ()
+  "Return FILETAGS keyword elements from current Org buffer's preamble."
+  (let* ((document (org-element-parse-buffer))
+         (first-element (car (org-element-contents document))))
+    (when (eq (org-element-type first-element) 'section)
+      (seq-filter
+       (lambda (element)
+         (and (eq (org-element-type element) 'keyword)
+              (string-equal (org-element-property :key element) "FILETAGS")))
+       (org-element-contents first-element)))))
+
+(defun eds-org/sync-agenda-filetag ()
+  "Keep current Org buffer's `agenda' filetag in sync with active TODOs."
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (let* ((has-active-todo (eds-org/has-active-todo-p))
+               (keywords (eds-org/top-level-filetag-keywords))
+               (filetags-position
+                (when keywords
+                  (org-element-property :begin (car keywords))))
+               tags)
+          (dolist (keyword keywords)
+            (setq tags
+                  (append tags
+                          (split-string (org-element-property :value keyword)
+                                        "[ :\t]+" t))))
+          (dolist (keyword (reverse keywords))
+            (delete-region (org-element-property :begin keyword)
+                           (org-element-property :end keyword)))
+          (setq tags (delete-dups (delete "agenda" tags)))
+          (when has-active-todo
+            (setq tags (append tags '("agenda"))))
+          (when tags
+            (goto-char (or filetags-position (point-min)))
+            (insert "#+filetags: :" (string-join tags ":") ":\n")))))))
+
+(defun eds-org/enable-agenda-filetag-sync ()
+  "Update the `agenda' filetag before saving current Org buffer."
+  (add-hook 'before-save-hook #'eds-org/sync-agenda-filetag nil t))
+
 (provide 'eds-org)
 
 ;;; eds-org.el ends here

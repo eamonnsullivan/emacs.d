@@ -91,7 +91,6 @@
     (set 'mark-active t)
     (fset 'region-beginning (lambda () 1))
     (fset 'region-end (lambda () 10))
-    (fset 'buffer-substring-no-properties (lambda (beg end) nil))
     (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
   (before-each
     (spy-on 'org-store-link
@@ -218,6 +217,71 @@
   (it "doesn't add tags when the capture key is not 'r'"
     (eds-org/maybe-add-filetags "x" "https://bbc.atlassian.net/browse/PROJ-123")
     (expect 'vulpea-buffer-tags-add :not :to-have-been-called)))
+
+(describe "eds-org/sync-agenda-filetag"
+  (it "adds the agenda filetag when an active TODO exists"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n* TODO Do something\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :agenda:$")))
+
+  (it "removes the agenda filetag when all TODOs are done"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n#+filetags: :agenda:work:\n* DONE Finished\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :work:$")
+      (expect (buffer-string)
+              :not :to-match ":agenda:")))
+
+  (it "preserves other filetags when adding the agenda filetag"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n#+filetags: :work:personal:\n* TODO Pending\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :work:personal:agenda:$")))
+
+  (it "does not treat plain headings as active TODOs"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+filetags: :agenda:\n* Notes\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :not :to-match "#\\+filetags:")))
+
+  (it "ignores filetags text inside source and example blocks"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+filetags: :agenda:\n"
+              "#+begin_src org\n#+filetags: :source:\n#+end_src\n"
+              "#+begin_example\n#+filetags: :example:\n#+end_example\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :source:")
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :example:")
+      (expect (buffer-string)
+              :not :to-match "#\\+filetags: :agenda:")))
+
+  (it "ignores filetags keywords beneath headings"
+    (with-temp-buffer
+      (org-mode)
+      (insert "* Notes\n#+filetags: :nested:\n* TODO Pending\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :agenda:")
+      (expect (buffer-string)
+              :to-match "#\\+filetags: :nested:")))
+
+  (it "installs a buffer-local save hook"
+    (with-temp-buffer
+      (org-mode)
+      (eds-org/enable-agenda-filetag-sync)
+      (expect before-save-hook :to-contain #'eds-org/sync-agenda-filetag))))
 
 (provide 'test-eds-org)
 ;;; test-eds-org.el ends here

@@ -54,6 +54,7 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook #'eds-org/enable-agenda-filetag-sync)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :config
   (require 'ox-latex)
