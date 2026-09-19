@@ -219,5 +219,46 @@
     (eds-org/maybe-add-filetags "x" "https://bbc.atlassian.net/browse/PROJ-123")
     (expect 'vulpea-buffer-tags-add :not :to-have-been-called)))
 
+(describe "eds-org/sync-agenda-filetag"
+  (it "adds the agenda filetag when an active TODO exists"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n* TODO Do something\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :agenda:$")))
+
+  (it "removes the agenda filetag when all TODOs are done"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n#+filetags: :agenda:work:\n* DONE Finished\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :work:$")
+      (expect (buffer-string)
+              :not :to-match ":agenda:")))
+
+  (it "preserves other filetags when adding the agenda filetag"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n#+filetags: :work:personal:\n* TODO Pending\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-match "^#\\+filetags: :work:personal:agenda:$")))
+
+  (it "does not treat plain headings as active TODOs"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+filetags: :agenda:\n* Notes\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :not :to-match "#\\+filetags:")))
+
+  (it "installs a buffer-local save hook"
+    (with-temp-buffer
+      (org-mode)
+      (eds-org/enable-agenda-filetag-sync)
+      (expect before-save-hook :to-contain #'eds-org/sync-agenda-filetag))))
+
 (provide 'test-eds-org)
 ;;; test-eds-org.el ends here

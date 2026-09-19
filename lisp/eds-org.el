@@ -173,6 +173,47 @@ being used and the URL that we're capturing."
         (goto-char (point-min))
         (vulpea-buffer-tags-add tags)))))
 
+(defun eds-org/has-active-todo-p ()
+  "Return non-nil when current Org buffer contains an unfinished TODO heading."
+  (save-excursion
+    (goto-char (point-min))
+    (catch 'active-todo
+      (while (re-search-forward org-heading-regexp nil t)
+        (when (member (org-get-todo-state) org-not-done-keywords)
+          (throw 'active-todo t)))
+      nil)))
+
+(defun eds-org/sync-agenda-filetag ()
+  "Keep current Org buffer's `agenda' filetag in sync with active TODOs."
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (let ((case-fold-search t)
+              (has-active-todo (eds-org/has-active-todo-p))
+              filetags-position
+              tags)
+          (goto-char (point-min))
+          (while (re-search-forward "^[ \t]*#\\+filetags:[ \t]*" nil t)
+            (let ((filetags (buffer-substring (point) (line-end-position))))
+              (unless filetags-position
+                (setq filetags-position (line-beginning-position)))
+              (setq tags
+                    (append tags
+                            (split-string filetags "[ :\t]+" t)))
+              (delete-region (line-beginning-position)
+                             (min (point-max) (1+ (line-end-position))))))
+          (setq tags (delete-dups (delete "agenda" tags)))
+          (when has-active-todo
+            (setq tags (append tags '("agenda"))))
+          (when tags
+            (goto-char (or filetags-position (point-min)))
+            (insert "#+filetags: :" (string-join tags ":") ":\n")))))))
+
+(defun eds-org/enable-agenda-filetag-sync ()
+  "Update the `agenda' filetag before saving current Org buffer."
+  (add-hook 'before-save-hook #'eds-org/sync-agenda-filetag nil t))
+
 (provide 'eds-org)
 
 ;;; eds-org.el ends here
