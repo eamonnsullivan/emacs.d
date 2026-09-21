@@ -36,8 +36,6 @@
 
 (use-package elfeed)
 
-(use-package elfeed-goodies)
-
 (require 'eds-org)
 
 (use-package elfeed-org
