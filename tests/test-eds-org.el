@@ -227,6 +227,19 @@
       (expect (buffer-string)
               :to-match "^#\\+filetags: :agenda:$")))
 
+  (it "adds a missing filetags keyword below the properties drawer"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n"
+              ":PROPERTIES:\n:ID: tasks\n:END:\n"
+              "* TODO Do something\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-equal (concat "#+title: Tasks\n"
+                                ":PROPERTIES:\n:ID: tasks\n:END:\n"
+                                "#+filetags: :agenda:\n"
+                                "* TODO Do something\n"))))
+
   (it "removes the agenda filetag when all TODOs are done"
     (with-temp-buffer
       (org-mode)

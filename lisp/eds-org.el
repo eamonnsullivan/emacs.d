@@ -194,6 +194,23 @@ being used and the URL that we're capturing."
               (string-equal (org-element-property :key element) "FILETAGS")))
        (org-element-contents first-element)))))
 
+(defun eds-org/filetags-insertion-position ()
+  "Return position for a new FILETAGS keyword in current Org buffer."
+  (let* ((document (org-element-parse-buffer))
+         (first-element (car (org-element-contents document)))
+         (properties-drawer
+          (when (eq (org-element-type first-element) 'section)
+            (seq-find
+             (lambda (element)
+               (and (eq (org-element-type element) 'drawer)
+                    (string-equal
+                     (org-element-property :drawer-name element)
+                     "PROPERTIES")))
+             (org-element-contents first-element)))))
+    (if properties-drawer
+        (org-element-property :end properties-drawer)
+      (point-min))))
+
 (defun eds-org/sync-agenda-filetag ()
   "Keep current Org buffer's `agenda' filetag in sync with active TODOs."
   (when (derived-mode-p 'org-mode)
@@ -218,7 +235,8 @@ being used and the URL that we're capturing."
           (when has-active-todo
             (setq tags (append tags '("agenda"))))
           (when tags
-            (goto-char (or filetags-position (point-min)))
+            (goto-char (or filetags-position
+                           (eds-org/filetags-insertion-position)))
             (insert "#+filetags: :" (string-join tags ":") ":\n")))))))
 
 (defun eds-org/enable-agenda-filetag-sync ()
