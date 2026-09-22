@@ -239,8 +239,11 @@ Fall back to after the preamble properties drawer, then buffer start."
                           (split-string (org-element-property :value keyword)
                                         "[ :\t]+" t))))
           (dolist (keyword (reverse keywords))
-            (delete-region (org-element-property :begin keyword)
-                           (org-element-property :end keyword)))
+            (let ((begin (org-element-property :begin keyword)))
+              (delete-region begin
+                             (save-excursion
+                               (goto-char begin)
+                               (line-beginning-position 2)))))
           (setq tags (delete-dups (delete "agenda" tags)))
           (when has-active-todo
             (setq tags (append tags '("agenda"))))
@@ -252,6 +255,34 @@ Fall back to after the preamble properties drawer, then buffer start."
 (defun eds-org/enable-agenda-filetag-sync ()
   "Update the `agenda' filetag before saving current Org buffer."
   (add-hook 'before-save-hook #'eds-org/sync-agenda-filetag nil t))
+
+;;;###autoload
+(defun eds-org/remove-stale-agenda-filetags ()
+  "Remove `agenda' filetags from agenda files without active TODOs.
+Return the paths of files changed."
+  (interactive)
+  (let (changed-files)
+    (dolist (file (eds-org/get-org-agenda-files))
+      (let* ((existing-buffer (find-buffer-visiting file))
+             (buffer (find-file-noselect file)))
+        (unwind-protect
+            (with-current-buffer buffer
+              (unless (derived-mode-p 'org-mode)
+                (org-mode))
+              (unless (eds-org/has-active-todo-p)
+                (let ((modified-tick (buffer-chars-modified-tick)))
+                  (eds-org/sync-agenda-filetag)
+                  (unless (= modified-tick (buffer-chars-modified-tick))
+                    (save-buffer)
+                    (push file changed-files)))))
+          (unless existing-buffer
+            (kill-buffer buffer)))))
+    (setq changed-files (nreverse changed-files))
+    (when (called-interactively-p 'interactive)
+      (message "Removed stale agenda filetags from %d file%s"
+               (length changed-files)
+               (if (= (length changed-files) 1) "" "s")))
+    changed-files))
 
 (provide 'eds-org)
 

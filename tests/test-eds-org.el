@@ -273,6 +273,16 @@
       (expect (buffer-string)
               :to-match "^#\\+filetags: :work:personal:agenda:$")))
 
+  (it "preserves blank lines below the filetags keyword"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n#+filetags: :work:\n\n\n* TODO Pending\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-equal (concat "#+title: Tasks\n"
+                                "#+filetags: :work:agenda:\n"
+                                "\n\n* TODO Pending\n"))))
+
   (it "does not treat plain headings as active TODOs"
     (with-temp-buffer
       (org-mode)
@@ -310,6 +320,49 @@
       (org-mode)
       (eds-org/enable-agenda-filetag-sync)
       (expect before-save-hook :to-contain #'eds-org/sync-agenda-filetag))))
+
+(describe "eds-org/remove-stale-agenda-filetags"
+  (it "removes agenda filetags only from files without active TODOs"
+    (let* ((directory (make-temp-file "eds-org-agenda-" t))
+           (stale-file (expand-file-name "stale.org" directory))
+           (active-file (expand-file-name "active.org" directory)))
+      (unwind-protect
+          (progn
+            (write-region
+             "#+title: Stale\n#+filetags: :agenda:work:\n* DONE Finished\n"
+             nil stale-file nil 'silent)
+            (write-region
+             "#+title: Active\n#+filetags: :agenda:work:\n* TODO Pending\n"
+             nil active-file nil 'silent)
+            (spy-on 'eds-org/get-org-agenda-files
+                    :and-return-value (list stale-file active-file))
+            (expect (eds-org/remove-stale-agenda-filetags)
+                    :to-equal (list stale-file))
+            (expect (with-temp-buffer
+                      (insert-file-contents stale-file)
+                      (buffer-string))
+                    :to-equal
+                    "#+title: Stale\n#+filetags: :work:\n* DONE Finished\n")
+            (expect (with-temp-buffer
+                      (insert-file-contents active-file)
+                      (buffer-string))
+                    :to-equal
+                    "#+title: Active\n#+filetags: :agenda:work:\n* TODO Pending\n"))
+        (delete-directory directory t))))
+
+  (it "leaves an existing file buffer open"
+    (let* ((file (make-temp-file "eds-org-agenda-" nil ".org"
+                                 "#+filetags: :agenda:\n* DONE Finished\n"))
+           (buffer (find-file-noselect file)))
+      (unwind-protect
+          (progn
+            (spy-on 'eds-org/get-org-agenda-files
+                    :and-return-value (list file))
+            (eds-org/remove-stale-agenda-filetags)
+            (expect (buffer-live-p buffer) :to-be-truthy))
+        (when (buffer-live-p buffer)
+          (kill-buffer buffer))
+        (delete-file file)))))
 
 (provide 'test-eds-org)
 ;;; test-eds-org.el ends here
