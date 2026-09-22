@@ -219,15 +219,17 @@
     (expect 'vulpea-buffer-tags-add :not :to-have-been-called)))
 
 (describe "eds-org/sync-agenda-filetag"
-  (it "adds the agenda filetag when an active TODO exists"
+  (it "adds the agenda filetag immediately after the title"
     (with-temp-buffer
       (org-mode)
       (insert "#+title: Tasks\n* TODO Do something\n")
       (eds-org/sync-agenda-filetag)
       (expect (buffer-string)
-              :to-match "^#\\+filetags: :agenda:$")))
+              :to-equal (concat "#+title: Tasks\n"
+                                "#+filetags: :agenda:\n"
+                                "* TODO Do something\n"))))
 
-  (it "adds a missing filetags keyword below the properties drawer"
+  (it "adds a missing filetags keyword after the title and before a properties drawer"
     (with-temp-buffer
       (org-mode)
       (insert "#+title: Tasks\n"
@@ -236,7 +238,20 @@
       (eds-org/sync-agenda-filetag)
       (expect (buffer-string)
               :to-equal (concat "#+title: Tasks\n"
+                                "#+filetags: :agenda:\n"
                                 ":PROPERTIES:\n:ID: tasks\n:END:\n"
+                                "* TODO Do something\n"))))
+
+  (it "adds a missing filetags keyword after a title below a properties drawer"
+    (with-temp-buffer
+      (org-mode)
+      (insert ":PROPERTIES:\n:ID: tasks\n:END:\n"
+              "#+title: Tasks\n"
+              "* TODO Do something\n")
+      (eds-org/sync-agenda-filetag)
+      (expect (buffer-string)
+              :to-equal (concat ":PROPERTIES:\n:ID: tasks\n:END:\n"
+                                "#+title: Tasks\n"
                                 "#+filetags: :agenda:\n"
                                 "* TODO Do something\n"))))
 

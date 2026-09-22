@@ -195,21 +195,31 @@ being used and the URL that we're capturing."
        (org-element-contents first-element)))))
 
 (defun eds-org/filetags-insertion-position ()
-  "Return position for a new FILETAGS keyword in current Org buffer."
+  "Return position after TITLE for a new FILETAGS keyword.
+Fall back to after the preamble properties drawer, then buffer start."
   (let* ((document (org-element-parse-buffer))
          (first-element (car (org-element-contents document)))
-         (properties-drawer
+         (preamble-elements
           (when (eq (org-element-type first-element) 'section)
-            (seq-find
-             (lambda (element)
-               (and (eq (org-element-type element) 'drawer)
-                    (string-equal
-                     (org-element-property :drawer-name element)
-                     "PROPERTIES")))
-             (org-element-contents first-element)))))
-    (if properties-drawer
-        (org-element-property :end properties-drawer)
-      (point-min))))
+            (org-element-contents first-element)))
+         (title
+          (seq-find
+           (lambda (element)
+             (and (eq (org-element-type element) 'keyword)
+                  (string-equal (org-element-property :key element) "TITLE")))
+           preamble-elements))
+         (properties-drawer
+          (seq-find
+           (lambda (element)
+             (and (eq (org-element-type element) 'drawer)
+                  (string-equal
+                   (org-element-property :drawer-name element)
+                   "PROPERTIES")))
+           preamble-elements)))
+    (cond
+     (title (org-element-property :end title))
+     (properties-drawer (org-element-property :end properties-drawer))
+     (t (point-min)))))
 
 (defun eds-org/sync-agenda-filetag ()
   "Keep current Org buffer's `agenda' filetag in sync with active TODOs."
