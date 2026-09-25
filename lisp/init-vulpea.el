@@ -32,6 +32,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 (require 'eds-org)
+(require 'eds-org-agenda)
 (require 'init-org)
 
 (use-package vulpea-ui
@@ -43,7 +44,7 @@
 (use-package vulpea
   :straight t
   :hook
-  (after-init . eds-org/update-agenda-files)
+  (after-init . eds-org-agenda-refresh)
   :config
   (setopt vulpea-db-sync-directories (list (eds-org/get-org-directory))
           vulpea-buffer-alias-property "ROAM_ALIASES"
@@ -92,7 +93,7 @@
          ("C-c n A" . vulpea-buffer-alias-add) ; add an alias to the current node
          ("C-c n P" . eds-org/set-category-value) ; set the CATEGORY property of the current node
          ("C-c n R" . org-roam-refile)
-         ("C-c n t" . eds-org/update-agenda-files) ; update list of agenda files, manually
+         ("C-c n t" . eds-org-agenda-refresh) ; update list of agenda files, manually
          ;; Dailies
          ("C-c n j" . vulpea-journal)))
 

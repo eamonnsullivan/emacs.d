@@ -41,6 +41,7 @@
 (use-package ob-http)
 
 (require 'eds-org)
+(require 'eds-org-agenda)
 
 (use-package org-modern
   :after org
@@ -54,7 +55,7 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
-  (add-hook 'org-mode-hook #'eds-org/enable-agenda-filetag-sync)
+  (add-hook 'org-mode-hook #'eds-org-agenda-enable-sync)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :config
   (require 'ox-latex)
@@ -114,6 +115,7 @@
                                        ("pt" tags-todo "personal")
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
+  (advice-add 'org-agenda :before #'eds-org-agenda-refresh)
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)

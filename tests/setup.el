@@ -35,6 +35,7 @@
       (require 'eds-blog)
       (require 'eds-email)
       (require 'eds-org)
+      (require 'eds-org-agenda)
       (require 'eds-utils)
       (require 'eds-github))))
 
