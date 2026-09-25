@@ -26,3 +26,17 @@ Quick dos and don'ts:
 - Don't use `custom-set-variables` or the Customize UI.
 
 Agents: follow these commands and conventions; ask if uncertain about running tests.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five canonical triage labels unchanged. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Use a single-context domain-doc layout. See `docs/agents/domain.md`.

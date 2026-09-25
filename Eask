@@ -11,6 +11,7 @@
        "lisp/eds-email.el"
        "lisp/eds-github.el"
        "lisp/eds-org.el"
+       "lisp/eds-org-agenda.el"
        "lisp/eds-utils.el")
 
 (source "gnu")
