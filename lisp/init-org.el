@@ -43,6 +43,8 @@
 (require 'eds-org)
 (require 'eds-org-agenda)
 
+(eds-org-agenda-setup)
+
 (use-package org-modern
   :after org
   :config
@@ -55,7 +57,6 @@
   (add-hook 'org-mode-hook 'visual-line-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
-  (add-hook 'org-mode-hook #'eds-org-agenda-enable-sync)
   (add-to-list 'ispell-skip-region-alist '("^#+begin_src" . "^#+end_src"))
   :config
   (require 'ox-latex)
@@ -115,7 +116,6 @@
                                        ("pt" tags-todo "personal")
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
-  (advice-add 'org-agenda :before #'eds-org-agenda-refresh)
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
@@ -173,7 +173,6 @@
            :target (file+head
                     "%<%Y%m%d%H%M%S>-${slug}.org"
                     ,(concat "#+title: ${title}"
-                             "\n#+filetags: :agenda:"
                              "\n#+startup: content"))
            :unnarrowed t)
           ("x" "training" entry "* ${title} Notes\n%u\n%?"
@@ -207,7 +206,6 @@
            (file+head
             "%<%Y%m%d%H%M%S>-${slug}.org"
             ,(concat "#+title: ${title}"
-                     "\n#+filetags: :agenda:"
                      "\n#+startup: content"))
            :unnarrowed t)))
 

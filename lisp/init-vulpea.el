@@ -43,8 +43,6 @@
 
 (use-package vulpea
   :straight t
-  :hook
-  (after-init . eds-org-agenda-refresh)
   :config
   (setopt vulpea-db-sync-directories (list (eds-org/get-org-directory))
           vulpea-buffer-alias-property "ROAM_ALIASES"
