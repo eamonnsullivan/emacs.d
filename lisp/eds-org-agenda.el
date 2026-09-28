@@ -125,17 +125,34 @@ Relative paths are resolved beneath `eds-org/get-org-directory'."
 
 ;;;###autoload
 (defun eds-org-agenda-refresh (&rest _)
-  "Refresh `org-agenda-files' from agenda markers and explicit files."
+  "Refresh `org-agenda-files' from agenda markers and explicit files.
+Preserve last-known files and warn when Vulpea discovery fails."
   (interactive)
-  (setq org-agenda-files
-        (seq-uniq
-         (append
-          (mapcar #'vulpea-note-path
-                  (vulpea-db-query-by-tags-some '("agenda")))
-          (eds-org-agenda--explicit-paths))))
+  (condition-case error-data
+      (setq org-agenda-files
+            (seq-uniq
+             (append
+              (mapcar #'vulpea-note-path
+                      (vulpea-db-query-by-tags-some '("agenda")))
+              (eds-org-agenda--explicit-paths))))
+    (error
+     (unless org-agenda-files
+       (setq org-agenda-files (eds-org-agenda--explicit-paths)))
+     (display-warning
+      'eds-org-agenda
+      (format "Agenda discovery failed; using last-known files: %s"
+              (error-message-string error-data))
+      :warning)))
   (when (called-interactively-p 'interactive)
     (message "Updated org-agenda-files: %d" (length org-agenda-files)))
   org-agenda-files)
+
+;;;###autoload
+(defun eds-org-agenda-setup ()
+  "Install Agenda eligibility lifecycle triggers idempotently."
+  (add-hook 'org-mode-hook #'eds-org-agenda-enable-sync)
+  (add-hook 'after-init-hook #'eds-org-agenda-refresh)
+  (advice-add 'org-agenda :before #'eds-org-agenda-refresh))
 
 (defun eds-org-agenda--repair-file (file apply)
   "Repair agenda marker in FILE when APPLY is non-nil.

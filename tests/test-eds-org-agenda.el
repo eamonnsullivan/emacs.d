@@ -16,6 +16,29 @@
 (load-file "tests/setup.el")
 (require 'eds-org-agenda)
 
+(describe "eds-org-agenda-setup"
+  (it "idempotently owns save, pre-agenda, and startup triggers"
+    (unwind-protect
+        (progn
+          (remove-hook 'org-mode-hook #'eds-org-agenda-enable-sync)
+          (remove-hook 'after-init-hook #'eds-org-agenda-refresh)
+          (advice-remove 'org-agenda #'eds-org-agenda-refresh)
+          (eds-org-agenda-setup)
+          (eds-org-agenda-setup)
+          (expect (seq-count (lambda (function)
+                               (eq function #'eds-org-agenda-enable-sync))
+                             org-mode-hook)
+                  :to-equal 1)
+          (expect (seq-count (lambda (function)
+                               (eq function #'eds-org-agenda-refresh))
+                             after-init-hook)
+                  :to-equal 1)
+          (expect (advice-member-p #'eds-org-agenda-refresh 'org-agenda)
+                  :to-be-truthy))
+      (remove-hook 'org-mode-hook #'eds-org-agenda-enable-sync)
+      (remove-hook 'after-init-hook #'eds-org-agenda-refresh)
+      (advice-remove 'org-agenda #'eds-org-agenda-refresh))))
+
 (describe "eds-org-agenda-enable-sync"
   (it "synchronizes the agenda marker before save without merging other FILETAGS"
     (with-temp-buffer
@@ -86,6 +109,32 @@
                                 "* Notes\n#+filetags: :nested:\n"))
       (expect 'eds-org-agenda-refresh :not :to-have-been-called))))
 
+(describe "Agenda eligibility lifecycle"
+  (it "derives marker on save and discovers active work before agenda use"
+    (let* ((directory (make-temp-file "eds-org-agenda-" t))
+           (file (expand-file-name "work.org" directory))
+           (org-agenda-files nil))
+      (unwind-protect
+          (with-temp-buffer
+            (org-mode)
+            (setq buffer-file-name file)
+            (insert "#+title: Work\n* TODO Ship change\n")
+            (spy-on 'eds-org/get-org-directory :and-return-value directory)
+            (eds-org-agenda-enable-sync)
+            (run-hooks 'before-save-hook)
+            (expect (buffer-string)
+                    :to-equal (concat "#+title: Work\n"
+                                      "#+filetags: :agenda:\n"
+                                      "* TODO Ship change\n"))
+            (spy-on 'vulpea-db-query-by-tags-some
+                    :and-return-value '(work-note))
+            (spy-on 'vulpea-note-path :and-return-value file)
+            (expect (eds-org-agenda-refresh)
+                    :to-equal (list file
+                                    (expand-file-name "calendar.org"
+                                                      directory))))
+        (delete-directory directory t)))))
+
 (describe "eds-org-agenda-refresh"
   (it "sets deduplicated agenda files from Vulpea markers and explicit files"
     (let* ((directory (make-temp-file "eds-org-agenda-" t))
@@ -105,6 +154,32 @@
             (expect (eds-org-agenda-refresh)
                     :to-equal (list calendar work))
             (expect org-agenda-files :to-equal (list calendar work)))
+        (delete-directory directory t))))
+
+  (it "preserves last-known agenda files and warns when discovery fails"
+    (let ((org-agenda-files '("known.org")))
+      (spy-on 'vulpea-db-query-by-tags-some
+              :and-call-fake (lambda (&rest _) (error "Index unavailable")))
+      (spy-on 'display-warning)
+      (expect (eds-org-agenda-refresh) :to-equal '("known.org"))
+      (expect org-agenda-files :to-equal '("known.org"))
+      (expect 'display-warning :to-have-been-called-with
+              'eds-org-agenda
+              "Agenda discovery failed; using last-known files: Index unavailable"
+              :warning)))
+
+  (it "uses Explicit agenda files when cold-start discovery fails"
+    (let* ((directory (make-temp-file "eds-org-agenda-" t))
+           (calendar (expand-file-name "calendar.org" directory))
+           (org-agenda-files nil))
+      (unwind-protect
+          (progn
+            (spy-on 'eds-org/get-org-directory :and-return-value directory)
+            (spy-on 'vulpea-db-query-by-tags-some
+                    :and-call-fake (lambda (&rest _) (error "Index unavailable")))
+            (spy-on 'display-warning)
+            (expect (eds-org-agenda-refresh) :to-equal (list calendar))
+            (expect org-agenda-files :to-equal (list calendar)))
         (delete-directory directory t)))))
 
 (describe "eds-org-agenda-repair"
