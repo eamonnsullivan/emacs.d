@@ -36,8 +36,10 @@
 
 (use-package mu4e
   :straight
-  (:local-repo "/opt/homebrew/share/emacs/site-lisp/mu/mu4e"
-               :type built-in)
+  `(mu4e :local-repo ,(if (eq system-type 'gnu/linux)
+                         "/home/linuxbrew/.linuxbrew/share/emacs/site-lisp/mu/mu4e"
+                       "/opt/homebrew/share/emacs/site-lisp/mu/mu4e")
+         :type built-in)
   :commands (mu4e)
   :config
   (require 'eds-email)
