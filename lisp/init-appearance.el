@@ -166,6 +166,12 @@
   :straight t
   :ensure t
   :config
+  (require 'eds-appearance)
+  ;; Numeric times are relative delays to `run-at-time', not timestamps.
+  ;; Workaround for https://github.com/guidoschmidt/circadian.el/issues/42,
+  ;; so we might be able to unwind when that is fixed.
+  (advice-add 'circadian-encode-time :filter-return
+              #'eds-appearance-circadian-absolute-time)
   (setopt circadian-themes '((:sunrise . (ef-cyprus
                                           ef-spring
                                           ef-light
