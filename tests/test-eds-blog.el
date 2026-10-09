@@ -132,5 +132,56 @@
     (expect (eds-blog/link-to-svp-contact-page nil)
             :to-be nil)))
 
+(describe "eds-blog/markdown-convert-buffer-to-org"
+  (it "passes buffer input and literal output paths directly to Pandoc"
+    (with-temp-buffer
+      (setq buffer-file-name "/tmp/notes ; $(echo unsafe).md")
+      (insert "# Unsaved Markdown\n")
+      (let ((original (buffer-string))
+            (original-point (point))
+            (original-modified (buffer-modified-p)))
+        (spy-on 'executable-find :and-return-value "/usr/bin/pandoc")
+        (spy-on 'call-process-region
+                :and-call-fake
+                (lambda (start end &rest _)
+                  (expect (buffer-substring-no-properties start end)
+                          :to-equal original)
+                  0))
+        (spy-on 'shell-command-on-region)
+        (expect (eds-blog/markdown-convert-buffer-to-org)
+                :to-equal "/tmp/notes ; $(echo unsafe).org")
+        (expect 'call-process-region :to-have-been-called-with
+                (point-min) (point-max) "/usr/bin/pandoc" nil nil nil
+                "-f" "markdown" "-t" "org"
+                "-o" "/tmp/notes ; $(echo unsafe).org")
+        (expect 'shell-command-on-region :not :to-have-been-called)
+        (expect (buffer-string) :to-equal original)
+        (expect (point) :to-equal original-point)
+        (expect (buffer-modified-p) :to-equal original-modified))))
+
+  (it "rejects buffers without filenames"
+    (with-temp-buffer
+      (spy-on 'call-process-region)
+      (expect (eds-blog/markdown-convert-buffer-to-org) :to-throw 'user-error)
+      (expect 'call-process-region :not :to-have-been-called)))
+
+  (it "reports missing Pandoc without starting a process"
+    (with-temp-buffer
+      (setq buffer-file-name "/tmp/notes.md")
+      (spy-on 'executable-find :and-return-value nil)
+      (spy-on 'call-process-region)
+      (expect (eds-blog/markdown-convert-buffer-to-org) :to-throw 'user-error)
+      (expect 'call-process-region :not :to-have-been-called)))
+
+  (it "reports nonzero exit status and signal termination"
+    (dolist (status '(1 "killed"))
+      (with-temp-buffer
+        (setq buffer-file-name "/tmp/notes.md")
+        (insert "# Notes\n")
+        (spy-on 'executable-find :and-return-value "/usr/bin/pandoc")
+        (spy-on 'call-process-region :and-return-value status)
+        (expect (eds-blog/markdown-convert-buffer-to-org) :to-throw 'user-error)
+        (expect (buffer-string) :to-equal "# Notes\n")))))
+
 (provide 'test-eds-blog)
 ;;; test-eds-blog.el ends here

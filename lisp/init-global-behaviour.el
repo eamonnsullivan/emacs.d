@@ -361,7 +361,11 @@
   (super-save-exclude '("\\*dashboard\\*"))
   (super-save-auto-save-when-idle t))
 
-(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
+(require 'tramp)
+;; Local privilege escalation must not require an SSH server on this machine.
+(set-default 'tramp-default-proxies-alist
+             `((,tramp-local-host-regexp nil nil)
+               (".*" "\\`root\\'" "/ssh:%h:")))
 
 (use-package unfill)
 

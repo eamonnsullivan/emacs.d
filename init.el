@@ -107,7 +107,6 @@ Set this to `eglot' for Eglot with Eglotx, or `lsp-mode' for lsp-mode.")
 ;; The rest of my init file, broken up into libraries in the lisp directory
 ;; (setq debug-on-error t)
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(add-to-list 'load-path "/opt/homebrew/share/emacs/site-lisp/mu/mu4e")
 (require 'init-git)
 (require 'init-elpa)
 (require 'init-utils)

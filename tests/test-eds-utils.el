@@ -288,5 +288,68 @@
     (expect 'delete-completion-window :not :to-have-been-called)
     (expect 'keyboard-quit :not :to-have-been-called)))
 
+(describe "eds-utils/open-buffer-on-desktop"
+  (it "passes paths with spaces and shell syntax as one literal argument"
+    (let ((system-type 'gnu/linux))
+      (with-temp-buffer
+        (setq buffer-file-name "/tmp/notes ; $(echo unsafe)/test.el")
+        (spy-on 'executable-find :and-return-value "/usr/bin/nautilus")
+        (spy-on 'start-process)
+        (spy-on 'shell-command)
+        (eds-utils/open-buffer-on-desktop)
+        (expect 'start-process :to-have-been-called-with
+                "eds-desktop-open" nil "/usr/bin/nautilus"
+                "/tmp/notes ; $(echo unsafe)/")
+        (expect 'shell-command :not :to-have-been-called))))
+
+  (it "falls back to xdg-open when Nautilus is absent"
+    (let ((system-type 'gnu/linux))
+      (with-temp-buffer
+        (setq buffer-file-name "/tmp/notes/test.el")
+        (spy-on 'executable-find
+                :and-call-fake (lambda (command)
+                                 (when (equal command "xdg-open")
+                                   "/usr/bin/xdg-open")))
+        (spy-on 'start-process)
+        (eds-utils/open-buffer-on-desktop)
+        (expect 'start-process :to-have-been-called-with
+                "eds-desktop-open" nil "/usr/bin/xdg-open" "/tmp/notes/"))))
+
+  (it "uses the platform opener on macOS and Windows"
+    (dolist (platform '(darwin windows-nt))
+      (let ((system-type platform)
+            (command (if (eq platform 'darwin) "open" "explorer")))
+        (with-temp-buffer
+          (setq buffer-file-name "/tmp/notes/test.el")
+          (spy-on 'executable-find :and-return-value command)
+          (spy-on 'start-process)
+          (eds-utils/open-buffer-on-desktop)
+          (expect 'executable-find :to-have-been-called-with command)
+          (expect 'start-process :to-have-been-called-with
+                  "eds-desktop-open" nil command "/tmp/notes/")))))
+
+  (it "rejects buffers without filenames"
+    (with-temp-buffer
+      (spy-on 'start-process)
+      (expect (eds-utils/open-buffer-on-desktop) :to-throw 'user-error)
+      (expect 'start-process :not :to-have-been-called)))
+
+  (it "reports missing desktop openers without starting a process"
+    (let ((system-type 'gnu/linux))
+      (with-temp-buffer
+        (setq buffer-file-name "/tmp/test.el")
+        (spy-on 'executable-find :and-return-value nil)
+        (spy-on 'start-process)
+        (expect (eds-utils/open-buffer-on-desktop) :to-throw 'user-error)
+        (expect 'start-process :not :to-have-been-called))))
+
+  (it "rejects unsupported platforms without starting a process"
+    (let ((system-type 'unsupported))
+      (with-temp-buffer
+        (setq buffer-file-name "/tmp/test.el")
+        (spy-on 'start-process)
+        (expect (eds-utils/open-buffer-on-desktop) :to-throw 'user-error)
+        (expect 'start-process :not :to-have-been-called)))))
+
 (provide 'test-eds-utils)
 ;;; test-eds-utils.el ends here

@@ -153,5 +153,28 @@ When AUTHOR is non-nil and non-empty, include it in the post metadata."
           (message "No active selection found!")))))
 
 
+(defun eds-blog/markdown-convert-buffer-to-org ()
+  "Convert the current Markdown buffer to a sibling .org file using Pandoc.
+Pass the accessible buffer contents to Pandoc without changing the buffer.
+Signal a user error if the buffer has no file, Pandoc is absent, or
+conversion fails.  Return the output filename on success."
+  (interactive)
+  (unless (buffer-file-name)
+    (user-error "Buffer not attached to any file"))
+  (let ((executable (executable-find "pandoc"))
+        (output-file (concat (file-name-sans-extension
+                              (expand-file-name (buffer-file-name)))
+                             ".org")))
+    (unless executable
+      (user-error "Pandoc not found; install pandoc to convert Markdown"))
+    (let ((status (call-process-region (point-min) (point-max)
+                                       executable nil nil nil
+                                       "-f" "markdown" "-t" "org"
+                                       "-o" output-file)))
+      (unless (equal status 0)
+        (user-error "Pandoc conversion failed: %s" status)))
+    (message "Saved Org conversion to %s" output-file)
+    output-file))
+
 (provide 'eds-blog)
 ;;; eds-blog.el ends here

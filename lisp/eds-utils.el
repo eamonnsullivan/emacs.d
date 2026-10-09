@@ -92,28 +92,23 @@ Repeated invocations toggle between the two most recently open buffers."
     1)))
 
 (defun eds-utils/open-buffer-on-desktop ()
-  "Open the current directory in Mac OS X finder, Nautilus or Explorer."
+  "Open the current file's directory in the desktop file manager.
+On Linux, use Nautilus or fall back to xdg-open."
   (interactive)
-  (let ((file (buffer-file-name))
-        (cmd (cond ((eq system-type 'darwin)
-                    "open")
-                   ((eq system-type 'gnu/linux)
-                    "nautilus")
-                   ((eq system-type 'windows-nt)
-                    "explorer")
-                   ;; haven't tested this
-                   (t nil))))
-    (if file
-        (if cmd
-            (shell-command
-             (format
-              "%s %s"
-              (executable-find cmd)
-              (file-name-directory file)))
-          (display-warning
-           :error "Unknown system type"))
-      (display-warning
-       :error "Buffer not attached to any file"))))
+  (let ((file (buffer-file-name)))
+    (unless file
+      (user-error "Buffer not attached to any file"))
+    (let* ((commands (pcase system-type
+                       ('darwin '("open"))
+                       ('gnu/linux '("nautilus" "xdg-open"))
+                       ('windows-nt '("explorer"))
+                       (_ (user-error "Unsupported system type: %s" system-type))))
+           (executable (seq-some #'executable-find commands)))
+      (unless executable
+        (user-error "No desktop opener found; install %s"
+                    (mapconcat #'identity commands " or ")))
+      (start-process "eds-desktop-open" nil executable
+                     (file-name-directory (expand-file-name file))))))
 
 (defun eds-utils/strip-invalid-chars (title)
   "Strip characters from TITLE that don't work in filenames or github branches."
