@@ -112,7 +112,8 @@ _SPC_ cancel
                   ("SPC" nil)))
 
 (key-chord-define-global "XX" 'calendar)
-(key-chord-define-global "II" 'mu4e)
+(when (eq system-type 'gnu/linux)
+  (key-chord-define-global "II" 'mu4e))
 (key-chord-define-global "FF" 'elfeed)
 
 
