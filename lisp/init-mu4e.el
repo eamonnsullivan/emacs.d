@@ -44,11 +44,6 @@
   :commands (mu4e)
   :config
   (require 'eds-email)
-  (setq mu4e-sent-messages-behavior
-        (lambda ()
-          (if (or (string= (message-sendmail-envelope-from) "eamonn.sullivan@gmail.com")
-                  (string= (message-sendmail-envelope-from) "svpsouthruislip@gmail.com"))
-              'delete 'sent)))
   (setopt mu4e-mu-binary (executable-find "mu")
         mu4e-maildir "~/.maildir"
         mu4e-get-mail-command "~/bin/sync-mailboxes.sh"
@@ -59,27 +54,23 @@
         mu4e-search-include-related nil
         mu4e-compose-complete-only-personal t
         mu4e-compose-complete-only-after "2020-01-01"
-        mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "eamonn.sullivan@gmail.com" "svpsouthruislip@gmail.com" "svp@svpsouthruislip.org.uk")
+        mu4e-user-mail-address-list '("me@eamonnsullivan.co.uk" "svp@svpsouthruislip.org.uk")
         mu4e-maildir-shortcuts '( (:maildir "/fastmail/INBOX"                  :key ?i)
                                   (:maildir "/fastmail/Sent"                   :key ?s)
-                                  (:maildir "/gmail-eamonn/INBOX"              :key ?g)
-                                  (:maildir "/gmail-eamonn/[Gmail].Sent Mail"  :key ?e)
                                   (:maildir "/SVP/INBOX"                       :key ?V)
-                                  (:maildir "/SVP/Sent"                        :key ?S)
-                                  (:maildir "/gmail-svp/INBOX"                 :key ?v)
-                                  (:maildir "/gmail-svp/[Gmail].Sent Mail"     :key ?x))
+                                  (:maildir "/SVP/Sent"                        :key ?S))
         mu4e-bookmarks '((:name "Inbox"
-                                :query "maildir:/fastmail/INBOX or maildir:/gmail-eamonn/INBOX or maildir:/gmail-svp/INBOX or maildir:/SVP/INBOX"
+                                :query "maildir:/fastmail/INBOX or maildir:/SVP/INBOX"
                                 :key ?i
                                 :favorite t)
                          (:name "Sent"
-                                :query "maildir:/fastmail/Sent or maildir:/gmail-eamonn/[Gmail].Sent Mail or maildir:/gmail-svp/[Gmail].Sent Mail or maildir:/SVP/Sent"
+                                :query "maildir:/fastmail/Sent or maildir:/SVP/Sent"
                                 :key ?s)
                          (:name "Unread"
-                                :query "flag:unread AND NOT (maildir:\"/gmail-eamonn/[Gmail].Spam\" OR maildir:\"/gmail-svp/[Gmail].Spam\" OR maildir:/fastmail/Spam OR maildir:/SVP/Spam OR flag:trashed)"
+                                :query "flag:unread AND NOT (maildir:/fastmail/Spam OR maildir:/SVP/Spam OR flag:trashed)"
                                 :key ?u)
                          (:name "Archived"
-                                :query "maildir:\"/gmail-eamonn/[Gmail].All Mail\" OR maildir:\"/gmail-svp/[Gmail].All Mail\" OR maildir:/fastmail/Archive OR maildir:/SVP/Archive"
+                                :query "maildir:/fastmail/Archive OR maildir:/SVP/Archive"
                                 :key ?a)
                          (:name "Github"
                                 :query "from:github.com"
@@ -127,43 +118,7 @@
                             (mu4e-drafts-folder . "/SVP/Drafts")
                             (mu4e-sent-folder . "/SVP/Sent")
                             (mu4e-trash-folder . "/SVP/Trash")
-                            (mu4e-refile-folder . "/SVP/Archive")))
-
-                        ,(make-mu4e-context
-                          :name "gmail"
-                          :enter-func
-                          (lambda () (mu4e-message "Entering Gmail context"))
-                          :leave-func
-                          (lambda () (mu4e-message "Leaving Gmail context"))
-                          :match-func
-                          (lambda (msg)
-                            (when msg
-                              (eds-email/msg-contact-matches msg "eamonn.sullivan@gmail.com")))
-                          :vars
-                          '((user-mail-address . "eamonn.sullivan@gmail.com")
-                            (user-full-name . "Eamonn Sullivan")
-                            (mu4e-drafts-folder . "/gmail-eamonn/[Gmail].Drafts")
-                            (mu4e-sent-folder . "/gmail-eamonn/[Gmail].Sent Mail")
-                            (mu4e-trash-folder . "/gmail-eamonn/[Gmail].Trash")
-                            (mu4e-refile-folder . "/gmail-eamonn/[Gmail].All Mail")))
-
-                        ,(make-mu4e-context
-                          :name "XGmailSVP"
-                          :enter-func
-                          (lambda () (mu4e-message "Entering SVP Gmail context"))
-                          :leave-func
-                          (lambda () (mu4e-message "Leaving SVP Gmail context"))
-                          :match-func
-                          (lambda (msg)
-                            (when msg
-                              (eds-email/msg-contact-matches msg "svpsouthruislip@gmail.com")))
-                          :vars
-                          '((user-mail-address . "svpsouthruislip@gmail.com")
-                            (user-full-name . "South Ruislip SVP")
-                            (mu4e-drafts-folder . "/gmail-svp/[Gmail].Drafts")
-                            (mu4e-sent-folder . "/gmail-svp/[Gmail].Sent Mail")
-                            (mu4e-trash-folder . "/gmail-svp/[Gmail].Trash")
-                            (mu4e-refile-folder . "/gmail-svp/[Gmail].All Mail"))))
+                            (mu4e-refile-folder . "/SVP/Archive"))))
         mu4e-context-policy 'pick-first
         mu4e-compose-context-policy 'ask
         mu4e-use-fancy-chars t
