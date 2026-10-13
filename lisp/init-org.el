@@ -45,10 +45,18 @@
 
 (eds-org-agenda-setup)
 
-(use-package org-modern
-  :after org
-  :config
-  (with-eval-after-load 'org (global-org-modern-mode)))
+;; (use-package org-modern
+;;   :after org
+;;   :config
+;;   (with-eval-after-load 'org (global-org-modern-mode)))
+
+(use-package org-ibullets
+  :commands org-ibullets-mode
+  :straight (org-ibullets
+             :type git
+             :host github
+             :repo "jamescherti/org-ibullets.el")
+  :hook (org-mode . org-ibullets-mode))
 
 (use-package org
   :straight t
