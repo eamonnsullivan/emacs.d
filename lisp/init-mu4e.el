@@ -78,6 +78,9 @@
                          (:name "Food bank"
                                 :query "to:foodbank@svpsouthruislip.org.uk or cc:foodbank@svpsouthruislip.org.uk"
                                 :key ?f)
+                         (:name "Eamonn's gmail"
+                                :query "\"maildir:/fastmail/from gmail\""
+                                :key ?g)
                          (:name "SVP Info"
                                 :query "to:info@svpsouthruislip.org.uk or cc:info@svpsouthruislip.org.uk"
                                 :key ?n)
@@ -93,7 +96,8 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds-email/msg-contact-matches msg "eamonnsullivan.co.uk")))
+                              (or (eds-email/msg-contact-matches msg "eamonnsullivan.co.uk")
+                                  (eds-email/msg-contact-matches msg "eamonn.sullivan@gmail.com"))))
                           :vars
                           '((user-mail-address . "me@eamonnsullivan.co.uk")
                             (user-full-name . "Eamonn Sullivan")
@@ -111,7 +115,8 @@
                           :match-func
                           (lambda (msg)
                             (when msg
-                              (eds-email/msg-contact-matches msg "svpsouthruislip.org.uk")))
+                              (or (eds-email/msg-contact-matches msg "svpsouthruislip.org.uk")
+                                  (eds-email/msg-contact-matches msg "svpsouthruislip@gmail.com"))))
                           :vars
                           '((user-mail-address . "svp@svpsouthruislip.org.uk")
                             (user-full-name . "South Ruislip SVP")
