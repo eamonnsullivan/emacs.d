@@ -48,6 +48,26 @@
       (match-string 1 link)
     nil))
 
+(defcustom eds-org/category-list '("Note" "Meeting" "Reference" "Idea" "Training")
+  "Known CATEGORY values offered when creating a new node."
+  :type '(repeat string)
+  :group 'eds-org)
+
+;;;###autoload
+(defun eds-org/maybe-prompt-category ()
+  "Prompt for a CATEGORY when a new node is being captured.
+
+Intended for `org-capture-before-finalize-hook'.  Does nothing
+when the node already has a CATEGORY property, so it only fires
+for genuinely new nodes.  Cancelling the prompt leaves the node
+unchanged."
+  (unless (org-entry-get nil "CATEGORY")
+    (let ((category (completing-read "Category: "
+                                     eds-org/category-list
+                                     nil nil nil nil "Note")))
+      (unless (string-empty-p category)
+        (eds-org/set-category-value category)))))
+
 (defun eds-org/get-org-file-name (title)
   "Get a suitable org-roam filename for TITLE."
   (let* ((time-string (eds-utils/get-time-string))

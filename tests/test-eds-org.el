@@ -63,6 +63,40 @@
     (eds-org/set-category-value "Old Category")
     (expect 'org-entry-put :not :to-have-been-called)))
 
+(describe "eds-org/maybe-prompt-category"
+  :var (org-entry-get
+        eds-org/set-category-value)
+  (before-all
+    (fset 'org-entry-get (lambda (entry property) nil))
+    (fset 'eds-org/set-category-value (lambda (value) nil)))
+
+  (before-each
+    (spy-on 'org-entry-get :and-return-value nil)
+    (spy-on 'eds-org/set-category-value)
+    (spy-on 'completing-read :and-return-value "Reference"))
+
+  (it "prompts with the known category list"
+    (eds-org/maybe-prompt-category)
+    (expect 'completing-read
+            :to-have-been-called-with "Category: "
+                                      eds-org/category-list
+                                      nil nil nil nil "Note"))
+
+  (it "sets the CATEGORY property to the chosen value"
+    (eds-org/maybe-prompt-category)
+    (expect 'eds-org/set-category-value :to-have-been-called-with "Reference"))
+
+  (it "doesn't prompt when the node already has a CATEGORY"
+    (spy-on 'org-entry-get :and-return-value "Meeting")
+    (eds-org/maybe-prompt-category)
+    (expect 'completing-read :not :to-have-been-called)
+    (expect 'eds-org/set-category-value :not :to-have-been-called))
+
+  (it "doesn't set a CATEGORY when the prompt is cancelled"
+    (spy-on 'completing-read :and-return-value "")
+    (eds-org/maybe-prompt-category)
+    (expect 'eds-org/set-category-value :not :to-have-been-called)))
+
 (describe "eds-org/get-link-from-link"
   (it "extracts the link URL from an org link"
     (expect (eds-org/get-link-from-link "[[https://example.com][Example Site]]")

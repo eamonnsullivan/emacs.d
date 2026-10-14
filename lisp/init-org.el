@@ -151,6 +151,8 @@
             (lambda ()
               (eds-org/maybe-add-filetags (plist-get org-capture-plist :key)
                                           (plist-get org-capture-plist :annotation))))
+  (add-hook 'org-capture-before-finalize-hook
+            #'eds-org/maybe-prompt-category)
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
                 #'org-roam-reflinks-section
