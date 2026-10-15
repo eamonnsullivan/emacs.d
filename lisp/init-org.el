@@ -143,6 +143,7 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
+  (add-hook 'org-roam-capture-new-node-hook #'eds-org/ensure-capture-category)
   ;; I want to add filetags to capture templates, but not sure what
   ;; hook to use. There's a prepare, before and after version of this
   ;; hook. I've tried all three and the all seem to work roughly the

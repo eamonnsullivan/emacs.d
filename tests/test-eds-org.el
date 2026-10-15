@@ -38,30 +38,122 @@
               :body ""
               :template "r"))))
 
-(describe "eds-org/set-category-value"
-  :var (org-read-property-value
-        org-entry-get
-        org-entry-put)
+(describe "eds-org category helpers"
   (before-all
-    (fset 'org-read-property-value (lambda (property) nil))
-    (fset 'org-entry-get (lambda (entry property) nil))
-    (fset 'org-entry-put (lambda (entry property value) nil)))
+    (require 'org))
 
   (before-each
-    (spy-on 'org-read-property-value
-            :and-return-value "Old Category")
-    (spy-on 'org-entry-get
-            :and-return-value "Old Category")
-    (spy-on 'org-entry-put))
+    (spy-on 'completing-read :and-return-value "Work"))
 
-  (it "sets the CATEGORY property to the provided value"
-    (eds-org/set-category-value "New Category")
-    (expect 'org-entry-put
-            :to-have-been-called-with nil "CATEGORY" "New Category"))
+  (it "prompts despite a filename-derived category and writes a file property"
+    (with-temp-buffer
+      (org-mode)
+      (setq buffer-file-name "/tmp/20260326-example.org")
+      (insert ":PROPERTIES:\n:ID: example\n:END:\n#+title: Example\n")
+      (goto-char (point-min))
+      (expect (org-entry-get nil "CATEGORY") :to-equal "20260326-example")
+      (expect (eds-org/explicit-category) :to-be nil)
+      (eds-org/ensure-capture-category)
+      (expect 'completing-read :to-have-been-called)
+      (expect (eds-org/explicit-category) :to-equal "Work")
+      (expect (point) :to-equal (point-min))))
 
-  (it "doesn't change the CATEGORY property if the value is the same"
-    (eds-org/set-category-value "Old Category")
-    (expect 'org-entry-put :not :to-have-been-called)))
+  (it "keeps an explicit category even when it equals the filename"
+    (with-temp-buffer
+      (org-mode)
+      (setq buffer-file-name "/tmp/Work.org")
+      (insert ":PROPERTIES:\n:CATEGORY: Work\n:END:\n#+title: Example\n")
+      (goto-char (point-min))
+      (eds-org/ensure-capture-category)
+      (expect 'completing-read :not :to-have-been-called)))
+
+  (it "keeps a file category keyword"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+category: Meeting\n* Notes\n")
+      (goto-char (point-max))
+      (expect (eds-org/explicit-category) :to-equal "Meeting")
+      (eds-org/ensure-capture-category)
+      (expect 'completing-read :not :to-have-been-called)))
+
+  (it "keeps inherited file and parent categories"
+    (dolist (text '(":PROPERTIES:\n:CATEGORY: Note\n:END:\n* Child\n"
+                    "* Parent\n:PROPERTIES:\n:CATEGORY: Note\n:END:\n** Child\n"))
+      (with-temp-buffer
+        (org-mode)
+        (insert text)
+        (goto-char (point-max))
+        (expect (eds-org/explicit-category) :to-equal "Note")
+        (eds-org/ensure-capture-category)))
+    (expect 'completing-read :not :to-have-been-called))
+
+  (it "prefers a local category over an ancestor category"
+    (with-temp-buffer
+      (org-mode)
+      (insert ":PROPERTIES:\n:CATEGORY: Note\n:END:\n* Child\n:PROPERTIES:\n:CATEGORY: Work\n:END:\n")
+      (goto-char (point-max))
+      (expect (eds-org/explicit-category) :to-equal "Work")))
+
+  (it "prompts for an empty explicit category"
+    (with-temp-buffer
+      (org-mode)
+      (insert ":PROPERTIES:\n:CATEGORY:\n:END:\n#+title: Example\n")
+      (goto-char (point-min))
+      (eds-org/ensure-capture-category)
+      (expect (eds-org/explicit-category) :to-equal "Work")))
+
+  (it "writes a heading category and preserves point and narrowing"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Example\n* Child\nBody\n")
+      (search-backward "* Child")
+      (org-narrow-to-subtree)
+      (let ((position (point))
+            (start (point-min)))
+        (eds-org/ensure-capture-category)
+        (expect (point) :to-equal position)
+        (expect (point-min) :to-equal start)
+        (expect (buffer-narrowed-p) :to-be-truthy)
+        (expect (eds-org/explicit-category) :to-equal "Work")
+        (widen)
+        (goto-char (point-min))
+        (expect (eds-org/explicit-category) :to-be nil))))
+
+  (it "offers existing and previous categories while allowing new values"
+    (with-temp-buffer
+      (org-mode)
+      (insert "* Other\n:PROPERTIES:\n:CATEGORY: Meeting\n:END:\n")
+      (let ((eds-org/category-history '("Note")))
+        (expect (eds-org/read-category) :to-equal "Work")
+        (expect 'completing-read :to-have-been-called-with
+                "Category: " '("Meeting" "Note") nil nil nil
+                'eds-org/category-history))))
+
+  (it "re-prompts after blank input and trims the answer"
+    (spy-on 'completing-read :and-call-fake
+            (let ((answers '("   " " Work ")))
+              (lambda (&rest _args) (pop answers))))
+    (with-temp-buffer
+      (org-mode)
+      (expect (eds-org/read-category) :to-equal "Work")
+      (expect (length (spy-calls-all 'completing-read)) :to-equal 2)))
+
+  (it "writes an explicit manual category even when equal to the filename"
+    (with-temp-buffer
+      (org-mode)
+      (setq buffer-file-name "/tmp/Work.org")
+      (insert "#+title: Example\n* Child\n")
+      (goto-char (point-max))
+      (eds-org/set-category-value "Work")
+      (goto-char (point-min))
+      (expect (eds-org/explicit-category) :to-equal "Work")
+      (expect 'completing-read :not :to-have-been-called)))
+
+  (it "prompts when setting a category manually without a value"
+    (with-temp-buffer
+      (org-mode)
+      (eds-org/set-category-value nil)
+      (expect (eds-org/explicit-category) :to-equal "Work"))))
 
 (describe "eds-org/get-link-from-link"
   (it "extracts the link URL from an org link"
