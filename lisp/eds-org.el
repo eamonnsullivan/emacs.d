@@ -68,16 +68,73 @@
        :body ""
        :template "r"))))
 
+(defvar eds-org/category-history nil
+  "History of categories entered when capturing Org-roam nodes.")
+
+(defun eds-org/explicit-category ()
+  "Return an explicitly set category at point, or nil.
+Check the current entry, its ancestors, the file property drawer and
+#+CATEGORY keywords.  Never return Org's filename-derived fallback."
+  (save-excursion
+    (save-restriction
+      (widen)
+      (org-back-to-heading-or-point-min t)
+      (let ((case-fold-search t)
+            category)
+        (while
+            (progn
+              (when-let* ((range (org-get-property-block)))
+                (setq category
+                      (save-excursion
+                        (goto-char (car range))
+                        (when (re-search-forward
+                               "^[ \t]*:CATEGORY:[ \t]*\\(.*\\)$" (cdr range) t)
+                          (org-trim (match-string-no-properties 1))))))
+              (and (not (org-string-nw-p category))
+                   (> (point) (point-min))
+                   (or (org-up-heading-safe)
+                       (goto-char (point-min))))))
+        (or (and (org-string-nw-p category) category)
+            (seq-find #'org-string-nw-p
+                      (cdr (assoc "CATEGORY"
+                                  (org-collect-keywords '("CATEGORY"))))))))))
+
+(defun eds-org/read-category ()
+  "Read a nonempty category with completion, allowing new values."
+  (let ((completion-ignore-case t)
+        (categories (delete-dups
+                     (append (org-property-values "CATEGORY")
+                             (org-property-get-allowed-values nil "CATEGORY")
+                             eds-org/category-history)))
+        category)
+    (while (not (org-string-nw-p category))
+      (setq category
+            (org-trim
+             (completing-read "Category: " categories nil nil nil
+                              'eds-org/category-history))))
+    category))
+
+;;;###autoload
+(defun eds-org/ensure-capture-category ()
+  "Prompt for CATEGORY at the capture target unless explicitly set.
+Suitable for `org-roam-capture-new-node-hook'; preserve point and narrowing."
+  (save-excursion
+    (save-restriction
+      (widen)
+      (unless (eds-org/explicit-category)
+        (org-entry-put nil "CATEGORY" (eds-org/read-category))))))
+
 ;;;###autoload
 (defun eds-org/set-category-value (value)
-  "Set the CATEGORY property of the current node to VALUE."
+  "Set the file-level CATEGORY property to VALUE, prompting if nil."
   (interactive (list nil))
-  (let ((value (or value (org-read-property-value "CATEGORY"))))
+  (let ((value (or value (eds-org/read-category))))
     (setq org-last-set-property "CATEGORY")
     (setq org-last-set-property-value (concat "CATEGORY: " value))
-    (unless (equal (org-entry-get nil "CATEGORY") value)
-      (save-excursion
-        (beginning-of-buffer)
+    (save-excursion
+      (save-restriction
+        (widen)
+        (goto-char (point-min))
         (org-entry-put nil "CATEGORY" value)))))
 
 ;;;###autoload
