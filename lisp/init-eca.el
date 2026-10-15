@@ -44,15 +44,13 @@
 (use-package eca
   :straight (:host github :repo "editor-code-assistant/eca-emacs")
   :commands (eca)
+  ;; :config
+  ;; (when (eq system-type 'gnu/linux)
+  ;;   (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server")))
   :custom
   (eca-max-response-kb 2048)
   (eca-provider 'gh-copilot)
   (eca-gh-copilot-server-command "copilot-language-server"))
-  ;; These are for the sandboxed version of eca. But I think I can't
-  ;; use this image because it doesn't have copilot-language-server.
-  ;; 
-  ;; (eca-custom-command '("/Users/sullie09/bin/eca-sandboxed" "server"))
-  ;; (eca-send-process-id nil))
 
 (provide 'init-eca)
 ;;; init-eca.el ends here
