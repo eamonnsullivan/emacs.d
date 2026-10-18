@@ -43,9 +43,13 @@
   (eds-utils/filter-for-regex "conflicted" (directory-files (eds-org/get-org-directory))))
 
 (defun eds-org/get-link-from-link (link)
-  "Extract the URL from an org-roam LINK."
+  "Extract the URL from an org-roam LINK.
+
+The brackets are kept, because org-roam only accepts `ROAM_REFS'
+values that match `org-link-any-re'.  A bare `mu4e:msgid:...' string
+does not match, while the bracketed form does."
   (if (string-match "\\[\\[\\(.*?\\)\\]\\[.*?\\]\\]" link)
-      (match-string 1 link)
+      (match-string 0 link)
     nil))
 
 (defun eds-org/get-org-file-name (title)

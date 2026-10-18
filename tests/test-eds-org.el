@@ -156,11 +156,14 @@
       (expect (eds-org/explicit-category) :to-equal "Work"))))
 
 (describe "eds-org/get-link-from-link"
-  (it "extracts the link URL from an org link"
+  (it "extracts the bracketed link from an org link"
     (expect (eds-org/get-link-from-link "[[https://example.com][Example Site]]")
-            :to-equal "https://example.com")
+            :to-equal "[[https://example.com][Example Site]]")
     (expect (eds-org/get-link-from-link "[[file:notes.org][Notes]]")
-            :to-equal "file:notes.org"))
+            :to-equal "[[file:notes.org][Notes]]"))
+  (it "keeps the brackets so org-roam accepts the ref"
+    (expect (eds-org/get-link-from-link "[[mu4e:msgid:abc@example.com][RE: hello]]")
+            :to-equal "[[mu4e:msgid:abc@example.com][RE: hello]]"))
   (it "returns nil for invalid org links"
     (expect (eds-org/get-link-from-link "Not a link")
             :to-be nil)
@@ -188,7 +191,7 @@
     (spy-on 'org-store-link
             :and-return-value "[[mail:something][RE: what about the 50K?]]")
     (spy-on 'eds-org/get-link-from-link
-            :and-return-value "mail:something")
+            :and-return-value "[[mail:something][RE: what about the 50K?]]")
     (spy-on 'eds-email/get-subject-from-msg
             :and-return-value "RE: what about the 50K?")
     (spy-on 'buffer-substring-no-properties
@@ -243,7 +246,7 @@
       (expect 'org-roam-protocol-open-ref
               :to-have-been-called-with
               '(:title "RE: what about the 50K?"
-                :ref "mail:something"
+                :ref "[[mail:something][RE: what about the 50K?]]"
                 :body "This is some text from the email that has been selected."
                 :template "r"))))
 
@@ -253,7 +256,7 @@
       (expect 'org-roam-protocol-open-ref
               :to-have-been-called-with
               '(:title "RE: what about the 50K?"
-                :ref "mail:something"
+                :ref "[[mail:something][RE: what about the 50K?]]"
                 :body "This is some text from the email that has been selected."
                 :template "T")))))
 
