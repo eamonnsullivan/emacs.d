@@ -148,5 +148,6 @@ Set this to `eglot' for Eglot with Eglotx, or `lsp-mode' for lsp-mode.")
 (require 'init-blogging)
 (require 'init-elisp)
 (require 'init-elfeed)
+(require 'init-org-social)
 (provide 'init)
 ;;; init.el ends here
