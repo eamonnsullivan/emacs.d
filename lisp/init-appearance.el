@@ -211,7 +211,6 @@
                                          ef-duo-dark
                                          ef-symbiosis
                                          ef-owl
-                                         ef-fig
                                          ef-bio
                                          ef-dark))))
   (circadian-setup))
