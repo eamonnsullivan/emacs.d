@@ -27,7 +27,7 @@
                 (concat "---\n"
                         "title: \"My First Blog Post\"\n"
                         "date: \"2026-03-19T00:00:00+00:00\"\n"
-                        "url: \"/posts-output/2026-03-19-my-first-blog-post/\"\n"
+                        "url: \"/posts/2026-03-19-my-first-blog-post/\"\n"
                         "tags: []\n"
                         "---\n\n")))))
 
@@ -41,7 +41,7 @@
                 (concat "---\n"
                         "title: \"SVP News\"\n"
                         "date: \"2026-03-19T00:00:00+00:00\"\n"
-                        "url: \"/posts-output/2026-03-19-svp-news/\"\n"
+                        "url: \"/posts/2026-03-19-svp-news/\"\n"
                         "author: \"Paul O'Regan\"\n"
                         "tags: []\n"
                         "---\n\n")))))
