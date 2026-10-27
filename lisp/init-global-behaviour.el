@@ -138,6 +138,7 @@
   (use-short-answers t)
   (read-answer-short t)
   (isearch-lazy-count t)
+  (isearch-allow-motion t)
   (auto-save-default nil)
   (read-extended-command-predicate #'command-completion-default-include-p)
   (save-interprogram-paste-before-kill t)
