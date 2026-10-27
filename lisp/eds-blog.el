@@ -44,7 +44,7 @@
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (let* ((date (format-time-string "%Y-%m-%d"))
          (slug (eds-utils/process-title title))
-         (url (format "/posts-output/%s-%s/" date slug)))
+         (url (format "/posts/%s-%s/" date slug)))
     (goto-char (point-min))
     (insert (format "---\ntitle: %s\ndate: \"%sT00:00:00+00:00\"\nurl: %s\n%s"
                     (json-encode-string title)
