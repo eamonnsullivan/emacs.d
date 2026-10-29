@@ -138,7 +138,6 @@
         mu4e-headers-show-threads nil
         mu4e-hide-index-messages t
         mu4e-headers-include-related nil
-        mu4e-headers-show-threads nil
         mu4e-notification-support t
         mu4e-confirm-quit nil)
   (add-hook 'mu4e-compose-mode-hook 'corfu-mode)
