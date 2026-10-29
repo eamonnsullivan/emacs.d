@@ -170,95 +170,63 @@
     (expect (eds-org/get-link-from-link "[[Invalid Link]")
             :to-be nil)))
 
-(describe "eds-org/capture-email and eds-org/capture-email-todo"
-  :var (org-store-link
-        eds-org/get-link-from-link
-        eds-email/get-subject-from-msg
-        mark-active
-        region-beginning
-        region-end
-        buffer-substring-no-properties
-        org-roam-protocol-open-ref)
+(describe "Email-reference capture"
+  :var (org-store-link org-roam-protocol-open-ref)
   (before-all
     (fset 'org-store-link (lambda (msg arg) nil))
-    (fset 'eds-org/get-link-from-link (lambda (link) nil))
-    (fset 'eds-email/get-subject-from-msg (lambda (msg) nil))
-    (set 'mark-active t)
-    (fset 'region-beginning (lambda () 1))
-    (fset 'region-end (lambda () 10))
-    (fset 'org-roam-protocol-open-ref (lambda (x) nil)))
+    (fset 'org-roam-protocol-open-ref (lambda (args) nil)))
   (before-each
     (spy-on 'org-store-link
-            :and-return-value "[[mail:something][RE: what about the 50K?]]")
-    (spy-on 'eds-org/get-link-from-link
-            :and-return-value "[[mail:something][RE: what about the 50K?]]")
-    (spy-on 'eds-email/get-subject-from-msg
-            :and-return-value "RE: what about the 50K?")
-    (spy-on 'buffer-substring-no-properties
-            :and-return-value "This is some text from the email that has been selected.")
+            :and-return-value "[[mu4e:msgid:abc@example.com][RE: hello]]")
     (spy-on 'org-roam-protocol-open-ref))
 
-  (it "captures a link to the  current email"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'org-store-link
-              :to-have-been-called-with msg nil)))
+  (dolist (capture '((eds-org/capture-email "r")
+                     (eds-org/capture-email-todo "T")))
+    (let ((action (car capture))
+          (template (cadr capture)))
+      (describe (symbol-name action)
+        (it "captures a bracketed reference and selected text with the correct template"
+          (with-temp-buffer
+            (insert "Before\n")
+            (let ((start (point))
+                  (msg '(:subject "RE: hello")))
+              (insert (propertize "Selected email text" 'face 'bold))
+              (set-mark start)
+              (setq mark-active t)
+              (save-excursion (insert "\nAfter"))
+              (funcall action msg)
+              (expect 'org-store-link :to-have-been-called-with msg nil)
+              (expect 'org-roam-protocol-open-ref
+                      :to-have-been-called-with
+                      `(:title "RE: hello"
+                        :ref "[[mu4e:msgid:abc@example.com][RE: hello]]"
+                        :body "Selected email text"
+                        :template ,template)))))
 
-  (it "captures a todo link to the  current email"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email-todo msg)
-      (expect 'org-store-link
-              :to-have-been-called-with msg nil)))
+        (it "captures an empty body when a mark exists but no selection is active"
+          (with-temp-buffer
+            (insert "Unselected email text")
+            (set-mark (point-min))
+            (setq mark-active nil)
+            (funcall action '(:subject "RE: hello"))
+            (expect 'org-roam-protocol-open-ref
+                    :to-have-been-called-with
+                    `(:title "RE: hello"
+                      :ref "[[mu4e:msgid:abc@example.com][RE: hello]]"
+                      :body ""
+                      :template ,template))))
 
-  (it "gets the link to the message"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'eds-org/get-link-from-link
-              :to-have-been-called-with "[[mail:something][RE: what about the 50K?]]")))
-
-  (it "gets the subject from the message"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'eds-email/get-subject-from-msg
-              :to-have-been-called-with msg)))
-
-  (it "gets the subject from the todo message"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email-todo msg)
-      (expect 'eds-email/get-subject-from-msg
-              :to-have-been-called-with msg)))
-
-  (it "gets selected region contents"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'buffer-substring-no-properties
-              :to-have-been-called)))
-
-  (it "gets selected region contents for todo"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email-todo msg)
-      (expect 'buffer-substring-no-properties
-              :to-have-been-called)))
-
-  (it "creates a new org-roam note with the email link and selected region"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email msg)
-      (expect 'org-roam-protocol-open-ref
-              :to-have-been-called-with
-              '(:title "RE: what about the 50K?"
-                :ref "[[mail:something][RE: what about the 50K?]]"
-                :body "This is some text from the email that has been selected."
-                :template "r"))))
-
-  (it "creates a new org-roam TODO with the email link and selected region"
-    (let ((msg '(:subject "RE: what about the 50K?")))
-      (eds-org/capture-email-todo msg)
-      (expect 'org-roam-protocol-open-ref
-              :to-have-been-called-with
-              '(:title "RE: what about the 50K?"
-                :ref "[[mail:something][RE: what about the 50K?]]"
-                :body "This is some text from the email that has been selected."
-                :template "T")))))
+        (it "uses the subject fallback without requiring a mark"
+          (with-temp-buffer
+            (insert "Email without a subject")
+            (setq mark-active nil)
+            (funcall action '(:message-id "abc@example.com"))
+            (expect 'org-roam-protocol-open-ref
+                    :to-have-been-called-with
+                    `(:title "No Subject"
+                      :ref "[[mu4e:msgid:abc@example.com][RE: hello]]"
+                      :body ""
+                      :template ,template))))))))
 
 (describe "eds-org/remove-title-boilerplate"
   (it "removes the dropbox paper suffix from the title"

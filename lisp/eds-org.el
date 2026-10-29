@@ -141,12 +141,12 @@ Suitable for `org-roam-capture-new-node-hook'; preserve point and narrowing."
         (goto-char (point-min))
         (org-entry-put nil "CATEGORY" value)))))
 
-;;;###autoload
-(defun eds-org/capture-email (msg)
-  "Capture an email message MSG into org-roam."
-  (interactive)
+(defun eds-org--capture-email (msg template)
+  "Capture email MSG into org-roam using reference TEMPLATE.
+Preserve the bracketed reference and include selected text when the mark
+is active; otherwise use an empty body."
   (let* ((link (org-store-link msg nil))
-         (ref  (eds-org/get-link-from-link link))
+         (ref (eds-org/get-link-from-link link))
          (subject (eds-email/get-subject-from-msg msg))
          (body (if mark-active
                    (buffer-substring-no-properties (region-beginning) (region-end))
@@ -155,23 +155,19 @@ Suitable for `org-roam-capture-new-node-hook'; preserve point and narrowing."
      `(:title ,subject
        :ref ,ref
        :body ,body
-       :template "r"))))
+       :template ,template))))
+
+;;;###autoload
+(defun eds-org/capture-email (msg)
+  "Capture an email message MSG into org-roam."
+  (interactive)
+  (eds-org--capture-email msg "r"))
 
 ;;;###autoload
 (defun eds-org/capture-email-todo (msg)
   "Capture an email message MSG into a TODO in org-roam."
   (interactive)
-  (let* ((link (org-store-link msg nil))
-         (ref  (eds-org/get-link-from-link link))
-         (subject (eds-email/get-subject-from-msg msg))
-         (body (if mark-active
-                   (buffer-substring-no-properties (region-beginning) (region-end))
-                  "")))
-    (org-roam-protocol-open-ref
-     `(:title ,subject
-       :ref ,ref
-       :body ,body
-       :template "T"))))
+  (eds-org--capture-email msg "T"))
 
 ;;;###autoload
 (defun eds-org/org-roam-graph-small ()
