@@ -161,7 +161,7 @@
   (custom-safe-themes t)
   (find-library-include-other-files nil)
   ;; Dired
-  (dired-listing-switches "-AGFhlv")
+  (dired-listing-switches "-AGhlv")
   (dired-kill-when-opening-new-dired-buffer t)
   (dired-auto-revert-buffer #'dired-directory-changed-p)
   (dired-clean-up-buffers-too t)
