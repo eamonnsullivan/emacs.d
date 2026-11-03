@@ -44,9 +44,11 @@
 (add-to-list 'magic-mode-alist
              '("\\({\n *\\)? *[\"']AWSTemplateFormatVersion" . cfn-json-mode))
 
-;; Set up a mode for YAML based templates if yaml-mode is installed
-;; Get yaml-mode here https://github.com/yoshiki/yaml-mode
-(define-derived-mode cfn-yaml-mode yaml-mode
+;; Use the built-in tree-sitter mode for YAML files and CloudFormation templates.
+(require 'yaml-ts-mode)
+(add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-ts-mode))
+
+(define-derived-mode cfn-yaml-mode yaml-ts-mode
   "CFN-YAML"
   "Simple mode to edit CloudFormation template in YAML format.")
 
