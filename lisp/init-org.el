@@ -112,18 +112,13 @@
           org-fontify-whole-block-delimiter-lines t
           org-fold-catch-invisible-edits 'smart
           org-startup-folded 'content
-          org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
-                                   "* TODO %?\n SCHEDULED: %t\n %a")
-                                  ("w" "Work note" entry (file org-default-notes-file)
-                                   "* %?\n %U\n %a")
-                                  ("p" "Personal note" entry (file eds-org-personal-file)
-                                   "* %?\n %U\n %a"))
           org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d)" "SKIPPED(k)" "CANCELLED(c)"))
           org-agenda-custom-commands '(("ha" tags-todo "homeautomation|home-it")
                                        ("hg" tags-todo "gardening")
                                        ("pt" tags-todo "personal")
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
+  (eds-org-capture-register-org-templates)
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
@@ -143,15 +138,7 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
-  (add-hook 'org-roam-capture-new-node-hook #'eds-org/ensure-capture-category)
-  ;; I want to add filetags to capture templates, but not sure what
-  ;; hook to use. There's a prepare, before and after version of this
-  ;; hook. I've tried all three and the all seem to work roughly the
-  ;; same, so I'll stick with it for now.
-  (add-hook 'org-capture-before-finalize-hook
-            (lambda ()
-              (eds-org/maybe-add-filetags (plist-get org-capture-plist :key)
-                                          (plist-get org-capture-plist :annotation))))
+  (eds-org-capture-register-roam-templates)
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
                 #'org-roam-reflinks-section
@@ -161,62 +148,7 @@
   (setopt org-roam-directory (eds-org/get-org-directory)
         org-roam-completion-everywhere nil
         org-roam-graph-executable "dot"
-        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag))
-        org-roam-capture-templates
-        `(("d" "default" entry "* ${title}\n%?"
-           :target (file+head
-                    "%<%Y%m%d%H%M%S>-${slug}.org"
-                    ,(concat "#+title: ${title}"
-                             "\n#+startup: content"))
-           :unnarrowed t)
-          ("m" "meeting" entry "* ${title} Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"
-           :target
-           (file+head
-            "%<%Y%m%d%H%M%S>-${slug}.org"
-            ,(concat "#+title: ${title}"
-                     "\n#+filetags: :meeting:"
-                     "\n#+startup: content"
-                     "\n* Actions\n"))
-           :unnarrowed t)
-          ("t" "todo" entry "* TODO %?\n%t\n"
-           :target (file+head
-                    "%<%Y%m%d%H%M%S>-${slug}.org"
-                    ,(concat "#+title: ${title}"
-                             "\n#+startup: content"))
-           :unnarrowed t)
-          ("x" "training" entry "* ${title} Notes\n%u\n%?"
-           :target
-           (file+head
-            "%<%Y%m%d%H%M%S>-${slug}.org"
-            ,(concat "#+title: ${title}"
-                     "\n#+filetags: :training:"
-                     "\n#+startup: content"
-                     "\n- [[id:C9EB836D-F0DD-47CE-B8F3-B44FD1A0A0E6][training]]\n"))
-           :unnarrowed t)
-          ("i" "idea" entry "* %?\n- [[id:A5284C15-BADD-4A2D-8299-6A8A24339000][Ideas]]\n"
-           :target (file+head
-                    "%<%Y%m%d%H%M%S>-${slug}.org"
-                    ,(concat "#+title: ${title}"
-                             "\n#+filetags: :ideas:"
-                             "\n#+startup: content"))))
-        org-roam-capture-ref-templates
-        `(("r" "ref" plain "%?"
-           :target
-           (file+head
-            "%<%Y%m%d%H%M%S>-${slug}.org"
-            "%(concat \"#+title: \"
-                      (eds-org/remove-title-boilerplate \"${title}\")
-                      \"\n#+filetags: :reference:\"
-                      \"\n#+startup: content\n\"
-                      \"\n${body}\n\")")
-           :unnarrowed t)
-          ("T" "ref" entry "* TODO %?\n%t\n\n${body}\n"
-           :target
-           (file+head
-            "%<%Y%m%d%H%M%S>-${slug}.org"
-            ,(concat "#+title: ${title}"
-                     "\n#+startup: content"))
-           :unnarrowed t)))
+        org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
 
   (when (eq system-type 'darwin)
     (setopt org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"))

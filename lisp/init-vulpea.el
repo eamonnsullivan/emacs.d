@@ -50,34 +50,10 @@
           vulpea-db-async-extraction 'full ; experimental
           vulpea-db-sync-external-method 'auto
           vulpea-db-sync-scan-on-enable 'async
-          vulpea-ui-fast-parse t
-          vulpea-create-default-function
-          (lambda (title)
-            (list :file-name (format "%s_%s.org"
-                                     (format-time-string "%Y%m%d%H%M%S")
-                                     (vulpea-title-to-slug title))
-                  :tags (when (string-match-p "meeting" title)
-                            '("meeting"))
-                  :properties (if (string-match-p "meeting" title)
-                                  (list (cons "CREATED" (format-time-string "%FT%T%z"))
-                                        (cons "CATEGORY" "Meeting"))
-                                (list (cons "CREATED" (format-time-string "%FT%T%z"))
-                                      (cons "CATEGORY" "Note")))
-                  :body (if (string-match-p "meeting" title)
-                            "\n\n* Actions\n* Notes\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n"
-                          "\n"))))
+          vulpea-ui-fast-parse t)
+  (eds-org-capture-register-vulpea-defaults)
   (vulpea-db-autosync-mode +1)
-  (add-to-list 'org-capture-templates
-               '("m" "meeting" entry
-                 (file (lambda ()
-                         (vulpea-note-path
-                          (vulpea-create
-                           "Meeting notes"
-                           nil
-                           :tags '("meetings")
-                           :properties (list (cons "CREATED" (format-time-string "%FT%T%z"))
-                                             (cons "CATEGORY" "Meeting"))))))
-                 "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
+  (eds-org-capture-register-vulpea-meeting-template)
   (add-hook 'org-mode-hook #'vulpea-title-change-detection-mode)
   :bind (("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n f" . vulpea-find)

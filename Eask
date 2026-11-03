@@ -19,4 +19,6 @@
 
 (development
  (depends-on "undercover")
- (depends-on "buttercup"))
+ (depends-on "buttercup")
+ (depends-on "org-roam")
+ (depends-on "vulpea"))
