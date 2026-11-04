@@ -88,7 +88,7 @@ Windows external keyboard from time to time."
   (dolist (var '("GOPATH"
                  "SERVER_ENV"
                  "PATH"
-                 "OP_SERVICE_ACCOUNT_TOKEN"
+                 "PERSONAL_OPENCODE_CONSOLE_API_KEY"
                  ))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
