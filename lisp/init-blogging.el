@@ -34,17 +34,23 @@
 
 (require 'eds-blog)
 
-;; markdown-ts-mode is built into Emacs 31, but unlike the former
-;; straight-installed package it does not add itself to
-;; `auto-mode-alist', so register .md files here.
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
+;; Need to handle difference in Emacs 31 and 32 on whether
+;; markdown-ts-mode is loaded or not.
+(if (require 'markdown-ts-mode nil :noerror)
+    (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
+  (use-package markdown-mode
+    :straight t
+    :mode "\\.md\\'"))
+
+(defun eds-blog/bind-svp-contact-key ()
+  "Bind `C-c C-e s' to `eds-blog/make-svp-contact-link' locally."
+  (local-set-key (kbd "C-c C-e s") #'eds-blog/make-svp-contact-link))
+
+(add-hook 'markdown-ts-mode-hook #'eds-blog/bind-svp-contact-key)
+(add-hook 'markdown-mode-hook #'eds-blog/bind-svp-contact-key)
 
 (use-package ox-hugo
   :after ox)
-
-(add-hook 'markdown-ts-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-e s") #'eds-blog/make-svp-contact-link)))
 
 (defun markdown-convert-buffer-to-org ()
   "Convert the current Markdown buffer to a sibling .org file using Pandoc."
