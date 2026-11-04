@@ -34,6 +34,11 @@
 
 (require 'eds-blog)
 
+;; markdown-ts-mode is built into Emacs 31, but unlike the former
+;; straight-installed package it does not add itself to
+;; `auto-mode-alist', so register .md files here.
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
+
 (use-package ox-hugo
   :after ox)
 
