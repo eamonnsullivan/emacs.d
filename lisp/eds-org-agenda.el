@@ -64,14 +64,22 @@ Relative paths are resolved beneath `eds-org/get-org-directory'."
               (string-equal (org-element-property :key element) "FILETAGS")))
        (org-element-contents first-element)))))
 
+(defun eds-org-agenda--goto-value-end (keyword value)
+  "Move point to the end of VALUE in FILETAGS KEYWORD's line.
+Return non-nil on success.  Skip the keyword prefix first, so a VALUE
+such as \":\" cannot match the colon in \"#+filetags:\"."
+  (goto-char (org-element-property :begin keyword))
+  (when (looking-at "[ \t]*#\\+[^ \t:]+:[ \t]*")
+    (goto-char (match-end 0))
+    (when (looking-at (regexp-quote value))
+      (goto-char (match-end 0)))))
+
 (defun eds-org-agenda--add-marker (keyword)
   "Add agenda marker to FILETAGS KEYWORD, preserving other text."
-  (let* ((begin (org-element-property :begin keyword))
-         (value (org-element-property :value keyword))
+  (let* ((value (org-element-property :value keyword))
          (tags (split-string value "[ :\t]+" t)))
     (unless (member "agenda" tags)
-      (goto-char begin)
-      (when (search-forward value (line-end-position) t)
+      (when (eds-org-agenda--goto-value-end keyword value)
         (if (string-suffix-p ":" value)
             (progn
               (backward-char)
@@ -80,15 +88,14 @@ Relative paths are resolved beneath `eds-org/get-org-directory'."
 
 (defun eds-org-agenda--remove-marker (keyword)
   "Remove agenda marker from FILETAGS KEYWORD, preserving other content."
-  (let* ((begin (org-element-property :begin keyword))
-         (value (org-element-property :value keyword))
+  (let* ((value (org-element-property :value keyword))
          (without-marker
           (replace-regexp-in-string
            "\\(?:\\_<agenda\\_>:\\|:\\_<agenda\\_>\\)" "" value)))
     (unless (string-equal value without-marker)
-      (goto-char begin)
-      (when (search-forward value (line-end-position) t)
-        (replace-match without-marker t t)))))
+      (when (eds-org-agenda--goto-value-end keyword value)
+        (delete-region (- (point) (length value)) (point))
+        (insert without-marker)))))
 
 (defun eds-org-agenda--marker-insertion-position ()
   "Return position immediately after current buffer's top-level title."

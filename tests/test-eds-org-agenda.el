@@ -79,6 +79,34 @@
                                 "#+FILETAGS: :personal:\n"
                                 "* DONE Finished\n"))))
 
+  (it "adds the marker to an empty FILETAGS value without touching the keyword"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+title: Tasks\n"
+              "#+filetags: :\n"
+              "* TODO Pending\n")
+      (eds-org-agenda-enable-sync)
+      (run-hooks 'before-save-hook)
+      (expect (buffer-string)
+              :to-equal (concat "#+title: Tasks\n"
+                                "#+filetags: :agenda:\n"
+                                "* TODO Pending\n"))))
+
+  (it "removes the marker leaving an empty FILETAGS value intact"
+    (with-temp-buffer
+      (org-mode)
+      (insert "#+filetags: :agenda:\n"
+              "* DONE Finished\n")
+      (eds-org-agenda-enable-sync)
+      (run-hooks 'before-save-hook)
+      (expect (buffer-string)
+              :to-equal (concat "#+filetags: :\n"
+                                "* DONE Finished\n"))
+      (run-hooks 'before-save-hook)
+      (expect (buffer-string)
+              :to-equal (concat "#+filetags: :\n"
+                                "* DONE Finished\n"))))
+
   (it "marks an explicit agenda file even without active work"
     (let* ((directory (make-temp-file "eds-org-agenda-" t))
            (file (expand-file-name "calendar.org" directory)))
