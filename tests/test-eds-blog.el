@@ -27,7 +27,7 @@
                 (concat "---\n"
                         "title: \"My First Blog Post\"\n"
                         "date: \"2026-03-19T00:00:00+00:00\"\n"
-                        "url: \"/posts/2026-03-19-my-first-blog-post/\"\n"
+                        "url: \"/posts/my-first-blog-post/\"\n"
                         "tags: []\n"
                         "---\n\n")))))
 
@@ -41,7 +41,7 @@
                 (concat "---\n"
                         "title: \"SVP News\"\n"
                         "date: \"2026-03-19T00:00:00+00:00\"\n"
-                        "url: \"/posts/2026-03-19-svp-news/\"\n"
+                        "url: \"/posts/svp-news/\"\n"
                         "author: \"Paul O'Regan\"\n"
                         "tags: []\n"
                         "---\n\n")))))
@@ -60,16 +60,22 @@
       (spy-on 'find-file)
       (spy-on 'eds-blog/insert-skeleton-blog-post)
       (spy-on 'save-buffer)
-      (spy-on 'magit-branch-create)
-      (spy-on 'magit-checkout)
+      (spy-on 'magit-run-git :and-return-value 0)
       (eds-blog/start-blog-post project title)
       (let* ((expected-branch (concat (format-time-string "%Y-%m-%d") "-my-first-blog-post"))
-             (expected-filename (concat project "/content/posts/" expected-branch ".md")))
+             (expected-filename (concat project "/content/posts/" "my-first-blog-post.md")))
         (expect 'find-file :to-have-been-called-with expected-filename)
         (expect 'eds-blog/insert-skeleton-blog-post :to-have-been-called-with title)
         (expect 'save-buffer :to-have-been-called)
-        (expect 'magit-branch-create :to-have-been-called-with expected-branch "main")
-        (expect 'magit-checkout :to-have-been-called-with expected-branch))))
+        (expect 'magit-run-git :to-have-been-called-with
+                "checkout" "-b" expected-branch "main"))))
+
+  (it "signals a user error and creates no file when git fails"
+    (spy-on 'find-file)
+    (spy-on 'magit-run-git :and-return-value 128)
+    (expect (eds-blog/start-blog-post "/mock/project" "Some Title")
+            :to-throw 'user-error)
+    (expect 'find-file :not :to-have-been-called))
 
   (it "passes author to the skeleton blog post"
     (let ((project "/mock/project")
@@ -78,8 +84,7 @@
       (spy-on 'find-file)
       (spy-on 'eds-blog/insert-skeleton-blog-post)
       (spy-on 'save-buffer)
-      (spy-on 'magit-branch-create)
-      (spy-on 'magit-checkout)
+      (spy-on 'magit-run-git :and-return-value 0)
       (eds-blog/start-blog-post project title author)
       (expect 'eds-blog/insert-skeleton-blog-post
               :to-have-been-called-with title author))))

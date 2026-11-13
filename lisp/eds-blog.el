@@ -44,7 +44,7 @@
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (let* ((date (format-time-string "%Y-%m-%d"))
          (slug (eds-utils/process-title title))
-         (url (format "/posts/%s-%s/" date slug)))
+         (url (format "/posts/%s/" slug)))
     (goto-char (point-min))
     (insert (format "---\ntitle: %s\ndate: \"%sT00:00:00+00:00\"\nurl: %s\n%s"
                     (json-encode-string title)
@@ -60,10 +60,13 @@ When AUTHOR is non-nil and non-empty, include it in the post metadata."
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
   (let* ((title-name (eds-utils/process-title title))
          (branch (concat (format-time-string "%Y-%m-%d") "-" title-name))
-         (filename (concat project "/content/posts/" branch ".md"))
+         (filename (concat project "/content/posts/" title-name ".md"))
          (default-directory (file-name-as-directory (expand-file-name project))))
-    (magit-branch-create branch "main")
-    (magit-checkout branch)
+    ;; Run synchronously, with `default-directory' bound to the project.
+    ;; The async Magit commands refresh from a process sentinel after this
+    ;; binding has gone, which fails with "Not inside Git repository".
+    (unless (eql 0 (magit-run-git "checkout" "-b" branch "main"))
+      (user-error "Could not create branch %s in %s" branch project))
     (find-file filename)
     (if (and author (not (string-empty-p author)))
         (eds-blog/insert-skeleton-blog-post title author)
