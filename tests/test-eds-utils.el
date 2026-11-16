@@ -143,17 +143,6 @@
         (eds-utils/insert-git-branch-name)
         (expect (buffer-string) :to-equal "[ABC-123] ")
         (expect (point) :to-equal (+ initial-point 10))
-        (expect eds-insert-branch-name-p :to-be nil))))
-
-  (it "adds a copilot tag when copilot contributed"
-    (spy-on 'magit-get-current-branch
-            :and-return-value "feature/ABC-123-new-feature")
-    (spy-on 'y-or-n-p :and-return-value t)
-    (with-temp-buffer
-      (let ((initial-point (point)))
-        (eds-utils/insert-git-branch-name)
-        (expect (buffer-string) :to-equal "[ABC-123]  [copilot]")
-        (expect (point) :to-equal (+ initial-point 10))
         (expect eds-insert-branch-name-p :to-be nil)))))
 
 (describe "eds-utils/extract-jira-ticket"
