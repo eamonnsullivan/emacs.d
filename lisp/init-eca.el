@@ -46,11 +46,13 @@
   :commands (eca)
   ;; :config
   ;; (when (eq system-type 'gnu/linux)
-  ;;   (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server")))
+  ;;   (setq eca-custom-command '("/home/eamonn/.local/bin/eca-sandboxed" "server"))
+  ;;   (setq eca-send-process-id nil))
   :custom
   (eca-max-response-kb 2048)
-  (eca-provider 'gh-copilot)
-  (eca-gh-copilot-server-command "copilot-language-server"))
+  (when (not (eq system-type 'gnu/linux))
+    (eca-provider 'gh-copilot)
+    (eca-gh-copilot-server-command "copilot-language-server")))
 
 (provide 'init-eca)
 ;;; init-eca.el ends here
