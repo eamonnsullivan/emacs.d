@@ -192,6 +192,7 @@
                                          ef-trio-light
                                          ef-reverie
                                          ef-orange
+                                         ef-halloween-light
                                          ef-reverie))
                              (:sunset . (ef-rosa
                                          ef-elea-dark
@@ -203,6 +204,7 @@
                                          ef-dream
                                          ef-autumn
                                          ef-atlantis
+                                         ef-halloween-dark
                                          ef-cherie
                                          ef-deuteranopia-dark))
                              ("22:00" . (ef-winter
