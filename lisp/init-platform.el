@@ -58,11 +58,11 @@
     (ns-raise-emacs)
     (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend))
 
-  ;; I may regret this, but let's try and join the crowd and swap the
-  ;; key on the mac. It's all in the Meta. I got this and the function from
-  ;; https://github.com/bbatsov/prelude/blob/master/core/prelude-macos.el
-  (setq ns-function-modifier 'hyper)
+  ;; Keep Fn as Hyper for keyboard shortcuts, but ignore it for mouse
+  ;; events so an Fn flag does not turn a link click into H-<mouse-1>.
+  (setq ns-function-modifier '(:ordinary hyper :function hyper :mouse none))
 
+  ;; From https://github.com/bbatsov/prelude/blob/master/core/prelude-macos.el
   (defun prelude-swap-meta-and-super ()
     "Swap the mapping of Meta and Super.
 Very useful for people using their Mac with a
