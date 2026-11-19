@@ -54,6 +54,23 @@
         (expect (buffer-string) :not :to-match "author:")))))
 
 (describe "eds-blog/start-blog-post"
+  (it "loads Magit when its Git runner is undefined"
+    (spy-on 'find-file)
+    (spy-on 'eds-blog/insert-skeleton-blog-post)
+    (spy-on 'save-buffer)
+    (let ((original-require (symbol-function 'require)))
+      (cl-letf (((symbol-function 'magit-run-git) nil)
+                ((symbol-function 'require)
+                 (lambda (feature &rest args)
+                   (if (eq feature 'magit)
+                       (progn
+                         (fset 'magit-run-git (lambda (&rest _) 0))
+                         feature)
+                     (apply original-require feature args)))))
+        (eds-blog/start-blog-post "/mock/project" "First Post")))
+    (expect 'find-file :to-have-been-called-with
+            "/mock/project/content/posts/first-post.md"))
+
   (it "creates a new blog post file with the correct name and branch"
     (let ((project "/mock/project")
           (title "My First Blog Post"))

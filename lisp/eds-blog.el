@@ -39,6 +39,8 @@
 (require 'widget)
 (require 'wid-edit)
 
+(declare-function magit-run-git "magit-process" (&rest args))
+
 (defun eds-blog/insert-skeleton-blog-post (title &optional author)
   "Insert Hugo front matter for a blog post with TITLE.
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
@@ -58,6 +60,8 @@ When AUTHOR is non-nil and non-empty, include it in the post metadata."
 (defun eds-blog/start-blog-post (project title &optional author)
   "Create a new post for PROJECT with TITLE and today's date on a new branch.
 When AUTHOR is non-nil and non-empty, include it in the post metadata."
+  (unless (fboundp 'magit-run-git)
+    (require 'magit))
   (let* ((title-name (eds-utils/process-title title))
          (branch (concat (format-time-string "%Y-%m-%d") "-" title-name))
          (filename (concat project "/content/posts/" title-name ".md"))
