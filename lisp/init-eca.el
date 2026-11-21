@@ -41,14 +41,36 @@
 
 ;;; Code:
 
+(defcustom eds-eca-libfprint-sandbox "eca-0d932e4e8925629feaf7f70c"
+  "Docker sandbox name or ID for a standalone libfprint ECA session."
+  :type 'string
+  :group 'tools)
+
+(defun eds-eca-sandbox-command (command roots)
+  "Run a fresh ECA server via sbx for a lone local libfprint root.
+COMMAND is the original server command, and ROOTS are its workspace folders.
+The sandbox must mount the workspace at the same path as the host."
+  (let ((root (car roots)))
+    (if (and root
+             (null (cdr roots))
+             (not (file-remote-p root))
+             (string-equal (file-name-nondirectory (directory-file-name root))
+                           "libfprint"))
+        ;; Keep stdin open, but do not allocate a TTY: ECA uses stdio JSON-RPC.
+        (append (list "sbx" "--no-input" "exec" "--interactive"
+                      "--workdir" (directory-file-name root) "--"
+                      eds-eca-libfprint-sandbox "eca")
+                (cdr command))
+      command)))
+
 (use-package eca
   :straight (:host github :repo "editor-code-assistant/eca-emacs")
   :commands (eca)
   :config
   (when (eq system-type 'gnu/linux)
-    ;; (setq eca-custom-command '("/home/eamonn/.local/bin/eca-sandboxed" "server"))
-    (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server"))
-    (setq eca-send-process-id nil))
+    (setopt eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server")
+            eca-process-wrapper-function #'eds-eca-sandbox-command
+            eca-send-process-id nil))
   :custom
   (eca-max-response-kb 2048)
   (when (not (eq system-type 'gnu/linux))
