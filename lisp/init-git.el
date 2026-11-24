@@ -57,6 +57,9 @@
   (add-hook 'git-commit-setup-hook 'eds-utils/insert-git-branch-name)
   (advice-add 'magit-commit :after 'use-insert-branch-name))
 
+(use-package forge
+  :after magit)
+
 (use-package git-gutter
   :diminish git-gutter-mode
   :init
