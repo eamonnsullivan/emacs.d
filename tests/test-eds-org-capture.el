@@ -39,6 +39,7 @@
          (org-capture-plist nil)
          (org-capture-current-plist nil)
          (org-capture-last-stored-marker (make-marker))
+         (eds-org-capture--vulpea-autosync-ready nil)
          (variables '(org-capture-templates org-roam-capture-templates
                       org-roam-capture-ref-templates vulpea-create-default-function))
          (defaults (mapcar (lambda (variable)
@@ -61,24 +62,36 @@
   (it "registers exact key sets and installs hooks idempotently"
     (eds-test-with-capture-directory
      (lambda (_directory)
-       (eds-org-capture-register-org-templates)
+       (eds-org-capture-notify-ready 'org)
        (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p"))
-       (eds-org-capture-register-roam-templates)
-       (eds-org-capture-register-roam-templates)
+       (eds-org-capture-notify-ready 'org-roam)
+       (eds-org-capture-notify-ready 'org-roam)
        (expect (mapcar #'car org-roam-capture-templates)
                :to-equal '("d" "m" "t" "x" "i"))
        (expect (mapcar #'car org-roam-capture-ref-templates) :to-equal '("r" "T"))
        (expect org-roam-capture-new-node-hook :to-equal '(eds-org/ensure-capture-category))
        (expect org-capture-before-finalize-hook :to-equal '(eds-org-capture-before-finalize))
-       (eds-org-capture-register-vulpea-meeting-template)
-       (eds-org-capture-register-vulpea-meeting-template)
+       (eds-org-capture-notify-ready 'vulpea-autosync)
+       (eds-org-capture-notify-ready 'vulpea-autosync)
+       (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p")))))
+
+  (it "keeps one Vulpea meeting entry when Org setup is reapplied"
+    (eds-test-with-capture-directory
+     (lambda (_directory)
+       (eds-org-capture-notify-ready 'org)
+       (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p"))
+       (eds-org-capture-notify-ready 'vulpea)
+       (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p"))
+       (eds-org-capture-notify-ready 'vulpea-autosync)
+       (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p"))
+       (eds-org-capture-notify-ready 'org)
        (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p"))))))
 
 (describe "eds-org-capture Org-roam lifecycle"
   (it "finalizes a new node with a prompted CATEGORY"
     (eds-test-with-capture-directory
      (lambda (directory)
-       (eds-org-capture-register-roam-templates)
+       (eds-org-capture-notify-ready 'org-roam)
        (spy-on 'eds-org/read-category :and-return-value "Research")
        (org-roam-capture- :keys "d" :node (org-roam-node-create :title "Research note"))
        (org-capture-finalize)
@@ -96,7 +109,7 @@
   (it "keeps an explicit file CATEGORY without prompting"
     (eds-test-with-capture-directory
      (lambda (directory)
-       (eds-org-capture-register-roam-templates)
+       (eds-org-capture-notify-ready 'org-roam)
        (let* ((file (expand-file-name "existing.org" directory))
               (id (org-id-new)))
          (with-temp-file file
@@ -116,7 +129,7 @@
   (it "stores a reference and applies URL tags during finalization"
     (eds-test-with-capture-directory
      (lambda (directory)
-       (eds-org-capture-register-roam-templates)
+       (eds-org-capture-notify-ready 'org-roam)
        (spy-on 'eds-org/read-category :and-return-value "Work")
        (org-roam-protocol-open-ref
         '(:template "r" :title "Design - Confluence"
@@ -136,7 +149,7 @@
   (it "creates Note and Meeting files with distinct defaults"
     (eds-test-with-capture-directory
      (lambda (_directory)
-       (eds-org-capture-register-vulpea-defaults)
+       (eds-org-capture-notify-ready 'vulpea)
        (dolist (title '("Ordinary note" "Project meeting"))
          (let* ((meeting (string-match-p "meeting" title))
                 (note (vulpea-create title)))
@@ -153,10 +166,10 @@
   (it "finalizes Org's meeting template with explicit CATEGORY and consistent meeting tag"
     (eds-test-with-capture-directory
      (lambda (directory)
-       (eds-org-capture-register-org-templates)
-       (eds-org-capture-register-roam-templates)
-       (eds-org-capture-register-vulpea-defaults)
-       (eds-org-capture-register-vulpea-meeting-template)
+       (eds-org-capture-notify-ready 'org)
+       (eds-org-capture-notify-ready 'org-roam)
+       (eds-org-capture-notify-ready 'vulpea)
+       (eds-org-capture-notify-ready 'vulpea-autosync)
        (spy-on 'eds-org/read-category :and-return-value "Unexpected")
        (org-capture nil "m")
        (org-capture-finalize)

@@ -118,7 +118,7 @@
                                        ("pt" tags-todo "personal")
                                        ("ps" tags-todo "shopping")
                                        ("ww" tags-todo "work")))
-  (eds-org-capture-register-org-templates)
+  (eds-org-capture-notify-ready 'org)
   (add-to-list 'org-modules 'org-timer)
   (add-hook 'org-clock-in-hook (lambda ()
                                  (if (not org-timer-countdown-timer)
@@ -138,7 +138,7 @@
   :straight (:host github :repo "org-roam/org-roam"
                    :files (:defaults "extensions/*"))
   :config
-  (eds-org-capture-register-roam-templates)
+  (eds-org-capture-notify-ready 'org-roam)
   (setopt org-roam-mode-sections
           (list #'org-roam-backlinks-section
                 #'org-roam-reflinks-section

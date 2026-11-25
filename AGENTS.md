@@ -3,8 +3,8 @@ name: emacs-config
 Short guide for automated agents working on this repo.
 
 Build / test / lint:
-- Run full test suite: ./run-tests.sh
-- Run a subset of tests by name pattern: ./run-tests.sh <pattern>  # e.g. ./run-tests.sh eds-utils
+- Before running tests, load `run-emacs-tests` ([skill](.agents/skills/run-emacs-tests/SKILL.md)) for SQLite-enabled Emacs selection, Eask dev dependencies, and focused or full runs.
+- If a required tool is missing, inaccessible, or blocked by the sandbox, stop and ask the user before continuing. Name the tool and what it blocks.
 
 Style rules (quick):
 - Files: header with "-*- lexical-binding: t; -*-" and trailing provide + footer.
@@ -17,7 +17,6 @@ Style rules (quick):
 
 Git:
 - Use one-line commit messages (no body).
-- Append `[copilot]` to any commit that includes generated or modified code.
 
 Quick dos and don'ts:
 - Do keep `early-init.el` minimal (no package setup).

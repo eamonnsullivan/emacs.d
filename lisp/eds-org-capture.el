@@ -15,7 +15,7 @@
 ;;; Commentary:
 
 ;; Own capture templates, CATEGORY policy and reference metadata.
-;; Package initialization calls registration helpers after each package loads.
+;; Package initialization reports readiness; this module registers capture policy.
 
 ;;; Licence:
 
@@ -175,16 +175,22 @@ is active; otherwise use an empty body."
   (eds-org/maybe-add-filetags (plist-get org-capture-plist :key)
                               (plist-get org-capture-plist :annotation)))
 
-(defun eds-org-capture-register-org-templates ()
-  "Register ordinary Org capture templates after Org configuration."
-  (setopt org-capture-templates `(("t" "Todo" entry (file eds-org-index-file)
-                                   "* TODO %?\n SCHEDULED: %t\n %a")
-                                  ("w" "Work note" entry (file org-default-notes-file)
-                                   "* %?\n %U\n %a")
-                                  ("p" "Personal note" entry (file eds-org-personal-file)
-                                   "* %?\n %U\n %a"))))
+(defvar eds-org-capture--vulpea-autosync-ready nil
+  "Whether Vulpea setup has enabled autosync for this session.")
 
-(defun eds-org-capture-register-roam-templates ()
+(defun eds-org-capture--register-org-templates ()
+  "Set the Org capture menu for the current readiness state."
+  (setopt org-capture-templates
+          `(,@(when eds-org-capture--vulpea-autosync-ready
+                (list (eds-org-capture--meeting-template)))
+            ("t" "Todo" entry (file eds-org-index-file)
+             "* TODO %?\n SCHEDULED: %t\n %a")
+            ("w" "Work note" entry (file org-default-notes-file)
+             "* %?\n %U\n %a")
+            ("p" "Personal note" entry (file eds-org-personal-file)
+             "* %?\n %U\n %a"))))
+
+(defun eds-org-capture--register-roam-templates ()
   "Register Org-roam capture policy after Org-roam loads."
   (add-hook 'org-roam-capture-new-node-hook #'eds-org/ensure-capture-category)
   (add-hook 'org-capture-before-finalize-hook #'eds-org-capture-before-finalize)
@@ -244,7 +250,7 @@ is active; otherwise use an empty body."
                      "\n#+startup: content"))
            :unnarrowed t))))
 
-(defun eds-org-capture-register-vulpea-defaults ()
+(defun eds-org-capture--register-vulpea-defaults ()
   "Register Vulpea note defaults after Vulpea loads."
   (setopt vulpea-create-default-function
           (lambda (title)
@@ -262,19 +268,33 @@ is active; otherwise use an empty body."
                             "\n\n* Actions\n* Notes\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n"
                           "\n")))))
 
-(defun eds-org-capture-register-vulpea-meeting-template ()
-  "Register Vulpea meeting capture after autosync setup."
-  (add-to-list 'org-capture-templates
-               '("m" "meeting" entry
-                 (file (lambda ()
-                         (vulpea-note-path
-                          (vulpea-create
-                           "Meeting notes"
-                           nil
-                           :tags '("meeting")
-                           :properties (list (cons "CREATED" (format-time-string "%FT%T%z"))
-                                             (cons "CATEGORY" "Meeting"))))))
-                 "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?")))
+(defun eds-org-capture--meeting-template ()
+  "Return the Org capture template for a Vulpea meeting note."
+  '("m" "meeting" entry
+    (file (lambda ()
+            (vulpea-note-path
+             (vulpea-create
+              "Meeting notes"
+              nil
+              :tags '("meeting")
+              :properties (list (cons "CREATED" (format-time-string "%FT%T%z"))
+                                (cons "CATEGORY" "Meeting"))))))
+    "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
+
+(defun eds-org-capture-notify-ready (stage)
+  "Register capture policy for package setup STAGE without loading packages.
+Report `org' and `org-roam' from their package configuration.
+Report `vulpea' after configuring Vulpea but before enabling autosync,
+and `vulpea-autosync' after enabling autosync.  Org setup must precede
+Vulpea autosync setup.  Repeated notifications do not duplicate entries or hooks."
+  (pcase stage
+    ('org (eds-org-capture--register-org-templates))
+    ('org-roam (eds-org-capture--register-roam-templates))
+    ('vulpea (eds-org-capture--register-vulpea-defaults))
+    ('vulpea-autosync
+     (setq eds-org-capture--vulpea-autosync-ready t)
+     (eds-org-capture--register-org-templates))
+    (_ (error "Unknown capture setup stage: %S" stage))))
 
 (provide 'eds-org-capture)
 ;;; eds-org-capture.el ends here
