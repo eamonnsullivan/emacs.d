@@ -12,18 +12,6 @@
 
 ;; This file is not part of GNU Emacs.
 
-;;; Commentary:
-;;
-;; This file configures ECA (Editor Code Assistant) to talk to the
-;; GitHub Copilot API via the official Copilot language server.
-;;
-;; Prereqs (outside Emacs):
-;;   npm i -g @github/copilot-language-server
-;;
-;; Then in Emacs:
-;;   M-x eca
-;;
-
 ;;; Licence:
 
 ;; This programme is free software; you can redistribute it and/or modify
