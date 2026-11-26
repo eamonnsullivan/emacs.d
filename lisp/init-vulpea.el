@@ -53,6 +53,7 @@
           vulpea-ui-fast-parse t)
   (vulpea-db-autosync-mode +1)
   (add-hook 'org-mode-hook #'vulpea-title-change-detection-mode)
+  (eds-org-capture-notify-ready 'vulpea-configured)
   :bind (("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n f" . vulpea-find)
          ("C-c n b" . vulpea-find-backlink)

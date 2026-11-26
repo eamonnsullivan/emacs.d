@@ -36,6 +36,7 @@
 
 (require 'eds-email)
 (require 'eds-org)
+(require 'seq)
 (require 'subr-x)
 
 (defun eds-org/get-link-from-link (link)
@@ -131,7 +132,8 @@ is active; otherwise use an empty body."
 
 (defvar eds-org-capture--ready-facts nil
   "Capture readiness facts reported so far.
-Each fact is one of `org', `org-roam' or `vulpea'.")
+`org', `org-roam' and `vulpea' mean their libraries have loaded.
+`vulpea-configured' means Vulpea setup completed successfully.")
 
 (defvar eds-org-index-file nil
   "Org file that receives index notes.  Set by `init-org'.")
@@ -148,7 +150,7 @@ Each fact is one of `org', `org-roam' or `vulpea'.")
 File targets resolve at capture time, so the menu may be built before
 the configuration sets `eds-org-index-file' and `eds-org-personal-file'."
   (setopt org-capture-templates
-          `(,@(when (eds-org-capture--ready-p 'vulpea)
+          `(,@(when (eds-org-capture--ready-p 'vulpea-configured)
                 (list (eds-org-capture--meeting-template)))
             ("t" "Todo" entry (file ,(lambda () eds-org-index-file))
              "* TODO %?\n SCHEDULED: %t\n %a")
@@ -248,24 +250,24 @@ the configuration sets `eds-org-index-file' and `eds-org-personal-file'."
                                 (cons "CATEGORY" "Meeting"))))))
     "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
 
-(defun eds-org-capture--recompute ()
-  "Rebuild every capture menu from the reported readiness facts."
-  (when (eds-org-capture--ready-p 'org)
-    (eds-org-capture--register-org-templates))
-  (when (eds-org-capture--ready-p 'org-roam)
-    (eds-org-capture--register-roam-templates))
-  (when (eds-org-capture--ready-p 'vulpea)
-    (eds-org-capture--register-vulpea-defaults)))
-
 (defun eds-org-capture-notify-ready (fact)
-  "Record capture readiness FACT, then rebuild the capture menus.
+  "Update capture policy affected by a newly reported readiness FACT.
 
-FACT is `org', `org-roam' or `vulpea'.  Facts may be reported in any
-order, and reporting one twice changes nothing."
-  (unless (memq fact '(org org-roam vulpea))
-    (error "Unknown capture readiness fact: %S" fact))
-  (add-to-list 'eds-org-capture--ready-facts fact)
-  (eds-org-capture--recompute))
+FACT is `org', `org-roam', `vulpea' or `vulpea-configured'.  Facts may
+arrive in any order, and reporting one twice changes nothing."
+  (unless (eds-org-capture--ready-p fact)
+    (pcase fact
+      ('org (eds-org-capture--register-org-templates))
+      ('org-roam (eds-org-capture--register-roam-templates))
+      ('vulpea (eds-org-capture--register-vulpea-defaults))
+      ('vulpea-configured
+       (when (eds-org-capture--ready-p 'org)
+         (setopt org-capture-templates
+                 (cons (eds-org-capture--meeting-template)
+                       (seq-remove (lambda (template) (equal (car template) "m"))
+                                   org-capture-templates)))))
+      (_ (error "Unknown capture readiness fact: %S" fact)))
+    (push fact eds-org-capture--ready-facts)))
 
 (defun eds-org-capture--listen (fact feature)
   "Record capture readiness FACT now, or when FEATURE finishes loading."
