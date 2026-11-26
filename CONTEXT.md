@@ -2,6 +2,12 @@
 
 Personal Emacs workflows and conventions encoded by this configuration.
 
+## Capture
+
+**Capture readiness**:
+A fact that a capture prerequisite has been met. Loading Org, Org-roam, or Vulpea is enough to register its basic capture policy. The Org meeting template requires successful Vulpea setup, including enabling autosync. Each fact updates only the policy that depends on it; arrival order does not affect which templates are registered.
+_Avoid_: Capture stage, setup stage, notify-ready step
+
 ## Org agenda
 
 **Agenda eligibility**:

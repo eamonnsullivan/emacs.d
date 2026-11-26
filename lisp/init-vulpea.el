@@ -51,10 +51,9 @@
           vulpea-db-sync-external-method 'auto
           vulpea-db-sync-scan-on-enable 'async
           vulpea-ui-fast-parse t)
-  (eds-org-capture-notify-ready 'vulpea)
   (vulpea-db-autosync-mode +1)
-  (eds-org-capture-notify-ready 'vulpea-autosync)
   (add-hook 'org-mode-hook #'vulpea-title-change-detection-mode)
+  (eds-org-capture-notify-ready 'vulpea-configured)
   :bind (("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n f" . vulpea-find)
          ("C-c n b" . vulpea-find-backlink)

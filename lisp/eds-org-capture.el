@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'eds-email)
+(require 'eds-org)
 (require 'seq)
 (require 'subr-x)
 
@@ -58,52 +59,6 @@ does not match, while the bracketed form does."
        :ref ,clipboard-content
        :body ""
        :template "r"))))
-
-(defvar eds-org/category-history nil
-  "History of categories entered when capturing Org-roam nodes.")
-
-(defun eds-org/explicit-category ()
-  "Return an explicitly set category at point, or nil.
-Check the current entry, its ancestors, the file property drawer and
-#+CATEGORY keywords.  Never return Org's filename-derived fallback."
-  (save-excursion
-    (save-restriction
-      (widen)
-      (org-back-to-heading-or-point-min t)
-      (let ((case-fold-search t)
-            category)
-        (while
-            (progn
-              (when-let* ((range (org-get-property-block)))
-                (setq category
-                      (save-excursion
-                        (goto-char (car range))
-                        (when (re-search-forward
-                               "^[ \t]*:CATEGORY:[ \t]*\\(.*\\)$" (cdr range) t)
-                          (org-trim (match-string-no-properties 1))))))
-              (and (not (org-string-nw-p category))
-                   (> (point) (point-min))
-                   (or (org-up-heading-safe)
-                       (goto-char (point-min))))))
-        (or (and (org-string-nw-p category) category)
-            (seq-find #'org-string-nw-p
-                      (cdr (assoc "CATEGORY"
-                                  (org-collect-keywords '("CATEGORY"))))))))))
-
-(defun eds-org/read-category ()
-  "Read a nonempty category with completion, allowing new values."
-  (let ((completion-ignore-case t)
-        (categories (delete-dups
-                     (append (org-property-values "CATEGORY")
-                             (org-property-get-allowed-values nil "CATEGORY")
-                             eds-org/category-history)))
-        category)
-    (while (not (org-string-nw-p category))
-      (setq category
-            (org-trim
-             (completing-read "Category: " categories nil nil nil
-                              'eds-org/category-history))))
-    category))
 
 ;;;###autoload
 (defun eds-org/ensure-capture-category ()
@@ -175,19 +130,33 @@ is active; otherwise use an empty body."
   (eds-org/maybe-add-filetags (plist-get org-capture-plist :key)
                               (plist-get org-capture-plist :annotation)))
 
-(defvar eds-org-capture--vulpea-autosync-ready nil
-  "Whether Vulpea setup has enabled autosync for this session.")
+(defvar eds-org-capture--ready-facts nil
+  "Capture readiness facts reported so far.
+`org', `org-roam' and `vulpea' mean their libraries have loaded.
+`vulpea-configured' means Vulpea setup completed successfully.")
+
+(defvar eds-org-index-file nil
+  "Org file that receives index notes.  Set by `init-org'.")
+
+(defvar eds-org-personal-file nil
+  "Org file that receives personal notes.  Set by `init-org'.")
+
+(defun eds-org-capture--ready-p (fact)
+  "Return non-nil when capture readiness FACT has been reported."
+  (memq fact eds-org-capture--ready-facts))
 
 (defun eds-org-capture--register-org-templates ()
-  "Set the Org capture menu for the current readiness state."
+  "Set the Org capture menu from the reported readiness facts.
+File targets resolve at capture time, so the menu may be built before
+the configuration sets `eds-org-index-file' and `eds-org-personal-file'."
   (setopt org-capture-templates
-          `(,@(when eds-org-capture--vulpea-autosync-ready
+          `(,@(when (eds-org-capture--ready-p 'vulpea-configured)
                 (list (eds-org-capture--meeting-template)))
-            ("t" "Todo" entry (file eds-org-index-file)
+            ("t" "Todo" entry (file ,(lambda () eds-org-index-file))
              "* TODO %?\n SCHEDULED: %t\n %a")
-            ("w" "Work note" entry (file org-default-notes-file)
+            ("w" "Work note" entry (file ,(lambda () org-default-notes-file))
              "* %?\n %U\n %a")
-            ("p" "Personal note" entry (file eds-org-personal-file)
+            ("p" "Personal note" entry (file ,(lambda () eds-org-personal-file))
              "* %?\n %U\n %a"))))
 
 (defun eds-org-capture--register-roam-templates ()
@@ -281,20 +250,35 @@ is active; otherwise use an empty body."
                                 (cons "CATEGORY" "Meeting"))))))
     "* Actions\n* Notes\n%u\n- [[id:6D43870C-DBA0-4E2D-88D9-3D25BB693FD9][meetings]]\n%?"))
 
-(defun eds-org-capture-notify-ready (stage)
-  "Register capture policy for package setup STAGE without loading packages.
-Report `org' and `org-roam' from their package configuration.
-Report `vulpea' after configuring Vulpea but before enabling autosync,
-and `vulpea-autosync' after enabling autosync.  Org setup must precede
-Vulpea autosync setup.  Repeated notifications do not duplicate entries or hooks."
-  (pcase stage
-    ('org (eds-org-capture--register-org-templates))
-    ('org-roam (eds-org-capture--register-roam-templates))
-    ('vulpea (eds-org-capture--register-vulpea-defaults))
-    ('vulpea-autosync
-     (setq eds-org-capture--vulpea-autosync-ready t)
-     (eds-org-capture--register-org-templates))
-    (_ (error "Unknown capture setup stage: %S" stage))))
+(defun eds-org-capture-notify-ready (fact)
+  "Update capture policy affected by a newly reported readiness FACT.
+
+FACT is `org', `org-roam', `vulpea' or `vulpea-configured'.  Facts may
+arrive in any order, and reporting one twice changes nothing."
+  (unless (eds-org-capture--ready-p fact)
+    (pcase fact
+      ('org (eds-org-capture--register-org-templates))
+      ('org-roam (eds-org-capture--register-roam-templates))
+      ('vulpea (eds-org-capture--register-vulpea-defaults))
+      ('vulpea-configured
+       (when (eds-org-capture--ready-p 'org)
+         (setopt org-capture-templates
+                 (cons (eds-org-capture--meeting-template)
+                       (seq-remove (lambda (template) (equal (car template) "m"))
+                                   org-capture-templates)))))
+      (_ (error "Unknown capture readiness fact: %S" fact)))
+    (push fact eds-org-capture--ready-facts)))
+
+(defun eds-org-capture--listen (fact feature)
+  "Record capture readiness FACT now, or when FEATURE finishes loading."
+  (if (featurep feature)
+      (eds-org-capture-notify-ready fact)
+    (with-eval-after-load feature
+      (eds-org-capture-notify-ready fact))))
+
+(eds-org-capture--listen 'org 'org)
+(eds-org-capture--listen 'org-roam 'org-roam)
+(eds-org-capture--listen 'vulpea 'vulpea)
 
 (provide 'eds-org-capture)
 ;;; eds-org-capture.el ends here
