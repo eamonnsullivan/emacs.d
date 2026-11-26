@@ -28,12 +28,14 @@
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Code:
+(defvar eds-eca-sandboxed t
+  "Whether to use eca in a sandbox.")
 
 (use-package eca
   :straight (:host github :repo "editor-code-assistant/eca-emacs")
   :commands (eca)
   :config
-  (when (eq system-type 'gnu/linux)
+  (when eds-eca-sandboxed
     ;; (setq eca-custom-command '("/home/eamonn/.local/bin/eca-sandboxed" "server"))
     (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server"))
     (setq eca-send-process-id nil))
