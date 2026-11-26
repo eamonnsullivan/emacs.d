@@ -2,6 +2,12 @@
 
 Personal Emacs workflows and conventions encoded by this configuration.
 
+## Capture
+
+**Capture readiness**:
+A fact that a package needed by capture policy is present: `org`, `org-roam`, or `vulpea`. The capture policy module rebuilds the whole capture menu from the set of readiness facts, so the order in which they arrive does not change the result.
+_Avoid_: Capture stage, setup stage, notify-ready step
+
 ## Org agenda
 
 **Agenda eligibility**:

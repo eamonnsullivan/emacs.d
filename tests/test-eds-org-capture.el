@@ -39,7 +39,9 @@
          (org-capture-plist nil)
          (org-capture-current-plist nil)
          (org-capture-last-stored-marker (make-marker))
-         (eds-org-capture--vulpea-autosync-ready nil)
+         (eds-org-capture--ready-facts nil)
+         (eds-org-index-file (expand-file-name "index.org" directory))
+         (eds-org-personal-file (expand-file-name "personal.org" directory))
          (variables '(org-capture-templates org-roam-capture-templates
                       org-roam-capture-ref-templates vulpea-create-default-function))
          (defaults (mapcar (lambda (variable)
@@ -71,21 +73,46 @@
        (expect (mapcar #'car org-roam-capture-ref-templates) :to-equal '("r" "T"))
        (expect org-roam-capture-new-node-hook :to-equal '(eds-org/ensure-capture-category))
        (expect org-capture-before-finalize-hook :to-equal '(eds-org-capture-before-finalize))
-       (eds-org-capture-notify-ready 'vulpea-autosync)
-       (eds-org-capture-notify-ready 'vulpea-autosync)
+       (eds-org-capture-notify-ready 'vulpea)
+       (eds-org-capture-notify-ready 'vulpea)
        (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p")))))
 
-  (it "keeps one Vulpea meeting entry when Org setup is reapplied"
+  (it "reaches the same menu whatever order the facts arrive in"
     (eds-test-with-capture-directory
      (lambda (_directory)
-       (eds-org-capture-notify-ready 'org)
-       (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p"))
        (eds-org-capture-notify-ready 'vulpea)
-       (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p"))
-       (eds-org-capture-notify-ready 'vulpea-autosync)
-       (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p"))
+       (eds-org-capture-notify-ready 'org-roam)
        (eds-org-capture-notify-ready 'org)
-       (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p"))))))
+       (expect (mapcar #'car org-capture-templates) :to-equal '("m" "t" "w" "p"))
+       (expect (mapcar #'car org-roam-capture-templates)
+               :to-equal '("d" "m" "t" "x" "i"))
+       (expect org-roam-capture-new-node-hook
+               :to-equal '(eds-org/ensure-capture-category)))))
+
+  (it "signals an error for a fact it does not know"
+    (eds-test-with-capture-directory
+     (lambda (_directory)
+       (expect (eds-org-capture-notify-ready 'vulpea-autosync) :to-throw 'error)))))
+
+(describe "eds-org-capture readiness listeners"
+  (it "records a fact at once when the package is already loaded"
+    (eds-test-with-capture-directory
+     (lambda (_directory)
+       (eds-org-capture--listen 'org 'subr-x)
+       (expect (eds-org-capture--ready-p 'org) :to-be-truthy)
+       (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p")))))
+
+  (it "records a fact when the package loads later"
+    (eds-test-with-capture-directory
+     (lambda (directory)
+       (let ((file (expand-file-name "eds-test-fake-feature" directory)))
+         (with-temp-file (concat file ".el")
+           (insert "(provide 'eds-test-fake-feature)\n"))
+         (eds-org-capture--listen 'org 'eds-test-fake-feature)
+         (expect (eds-org-capture--ready-p 'org) :to-be nil)
+         (load file)
+         (expect (eds-org-capture--ready-p 'org) :to-be-truthy)
+         (expect (mapcar #'car org-capture-templates) :to-equal '("t" "w" "p")))))))
 
 (describe "eds-org-capture Org-roam lifecycle"
   (it "finalizes a new node with a prompted CATEGORY"
@@ -169,7 +196,6 @@
        (eds-org-capture-notify-ready 'org)
        (eds-org-capture-notify-ready 'org-roam)
        (eds-org-capture-notify-ready 'vulpea)
-       (eds-org-capture-notify-ready 'vulpea-autosync)
        (spy-on 'eds-org/read-category :and-return-value "Unexpected")
        (org-capture nil "m")
        (org-capture-finalize)

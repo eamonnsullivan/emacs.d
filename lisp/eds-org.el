@@ -32,7 +32,9 @@
 ;; You should have received a copy of the GNU General Public Licence
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
-(require 'eds-org-capture)
+;;; Code:
+
+(require 'seq)
 
 ;;;###autoload
 (defun eds-org/get-org-directory ()
@@ -52,6 +54,52 @@
          (slug (eds-utils/process-title clean-title))
          (file-base-name (concat time-string "-" slug "." extension)))
     (expand-file-name file-base-name (eds-org/get-org-directory))))
+
+(defvar eds-org/category-history nil
+  "History of categories entered for CATEGORY properties.")
+
+(defun eds-org/explicit-category ()
+  "Return an explicitly set category at point, or nil.
+Check the current entry, its ancestors, the file property drawer and
+#+CATEGORY keywords.  Never return Org's filename-derived fallback."
+  (save-excursion
+    (save-restriction
+      (widen)
+      (org-back-to-heading-or-point-min t)
+      (let ((case-fold-search t)
+            category)
+        (while
+            (progn
+              (when-let* ((range (org-get-property-block)))
+                (setq category
+                      (save-excursion
+                        (goto-char (car range))
+                        (when (re-search-forward
+                               "^[ \t]*:CATEGORY:[ \t]*\\(.*\\)$" (cdr range) t)
+                          (org-trim (match-string-no-properties 1))))))
+              (and (not (org-string-nw-p category))
+                   (> (point) (point-min))
+                   (or (org-up-heading-safe)
+                       (goto-char (point-min))))))
+        (or (and (org-string-nw-p category) category)
+            (seq-find #'org-string-nw-p
+                      (cdr (assoc "CATEGORY"
+                                  (org-collect-keywords '("CATEGORY"))))))))))
+
+(defun eds-org/read-category ()
+  "Read a nonempty category with completion, allowing new values."
+  (let ((completion-ignore-case t)
+        (categories (delete-dups
+                     (append (org-property-values "CATEGORY")
+                             (org-property-get-allowed-values nil "CATEGORY")
+                             eds-org/category-history)))
+        category)
+    (while (not (org-string-nw-p category))
+      (setq category
+            (org-trim
+             (completing-read "Category: " categories nil nil nil
+                              'eds-org/category-history))))
+    category))
 
 ;;;###autoload
 (defun eds-org/set-category-value (value)
