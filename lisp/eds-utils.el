@@ -146,25 +146,12 @@ Remove characters that don't work in a filename."
 
 ;;;###autoload
 (defun eds-utils/restart-emacs (arg)
-  "Close EMACS, asking for confirmation. With a prefix ARG, restart it."
+  "Quit Emacs after confirmation, or restart it with a prefix ARG."
   (interactive "P")
-  (let ((confirm-kill-emacs (unless arg 'y-or-n-p))
-        (kill-emacs-query-functions
-         (if arg
-             (append (list
-                      (lambda ()
-                        (when (y-or-n-p (format "Really restart %s? "
-                                                (capitalize invocation-name)))
-                          (add-hook 'kill-emacs-hook
-                                    (lambda ()
-                                      (call-process-shell-command
-                                       (format "(%s &)"
-                                               (or (executable-find "emacs")
-                                                   (executable-find "Emacs")))))
-                                    t))))
-                     kill-emacs-query-functions)
-           kill-emacs-query-functions)))
-    (eds-utils/kill-emacs)))
+  (let ((confirm-kill-emacs #'y-or-n-p))
+    (if arg
+        (restart-emacs)
+      (eds-utils/kill-emacs))))
 
 (defun eds-utils/filter-buffer-list (buflist)
   "Filter BUFLIST to exclude buffers I want to keep when clearing all buffers.."

@@ -28,16 +28,21 @@
 ;; along with this programme.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Code:
-(defvar eds-eca-sandboxed t
-  "Whether to use eca in a sandbox.")
+(defvar eds-eca-sandbox 'eca-bwrap
+  "Sandbox wrapper to use when ECA is configured. Use `eca-bwrap' or `eca-sbx' to select a wrapper, or `none' to leave ECA unsandboxed.")
 
 (use-package eca
   :straight (:host github :repo "editor-code-assistant/eca-emacs")
   :commands (eca)
   :config
-  (when eds-eca-sandboxed
-    ;; (setq eca-custom-command '("/home/eamonn/.local/bin/eca-sandboxed" "server"))
-    (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server"))
+  (pcase eds-eca-sandbox
+    ('eca-bwrap
+     (setq eca-custom-command '("/home/eamonn/bin/eca-bwrap" "server")))
+    ('eca-sbx
+     (setq eca-custom-command '("/home/eamonn/bin/eca-sbx" "server")))
+    ('none nil)
+    (_ (error "Unrecognised eds-eca-sandbox: %S" eds-eca-sandbox)))
+  (unless (eq eds-eca-sandbox 'none)
     (setq eca-send-process-id nil))
   :custom
   (eca-max-response-kb 2048)

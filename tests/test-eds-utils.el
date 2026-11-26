@@ -162,6 +162,31 @@
   (it "returns NO-TICKET when no ticket is found"
     (expect (eds-utils/extract-jira-ticket "not-a-jira-ticket") :to-equal "NO-TICKET")))
 
+(describe "eds-utils/restart-emacs"
+  (it "requests a native restart after confirmation"
+    (let ((kill-emacs-hook nil)
+          (kill-emacs-query-functions nil))
+      (spy-on 'y-or-n-p :and-return-value t)
+      (spy-on 'kill-emacs)
+      (eds-utils/restart-emacs t)
+      (expect 'kill-emacs :to-have-been-called-with nil t)))
+
+  (it "leaves Emacs running when restart is declined"
+    (let ((kill-emacs-hook nil)
+          (kill-emacs-query-functions nil))
+      (spy-on 'y-or-n-p :and-return-value nil)
+      (spy-on 'kill-emacs)
+      (eds-utils/restart-emacs t)
+      (expect 'y-or-n-p :to-have-been-called)
+      (expect 'kill-emacs :not :to-have-been-called)))
+
+  (it "keeps ordinary quit without a prefix argument"
+    (spy-on 'eds-utils/kill-emacs)
+    (spy-on 'restart-emacs)
+    (eds-utils/restart-emacs nil)
+    (expect 'eds-utils/kill-emacs :to-have-been-called)
+    (expect 'restart-emacs :not :to-have-been-called)))
+
 (describe "eds-utils/filter-buffer-list"
   (before-each
     (if (get-buffer "*temp-buffer1*") (kill-buffer "*temp-buffer1*"))
